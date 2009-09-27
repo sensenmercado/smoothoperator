@@ -1,4 +1,33 @@
 <?
+
+if (!function_exists('get_menu_items') ) {
+    function get_menu_items ($user_level) {
+        if ($user_level == 0) {
+            $menu_names[] = "Login";
+            $menu_links[] = "login.php";
+        }
+        if ($user_level > 0) {
+            $menu_names[] = "Home";
+            $menu_links[] = "index.php";
+        }
+        if ($user_level > 9) {
+            $menu_names[] = "Admin Stuff";
+            $menu_links[] = "logout.php";
+        }
+        if ($user_level > 99) {
+            $menu_names[] = "Super User Stuff";
+            $menu_links[] = "logout.php";
+        }
+        if ($user_level > 0) {
+            $menu_names[] = "Logout";
+            $menu_links[] = "logout.php";
+        }
+        $retval[0] = $menu_names;
+        $retval[1] = $menu_links;
+        return $retval;
+    }
+}
+
 if (!function_exists('box_start') ) {
      function box_start($size = "400") {
         echo '<div id="box" style="width:'.$size.'px;"><!--- box border --><div id="lb"><div id="rb"><div id="bb"><div id="blc"><div id="brc"><div id="tb"><div id="tlc"><div id="trc"><div id="boxcontent">';

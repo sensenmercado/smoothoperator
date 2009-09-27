@@ -1,0 +1,250 @@
+.dragme{position:relative;}
+DIV.mypars {text-align: left}
+
+
+/*core drop shadow rules*/
+.wrap1, .wrap2, .wrap3 {
+        display:inline-table;
+        /* \*/display:block;/**/}
+.wrap1 {
+        float:left;
+        background:url(/images/shadow.gif) right bottom no-repeat;}
+.wrap2 {background:url(/images/corner_bl.gif) left bottom no-repeat;}
+.wrap3 {
+        padding:0 8px 8px 0;
+        background:url(/images/corner_tr.gif) right top no-repeat;}
+.wrap3 table {
+       display:block;
+        border:1px solid #ccc;
+
+        border-color:#efefef #ccc #ccc #efefef;}
+#v6 .wrap1 {background:url(/images/shadow.gif) right bottom no-repeat;}
+#v6 .wrap2 {background:url(/images/corner_bl.gif) -4px 100% no-repeat;}
+#v6 .wrap3 {
+        padding:0 16px 16px 0;
+        background:url(/images/corner_tr.gif) 100% -4px no-repeat;}
+.example {clear:both;
+}
+  table.center {}
+
+
+/*--------------------------------------------------|
+| dTree 2.05 | www.destroydrop.com/javascript/tree/ |
+|---------------------------------------------------|
+| Copyright (c) 2002-2003 Geir Landrö               |
+|--------------------------------------------------*/
+
+.dtree {
+    margin: 10px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #666;
+	white-space: nowrap;
+}
+.dtree img {
+	border: 0px;
+	vertical-align: middle;
+}
+.dtree a {
+	color: #333;
+	text-decoration: none;
+}
+.dtree a.node, .dtree a.nodeSel {
+	white-space: nowrap;
+	padding: 1px 2px 1px 2px;
+}
+.dtree a.node:hover, .dtree a.nodeSel:hover {
+	color: #333;
+	text-decoration: underline;
+}
+.dtree a.nodeSel {
+	background-color: #c0d2ec;
+}
+.dtree .clip {
+	overflow: hidden;
+}
+
+/* Show only to IE PC \*/
+* html .boxhead h2 {height: 1%;} /* For IE 5 PC */
+
+.sidebox {
+        margin: 0 auto; /* center for now */
+        width: 17em; /* ems so it will grow */
+        background: url(http://www.venturevoip.com/sbbody-r.gif) no-repeat bottom right;
+        font-size: 100%;
+}
+.boxhead {
+        background: url(http://www.venturevoip.com/sbhead-r.gif) no-repeat top right;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+}
+.boxtext {
+        text-align: center;
+        background: url(http://www.venturevoip.com/sbhead-l.gif) no-repeat top left;
+        margin: 0;
+        padding: 22px 30px 5px;
+        color: white;
+        font-weight: bold;
+        font-size: 1.2em;
+        line-height: 1em;
+        text-shadow: rgba(0,0,0,.4) 0px 2px 5px; /* Safari-only, but cool */
+}
+.boxhead h2 {
+        font-size:14px;
+        font-family:arial,sans-serif;
+        margin:500px;
+        color: #4B6EAD;
+        background: url(http://www.venturevoip.com/sbhead-l.gif) no-repeat top left;
+        padding: 22px 30px 5px;
+        padding: 600px;
+        color: white;
+        font-weight: bold;
+        font-size: 1.2em;
+        line-height: 1em;
+        text-shadow: rgba(0,0,0,.4) 0px 2px 5px; /* Safari-only, but cool */
+}
+.boxbody {
+        background: url(http://www.venturevoip.com/sbbody-l.gif) no-repeat bottom left;
+        margin: 0;
+        padding: 5px 30px 31px;
+}
+
+
+
+
+
+#box
+	{
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0em;
+	padding: 0;
+	text-align: left;
+	<-- use this to tie width to viewport size */
+	background-color: #eeeeee;
+	}
+
+
+
+
+/* ---=== border code follows ===--- */
+/*
+	tlc = top left corner
+	trc = top right corner
+	blc = bottom left corner
+	brc = bottom right corner
+	lb = left border
+	rb = right border
+	tb = top border
+	bb = bottom border
+*/
+
+#tlc, #trc, #blc, #brc
+	{
+	background-color: transparent;
+	background-repeat: no-repeat;
+	}
+
+#tlc
+	{
+	background-image:url(/images/tlc.gif);
+	background-position: 0% 0%;
+	}
+
+#trc
+	{
+	background-image:url(/images/trc.gif);
+	background-position: 100% 0%;
+	}
+
+#blc
+	{
+	background-image:url(/images/blc.gif);
+	background-position: 0% 100%;
+	}
+
+#brc
+	{
+	background-image:url(/images/brc.gif);
+	background-position: 100% 100%;
+	}
+
+#tb, #bb
+	{
+	background-color: transparent;
+	background-repeat: repeat-x;
+	}
+
+#tb
+	{
+	background-image:url(/images/tb.gif);
+	background-position: 0% 0%;
+	}
+
+#bb
+	{
+	background-image:url(/images/bb.gif);
+	background-position: 50% 100%;
+	}
+
+#rb
+	{
+	background-image:url(/images/r.gif);
+	background-position: 100% 0%;
+	background-repeat: repeat-y;
+	}
+
+#lb
+	{
+	background-color: #eeeeee;
+	background-image:url(/images/l.gif);
+	background-position: 0% 100%;
+	background-repeat: repeat-y;
+	}
+
+#boxcontent
+	{
+	padding:1em;
+	}
+
+#boxcontent h1
+	{
+	color:#0354c2;
+	font-weight: bold;
+	font-size: 1em;
+	font-family: helvetica, geneva, arial, sans-serif;
+	}
+
+#boxcontent p
+	{
+	color:#3b3b3b;
+	font-size: 1em;
+	line-height: 1.1em;
+	font-family: arial, helvetica, sans-serif;
+	}
+
+.boxbutton {
+    vertical-align:super;
+    color: #000;
+    font-family: Arial,sans-serif;
+    font-size: 0.9em;
+}
+.boxbutton a {
+    color: #00f;
+}
+.boxbutton a:hover{
+    color: #f00;
+}
+.boxbutton img {
+    background: #fff;
+    margin-right: 5px;
+    padding: 5px;
+    border: 1px solid #888;
+    vertical-align: middle;
+}
+.boxbutton img:hover {
+    padding: 3px;
+    border: 3px solid #f00;
+}
