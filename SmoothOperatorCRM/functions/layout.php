@@ -1,5 +1,10 @@
 <?
-
+if (!function_exists('get_undefined_links')) {
+    function get_undefined_links($user_level) {
+        $retval[] = 'login.php';
+        return $retval;
+    }
+}
 if (!function_exists('get_menu_items') ) {
     function get_menu_items ($user_level) {
         if ($user_level == 0) {
@@ -13,6 +18,9 @@ if (!function_exists('get_menu_items') ) {
         if ($user_level > 9) {
             $menu_names[] = "Admin Stuff";
             $menu_links[] = "logout.php";
+
+            $menu_names[] = "List Customers";
+            $menu_links[] = "list_customers.php";
         }
         if ($user_level > 99) {
             $menu_names[] = "Super User Stuff";
