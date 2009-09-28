@@ -9,8 +9,6 @@
 
     require "functions/functions.php";
 
-    require "config/db_config.php";
-
     $user_level = 0;
     if (!isset($_SESSION['initiated'])) {
         session_regenerate_id();
@@ -51,6 +49,31 @@
             }
             break;
     }
+    require "config/db_config.php";
+    
+    $menu_items = get_menu_items($user_level);
+    $undefined_links = get_undefined_links($user_level);
+
+    $menu_names = $menu_items[0];
+    $menu_links = $menu_items[1];
+
+    $allowed = false;
+    foreach($menu_links as $link) {
+        //echo "Comparing "
+        if ($this_page == $link) {
+            $allowed = true;
+        }
+    }
+    foreach($undefined_links as $link) {
+        if ($this_page == $link) {
+            $allowed = true;
+        }
+    }
+    if (!$allowed) {
+        header("Location: index.php");
+        exit(0);
+    }
+
 
     ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -63,24 +86,19 @@
 
     </head>
     <body>
-        <center>
-        <table border="1">
-            <tr><td width="900">
-
+        <div class="page_menu" style="width: 900px;background: #000;color: #fff;padding: 20px">
 
 <?
 
 
-    $menu_items = get_menu_items($user_level);
-    $menu_names = $menu_items[0];
-    $menu_links = $menu_items[1];
 
-    box_start();
+    //box_start();
     for ($i = 0;$i < sizeof($menu_names);$i++) {
         echo '<a href="'.$menu_links[$i].'">'.$menu_names[$i].'</a> &nbsp;';
     }
     //echo $user_level;
-    box_end();
+    //box_end();
 ?>
-</td></tr>
-            <tr><td>
+        </div>
+
+        <div class="content">

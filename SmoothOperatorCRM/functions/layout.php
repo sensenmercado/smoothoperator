@@ -2,9 +2,19 @@
 if (!function_exists('get_undefined_links')) {
     function get_undefined_links($user_level) {
         $retval[] = 'login.php';
+        if ($user_level > 0) {
+            $retval[] = 'get_customer.php';
+        }
         return $retval;
     }
 }
+
+if (!function_exists('clean_field_name')) {
+    function clean_field_name($field) {
+        return ucwords(strtolower(str_replace("_", " ",$field)));
+    }
+}
+
 if (!function_exists('get_menu_items') ) {
     function get_menu_items ($user_level) {
         if ($user_level == 0) {

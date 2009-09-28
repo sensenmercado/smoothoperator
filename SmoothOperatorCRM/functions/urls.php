@@ -1,4 +1,9 @@
 <?
+if (!function_exists(redirect)) {
+    function redirect($url, $timeout = 0) {
+        echo "<meta http-equiv='refresh' content='".$timeout.";URL=".$url."'>";
+    }
+}
 if (!function_exists('open_page') ) {
      function open_page($url,$f=1,$c=2,$r=0,$a=0,$cf=0,$pd=""){
      global $oldheader;
