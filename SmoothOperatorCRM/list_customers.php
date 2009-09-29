@@ -2,7 +2,7 @@
 require "header.php";
 $result = mysql_query("SELECT * FROM SmoothOperator.customers") or die(mysql_error());
 $printed_header = false;
-echo "<table border=\"1\">";
+echo "<table border=\"1\" class=\"sample\">";
 while ($row = mysql_fetch_assoc($result)) {
     echo "<tr>";
     if (!$printed_header) {

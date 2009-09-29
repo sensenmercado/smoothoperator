@@ -1,3 +1,49 @@
+A:link {
+    text-decoration: none;
+    COLOR: #2222fc;
+}
+A:visited {
+    text-decoration: none;
+    COLOR: #2222fc;
+}
+A:hover {
+    COLOR: #ff4400;
+    text-decoration: none;
+}
+A:active {
+    COLOR: #ff4400;
+    text-decoration: none;
+}
+
+.page_menu {
+    width: 900px;background: #006;color: #fff; padding: 20px;
+}
+
+.page_menu A:link {
+    padding: 10px;
+    background: #fff;
+    color: #00f;
+}
+.page_menu A {
+    padding: 10px;
+    background: #fff;
+    color: #00f;
+}
+.page_menu A:visted {
+    padding: 10px;
+    background: #fff;
+    color: #00f;
+}
+.page_menu A:active {
+    padding: 10px;
+    background: #fff;
+    color: #00f;
+}
+.page_menu A:hover {
+    padding: 10px;
+    background: #00f;
+    color: #f00;
+}
 .label {
 	font: 12px Verdana, Arial, Helvetica, sans-serif;
 	color: #333333;
@@ -420,28 +466,6 @@ geneva, lucida, 'lucida grande', arial, helvetica, sans-serif; COLOR: #000000; P
 	background-color: #ffffd3;
 }
 
-A:link {
-    text-decoration: none;
-	COLOR: #2222fc;
-    }
-A:visited {
-    text-decoration: none;
-	COLOR: #2222fc;
-    }
-A:hover {
-	COLOR: #ff4400
-    ;
-//    font-weight: bold;
-    text-decoration: none;
-
-}
-A:active {
-	COLOR: #ff4400
-    ;
-//    font-weight: bold;
-    text-decoration: none;
-
-}
 .page {
 	BACKGROUND: #ffffff; COLOR: #000000
 }

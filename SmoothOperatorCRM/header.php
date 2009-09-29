@@ -84,21 +84,62 @@
                 <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" type="text/css" href="css/default.css">
 
+<script type="text/javascript" src="js/niftycube.js"></script>
+<script type="text/javascript">
+NiftyLoad=function(){
+Nifty("ul#nav a","small transparent top");
+}
+</script>
+    <style type="text/css">
+html,body{margin:0;padding:0}
+body{background: #FFF;
+    font: 70% Arial,sans-serif}
+
+div#header{font: 250% Arial,sans-serif;width: 90%;padding-top:20px;padding-left: 10%;background: #BBD9EE;text-align: left;color: #FFf8c6;}
+
+div#menu{float:left;width: 100%;padding-top:20px;background: #BBD9EE}
+ul#nav,ul#nav li{list-style-type:none;margin:0;padding:0}
+ul#nav{margin-left: 20px;width:900px}
+
+ul#nav li{float:left;margin-right: 3px;text-align: center}
+ul#nav a{float:left;width: 10em;padding: 5px 0;background: #E7F1F8;text-decoration:none;color: #666}
+ul#nav a:hover{background: #FFA826;color: #FFF}
+ul#nav li.activelink a,ul#nav li.activelink a:hover{background: #FFF;color: #003}
+</style>
     </head>
     <body>
-        <div class="page_menu" style="width: 900px;background: #000;color: #fff;padding: 20px">
+        <center>
+        
 
 <?
 
 
 
     //box_start();
+?>
+<div id="header">
+SmoothOperator CRM
+</div>
+<div id="menu">
+
+    
+    <ul id="nav"><?
+ /*       <li id="home" class="activelink"><a href="#">Home</a></li>
+        <li id="who"><a href="#">About</a></li>
+        <li id="prod"><a href="#">Product</a></li>
+        <li id="serv"><a href="#">Services</a></li>
+        <li id="cont"><a href="#">Contact us</a></li>*/
     for ($i = 0;$i < sizeof($menu_names);$i++) {
-        echo '<a href="'.$menu_links[$i].'">'.$menu_names[$i].'</a> &nbsp;';
+        echo '<li id="'.$menu_names[$i].'" ';
+        if ($this_page == $menu_links[$i]) {
+            echo 'class="activelink"';
+        }
+        echo '><a href="'.$menu_links[$i].'" class="page_menu">'.$menu_names[$i].'</a></li>';
     }
+?>    </ul>
+</div><?
     //echo $user_level;
     //box_end();
 ?>
-        </div>
-
-        <div class="content">
+        
+        <div class="content" align="center">

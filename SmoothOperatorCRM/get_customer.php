@@ -17,7 +17,7 @@ function display_customer_edit($row) {
             echo '<input type="hidden" name="'.$field.'" value="'.$value.'">';
         } else if (in_array($field, $textarea_fields)) {
             echo '<tr><td colspan="2">'.clean_field_name($field).'</td></tr>';
-            echo '<tr><td colspan="2"><textarea name="'.$field.'">'.$value.'</textarea></td></tr>';
+            echo '<tr><td colspan="2"><textarea cols="60" rows="10" name="'.$field.'">'.$value.'</textarea></td></tr>';
         } else {
             echo '<tr><td>'.clean_field_name($field).'</td><td><input type="text" name="'.$field.'" value="'.$value.'"></td></tr>';
         }

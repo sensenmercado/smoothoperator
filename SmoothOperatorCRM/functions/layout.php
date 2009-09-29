@@ -24,6 +24,8 @@ if (!function_exists('get_menu_items') ) {
         if ($user_level > 0) {
             $menu_names[] = "Home";
             $menu_links[] = "index.php";
+            $menu_names[] = "Search Customer";
+            $menu_links[] = "search_customer.php";
         }
         if ($user_level > 9) {
             $menu_names[] = "Admin Stuff";

@@ -8,18 +8,14 @@ if (isset($_POST['username'])) {
     require "footer.php";
     exit(0);
 }
-?>
-Some Text
-<?
 
-box_start();
+
 ?>
-<form action="<?=$this_page?>" method="post">
-    <input type="text" name ="username">
-    <input type="password" name="password">
-    <input type="submit" value="login">
-</form>
+    <form action="<?=$this_page?>" method="post">
+        <input type="text" name ="username">
+        <input type="password" name="password">
+        <input type="submit" value="login">
+    </form>
 <?
-box_end();
 require "footer.php";
 ?>
