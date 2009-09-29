@@ -95,7 +95,7 @@ html,body{margin:0;padding:0}
 body{background: #FFF;
     font: 70% Arial,sans-serif}
 
-div#header{font: 250% Arial,sans-serif;width: 90%;padding-top:20px;padding-left: 10%;background: #BBD9EE;text-align: left;color: #FFf8c6;}
+div#header{font: 250% Arial,sans-serif;width: 100%;padding-top:20px;margin-left: 15%;background: #BBD9EE;text-align: center;color: #FFf8c6;}
 
 div#menu{float:left;width: 100%;padding-top:20px;background: #BBD9EE}
 ul#nav,ul#nav li{list-style-type:none;margin:0;padding:0}
@@ -142,4 +142,4 @@ SmoothOperator CRM
     //box_end();
 ?>
         
-        <div class="content" align="center">
+        <div id="content" align="center">

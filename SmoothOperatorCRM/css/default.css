@@ -15,35 +15,10 @@ A:active {
     text-decoration: none;
 }
 
-.page_menu {
-    width: 900px;background: #006;color: #fff; padding: 20px;
+div#content {
+    margin-top: 80px;
 }
 
-.page_menu A:link {
-    padding: 10px;
-    background: #fff;
-    color: #00f;
-}
-.page_menu A {
-    padding: 10px;
-    background: #fff;
-    color: #00f;
-}
-.page_menu A:visted {
-    padding: 10px;
-    background: #fff;
-    color: #00f;
-}
-.page_menu A:active {
-    padding: 10px;
-    background: #fff;
-    color: #00f;
-}
-.page_menu A:hover {
-    padding: 10px;
-    background: #00f;
-    color: #f00;
-}
 .label {
 	font: 12px Verdana, Arial, Helvetica, sans-serif;
 	color: #333333;

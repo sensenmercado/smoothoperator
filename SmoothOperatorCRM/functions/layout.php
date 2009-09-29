@@ -21,22 +21,24 @@ if (!function_exists('get_menu_items') ) {
             $menu_names[] = "Login";
             $menu_links[] = "login.php";
         }
-        if ($user_level > 0) {
+        if ($user_level > 0) { // Normal User
             $menu_names[] = "Home";
             $menu_links[] = "index.php";
             $menu_names[] = "Search Customer";
             $menu_links[] = "search_customer.php";
         }
-        if ($user_level > 9) {
-            $menu_names[] = "Admin Stuff";
-            $menu_links[] = "logout.php";
-
-            $menu_names[] = "List Customers";
+        if ($user_level > 9) { // Admin
+            $menu_names[] = "Customers";
             $menu_links[] = "list_customers.php";
-        }
-        if ($user_level > 99) {
-            $menu_names[] = "Super User Stuff";
-            $menu_links[] = "logout.php";
+
+            $menu_names[] = "Manage Lists";
+            $menu_links[] = "manage_lists.php";
+
+            }
+        if ($user_level > 99) { // Super User
+            $menu_names[] = "System Settings";
+            $menu_links[] = "config.php";
+
         }
         if ($user_level > 0) {
             $menu_names[] = "Logout";

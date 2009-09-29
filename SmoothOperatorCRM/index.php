@@ -1,19 +1,7 @@
 <?
     require "header.php";
 ?>
-Main Page<br />
-
-
-
-
-
-		  		<p>This is my content.</p>
-
-
-
-
-
-
+<p>Welcome to the SmoothOperator CRM</p>
 <?
     require "footer.php";
 ?>

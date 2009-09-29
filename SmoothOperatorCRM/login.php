@@ -12,8 +12,8 @@ if (isset($_POST['username'])) {
 
 ?>
     <form action="<?=$this_page?>" method="post">
-        <input type="text" name ="username">
-        <input type="password" name="password">
+        Username: <input type="text" name ="username"><br />
+        Password: <input type="password" name="password"><br />
         <input type="submit" value="login">
     </form>
 <?
