@@ -32,6 +32,10 @@
         }
     }
 
+    if (!isset($_SESSION['language'])) {
+        $_SESSION['language'] = "en_gb";
+    }
+
     /* Get the actual PHP page (regardless of directory) */
     $full_path = $_SERVER['PHP_SELF'];
     $exploded_path = split("/",$full_path);
@@ -91,15 +95,23 @@
 
     /* If we've made it this far, we're allowed to be viewing this page */
 
+    $config_values = $_SESSION['config_values'];
+    //print_pre($config_values);
     ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>SmoothOperator CRM</title>
+        <title><?=$config_values['site_name']?></title>
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" type="text/css" href="css/default.css">
         <script type="text/javascript" src="js/niftycube.js"></script>
+        <script type="text/javascript" src="js/prototype_1.6.1.js"> </script>
+<script type="text/javascript" src="js/window.js"> </script>
+
+<!--  Add this to have a specific theme-->
+<link href="themes/alphacube.css" rel="stylesheet" type="text/css"/>
+
         <script type="text/javascript">
             NiftyLoad=function(){
                 Nifty("ul#nav a","small transparent top");
@@ -111,12 +123,29 @@
                 }
                 ?>
             }
-        </script>
+            function show_confirm(in_text, in_delete_text, confirm_url) {
+                Dialog.confirm(in_text,
+               {className: "alphacube", width:400, okLabel: in_delete_text,
+               buttonClass: "myButtonClass",
+               id: "myDialogId",
+               cancel:function(win) {;},
+               ok:function(win) {window.location=confirm_url;}
+              });
+            }
+function showWindow2(in_title, in_text) {
+win = new Window({className: "mac_os_x", title: in_title, width:200, height:150, destroyOnClose: true, recenterAuto:false});
+
+win.getContent().update(in_text);
+win.showCenter();
+   }
+
+</script>
+
     </head>
     <body>
         <center>
             <div id="header">
-                SmoothOperator CRM
+                <?=$config_values['site_name']?>
             </div>
             <div id="menu">
                 <ul id="nav">

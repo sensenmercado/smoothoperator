@@ -10,6 +10,27 @@ if (!function_exists('so_check_databases')) {
 
         mysql_select_db("SmoothOperator");
 
+        /* Create the static_text table if missing */
+        if (!mysql_is_table($host, $user, $pass,"SmoothOperator", "static_text")) {
+            $messages[] =  "Static Text table is missing...created";
+            $sql = "CREATE TABLE `static_text` (
+                      `id` int(11) NOT NULL auto_increment,
+                      `parameter` varchar(255) default NULL,
+                      `language` varchar(11) default 'en_gb',
+                      `description` varchar(255) default NULL,
+                      PRIMARY KEY  (`id`)
+                    ) ENGINE=InnoDB";
+            $result = mysql_query($sql);
+            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('manager_host', 'Asterisk Manager Host or IP Address')");
+            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('manager_user', 'Asterisk Manager Username')");
+            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('manager_pass', 'Asterisk Manager Password')");
+            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('site_name', 'Name of this site')");
+            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('smoothtorque_db_host', 'SmoothTorque Database Host')");
+            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('smoothtorque_db_user', 'SmoothTorque Database User')");
+            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('smoothtorque_db_pass', 'SmoothTorque Database Pass')");
+
+        }
+
         /* Create the config table if missing */
         if (!mysql_is_table($host, $user, $pass,"SmoothOperator", "config")) {
             $messages[] =  "Config table is missing...created";
@@ -19,6 +40,14 @@ if (!function_exists('so_check_databases')) {
                   PRIMARY KEY  (`parameter`)
                   ) ENGINE=InnoDB";
             $result = mysql_query($sql);
+
+            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('manager_host', '')");
+            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('manager_user', '')");
+            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('manager_pass', '')");
+            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_host', '')");
+            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_user', '')");
+            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_pass', '')");
+            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('site_name', 'SmoothOperator CRM')");
         }
 
         /* Create the customers table if missing */

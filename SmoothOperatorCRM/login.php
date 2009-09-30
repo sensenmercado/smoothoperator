@@ -17,6 +17,13 @@ if (isset($_POST['username'])) {
     $_SESSION['user_name'] = $_POST['username'];
     $_SESSION['user_level'] = $security_level;
     $_SESSION['messages'] = $messages;
+
+    $result = mysql_query("SELECT parameter, value FROM config");
+    while ($row = mysql_fetch_assoc($result)) {
+        $config_values[$row['parameter']] = $row['value'];
+    }
+
+    $_SESSION['config_values'] = $config_values;
     redirect("index.php", 0);
     require "footer.php";
     exit(0);
