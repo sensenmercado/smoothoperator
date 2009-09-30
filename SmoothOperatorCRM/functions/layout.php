@@ -31,14 +31,14 @@ if (!function_exists('get_menu_items') ) {
         if ($user_level > 0) { // Normal User
             $menu_names[] = "Home";
             $menu_links[] = "index.php";
-            $menu_names[] = "Search Customer";
+            $menu_names[] = "Search";
             $menu_links[] = "search_customer.php";
         }
         if ($user_level > 9) { // Admin
             $menu_names[] = "Customers";
             $menu_links[] = "list_customers.php";
 
-            $menu_names[] = "Manage Lists";
+            $menu_names[] = "Lists";
             $menu_links[] = "manage_lists.php";
 
             $menu_names[] = "Users";
@@ -46,10 +46,10 @@ if (!function_exists('get_menu_items') ) {
 
         }
         if ($user_level > 99) { // Super User
-            $menu_names[] = "System Test";
+            $menu_names[] = "Tests";
             $menu_links[] = "system_test.php";
 
-            $menu_names[] = "System Settings";
+            $menu_names[] = "Settings";
             $menu_links[] = "config.php";
 
         }

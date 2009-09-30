@@ -11,15 +11,15 @@ function display_customer_edit($row) {
     $fields_to_hide[] = "last_updated";
     $textarea_fields[] = "notes";
     echo '<form action="get_customer.php" method="post">';
-    echo "<table>";
+    echo '<table class="sample">';
     foreach ($row as $field=>$value) {
         if (in_array($field, $fields_to_hide)) {
             echo '<input type="hidden" name="'.$field.'" value="'.$value.'">';
         } else if (in_array($field, $textarea_fields)) {
-            echo '<tr><td colspan="2">'.clean_field_name($field).'</td></tr>';
+            echo '<tr><th colspan="2">'.clean_field_name($field).'</th></tr>';
             echo '<tr><td colspan="2"><textarea cols="60" rows="10" name="'.$field.'">'.$value.'</textarea></td></tr>';
         } else {
-            echo '<tr><td>'.clean_field_name($field).'</td><td><input type="text" name="'.$field.'" value="'.$value.'"></td></tr>';
+            echo '<tr><th>'.clean_field_name($field).'</th><td><input type="text" name="'.$field.'" style="width: 400px" value="'.$value.'"></td></tr>';
         }
     }
     echo '<tr><td colspan="2"><input type="submit" value="save changes"></td></tr>';

@@ -145,9 +145,11 @@ win.showCenter();
     <body>
         <center>
             <div id="header">
-                <b><?=$config_values['site_name']?></b>
+                <div id="header2">
+                    <b><?=$config_values['site_name']?></b>
+                </div>
             </div>
-            <div id="menu">
+            <div id="menu">                
                 <ul id="nav">
                     <?
                     for ($i = 0;$i < sizeof($menu_names);$i++) {
