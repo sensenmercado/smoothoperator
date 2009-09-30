@@ -2,21 +2,26 @@
     /* Start or continue a logged in session */
     session_start();
 
+    /* Find out the current location */
     $current_directory = dirname(__FILE__);
     if (isset($override_directory)) {
             $current_directory = $override_directory;
     }
 
+    /* Include VentureVoIP Functions */
     require "functions/functions.php";
 
+    /* Set user level to no access by default */
     $user_level = 0;
+
+    /* Create a session if one has not already been created */
     if (!isset($_SESSION['initiated'])) {
         session_regenerate_id();
         $_SESSION['HTTP_USER_AGENT'] = md5($_SERVER['HTTP_USER_AGENT']);
         $_SESSION['initiated'] = true;
     }
 
-
+    /* Confirm that the user is using the same browser as they logged in with */
     if (isset($_SESSION['HTTP_USER_AGENT'])) {
         if (!($_SESSION['HTTP_USER_AGENT'] != md5($_SERVER['HTTP_USER_AGENT']))) {
             if (isset($_SESSION['user_name'])) {
@@ -27,13 +32,11 @@
         }
     }
 
+    /* Get the actual PHP page (regardless of directory) */
     $full_path = $_SERVER['PHP_SELF'];
     $exploded_path = split("/",$full_path);
     $this_page = $exploded_path[sizeof($exploded_path)-1];
     
-    //echo $this_page;
-    if ($user_level > 0) {
-    }
     switch ($user_level) {
         case 1:   // Normal User
             break;
@@ -49,118 +52,95 @@
             }
             break;
     }
-    require "config/db_config.php";
-    
-    $menu_items = get_menu_items($user_level);
-    $undefined_links = get_undefined_links($user_level);
 
+    /* Connect to the database */
+    require "config/db_config.php";
+
+    /* Get a list of menu items for this user level */
+    $menu_items = get_menu_items($user_level);
     $menu_names = $menu_items[0];
     $menu_links = $menu_items[1];
 
+    /* Get a list of pages that this user has access to but have no menu item */
+    $undefined_links = get_undefined_links($user_level);
+
+    /* By default nobody is allowed to access anything */
     $allowed = false;
+
+    /* If the page name is in the list of menu items for this user, allow it */
     foreach($menu_links as $link) {
-        //echo "Comparing "
         if ($this_page == $link) {
             $allowed = true;
         }
     }
+
+    /* If the page name is in the list of non-menu items for this user, allow it */
     foreach($undefined_links as $link) {
         if ($this_page == $link) {
             $allowed = true;
         }
     }
+
+    /* If we've reached here and still are not allowed, go to the index page */
     if (!$allowed) {
+        $messages[] = "You have tried to access a page you are not permitted to access";
+        $_SESSION['messages'] = $messages;
         header("Location: index.php");
         exit(0);
     }
 
+    /* If we've made it this far, we're allowed to be viewing this page */
 
     ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
-                <link rel="stylesheet" type="text/css" href="css/style.css">
+        <title>SmoothOperator CRM</title>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" type="text/css" href="css/default.css">
-
-<script type="text/javascript" src="js/niftycube.js"></script>
-<script type="text/javascript">
-NiftyLoad=function(){
-Nifty("ul#nav a","small transparent top");
-<?
-if (isset($_SESSION['messages'])) {
-    ?>
-    Nifty("div#messages","large transparent");
-    <?
-}
-?>
-}
-</script>
-    <style type="text/css">
-html,body{margin:0;padding:0}
-body{background: #FFF;
-    font: 80% Arial,sans-serif}
-
-div#header{font: 250% Arial,sans-serif;width: 100%;padding-top:20px;margin-left: 15%;background: #BBD9EE;text-align: center;color: #FFf8c6;}
-
-div#menu{float:left;width: 100%;padding-top:20px;background: #BBD9EE}
-ul#nav,ul#nav li{list-style-type:none;margin:0;padding:0}
-ul#nav{margin-left: 20px;width:900px}
-
-ul#nav li{float:left;margin-right: 3px;text-align: center}
-ul#nav a{float:left;width: 10em;padding: 5px 0;background: #E7F1F8;text-decoration:none;color: #666}
-ul#nav a:hover{background: #FFA826;color: #FFF}
-ul#nav li.activelink a,ul#nav li.activelink a:hover{background: #FFF;color: #003}
-</style>
+        <script type="text/javascript" src="js/niftycube.js"></script>
+        <script type="text/javascript">
+            NiftyLoad=function(){
+                Nifty("ul#nav a","small transparent top");
+                <?
+                if (isset($_SESSION['messages'])) {
+                    ?>
+                    Nifty("div#messages","large transparent");
+                    <?
+                }
+                ?>
+            }
+        </script>
     </head>
     <body>
         <center>
-        
-
-<?
-
-
-
-    //box_start();
-?>
-<div id="header">
-SmoothOperator CRM
-</div>
-<div id="menu">
-
-    
-    <ul id="nav"><?
- /*       <li id="home" class="activelink"><a href="#">Home</a></li>
-        <li id="who"><a href="#">About</a></li>
-        <li id="prod"><a href="#">Product</a></li>
-        <li id="serv"><a href="#">Services</a></li>
-        <li id="cont"><a href="#">Contact us</a></li>*/
-    for ($i = 0;$i < sizeof($menu_names);$i++) {
-        echo '<li id="'.$menu_names[$i].'" ';
-        if ($this_page == $menu_links[$i]) {
-            echo 'class="activelink"';
-        }
-        echo '><a href="'.$menu_links[$i].'" class="page_menu">'.$menu_names[$i].'</a></li>';
-    }
-?>    </ul>
-</div><?
-
-
-if (isset($_SESSION['messages'])) {
-?>
-    <div id="messages" align="center">
-        <br /><b>Messages:</b><br /><br />
-        <?
-        foreach ($_SESSION['messages'] as $message) {
-            echo $message."<br /><br />";
-        }
-        //echo "<br />";
-        unset($_SESSION['messages']);
-        ?>
-    </div>
-<?
-}
-?>
-        
-        <div id="content" align="center">
+            <div id="header">
+                SmoothOperator CRM
+            </div>
+            <div id="menu">
+                <ul id="nav">
+                    <?
+                    for ($i = 0;$i < sizeof($menu_names);$i++) {
+                        echo '<li id="'.$menu_names[$i].'" ';
+                        if ($this_page == $menu_links[$i]) {
+                            echo 'class="activelink"';
+                        }
+                        echo '><a href="'.$menu_links[$i].'" class="page_menu">'.$menu_names[$i].'</a></li>';
+                    }
+                    ?>
+                </ul>
+            </div>
+            <?
+            /* If we have any error messages, display then remove them */
+            if (isset($_SESSION['messages'])) {
+            ?>
+                <div id="messages" align="center">
+                    <br /><b>Messages:</b><br /><br />
+                    <?foreach ($_SESSION['messages'] as $message) {
+                        echo $message."<br /><br />";
+                    }
+                    unset($_SESSION['messages']);?>
+                </div>
+            <?}?>
+            <div id="content" align="center">
