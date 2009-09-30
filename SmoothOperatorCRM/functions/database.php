@@ -72,7 +72,7 @@ if (!function_exists('so_check_databases')) {
                   PRIMARY KEY  (`id`)
                 ) ENGINE=InnoDB";
             $result = mysql_query($sql);
-            $sql = "INSERT INTO users (username, password, security_level) VALUES ('admin', 'adminpass', 100)";
+            $sql = "INSERT INTO users (username, password, security_level) VALUES ('admin', '".sha1('adminpass')."', 100)";
             $result = mysql_query($sql);
             $messages[] = "Because you did not have a database structure, we have created<br />".
             " a user account for you.  The username is 'admin' and the password<br />".

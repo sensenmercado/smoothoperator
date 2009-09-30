@@ -25,6 +25,32 @@ div#messages {
     width: 800px;
 }
 
+table.sample {
+        border-width: thin thin thin thin;
+        border-spacing: 0px;
+        border-style: solid solid solid solid;
+        border-color: gray gray gray gray;
+        border-collapse: collapse;
+        background-color: rgb(255, 255, 240);
+}
+table.sample th {
+        border-width: 1px 1px 1px 1px;
+        padding: 3px 3px 3px 3px;
+        border-style: inset inset inset inset;
+        border-color: gray gray gray gray;
+        background-color: #ddddff;
+        -moz-border-radius: 0px 0px 0px 0px;
+}
+table.sample td {
+        border-width: 1px 1px 1px 1px;
+        padding: 3px 3px 3px 3px;
+        border-style: inset inset inset inset;
+        border-color: gray gray gray gray;
+        background-color: white;
+        -moz-border-radius: 0px 0px 0px 0px;
+}
+
+
 .label {
 	font: 12px Verdana, Arial, Helvetica, sans-serif;
 	color: #333333;

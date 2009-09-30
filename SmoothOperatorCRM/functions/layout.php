@@ -8,7 +8,14 @@ if (!function_exists('get_undefined_links')) {
         return $retval;
     }
 }
-
+if (!function_exists('draw_progress')) {
+    function draw_progress($message = "") {
+        if (isset($message)) {
+            echo $message."<br />";
+        }
+        echo '<img src="images/progress.gif" border="0">';
+    }
+}
 if (!function_exists('clean_field_name')) {
     function clean_field_name($field) {
         return ucwords(strtolower(str_replace("_", " ",$field)));
