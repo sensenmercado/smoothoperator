@@ -46,6 +46,9 @@ if (!function_exists('get_menu_items') ) {
 
         }
         if ($user_level > 99) { // Super User
+            $menu_names[] = "System Test";
+            $menu_links[] = "system_test.php";
+
             $menu_names[] = "System Settings";
             $menu_links[] = "config.php";
 

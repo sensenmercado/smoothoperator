@@ -13,6 +13,8 @@ require $current_directory."/functions/layout.php";
 
 require $current_directory."/functions/database.php";
 
+require $current_directory."/functions/asterisk_manager.php";
+
 if (!function_exists('sec2hms') ) {
   function sec2hms ($sec, $padHours = false) {
 

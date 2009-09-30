@@ -145,7 +145,7 @@ win.showCenter();
     <body>
         <center>
             <div id="header">
-                <?=$config_values['site_name']?>
+                <b><?=$config_values['site_name']?></b>
             </div>
             <div id="menu">
                 <ul id="nav">

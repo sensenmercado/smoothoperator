@@ -248,7 +248,7 @@ box_end();
         echo "</td>";
 
         echo '<td>';
-        ?><a href="#" onclick="show_confirm('Are you really sure you want to delete <b><?=$row[username]?></b>?', 'Yes delete it', 'users.php?delete_sure=<?=$row[id]?>');return false;"><?
+        ?><a href="#" onclick="show_confirm('Are you really sure you want to delete <b><?=$row[username]?></b>?', 'Delete', 'users.php?delete_sure=<?=$row[id]?>');return false;"><?
         //echo '<a href="users.php?delete='.$row[id].'">';
         echo '<img src="images/delete.png"></td>';
         echo '</tr>';

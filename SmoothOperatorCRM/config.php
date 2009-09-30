@@ -31,12 +31,12 @@ if (isset($_GET['save'])) {
 $sql = "SELECT * FROM config, static_text WHERE config.parameter = static_text.parameter and static_text.language = ".sanitize($_SESSION['language']);
 $result = mysql_query($sql) or die(mysql_error());
 
-echo '<form action="config.php?save=1" method="post">';
+echo '<form action="config.php?save=1" method="post"><table class="sample">';
 while ($row = mysql_fetch_assoc($result)) {
-    echo $row['description'].': <input type="text" name="'.$row['parameter'].'" value="'.$config_values[$row['parameter']].'"><br />';
+    echo '<tr><th>'.$row['description'].'</th><td><input type="text" name="'.$row['parameter'].'" value="'.$config_values[$row['parameter']].'"></td></tr>';
 }
-echo '<input type="submit" value = "Save Changes">';
-echo '</form>';
+echo '<tr><td colspan="2"><input type="submit" value = "Save Changes"></td></tr>';
+echo '</table></form>';
 
 require "footer.php";
 ?>

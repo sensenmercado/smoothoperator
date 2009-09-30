@@ -21,6 +21,9 @@ if (!function_exists('so_check_databases')) {
                       PRIMARY KEY  (`id`)
                     ) ENGINE=InnoDB";
             $result = mysql_query($sql);
+            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('manager_staff_context', 'Context in Asterisk where staff can be reached')");
+            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('manager_outbound_trunk', 'Trunk in Asterisk where outbound calls can be made<br />(i.e. SIP/${EXTEN}@myprovider)')");
+            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('manager_outbound_prefix', 'Any prefix required before an outgoing call')");
             $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('manager_host', 'Asterisk Manager Host or IP Address')");
             $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('manager_user', 'Asterisk Manager Username')");
             $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('manager_pass', 'Asterisk Manager Password')");
@@ -44,6 +47,9 @@ if (!function_exists('so_check_databases')) {
             $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('manager_host', '')");
             $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('manager_user', '')");
             $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('manager_pass', '')");
+            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('manager_staff_context', '')");
+            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('manager_outbound_trunk', 'SIP/\${EXTEN}@myprovider')");
+            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('manager_outbound_prefix', '')");
             $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_host', '')");
             $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_user', '')");
             $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_pass', '')");
