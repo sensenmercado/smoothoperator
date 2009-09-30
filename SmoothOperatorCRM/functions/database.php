@@ -1,4 +1,101 @@
 <?
+if (!function_exists('so_check_databases')) {
+    function so_check_databases($host,$user,$pass) {
+        /* First check to make sure the database exists */
+        $link = mysql_connect($host, $user, $pass) or die(mysql_error());
+        if (!mysql_is_database($host,$user,$pass,"SmoothOperator")) {
+            $messages[] = "SmoothOperator Database Missing...created";
+            $result = @mysql_query("create database SmoothOperator");
+        }
+
+        mysql_select_db("SmoothOperator");
+
+        /* Create the config table if missing */
+        if (!mysql_is_table($host, $user, $pass,"SmoothOperator", "config")) {
+            $messages[] =  "Config table is missing...created";
+            $sql = "CREATE TABLE `config` (
+                  `parameter` varchar(255) NOT NULL,
+                  `value` varchar(1024) default NULL,
+                  PRIMARY KEY  (`parameter`)
+                  ) ENGINE=InnoDB";
+            $result = mysql_query($sql);
+        }
+
+        /* Create the customers table if missing */
+        if (!mysql_is_table($host, $user, $pass,"SmoothOperator", "customers")) {
+            $messages[] =  "Customers table is missing...created";
+            $sql = "CREATE TABLE `customers` (
+                      `id` int(11) NOT NULL auto_increment,
+                      `first_name` varchar(255) default NULL,
+                      `last_name` varchar(255) default NULL,
+                      `address_line_1` varchar(1024) default NULL,
+                      `address_line_2` varchar(1024) default NULL,
+                      `city` varchar(255) default NULL,
+                      `state` varchar(255) default NULL,
+                      `zipcode` varchar(20) default NULL,
+                      `email` varchar(255) default NULL,
+                      `phone` varchar(255) default NULL,
+                      `fax` varchar(255) default NULL,
+                      `status` varchar(255) default 'new',
+                      `last_updated` timestamp NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+                      `cleaned_number` varchar(255) default NULL,
+                      `notes` text,
+                      PRIMARY KEY  (`id`)
+                    ) ENGINE=InnoDB";
+            $result = mysql_query($sql);
+        }
+
+        /* Create the interractions table if missing */
+        if (!mysql_is_table($host, $user, $pass,"SmoothOperator", "interractions")) {
+            $messages[] =  "Interractions table is missing...created";
+            $sql = "CREATE TABLE `interractions` (
+                  `id` int(11) NOT NULL auto_increment,
+                  `contact_date_time` datetime default NULL,
+                  `notes` text,
+                  `customer_id` int(11) default NULL,
+                  PRIMARY KEY  (`id`),
+                  KEY `customer_id` (`customer_id`)
+                ) ENGINE=InnoDB";
+            $result = mysql_query($sql);
+        }
+
+        if (!mysql_is_table($host, $user, $pass,"SmoothOperator", "users")) {
+            $messages[] =  "Users table is missing...created";
+            $sql = "CREATE TABLE `users` (
+                  `id` int(11) NOT NULL auto_increment,
+                  `username` varchar(255) NOT NULL,
+                  `password` varchar(255) NOT NULL,
+                  `first_name` varchar(255) default NULL,
+                  `last_name` varchar(255) default NULL,
+                  `extension` varchar(255) default NULL,
+                  `security_level` varchar(255) NOT NULL default '0',
+                  PRIMARY KEY  (`id`)
+                ) ENGINE=InnoDB";
+            $result = mysql_query($sql);
+            $sql = "INSERT INTO users (username, password, security_level) VALUES ('admin', 'adminpass', 100)";
+            $result = mysql_query($sql);
+            $messages[] = "Because you did not have a database structure, we have created<br />".
+            " a user account for you.  The username is 'admin' and the password<br />".
+            " is 'adminpass'.  You <b><i>MUST</i></b> change the password.";
+        }
+
+        return $messages;
+    }
+}
+
+if (!function_exists('mysql_is_database')) {
+    function mysql_is_database($host, $user, $pass, $db) {
+        $tables = array();
+        $link = mysql_connect($host, $user, $pass) or die(mysql_error());
+        $result = @mysql_query("Show databases like '$db'");
+        if (mysql_num_rows($result) == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+
 if (!function_exists('mysql_is_table') ) {
 	function mysql_is_table($host, $user, $pass, $db, $tbl)
 	{

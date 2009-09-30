@@ -88,12 +88,19 @@
 <script type="text/javascript">
 NiftyLoad=function(){
 Nifty("ul#nav a","small transparent top");
+<?
+if (isset($_SESSION['messages'])) {
+    ?>
+    Nifty("div#messages","large transparent");
+    <?
+}
+?>
 }
 </script>
     <style type="text/css">
 html,body{margin:0;padding:0}
 body{background: #FFF;
-    font: 70% Arial,sans-serif}
+    font: 80% Arial,sans-serif}
 
 div#header{font: 250% Arial,sans-serif;width: 100%;padding-top:20px;margin-left: 15%;background: #BBD9EE;text-align: center;color: #FFf8c6;}
 
@@ -138,8 +145,22 @@ SmoothOperator CRM
     }
 ?>    </ul>
 </div><?
-    //echo $user_level;
-    //box_end();
+
+
+if (isset($_SESSION['messages'])) {
+?>
+    <div id="messages" align="center">
+        <br /><b>Messages:</b><br /><br />
+        <?
+        foreach ($_SESSION['messages'] as $message) {
+            echo $message."<br /><br />";
+        }
+        //echo "<br />";
+        unset($_SESSION['messages']);
+        ?>
+    </div>
+<?
+}
 ?>
         
         <div id="content" align="center">

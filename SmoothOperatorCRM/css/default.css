@@ -16,7 +16,13 @@ A:active {
 }
 
 div#content {
-    margin-top: 80px;
+    margin-top: 60px;
+}
+
+div#messages {
+    background: #fee;
+    margin-top: 60px;
+    width: 800px;
 }
 
 .label {

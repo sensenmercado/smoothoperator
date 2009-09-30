@@ -34,7 +34,10 @@ if (!function_exists('get_menu_items') ) {
             $menu_names[] = "Manage Lists";
             $menu_links[] = "manage_lists.php";
 
-            }
+            $menu_names[] = "Users";
+            $menu_links[] = "users.php";
+
+        }
         if ($user_level > 99) { // Super User
             $menu_names[] = "System Settings";
             $menu_links[] = "config.php";

@@ -1,9 +1,12 @@
 <?php
 require "header.php";
 if (isset($_POST['username'])) {
-    echo "Logging In";
+    $messages = so_check_databases($db_host, $db_user, $db_pass);
+    echo "Logging In<br />";
+    echo '<img src="images/progress.gif">';
     $_SESSION['user_name'] = $_POST['username'];
     $_SESSION['user_level'] = 100;
+    $_SESSION['messages'] = $messages;
     echo "<meta http-equiv='refresh' content='0;URL=index.php'>";
     require "footer.php";
     exit(0);
