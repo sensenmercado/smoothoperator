@@ -174,12 +174,25 @@ ul#list_2 li{
 <link href="themes/alphacube.css" rel="stylesheet" type="text/css"/>
 
         <script type="text/javascript">
+function hide_message(layer_ref){
+    $.post("clear_message.php", {queryString: layer_ref});
+    if(document.all){ //IS IE 4 or 5 (or 6 beta)
+        eval("document.all." +layer_ref+ ".style.display = none");
+    }
+    if (document.layers) { //IS NETSCAPE 4 or below
+        document.layers[layer_ref].display = 'none';
+    }
+    if (document.getElementById &&!document.all) {
+        hza = document.getElementById(layer_ref);
+        hza.style.display = 'none';
+    }
+}
             NiftyLoad=function(){
                 Nifty("ul#nav a","small transparent top");
                 <?
                 if (isset($_SESSION['messages'])) {
                     ?>
-                    Nifty("div#messages","large transparent");
+                    Nifty("div.messages","large transparent");
                     <?
                 }
                 ?>
@@ -226,16 +239,19 @@ win.showCenter();
                     ?>
                 </ul>
             </div>
+            <div id="content" align="center">
             <?
             /* If we have any error messages, display then remove them */
             if (isset($_SESSION['messages'])) {
             ?>
-                <div id="messages" align="center">
-                    <br /><b>Messages:</b><br /><br />
-                    <?foreach ($_SESSION['messages'] as $message) {
-                        echo $message."<br /><br />";
-                    }
-                    unset($_SESSION['messages']);?>
+            <?foreach ($_SESSION['messages'] as $index=>$message) {?>
+                <div class="messages" id = "message<?=$index?>" align="center" style="display: block">
+                    <a href="#" onclick="hide_message('message<?=$index?>')"><div >Close Message</div></a>
+                    <?
+                        echo $message."";
+                        //unset($_SESSION['messages']);
+                    ?>
+
                 </div>
-            <?}?>
-            <div id="content" align="center">
+            <?}}?>
+            

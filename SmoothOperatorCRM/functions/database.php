@@ -2,16 +2,16 @@
 if (!function_exists('so_check_databases')) {
     function so_check_databases($host,$user,$pass) {
         /* First check to make sure the database exists */
-        $link = mysql_connect($host, $user, $pass) or die(mysql_error());
+        $link = mysqli_connect($host, $user, $pass) or die(mysql_error());
         if (!mysql_is_database($host,$user,$pass,"SmoothOperator")) {
             $messages[] = "SmoothOperator Database Missing...created";
-            $result = @mysql_query("create database SmoothOperator");
+            $result = @mysqli_query($link, "create database SmoothOperator");
         }
 
-        mysql_select_db("SmoothOperator");
+        mysqli_select_db($link, "SmoothOperator");
 
         /* Create the static_text table if missing */
-        if (!mysql_is_table($host, $user, $pass,"SmoothOperator", "static_text")) {
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "static_text")) {
             $messages[] =  "Static Text table is missing...created";
             $sql = "CREATE TABLE `static_text` (
                       `id` int(11) NOT NULL auto_increment,
@@ -20,44 +20,44 @@ if (!function_exists('so_check_databases')) {
                       `description` varchar(255) default NULL,
                       PRIMARY KEY  (`id`)
                     ) ENGINE=InnoDB";
-            $result = mysql_query($sql);
-            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('manager_staff_context', 'Context in Asterisk where staff can be reached')");
-            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('manager_outbound_trunk', 'Trunk in Asterisk where outbound calls can be made<br />(i.e. SIP/${EXTEN}@myprovider)')");
-            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('manager_outbound_prefix', 'Any prefix required before an outgoing call')");
-            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('manager_host', 'Asterisk Manager Host or IP Address')");
-            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('manager_user', 'Asterisk Manager Username')");
-            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('manager_pass', 'Asterisk Manager Password')");
-            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('site_name', 'Name of this site')");
-            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('smoothtorque_db_host', 'SmoothTorque Database Host')");
-            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('smoothtorque_db_user', 'SmoothTorque Database User')");
-            $result = mysql_query("INSERT INTO static_text (parameter, description) VALUES ('smoothtorque_db_pass', 'SmoothTorque Database Pass')");
+            $result = mysqli_query($link, $sql);
+            $result = mysqli_query($link, "INSERT INTO static_text (parameter, description) VALUES ('manager_staff_context', 'Context in Asterisk where staff can be reached')");
+            $result = mysqli_query($link, "INSERT INTO static_text (parameter, description) VALUES ('manager_outbound_trunk', 'Trunk in Asterisk where outbound calls can be made<br />(i.e. SIP/${EXTEN}@myprovider)')");
+            $result = mysqli_query($link, "INSERT INTO static_text (parameter, description) VALUES ('manager_outbound_prefix', 'Any prefix required before an outgoing call')");
+            $result = mysqli_query($link, "INSERT INTO static_text (parameter, description) VALUES ('manager_host', 'Asterisk Manager Host or IP Address')");
+            $result = mysqli_query($link, "INSERT INTO static_text (parameter, description) VALUES ('manager_user', 'Asterisk Manager Username')");
+            $result = mysqli_query($link, "INSERT INTO static_text (parameter, description) VALUES ('manager_pass', 'Asterisk Manager Password')");
+            $result = mysqli_query($link, "INSERT INTO static_text (parameter, description) VALUES ('site_name', 'Name of this site')");
+            $result = mysqli_query($link, "INSERT INTO static_text (parameter, description) VALUES ('smoothtorque_db_host', 'SmoothTorque Database Host')");
+            $result = mysqli_query($link, "INSERT INTO static_text (parameter, description) VALUES ('smoothtorque_db_user', 'SmoothTorque Database User')");
+            $result = mysqli_query($link, "INSERT INTO static_text (parameter, description) VALUES ('smoothtorque_db_pass', 'SmoothTorque Database Pass')");
 
         }
 
         /* Create the config table if missing */
-        if (!mysql_is_table($host, $user, $pass,"SmoothOperator", "config")) {
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "config")) {
             $messages[] =  "Config table is missing...created";
             $sql = "CREATE TABLE `config` (
                   `parameter` varchar(255) NOT NULL,
                   `value` varchar(1024) default NULL,
                   PRIMARY KEY  (`parameter`)
                   ) ENGINE=InnoDB";
-            $result = mysql_query($sql);
+            $result = mysqli_query($link, $sql);
 
-            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('manager_host', '')");
-            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('manager_user', '')");
-            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('manager_pass', '')");
-            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('manager_staff_context', '')");
-            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('manager_outbound_trunk', 'SIP/\${EXTEN}@myprovider')");
-            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('manager_outbound_prefix', '')");
-            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_host', '')");
-            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_user', '')");
-            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_pass', '')");
-            $result = mysql_query("INSERT INTO config (parameter, value) VALUES ('site_name', 'SmoothOperator CRM')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_host', '')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_user', '')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_pass', '')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_staff_context', '')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_outbound_trunk', 'SIP/\${EXTEN}@myprovider')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_outbound_prefix', '')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_host', '')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_user', '')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_pass', '')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('site_name', 'SmoothOperator CRM')");
         }
 
         /* Create the customers table if missing */
-        if (!mysql_is_table($host, $user, $pass,"SmoothOperator", "customers")) {
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "customers")) {
             $messages[] =  "Customers table is missing...created";
             $sql = "CREATE TABLE `customers` (
                       `id` int(11) NOT NULL auto_increment,
@@ -80,11 +80,11 @@ if (!function_exists('so_check_databases')) {
 
                       PRIMARY KEY  (`id`)
                     ) ENGINE=InnoDB";
-            $result = mysql_query($sql);
+            $result = mysqli_query($link, $sql);
         }
 
         /* Create the interractions table if missing */
-        if (!mysql_is_table($host, $user, $pass,"SmoothOperator", "interractions")) {
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "interractions")) {
             $messages[] =  "Interractions table is missing...created";
             $sql = "CREATE TABLE `interractions` (
                   `id` int(11) NOT NULL auto_increment,
@@ -94,10 +94,10 @@ if (!function_exists('so_check_databases')) {
                   PRIMARY KEY  (`id`),
                   KEY `customer_id` (`customer_id`)
                 ) ENGINE=InnoDB";
-            $result = mysql_query($sql);
+            $result = mysqli_query($link, $sql);
         }
 
-        if (!mysql_is_table($host, $user, $pass,"SmoothOperator", "users")) {
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "users")) {
             $messages[] =  "Users table is missing...created";
             $sql = "CREATE TABLE `users` (
                   `id` int(11) NOT NULL auto_increment,
@@ -109,9 +109,9 @@ if (!function_exists('so_check_databases')) {
                   `security_level` varchar(255) NOT NULL default '0',
                   PRIMARY KEY  (`id`)
                 ) ENGINE=InnoDB";
-            $result = mysql_query($sql);
+            $result = mysqli_query($link, $sql);
             $sql = "INSERT INTO users (username, password, security_level) VALUES ('admin', '".sha1('adminpass')."', 100)";
-            $result = mysql_query($sql);
+            $result = mysqli_query($link, $sql);
             $messages[] = "Because you did not have a database structure, we have created<br />".
             " a user account for you.  The username is 'admin' and the password<br />".
             " is 'adminpass'.  You <b><i>MUST</i></b> change the password.";
@@ -124,9 +124,9 @@ if (!function_exists('so_check_databases')) {
 if (!function_exists('mysql_is_database')) {
     function mysql_is_database($host, $user, $pass, $db) {
         $tables = array();
-        $link = mysql_connect($host, $user, $pass) or die(mysql_error());
-        $result = @mysql_query("Show databases like '$db'");
-        if (mysql_num_rows($result) == 0) {
+        $link = mysqli_connect($host, $user, $pass) or die(mysql_error());
+        $result = @mysqli_query($link, "Show databases like '$db'");
+        if (mysqli_num_rows($result) == 0) {
             return false;
         } else {
             return true;
@@ -134,15 +134,15 @@ if (!function_exists('mysql_is_database')) {
     }
 }
 
-if (!function_exists('mysql_is_table') ) {
-	function mysql_is_table($host, $user, $pass, $db, $tbl)
+if (!function_exists('mysqli_is_table') ) {
+	function mysqli_is_table($host, $user, $pass, $db, $tbl)
 	{
 		$result = FALSE;
 		$tables = array();
-		$link = mysql_connect($host, $user, $pass) or die(mysql_error());
-		mysql_select_db($db) or die(mysql_error());
-		$q = @mysql_query("SHOW TABLES");
-		while ($r = @mysql_fetch_array($q)) { $tables[] = $r[0]; }
+		$link = mysqli_connect($host, $user, $pass) or die(mysql_error());
+		mysqli_select_db($link, $db) or die(mysql_error());
+		$q = @mysqli_query($link, "SHOW TABLES");
+		while ($r = @mysqli_fetch_array($q)) { $tables[] = $r[0]; }
 		@mysql_free_result($q);
 	    // @mysql_close($link);
 		if (in_array($tbl, $tables)) { $result =  TRUE; }
@@ -152,12 +152,12 @@ if (!function_exists('mysql_is_table') ) {
 
 if (!function_exists('create_missing_tables') ) {
 	function create_missing_tables($db_host,$db_user,$db_pass) {
-		$link = mysql_connect($db_host, $db_user, $db_pass) or die(mysql_error());
+		$link = mysqli_connect($db_host, $db_user, $db_pass) or die(mysql_error());
 		
 		/*======================================================================
 									names Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","names")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","names")){
 		  include "admin/db_config.php";
 		$sql = "CREATE TABLE `names` (
 		  `campaignid` int(200) NOT NULL default '0',
@@ -167,9 +167,9 @@ if (!function_exists('create_missing_tables') ) {
 		  PRIMARY KEY  (`campaignid`,`phonenumber`)
 		)";
 		
-			$result = mysql_query($sql,$link) or die(mysql_error());
+			$result = mysqli_query($link, $sql,$link) or die(mysql_error());
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created names Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		
 		}
 
@@ -179,7 +179,7 @@ if (!function_exists('create_missing_tables') ) {
 		/*======================================================================
                             Schedule Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","schedule")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","schedule")){
 		
 		  $sql = "CREATE TABLE `schedule` (
 		  `id` int(10) unsigned NOT NULL auto_increment,
@@ -194,14 +194,14 @@ if (!function_exists('create_missing_tables') ) {
 		  `username` varchar(255) default NULL,
 		  PRIMARY KEY  (`id`)
 		  )";
-		  $result=mysql_query($sql, $link) or die (mysql_error());
+		  $result=mysqli_query($link, $sql, $link) or die (mysql_error());
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created Schedule Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 		/*======================================================================
                             Web_config Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","web_config")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","web_config")){
 		
 		  $sql = "
 CREATE TABLE `web_config` (
@@ -276,16 +276,16 @@ CREATE TABLE `web_config` (
   `use_separate_dnc` varchar(250) default NULL,
   `allow_numbers_manual` varchar(250) default NULL
 )		  ";
-		  $result=mysql_query($sql, $link) or die (mysql_error());
+		  $result=mysqli_query($link, $sql, $link) or die (mysql_error());
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created Web_config Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 
 		
 		/*======================================================================
                             test_results Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","test_results")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","test_results")){
 		
 		
 		
@@ -302,32 +302,32 @@ CREATE TABLE `web_config` (
   `overs` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
 )";
-		$result=mysql_query($sql, $link) or die (mysql_error());
+		$result=mysqli_query($link, $sql, $link) or die (mysql_error());
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created test_results Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		} 
 		
 		/*======================================================================
 									Log Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","log")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","log")){
 		
 		  $sql = "CREATE TABLE `log` (
 		  `timestamp` timestamp NULL default NULL on update CURRENT_TIMESTAMP,
 		  `activity` varchar(255) default NULL,
 		  `username` varchar(255) default NULL
 		  )";
-		  $result = mysql_query($sql,$link);
+		  $result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Attempted login')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created Log Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 		
 		/*======================================================================
 									System Billing Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","system_billing")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","system_billing")){
 		  include "admin/db_config.php";
 		  $sql = "CREATE TABLE `system_billing` (
 		  `id` int(10) unsigned NOT NULL auto_increment,
@@ -336,15 +336,15 @@ CREATE TABLE `web_config` (
 		  `timestamp` timestamp NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
 		  PRIMARY KEY  (`id`)
 		)";
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created System Timestamp Billing Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 		
 		/*======================================================================
 									campaign Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","campaign")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","campaign")){
 		  include "admin/db_config.php";
 		$sql = "CREATE TABLE `campaign` (
 		  `id` int(200) NOT NULL auto_increment,
@@ -366,16 +366,16 @@ CREATE TABLE `web_config` (
 		  PRIMARY KEY  (`id`)
 		)";
 		
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created campaign Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 		
 		
 		/*======================================================================
 									campaigngroup Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","campaigngroup")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","campaigngroup")){
 		  include "admin/db_config.php";
 		$sql = "CREATE TABLE `campaigngroup` (
 		  `id` int(11) NOT NULL auto_increment,
@@ -384,12 +384,12 @@ CREATE TABLE `web_config` (
 		  PRIMARY KEY  (`id`)
 		)";
 		
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created campaigngroup Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 			$sql = "insert  into campaigngroup values
 		(1, 'VentureVoIP', 'A demonstation group which contains a single demo campaign')";
-		 $result = mysql_query($sql,$link);
+		 $result = mysqli_query($link, $sql,$link);
 		
 		}
 		
@@ -397,7 +397,7 @@ CREATE TABLE `web_config` (
 		/*======================================================================
 									campaignmessage Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","campaignmessage")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","campaignmessage")){
 		  include "admin/db_config.php";
 		$sql = "CREATE TABLE `campaignmessage` (
 		  `id` int(11) NOT NULL auto_increment,
@@ -409,9 +409,9 @@ CREATE TABLE `web_config` (
 		  PRIMARY KEY  (`id`)
 		)";
 		
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created campaignmessage Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		  $sql = "insert  into campaignmessage values
 		(27, 'fax-33e5c3b94674a138bc5b390c06e2dba2e7488cb6.tiff', 'New Test Fax', 'A fax broadcasting test', 1, ''),
 		(14, 'x-afa871459b4fff189d78420ad7f3158918ca8333.sln', 'Ringin', 'The windows ring in sound', 1, '0.905500'),
@@ -420,14 +420,14 @@ CREATE TABLE `web_config` (
 		(21, 'x-df6efd23c65b97ae1920ceb5ad7b2ee2a2732431.sln', 'Tada', 'The windows tada sound', 26, '1.939000'),
 		(24, 'x-d91f8f58dd14d004a31780540d34bba034f3bb1c.sln', 'Transfer 1 -Great', 'Great -here we go', 26, '1.656625'),
 		(28, 'x-f9036629b654fffe0bdee6db47521dcd2ceb84b1.sln', 'Ding', 'The windows ding alert sound', 85, '0.915750')";
-		$result = mysql_query($sql,$link);
+		$result = mysqli_query($link, $sql,$link);
 		}
 		
 		
 		/*======================================================================
 									cdr Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","cdr")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","cdr")){
 		  include "admin/db_config.php";
 		$sql = "CREATE TABLE `cdr` (
 		  `calldate` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -452,16 +452,16 @@ CREATE TABLE `web_config` (
 		  KEY `accountcode` (`accountcode`)
 		)";
 		
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created cdr Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 		
 		
 		/*======================================================================
 									config Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","config")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","config")){
 		  include "admin/db_config.php";
 		$sql = "CREATE TABLE `config` (
 		  `parameter` varchar(255) NOT NULL default '0',
@@ -469,38 +469,38 @@ CREATE TABLE `web_config` (
 		  PRIMARY KEY  (`parameter`)
 		) ";
 		
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created config Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		  $sql = "insert  into config values
 		('backend', '0'),
 		('userid', 'VentureVoIP'),
 		('licencekey', 'DRFHUJWQIWU')";
-		 $result = mysql_query($sql,$link);
+		 $result = mysqli_query($link, $sql,$link);
 		}
 		
 		/* Check if the length of the parameter field is 255 - if not make it so */
-		$result = mysql_query("SELECT parameter, value FROM config");
+		$result = mysqli_query($link, "SELECT parameter, value FROM config");
 		$param_length = mysql_field_len($result, 0);
 		$value_length = mysql_field_len($result, 1);
 		if ($param_length != 255) {
 			$sql = "ALTER TABLE config MODIFY parameter VARCHAR(255)";
-			$result=mysql_query($sql, $link);
+			$result=mysqli_query($link, $sql, $link);
 			$sql = "ALTER TABLE config MODIFY value VARCHAR(255)";
-			$result=mysql_query($sql, $link);
+			$result=mysqli_query($link, $sql, $link);
 		}
 		
 		/* Check if there is a primary key on the config table - if not create it */
-		$result = mysql_query("SHOW INDEXES FROM config");
-		if (mysql_num_rows($result) == 0) {
+		$result = mysqli_query($link, "SHOW INDEXES FROM config");
+		if (mysqli_num_rows($result) == 0) {
 			$sql = "ALTER TABLE config ADD PRIMARY KEY (parameter)";
-			$result=mysql_query($sql, $link);
+			$result=mysqli_query($link, $sql, $link);
 		}
 		
 		/*======================================================================
 									rates Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","rates")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","rates")){
 		  include "admin/db_config.php";
 		$sql = "CREATE TABLE `rates` (
 		  `campaignid` int(11) NOT NULL,
@@ -511,14 +511,14 @@ CREATE TABLE `web_config` (
 		) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 		";
 		
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created rates Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 		/*======================================================================
 									engine_stats Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","engine_stats")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","engine_stats")){
 		  include "admin/db_config.php";
 		$sql = "
 		CREATE TABLE `engine_stats` (
@@ -528,14 +528,14 @@ CREATE TABLE `web_config` (
 		 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 		 ";
 		
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created profracs Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 		/*======================================================================
 									profracs Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","profracs")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","profracs")){
 		  include "admin/db_config.php";
 		$sql = "
 		CREATE TABLE `profracs` (
@@ -547,14 +547,14 @@ CREATE TABLE `web_config` (
 		) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 		 ";
 		
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created profracs Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 		/*======================================================================
 									sleeps Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","sleeps")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","sleeps")){
 		  include "admin/db_config.php";
 		$sql = "
 		CREATE TABLE `sleeps` (
@@ -566,14 +566,14 @@ CREATE TABLE `web_config` (
 		) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 		 ";
 		
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created sleeps Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 		/*======================================================================
 									campaign_stats Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","campaign_stats")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","campaign_stats")){
 		  include "admin/db_config.php";
 		$sql = "
 		CREATE TABLE `campaign_stats` (
@@ -597,14 +597,14 @@ CREATE TABLE `web_config` (
 		
 		 ";
 		
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created campaign_stats Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 		/*======================================================================
 									customer Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","customer")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","customer")){
 		  include "admin/db_config.php";
 		$sql = "CREATE TABLE `customer` (
 		  `id` int(10) unsigned NOT NULL auto_increment,
@@ -632,18 +632,18 @@ CREATE TABLE `web_config` (
 		  PRIMARY KEY  (`id`)
 		) ";
 		
-			$result = mysql_query($sql,$link) or die(mysql_error());
+			$result = mysqli_query($link, $sql,$link) or die(mysql_error());
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created customer Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		  $sql = "insert  into customer (id, username, password, campaigngroupid, maxcps, maxchans, security)
 		  values (2, 'admin', '".sha1("adminpass")."', 1, 1000, 1001, 100)";
-		  $result=mysql_query($sql, $link) or die(mysql_error());
+		  $result=mysqli_query($link, $sql, $link) or die(mysql_error());
 		}
 		
 		/*======================================================================
 									dncnumber Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","dncnumber")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","dncnumber")){
 		  include "admin/db_config.php";
 		$sql = "CREATE TABLE `dncnumber` (
 		  `campaignid` int(200) NOT NULL default '0',
@@ -654,15 +654,15 @@ CREATE TABLE `web_config` (
 		  KEY `test` (`phonenumber`,`campaignid`)
 		) ";
 		
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created dncnumber Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 		
 		/*======================================================================
 									number Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","number")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","number")){
 		  include "admin/db_config.php";
 		$sql = "CREATE TABLE `number` (
 		  `campaignid` int(200) NOT NULL default '0',
@@ -677,9 +677,9 @@ CREATE TABLE `web_config` (
 		  KEY `status2` (`status`)
 		)";
 		
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created number Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		
 		}
 		  $fields = mysql_list_fields('SineDialer', 'number');
@@ -696,14 +696,14 @@ CREATE TABLE `web_config` (
 			  echo "Starting with adding the random sort field to the numbers table<br />";
 			  flush();
 			  sleep(1);
-			  $result = mysql_query('ALTER TABLE number ADD random_sort int(10)') or die(mysql_error());
+			  $result = mysqli_query($link, 'ALTER TABLE number ADD random_sort int(10)') or die(mysql_error());
 			  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Added number random_sort field')";
-			  $result=mysql_query($sql, $link);
+			  $result=mysqli_query($link, $sql, $link);
 			  echo "Added field - now updating the numbers to give them each a random value<br />";
 			  flush();
 			  sleep(1);
-			  $result = mysql_query('UPDATE number SET random_sort = ROUND(RAND() * 999999999)') or die(mysql_error());
-			  $result = mysql_query("ALTER TABLE number ADD INDEX randomize (random_sort, campaignid, status)") or die(mysql_error());;
+			  $result = mysqli_query($link, 'UPDATE number SET random_sort = ROUND(RAND() * 999999999)') or die(mysql_error());
+			  $result = mysqli_query($link, "ALTER TABLE number ADD INDEX randomize (random_sort, campaignid, status)") or die(mysql_error());;
 			  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'randomized existing number field')";
 			  echo "Update complete - please log back in";
 			  ?><META HTTP-EQUIV=REFRESH CONTENT="0; URL=/index.php"><?
@@ -715,7 +715,7 @@ CREATE TABLE `web_config` (
 		/*======================================================================
 									number_done Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","number_done")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","number_done")){
 		  include "admin/db_config.php";
 		$sql = "CREATE TABLE `number_done` (
 		  `campaignid` int(200) NOT NULL default '0',
@@ -728,16 +728,16 @@ CREATE TABLE `web_config` (
 		  KEY `status2` (`status`)
 		)";
 		
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created number_done Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 		
 		
 		/*======================================================================
 									queue Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","queue")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","queue")){
 		  include "admin/db_config.php";
 		$sql = "CREATE TABLE `queue` (
 		  `queueID` int(11) NOT NULL auto_increment,
@@ -772,9 +772,9 @@ CREATE TABLE `web_config` (
 		  PRIMARY KEY  (`queueID`)
 		) ";
 		
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created queue Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 		
 		
@@ -784,7 +784,7 @@ CREATE TABLE `web_config` (
 		/*======================================================================
 									campaignconfig Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","campaignconfig")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","campaignconfig")){
 		  include "admin/db_config.php";
 		$sql = "CREATE TABLE `campaignconfig` (
 		  `id` int(10) unsigned NOT NULL auto_increment,
@@ -798,9 +798,9 @@ CREATE TABLE `web_config` (
 		  PRIMARY KEY  (`id`)
 		) ";
 		
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created campaignconfig Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 		
 		
@@ -809,7 +809,7 @@ CREATE TABLE `web_config` (
 		/*======================================================================
 									Billing Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","billing")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","billing")){
 		  include "admin/db_config.php";
 		  $sql = "CREATE TABLE `billing` (
 		  `customerid` int(11) unsigned NOT NULL default '0',
@@ -824,13 +824,13 @@ CREATE TABLE `web_config` (
 		  `creditlimit` double(100,10) default '0.0000000000',
 		  PRIMARY KEY  (`customerid`,`accountcode`)
 		  )";
-		  $result = mysql_query($sql,$link);
+		  $result = mysqli_query($link, $sql,$link);
 		}
 		
 		/*======================================================================
 									Billing Log Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","billinglog")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","billinglog")){
 		  include "admin/db_config.php";
 		
 		  $sql = "CREATE TABLE `billinglog` (
@@ -841,16 +841,16 @@ CREATE TABLE `web_config` (
 		  `username` varchar(255) default NULL,
 		  `addedby` varchar(255) default NULL
 		  )";
-		  $result = mysql_query($sql,$link);
+		  $result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created Billing Log Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 		
 		
 		/*======================================================================
 									Realtime SIP
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","sip_buddies")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","sip_buddies")){
 		  //echo "Not there";
 		  include "admin/db_config.php";
 		  $sql = "CREATE TABLE `sip_buddies` (
@@ -894,13 +894,13 @@ CREATE TABLE `web_config` (
 		  UNIQUE KEY `name` (`name`),
 		  KEY `name_2` (`name`)
 		  );";
-		  $result = mysql_query($sql,$link) or die(mysql_error());
+		  $result = mysqli_query($link, $sql,$link) or die(mysql_error());
 		}
 		
 		/*======================================================================
 									Realtime IAX2
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","iax_buddies")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","iax_buddies")){
 		  include "admin/db_config.php";
 		  $sql = "CREATE TABLE `iax_buddies` (
 		  `id` int(10) unsigned NOT NULL auto_increment,
@@ -939,13 +939,13 @@ CREATE TABLE `web_config` (
 		  `jitterbuffer` varchar(4) default 'no',
 		  PRIMARY KEY  (`id`)
 		  );";
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		
 		}
 		/*======================================================================
 									Campaign
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","campaign")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","campaign")){
 		  include "admin/db_config.php";
 			$sql = "Create table `campaign` (
 			`id` int(200) NOT NULL auto_increment,
@@ -966,13 +966,13 @@ CREATE TABLE `web_config` (
 			`cost` varchar(10) default NULL,
 			PRIMARY KEY (`id`)
 			);";
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		}
 		
 		/*======================================================================
 									Campaign Config
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","campaignconfig")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","campaignconfig")){
 		  include "admin/db_config.php";
 				$sql = "Create table `campaignconfig` (
 			`id` int(10) unsigned not null auto_increment,
@@ -985,13 +985,13 @@ CREATE TABLE `web_config` (
 			`numagents` int(11) default 10,
 			PRIMARY KEY(`id`)
 				);";
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		}
 		
 		/*======================================================================
 									Campaign Message
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","campaignconfig")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","campaignconfig")){
 		  include "admin/db_config.php";
 				$sql = "Create table `campaignmessage` (
 				`id` int(10) unsigned not null auto_increment,
@@ -1001,14 +1001,14 @@ CREATE TABLE `web_config` (
 			`customer_id` int(11),
 			primary key(`id`)
 				);";
-				$result = mysql_query($sql,$link);
+				$result = mysqli_query($link, $sql,$link);
 		}
 		
 		
 		/*======================================================================
 									CDR
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","cdr")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","cdr")){
 		  include "admin/db_config.php";
 				$sql = "Create table `cdr` (
 		  `calldate` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -1034,26 +1034,26 @@ CREATE TABLE `web_config` (
 		  KEY `dst` (`dst`),
 		  KEY `accountcode` (`accountcode`)
 				);";
-				$result = mysql_query($sql,$link);
+				$result = mysqli_query($link, $sql,$link);
 		}
 		
 		
 		/*======================================================================
 									Config
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","config")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","config")){
 		  include "admin/db_config.php";
 				$sql = "Create table `config` (
 		`parameter` varchar(11) NOT NULL default '0',
 		  `value` varchar(110) NOT NULL
 				);";
-				$result = mysql_query($sql,$link);
+				$result = mysqli_query($link, $sql,$link);
 		}
 		
 		/*======================================================================
 									Customer
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","customer")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","customer")){
 		  include "admin/db_config.php";
 				$sql = "Create table `customer` (
 		  `id` int(10) unsigned NOT NULL auto_increment,
@@ -1078,14 +1078,14 @@ CREATE TABLE `web_config` (
 		  `adminlists` varchar(2555) default NULL,
 		  PRIMARY KEY  (`id`)
 				);";
-				$result = mysql_query($sql,$link);
-			$result = mysql_query("INSERT INTO customer (`username`,`password`,`security`) VALUES ('admin',".sha1("adminpass").",100)",$link);
+				$result = mysqli_query($link, $sql,$link);
+			$result = mysqli_query($link, "INSERT INTO customer (`username`,`password`,`security`) VALUES ('admin',".sha1("adminpass").",100)",$link);
 		}
 		
 		/*======================================================================
 								 DNC Number
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","dncnumber")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","dncnumber")){
 		  include "admin/db_config.php";
 				$sql = "Create table `dncnumber` (
 		  `campaignid` int(200) NOT NULL default '0',
@@ -1095,13 +1095,13 @@ CREATE TABLE `web_config` (
 		  PRIMARY KEY  (`campaignid`,`phonenumber`),
 		  KEY `test` (`phonenumber`,`campaignid`)
 				);";
-				$result = mysql_query($sql,$link);
+				$result = mysqli_query($link, $sql,$link);
 		}
 		
 		/*======================================================================
 								 Number
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","number")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","number")){
 		  include "admin/db_config.php";
 				$sql = "Create table `number` (
 		  `campaignid` int(200) NOT NULL default '0',
@@ -1114,13 +1114,13 @@ CREATE TABLE `web_config` (
 		  KEY `status` (`campaignid`,`status`),
 		  KEY `status2` (`status`)
 				);";
-				$result = mysql_query($sql,$link);
+				$result = mysqli_query($link, $sql,$link);
 		}
 		
 		/*======================================================================
 								 Queue
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","queue")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","queue")){
 		  include "admin/db_config.php";
 				$sql = "Create table `queue` (
 		  `queueID` int(11) NOT NULL auto_increment,
@@ -1154,13 +1154,13 @@ CREATE TABLE `web_config` (
 		  `maxcps` int(11) default '31',
 		  PRIMARY KEY  (`queueID`)
 				);";
-				$result = mysql_query($sql,$link);
+				$result = mysqli_query($link, $sql,$link);
 		}
 		
 		/*======================================================================
 									servers Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","servers")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","servers")){
 		  include "admin/db_config.php";
 		$sql = "CREATE TABLE `servers` (
 		  `id` int(11) NOT NULL auto_increment,
@@ -1173,9 +1173,9 @@ CREATE TABLE `web_config` (
 		  PRIMARY KEY  (`id`)
 		)";
 		
-		  $result = mysql_query($sql,$link);
+		  $result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created servers Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 		
 		$fields = mysql_list_fields('SineDialer', 'servers');
@@ -1186,16 +1186,16 @@ CREATE TABLE `web_config` (
 		
 		if (!in_array('readonly', $field_array))
 		{
-			$result = mysql_query('ALTER TABLE servers ADD readonly int(10)');
+			$result = mysqli_query($link, 'ALTER TABLE servers ADD readonly int(10)');
 			$sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Added server readonly field')";
-			$result=mysql_query($sql, $link);
+			$result=mysqli_query($link, $sql, $link);
 		}
 		
 		
 		/*======================================================================
 									stage Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","stage")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","stage")){
 		  include "admin/db_config.php";
 		$sql = "CREATE TABLE `stage` (
 		  `id` int(10) unsigned NOT NULL auto_increment,
@@ -1206,16 +1206,16 @@ CREATE TABLE `web_config` (
 		  PRIMARY KEY  (`id`)
 		) ";
 		
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created stage Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		}
 		
 		
 		/*======================================================================
 									trunk Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","trunk")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","trunk")){
 		  include "admin/db_config.php";
 		$sql = "CREATE TABLE `trunk` (
 		  `id` int(15) unsigned NOT NULL auto_increment,
@@ -1227,16 +1227,16 @@ CREATE TABLE `web_config` (
 		  PRIMARY KEY  (`id`)
 		) ";
 		
-			$result = mysql_query($sql,$link);
+			$result = mysqli_query($link, $sql,$link);
 		  $sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Created trunk Table')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		  $sql = "insert  into trunk values
 		(1, 'Load Test', 'Local/s@staff/\${EXTEN}', 1, 300, '10'),
 		(11, 'Local Hardware', 'Zap/g1/\${EXTEN}', 0, 10, '3'),
 		(13, 'Dialplan', 'Local/\${EXTEN}@my_context', 0, 1000, '3'),
 		(16, 'IAX2 Trunk', 'IAX2/my-provider/\${EXTEN}', 0, 100, '10'),
 		(17, 'SIP Trunk', 'SIP/\${EXTEN}@my-provider', 0, 100, '5')";
-		  $result=mysql_query($sql, $link);
+		  $result=mysqli_query($link, $sql, $link);
 		
 		}
 		
@@ -1244,7 +1244,7 @@ CREATE TABLE `web_config` (
 		/*======================================================================
 								 Queue_Member_Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","queue_member_table")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","queue_member_table")){
 		  include "admin/db_config.php";
 				$sql = "Create table `queue_member_table` (
 		  `uniqueid` int(10) unsigned NOT NULL auto_increment,
@@ -1256,14 +1256,14 @@ CREATE TABLE `web_config` (
 		  PRIMARY KEY  (`uniqueid`),
 		  UNIQUE KEY `queue_interface` (`queue_name`,`interface`)
 				);";
-				$result = mysql_query($sql,$link);
+				$result = mysqli_query($link, $sql,$link);
 		}
 		
 		
 		/*======================================================================
 								 Queue_Table
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","queue_table")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","queue_table")){
 		  include "admin/db_config.php";
 				$sql = "Create table `queue_table` (
 		  `name` varchar(128) NOT NULL,
@@ -1302,14 +1302,14 @@ CREATE TABLE `web_config` (
 		  `periodic_announce_frequency` int(11) default NULL,
 		  PRIMARY KEY  (`name`)
 				);";
-				$result = mysql_query($sql,$link);
+				$result = mysqli_query($link, $sql,$link);
 		}
 		
 		
 		/*======================================================================
 								 Servers
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","servers")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","servers")){
 		  include "admin/db_config.php";
 				$sql = "Create table `servers` (
 		  `id` int(10) unsigned NOT NULL auto_increment,
@@ -1319,13 +1319,13 @@ CREATE TABLE `web_config` (
 		  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
 		  PRIMARY KEY  (`id`)
 				);";
-				$result = mysql_query($sql,$link);
+				$result = mysqli_query($link, $sql,$link);
 		}
 		
 		/*======================================================================
 								 Stage
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","stage")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","stage")){
 		  include "admin/db_config.php";
 				$sql = "Create table `stage` (
 		  `id` int(10) unsigned NOT NULL auto_increment,
@@ -1335,13 +1335,13 @@ CREATE TABLE `web_config` (
 		  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
 		  PRIMARY KEY  (`id`)
 				);";
-				$result = mysql_query($sql,$link);
+				$result = mysqli_query($link, $sql,$link);
 		}
 		
 		/*======================================================================
 								Trunk
 		  ======================================================================*/
-		if (!mysql_is_table($db_host,$db_user,$db_pass,"SineDialer","trunk")){
+		if (!mysqli_is_table($db_host,$db_user,$db_pass,"SineDialer","trunk")){
 		  include "admin/db_config.php";
 				$sql = "Create table `trunk` (
 		  `id` int(15) unsigned NOT NULL auto_increment,
@@ -1352,7 +1352,7 @@ CREATE TABLE `web_config` (
 		  `maxcps` varchar(255) default '30',
 		  PRIMARY KEY  (`id`)
 				);";
-				$result = mysql_query($sql,$link);
+				$result = mysqli_query($link, $sql,$link);
 		}
 		
 		$fields = mysql_list_fields('SineDialer', 'campaign', $link);
@@ -1363,9 +1363,9 @@ CREATE TABLE `web_config` (
 		
 		if (!in_array('cost', $field_array))
 		{
-			$result = mysql_query('ALTER TABLE campaign ADD cost VARCHAR(10)');
+			$result = mysqli_query($link, 'ALTER TABLE campaign ADD cost VARCHAR(10)');
 			$sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Added campaign cost field')";
-			$result=mysql_query($sql, $link);
+			$result=mysqli_query($link, $sql, $link);
 		}
 		
 		/*****************************************************************
@@ -1379,9 +1379,9 @@ CREATE TABLE `web_config` (
 		}
 		if (!in_array('astqueuename', $field_array))
 		{
-			$result = mysql_query('ALTER TABLE customer ADD astqueuename VARCHAR(255)');
+			$result = mysqli_query($link, 'ALTER TABLE customer ADD astqueuename VARCHAR(255)');
 			$sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Added customer astqueuename field')";
-			$result=mysql_query($sql, $link);
+			$result=mysqli_query($link, $sql, $link);
 		}
 		
 		
@@ -1396,16 +1396,16 @@ CREATE TABLE `web_config` (
 		}
 		if (!in_array('call-limit', $field_array))
 		{
-			$result = mysql_query('ALTER TABLE sip_buddies ADD `call-limit` int(8) default 1') or die(mysql_error());
-			$result = mysql_query('UPDATE sip_buddies SET `call-limit`=1') or die(mysql_error());
+			$result = mysqli_query($link, 'ALTER TABLE sip_buddies ADD `call-limit` int(8) default 1') or die(mysql_error());
+			$result = mysqli_query($link, 'UPDATE sip_buddies SET `call-limit`=1') or die(mysql_error());
 			$sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Added sip_buddies call-limit field')";
-			$result=mysql_query($sql, $link);
+			$result=mysqli_query($link, $sql, $link);
 		}
 		
 		/*======================================================================
 								 Stats Only Users
 		  ======================================================================*/
-		if ( ! mysql_is_table($db_host, $db_user, $db_pass, "SineDialer", "statuser") ) {
+		if ( ! mysqli_is_table($db_host, $db_user, $db_pass, "SineDialer", "statuser") ) {
 				include "admin/db_config.php";
 				$sql = "Create table `statuser` (
 										`id` int(10) unsigned NOT NULL auto_increment,
@@ -1413,7 +1413,7 @@ CREATE TABLE `web_config` (
 										`hash` varchar(255) NOT NULL default '',
 										PRIMARY KEY  (`id`)
 								);";
-				$result = mysql_query($sql,$link);
+				$result = mysqli_query($link, $sql,$link);
 		}
 		
 		
@@ -1429,9 +1429,9 @@ CREATE TABLE `web_config` (
 		
 		if (!in_array('didlogin', $field_array))
 		{
-			$result = mysql_query('ALTER TABLE customer ADD didlogin VARCHAR(255)');
+			$result = mysqli_query($link, 'ALTER TABLE customer ADD didlogin VARCHAR(255)');
 			$sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Added customer didlogin field')";
-			$result=mysql_query($sql, $link);
+			$result=mysqli_query($link, $sql, $link);
 		}
 		
 		/*****************************************************************
@@ -1446,9 +1446,9 @@ CREATE TABLE `web_config` (
 		
 		if (!in_array('length', $field_array))
 		{
-			$result = mysql_query('ALTER TABLE campaignmessage ADD length VARCHAR(255)');
+			$result = mysqli_query($link, 'ALTER TABLE campaignmessage ADD length VARCHAR(255)');
 			$sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Added campaignmessage length field')";
-			$result=mysql_query($sql, $link);
+			$result=mysqli_query($link, $sql, $link);
 		}
 		
 		/*****************************************************************
@@ -1463,16 +1463,16 @@ CREATE TABLE `web_config` (
 		
 		if (!in_array('receipt', $field_array))
 		{
-			$result = mysql_query('ALTER TABLE billinglog ADD receipt VARCHAR(255)');
+			$result = mysqli_query($link, 'ALTER TABLE billinglog ADD receipt VARCHAR(255)');
 			$sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Added billinglog receipt field')";
-			$result=mysql_query($sql, $link);
+			$result=mysqli_query($link, $sql, $link);
 		}
 		
 		if (!in_array('paymentmode', $field_array))
 		{
-			$result = mysql_query('ALTER TABLE billinglog ADD paymentmode VARCHAR(255)');
+			$result = mysqli_query($link, 'ALTER TABLE billinglog ADD paymentmode VARCHAR(255)');
 			$sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Added billinglog paymentmode field')";
-			$result=mysql_query($sql, $link);
+			$result=mysqli_query($link, $sql, $link);
 		}
 		
 		/*****************************************************************
@@ -1487,9 +1487,9 @@ CREATE TABLE `web_config` (
 		
 		if (!in_array('lastms', $field_array))
 		{
-			$result = mysql_query('ALTER TABLE sip_buddies ADD lastms VARCHAR(255)');
+			$result = mysqli_query($link, 'ALTER TABLE sip_buddies ADD lastms VARCHAR(255)');
 			$sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Added sip_buddies lastms field')";
-			$result=mysql_query($sql, $link);
+			$result=mysqli_query($link, $sql, $link);
 		}
 
 		/*****************************************************************
@@ -1504,9 +1504,9 @@ CREATE TABLE `web_config` (
 		
 		if (!in_array('interface_type', $field_array))
 		{
-			$result = mysql_query('ALTER TABLE customer ADD interface_type VARCHAR(255) default \'default\'');
+			$result = mysqli_query($link, 'ALTER TABLE customer ADD interface_type VARCHAR(255) default \'default\'');
 			$sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Added customer.interface_type field')";
-			$result=mysql_query($sql, $link) or die(mysql_error());
+			$result=mysqli_query($link, $sql, $link) or die(mysql_error());
 		}
 
 	}

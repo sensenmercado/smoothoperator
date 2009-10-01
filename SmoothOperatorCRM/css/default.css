@@ -19,9 +19,9 @@ div#content {
     margin-top: 60px;
 }
 
-div#messages {
+div.messages {
     background: #fee;
-    margin-top: 60px;
+    margin-top: 5px;
     width: 800px;
 }
 

@@ -13,12 +13,13 @@ if (isset($_POST['username'])) {
         require "footer.php";
         exit(0);
     }
-    $security_level = mysqli_result($result, 0, 'security_level');
+    $row = mysqli_fetch_assoc($result);
+    $security_level = $row['security_level'];
     $_SESSION['user_name'] = $_POST['username'];
     $_SESSION['user_level'] = $security_level;
     $_SESSION['messages'] = $messages;
 
-    $result = mysqli_query("SELECT parameter, value FROM config");
+    $result = mysqli_query($connection, "SELECT parameter, value FROM config");
     while ($row = mysqli_fetch_assoc($result)) {
         $config_values[$row['parameter']] = $row['value'];
     }
