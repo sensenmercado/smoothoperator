@@ -59,16 +59,23 @@ body{background: #FFF;
     font: 80% Arial,sans-serif}
 
 div#header{width: 100%;padding-top:20px;background: #ABC9DE;text-align: left;color: #FFf8c6;}
-div#header2{font: 250% Arial,sans-serif;padding-left:140px;background: #ABC9DE;text-align: left;color: #FFf8c6;}
+div#header2{font: 250% Arial,sans-serif;background: #ABC9DE;text-align: left;color: #FFf8c6;}
 
-div#menu{float:left;width: 100%;padding-top:20px;background: #ABC9DE}
+
+
+
+div#menu{float: left;width: 100%;padding-top:20px;background: #ABC9DE}
 ul#nav,ul#nav li{list-style-type:none;margin:0;padding:0}
-ul#nav{margin-left: 20px;width:1000px}
+ul#nav{margin-left: 22%;margin-right: 0}
 
 ul#nav li{float:left;margin-right: 3px;text-align: center}
-ul#nav a{float:left;width: 90px;padding: 5px 0;background: #E7F1F8;text-decoration:none;color: #666}
+ul#nav a{float:left;width: 80px;padding: 5px 0;background: #E7F1F8;text-decoration:none;color: #666}
 ul#nav a:hover{background: #FFA826;color: #FFF}
 ul#nav li.activelink a,ul#nav li.activelink a:hover{background: #FFF;color: #003}
+
+
+
+
 
 
 .label {

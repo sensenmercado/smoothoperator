@@ -75,6 +75,9 @@ if (!function_exists('so_check_databases')) {
                       `last_updated` timestamp NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
                       `cleaned_number` varchar(255) default NULL,
                       `notes` text,
+                      `locked_by` int(11) default NULL,
+                      `datetime_locked` datetime default NULL,
+
                       PRIMARY KEY  (`id`)
                     ) ENGINE=InnoDB";
             $result = mysql_query($sql);

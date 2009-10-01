@@ -35,8 +35,11 @@ if (!function_exists('get_menu_items') ) {
             $menu_links[] = "search_customer.php";
         }
         if ($user_level > 9) { // Admin
-            $menu_names[] = "Customers";
+            $menu_names[] = "Numbers";
             $menu_links[] = "list_customers.php";
+
+            $menu_names[] = "Jobs";
+            $menu_links[] = "jobs.php";
 
             $menu_names[] = "Lists";
             $menu_links[] = "manage_lists.php";

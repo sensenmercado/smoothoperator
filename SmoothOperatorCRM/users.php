@@ -2,9 +2,9 @@
 require "header.php";
 if (isset($_GET['delete_sure'])) {
     $id = sanitize($_GET['delete_sure']);
-    $result = mysql_query("DELETE FROM users WHERE id = $id");
+    $result = mysqli_query($connection, "DELETE FROM users WHERE id = $id");
     if (!$result) {
-        $messages[] = "There was a problem deleting this user: ".mysql_error();
+        $messages[] = "There was a problem deleting this user: ".mysqli_error();
         $_SESSION['messages'] = $messages;
     }
     draw_progress("Please wait we are saving your changes...");
@@ -18,9 +18,9 @@ if (isset($_GET['delete'])) {
     <br />
     <?
     $id = sanitize($_GET['delete']);
-    $result = mysql_query("SELECT * FROM users WHERE id = $id");
-    if (mysql_num_rows($result) > 0) {
-        $row = mysql_fetch_assoc($result);
+    $result = mysqli_query($connection, "SELECT * FROM users WHERE id = $id");
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
         echo "<b>Name: </b>".$row['first_name']." ".$row['last_name']."<br />";
         echo "<b>UserName: </b>".$row['username']."<br />";
     }
@@ -42,9 +42,9 @@ if (isset($_GET[save])) {
     }
     $sql = substr($sql, 0, strlen($sql)-2);
     $sql.= " WHERE id=$id";
-    $result = mysql_query($sql);
+    $result = mysqli_query($connection, $sql);
     if (!$result) {
-        $messages[] = "There was a problem saving your changes: ".mysql_error();
+        $messages[] = "There was a problem saving your changes: ".mysqli_error();
         $_SESSION['messages'] = $messages;
     }
     draw_progress("Please wait we are saving your changes...");
@@ -62,9 +62,9 @@ if (isset($_GET[save_new])) {
         $sql2.= "$value, ";
     }
     $sql = substr($sql1,0,strlen($sql1)-2).substr($sql2,0,strlen($sql2)-2).")";
-    $result = mysql_query($sql);
+    $result = mysqli_query($connection, $sql);
     if (!$result) {
-        $messages[] = "There was a problem saving your changes: ".mysql_error();
+        $messages[] = "There was a problem saving your changes: ".mysqli_error();
         $_SESSION['messages'] = $messages;
     }
     draw_progress("Please wait we are saving your changes...");
@@ -84,7 +84,7 @@ if (isset($_GET[save_password])) {
     $new_password = sanitize(sha1($_POST['new_password']));
     $sql = "UPDATE users SET password = $new_password WHERE id = $id";
     draw_progress("Please wait we are saving your changes...");
-    $result = mysql_query($sql);
+    $result = mysqli_query($connection, $sql);
     redirect("users.php", 0);
     require "footer.php";
     exit(0);
@@ -140,9 +140,9 @@ if (isset($_GET['new'])) {
         echo "</table>";
     }
     $id = sanitize($_GET[edit]);
-    $result = mysql_query("SELECT * FROM users LIMIT 1");
-    if (mysql_num_rows($result) > 0) {
-        $row = mysql_fetch_assoc($result);
+    $result = mysqli_query($connection, "SELECT * FROM users LIMIT 1");
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
         //print_pre($row);
         display_user_new($row);
     }
@@ -195,9 +195,9 @@ if (isset($_GET[edit])) {
         echo "</table>";
     }
     $id = sanitize($_GET[edit]);
-    $result = mysql_query("SELECT * FROM users WHERE id = $id LIMIT 1");
-    if (mysql_num_rows($result) > 0) {
-        $row = mysql_fetch_assoc($result);
+    $result = mysqli_query($connection, "SELECT * FROM users WHERE id = $id LIMIT 1");
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
         //print_pre($row);
         display_user_edit($row);
     }
@@ -222,8 +222,8 @@ box_end();
         <th>Delete</th>
     </tr>
     <?
-    $result = @mysql_query("SELECT * FROM users");
-    while ($row = mysql_fetch_assoc($result)) {
+    $result = @mysqli_query($connection, "SELECT * FROM users");
+    while ($row = mysqli_fetch_assoc($result)) {
         echo '<tr>';
         echo '<td><a href="users.php?edit='.$row[id].'">'.$row[username].'&nbsp;<img src="images/pencil.png"></a></td>';
         echo '<td><a href="users.php?change_password='.$row[id].'">Change Password</a></td>';

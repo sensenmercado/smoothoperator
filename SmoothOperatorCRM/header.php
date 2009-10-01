@@ -105,10 +105,71 @@
         <title><?=$config_values['site_name']?></title>
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" type="text/css" href="css/default.css">
+
+
         <script type="text/javascript" src="js/niftycube.js"></script>
         <script type="text/javascript" src="js/prototype_1.6.1.js"> </script>
 <script type="text/javascript" src="js/window.js"> </script>
+        <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js'></script>
+        <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.5.3/jquery-ui.min.js'></script>
+    
+<style type='text/css'>
 
+.panel_l {display: block;width:146px;margin:20px;border: 1px solid}
+.panel_r {display: block;width:146px;margin:20px;border: 1px solid;background:#ccc}
+
+ul#list_1 {
+    list-style-type:none;
+    padding:20px;
+    min-height:150px;
+    width:100px;
+}
+
+ul#list_1 li{
+    display:block;
+    border:2px solid #999;
+    background:#ff0;
+    width:80px;
+    padding:5px 10px;
+    margin-bottom:5px;
+}
+
+ul#list_2 {
+    list-style-type:none;
+    padding:20px;
+    min-height:150px;
+    width:100px;
+}
+
+ul#list_2 li{
+    display:block;
+    border:2px solid #999;
+    background:#ff0;
+    width:80px;
+    padding:5px 10px;
+    margin-bottom:5px;
+}
+
+.dds_selected {
+    background:#ffc;
+}
+.dds_ghost {
+    opacity:0.5;
+}
+.dds_move {
+    background:#cfc;
+}
+.dds_hover {
+    background:#fc9;
+    border:3px dashed #c96;
+}
+
+.holder {
+    border:3px dashed #333;
+    background:#fff;
+}
+
+</style>
 <!--  Add this to have a specific theme-->
 <link href="themes/alphacube.css" rel="stylesheet" type="text/css"/>
 
@@ -145,11 +206,14 @@ win.showCenter();
     <body>
         <center>
             <div id="header">
-                <div id="header2">
+                <div id="header2" align="center">
+                <center>
+
                     <b><?=$config_values['site_name']?></b>
+                    </center>
                 </div>
             </div>
-            <div id="menu">                
+            <div id="menu">
                 <ul id="nav">
                     <?
                     for ($i = 0;$i < sizeof($menu_names);$i++) {

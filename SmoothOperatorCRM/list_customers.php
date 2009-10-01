@@ -1,9 +1,9 @@
 <?
 require "header.php";
-$result = mysql_query("SELECT * FROM SmoothOperator.customers") or die(mysql_error());
+$result = mysqli_query($connection, "SELECT * FROM SmoothOperator.customers") or die(mysql_error());
 $printed_header = false;
 echo "<table border=\"1\" class=\"sample\">";
-while ($row = mysql_fetch_assoc($result)) {
+while ($row = mysqli_fetch_assoc($result)) {
     echo "<tr>";
     if (!$printed_header) {
         $printed_header = true;
