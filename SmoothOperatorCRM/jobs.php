@@ -1,4 +1,6 @@
 <?
+//$rounded[] = 'div#panel_l';
+//$rounded[] = 'div#panel_r';
 require "header.php";
 ?>
 
@@ -276,11 +278,10 @@ $(function(){
 <table>
 <tr>
 <td>
-<span class='panel_l'>
+<div class='panel_l'>
 <h2>In this job</h2>
 
 <ul class="swappers" id="list_1">
-<br />
 <?/*    <li id="list_1_item_1">Agent 1</li>
     <li id="list_1_item_2">Agent 2</li>
     <li id="list_1_item_3">Agent 3</li>
@@ -288,14 +289,14 @@ $(function(){
     <li id="list_1_item_5">Agent 5</li>
     <li id="list_1_item_6">Agent 6</li>*/?>
 </ul>
-</span>
+</div>
 </td>
 <td>
-<span class='panel_r'>
+<div class='panel_r'>
 <h2>Not in this job</h2>
 
 <ul class="swappers" id="list_2">
-<br />
+
     <li id="list_2_item_7">Agent 7</li>
     <li id="list_2_item_8">Agent 8</li>
     <li id="list_2_item_9">Agent 9</li>
@@ -304,7 +305,7 @@ $(function(){
     <li id="list_2_item_12">Agent 12</li>
 
 </ul>
-</span>
+</div>
 </td>
 </tr>
 </table>

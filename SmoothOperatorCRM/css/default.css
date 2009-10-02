@@ -16,7 +16,10 @@ A:active {
 }
 
 div#content {
-    margin-top: 60px;
+    margin-top: 45px;
+    border: #f8f8f8 1px solid;
+    background: #f8f8f8;
+    height: 100%;
 }
 
 div.messages {
@@ -58,20 +61,20 @@ html,body{margin:0;padding:0}
 body{background: #FFF;
     font: 80% Arial,sans-serif}
 
-div#header{width: 100%;padding-top:20px;background: #ABC9DE;text-align: left;color: #FFf8c6;}
-div#header2{font: 250% Arial,sans-serif;background: #ABC9DE;text-align: left;color: #FFf8c6;}
+div#header{width: 100%;padding-top:35px;text-align: left;background: #ABC9DE url('../images/header-bg-light.jpg') fixed no-repeat top}
+div#header2{font: 300% Arial,sans-serif;text-align: left;color: #fff;}
 
 
 
 
-div#menu{float: left;width: 100%;padding-top:20px;background: #ABC9DE}
+div#menu{float: left;width: 100%;padding-top:20px;background: #ABC9DE url('../images/header-bg-light.jpg') fixed no-repeat top}
 ul#nav,ul#nav li{list-style-type:none;margin:0;padding:0}
 ul#nav{margin-left: 22%;margin-right: 0}
 
-ul#nav li{float:left;margin-right: 3px;text-align: center}
-ul#nav a{float:left;width: 80px;padding: 5px 0;background: #E7F1F8;text-decoration:none;color: #666}
-ul#nav a:hover{background: #FFA826;color: #FFF}
-ul#nav li.activelink a,ul#nav li.activelink a:hover{background: #FFF;color: #003}
+ul#nav li{float:left;margin-right: 3px;text-align: center;}
+ul#nav a{float:left;width: 80px;padding: 5px 0;background: #d7e1e8;text-decoration:none;color: #0000ff}
+ul#nav a:hover{background: #FFA826;color: #fff}
+ul#nav li.activelink a,ul#nav li.activelink a:hover{background: #F8F8F8;color: #003}
 
 
 
@@ -1139,3 +1142,56 @@ TD.subheader:hover {
 }
 
 
+.panel_l {display: block;width:246px;margin:20px;border: 1px solid;background:#fff}
+.panel_r {display: block;width:246px;margin:20px;border: 1px solid;background:#eee}
+
+ul#list_1 {
+    list-style-type:none;
+    padding:20px;
+    min-height:150px;
+    width:200px;
+}
+
+ul#list_1 li{
+    display:block;
+    border:2px solid #999;
+    background:#ff0;
+    width:180px;
+    padding:5px 10px;
+    margin-bottom:5px;
+}
+
+ul#list_2 {
+    list-style-type:none;
+    padding:20px;
+    min-height:150px;
+    width:200px;
+}
+
+ul#list_2 li{
+    display:block;
+    border:2px solid #999;
+    background:#ff0;
+    width:180px;
+    padding:5px 10px;
+    margin-bottom:5px;
+}
+
+.dds_selected {
+    background:#ffc;
+}
+.dds_ghost {
+    opacity:0.5;
+}
+.dds_move {
+    background:#cfc;
+}
+.dds_hover {
+    background:#fc9;
+    border:3px dashed #c96;
+}
+
+.holder {
+    border:3px dashed #333;
+    background:#fff;
+}

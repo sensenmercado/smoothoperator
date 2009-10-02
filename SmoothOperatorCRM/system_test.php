@@ -1,6 +1,9 @@
 <?
+//$rounded[] = "#x12";
 require "header.php";
-
+?>
+<div id="x12" style="background: #fff;width: 200px;border: 1px solid;margin-top: 30px;padding:40px;">
+<?
 if (isset($_GET['test'])) {
     switch ($_GET['test']) {
         case "call":
@@ -40,7 +43,7 @@ if (isset($_GET['test'])) {
 <a href="system_test.php?test=lookup_campaign">Lookup Campaign Names</a><br />
 <a href="system_test.php?test=create_campaign">Create a Campaign</a><br />
 <a href="system_test.php?test=start_campaign">Start a Campaign</a><br />
-
+</div>
 <?
 require "footer.php";
 ?>

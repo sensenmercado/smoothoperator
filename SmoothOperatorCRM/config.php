@@ -11,7 +11,9 @@
 /* be available for usage.                                                     */
 
 require "header.php";
-
+?>
+<div style="background: #fff;width: 600px;border: 1px solid;margin-top: 30px;padding:40px;">
+<?
 if (isset($_GET['save'])) {
     foreach ($_POST as $field=>$value) {
         $sql = "UPDATE config set value = ".sanitize($value)." WHERE parameter = ".sanitize($field);
@@ -37,6 +39,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 echo '<tr><td colspan="2"><input type="submit" value = "Save Changes"></td></tr>';
 echo '</table></form>';
-
+?>
+</div>
+<?
 require "footer.php";
 ?>

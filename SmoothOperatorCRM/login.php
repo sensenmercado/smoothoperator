@@ -32,11 +32,17 @@ if (isset($_POST['username'])) {
 
 
 ?>
+<div style="background: #fff;width: 200px;border: 1px solid;margin-top: 30px;padding:40px;">
+<img src="images/icons/32x32/actions/lock.png"><br />
+<br />
     <form action="<?=$this_page?>" method="post">
         Username: <input type="text" name ="username"><br />
+        <br />
         Password: <input type="password" name="password"><br />
+        <br />
         <input type="submit" value="login">
     </form>
+    </div>
 <?
 require "footer.php";
 ?>
