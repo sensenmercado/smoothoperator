@@ -61,7 +61,7 @@
     require "config/db_config.php";
 
     /* Get a list of menu items for this user level */
-    $menu_items = get_menu_items($user_level);
+    $menu_items = get_menu_items($user_level, $connection);
     $menu_names = $menu_items[0];
     $menu_links = $menu_items[1];
 
@@ -72,9 +72,11 @@
     $allowed = false;
 
     /* If the page name is in the list of menu items for this user, allow it */
-    foreach($menu_links as $link) {
-        if ($this_page == $link) {
-            $allowed = true;
+    if (isset($menu_links)) {
+        foreach($menu_links as $link) {
+            if ($this_page == $link) {
+                $allowed = true;
+            }
         }
     }
 
@@ -105,14 +107,21 @@
         <title><?=$config_values['site_name']?></title>
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" type="text/css" href="css/default.css">
-
+        <link rel="stylesheet" type="text/css" href="css/uploadify.css">
 
         <script type="text/javascript" src="js/niftycube.js"></script>
         <script type="text/javascript" src="js/prototype_1.6.1.js"> </script>
         <script type="text/javascript" src="js/window.js"> </script>
         <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js'></script>
         <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.5.3/jquery-ui.min.js'></script>
-    
+        <script type="text/javascript" src="js/swfobject.js"></script>
+        <script type="text/javascript" src="js/jquery.uploadify.v2.1.0.min.js"></script>
+
+<?
+if (isset($extra_head)) {
+    echo $extra_head;
+}
+?>
 <style type='text/css'>
 
 
@@ -135,6 +144,9 @@ function hide_message(layer_ref){
     }
 }
             NiftyLoad=function(){
+                Nifty("div.xxxx","large transparent");
+                
+                Nifty("input.rounded","large");
                 Nifty("ul#nav a","small transparent top");
                 <?
                 if (isset($rounded)) {
@@ -169,9 +181,14 @@ win.showCenter();
 
 </script>
 
+
+
+
+
     </head>
     <body>
         <center>
+        <?if ($this_page != "login.php") {?>
             <div id="header">
                 <div id="header2" align="center">
                 <center>
@@ -180,6 +197,7 @@ win.showCenter();
                     </center>
                 </div>
             </div>
+            
             <div id="menu">
                 <ul id="nav">
                     <?
@@ -192,15 +210,23 @@ win.showCenter();
                     }
                     ?>
                 </ul>
-            </div>
+            </div><?}
+            if ($this_page == "login.php") {?>
+                
+            <div id="content_login" align="center">
+            <?} else {?>
             <div id="content" align="center">
-            <?
-            /* If we have any error messages, display then remove them */
+
+            <?}
+
+
+            /* If we have any error messages, display them */
             if (isset($_SESSION['messages'])) {
             ?>
             <?foreach ($_SESSION['messages'] as $index=>$message) {?>
-                <div class="messages" id = "message<?=$index?>" align="center" style="display: block">
-                    <a href="#" onclick="hide_message('message<?=$index?>')"><div >Close Message</div></a>
+                <div class="messages" id = "message<?=$index?>" align="center" style="display: block;padding: 0px;">
+                    <a href="#" onclick="hide_message('message<?=$index?>')"><div class="messages" align="right" style="width: 99%;background: #fcc;margin:0px;">Close Message&nbsp;<img src="images/cross.png" border="0">&nbsp;</div></a>
+                    
                     <?
                         echo $message."";
                         //unset($_SESSION['messages']);

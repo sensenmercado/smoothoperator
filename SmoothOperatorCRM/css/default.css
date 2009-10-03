@@ -17,15 +17,21 @@ A:active {
 
 div#content {
     margin-top: 45px;
-    border: #f8f8f8 1px solid;
-    background: #f8f8f8;
+    border: #F8F8F8 1px solid;
+    background: #F8F8F8;
     height: 100%;
 }
-
+div#content_login {
+    margin-top: 145px;
+    background: #ffffff;;
+    height: 100%;
+}
 div.messages {
     background: #fee;
+    color: #000;
     margin-top: 5px;
     width: 800px;
+    padding: 0px;
 }
 
 table.sample {
@@ -67,12 +73,12 @@ div#header2{font: 300% Arial,sans-serif;text-align: left;color: #fff;}
 
 
 
-div#menu{float: left;width: 100%;padding-top:20px;background: #ABC9DE url('../images/header-bg-light.jpg') fixed no-repeat top}
+div#menu{float: left;width: 100%;padding-top:20px;background: #ABC9DE url('../images/header-bg-light.jpg') fixed no-repeat top;}
 ul#nav,ul#nav li{list-style-type:none;margin:0;padding:0}
-ul#nav{margin-left: 22%;margin-right: 0}
+ul#nav{margin-left: 50px;margin-right: 0;}
 
 ul#nav li{float:left;margin-right: 3px;text-align: center;}
-ul#nav a{float:left;width: 80px;padding: 5px 0;background: #d7e1e8;text-decoration:none;color: #0000ff}
+ul#nav a{float:left;width: auto;padding: 5px 15px;background: #d7e1e8;text-decoration:none;color: #0000ff}
 ul#nav a:hover{background: #FFA826;color: #fff}
 ul#nav li.activelink a,ul#nav li.activelink a:hover{background: #F8F8F8;color: #003}
 
@@ -1142,8 +1148,8 @@ TD.subheader:hover {
 }
 
 
-.panel_l {display: block;width:246px;margin:20px;border: 1px solid;background:#fff}
-.panel_r {display: block;width:246px;margin:20px;border: 1px solid;background:#eee}
+.panel_l {display: block;width:246px;margin:20px;border: 0px solid;background:#acf}
+.panel_r {display: block;width:246px;margin:20px;border: 0px solid;background:#9ac}
 
 ul#list_1 {
     list-style-type:none;
@@ -1185,6 +1191,7 @@ ul#list_2 li{
 }
 .dds_move {
     background:#cfc;
+    background-color: #0000ff;
 }
 .dds_hover {
     background:#fc9;
@@ -1195,3 +1202,25 @@ ul#list_2 li{
     border:3px dashed #333;
     background:#fff;
 }
+
+
+#info {
+	
+}
+
+#test-list {
+	list-style: none;
+}
+
+#test-list li {
+	display: block;
+	padding: 10px 10px; margin-bottom: 3px;
+        margin-right: 30px;
+	background-color: #efefef;
+}
+
+#test-list li img.handle {
+	margin-right: 16px;
+	cursor: move;
+}
+

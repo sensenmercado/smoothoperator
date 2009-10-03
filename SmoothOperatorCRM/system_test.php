@@ -2,7 +2,8 @@
 //$rounded[] = "#x12";
 require "header.php";
 ?>
-<div id="x12" style="background: #fff;width: 200px;border: 1px solid;margin-top: 30px;padding:40px;">
+<div class="xxxx"  style="background: #cdf;width: 200px;margin-top: 30px;padding:40px;">
+
 <?
 if (isset($_GET['test'])) {
     switch ($_GET['test']) {

@@ -1,7 +1,34 @@
 <?
-//$rounded[] = 'div#panel_l';
-//$rounded[] = 'div#panel_r';
+if (!isset($_GET['job_id'])) {
+    require "header.php";
+?>
+<div class="xxxx"  style="background: #cdf;width: 600px;margin-top: 10px;padding:5px;">
+
+<a href="manage_lists.php?import=1"><img src="images/database_add.png">&nbsp;Add Job</a>&nbsp;
+<a href="manage_lists.php?export=1"><img src="images/page_white_lightning.png">&nbsp;Move List to SmoothTorque</a>&nbsp;
+</div>
+<div class="xxxx"  style="background: #cdf;width: 300px;margin-top: 30px;padding:10px;">
+<?
+$result = mysqli_query($connection, "SELECT id, name, description FROM jobs") or die(mysqli_error($connection));;
+if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        ?>
+        <a href="jobs.php?job_id=<?=$row['id']?>"><img src="images/pencil.png" border="0">&nbsp;<?=$row['name']?></a><br />
+        <?
+        
+    }
+}
+?>
+</div>
+
+<?
+require "footer.php";
+    exit(0);
+}
+$rounded[] = 'div.panel_l';
+$rounded[] = 'div.panel_r';
 require "header.php";
+
 ?>
 
 
@@ -296,14 +323,12 @@ $(function(){
 <h2>Not in this job</h2>
 
 <ul class="swappers" id="list_2">
-
-    <li id="list_2_item_7">Agent 7</li>
-    <li id="list_2_item_8">Agent 8</li>
-    <li id="list_2_item_9">Agent 9</li>
-    <li id="list_2_item_10">Agent 10</li>
-    <li id="list_2_item_11">Agent 11</li>
-    <li id="list_2_item_12">Agent 12</li>
-
+<?
+$result = mysqli_query($connection, "SELECT * FROM users");
+while ($row = mysqli_fetch_assoc($result)) {
+    echo '<li id="user_'.$row['id'].'">'.$row['first_name'].' '.$row['last_name'].'</li>';
+}
+?>
 </ul>
 </div>
 </td>

@@ -5,6 +5,9 @@ if (!function_exists('get_undefined_links')) {
         if ($user_level > 0) {
             $retval[] = 'get_customer.php';
         }
+        if ($user_level > 99) {
+            $retval[] = 'receive.php';
+        }
         return $retval;
     }
 }
@@ -23,42 +26,13 @@ if (!function_exists('clean_field_name')) {
 }
 
 if (!function_exists('get_menu_items') ) {
-    function get_menu_items ($user_level) {
-        if ($user_level == 0) {
-            $menu_names[] = "Login";
-            $menu_links[] = "login.php";
-        }
-        if ($user_level > 0) { // Normal User
-            $menu_names[] = "Home";
-            $menu_links[] = "index.php";
-            $menu_names[] = "Search";
-            $menu_links[] = "search_customer.php";
-        }
-        if ($user_level > 9) { // Admin
-            $menu_names[] = "Numbers";
-            $menu_links[] = "list_customers.php";
-
-            $menu_names[] = "Jobs";
-            $menu_links[] = "jobs.php";
-
-            $menu_names[] = "Lists";
-            $menu_links[] = "manage_lists.php";
-
-            $menu_names[] = "Users";
-            $menu_links[] = "users.php";
-
-        }
-        if ($user_level > 99) { // Super User
-            $menu_names[] = "Tests";
-            $menu_links[] = "system_test.php";
-
-            $menu_names[] = "Settings";
-            $menu_links[] = "config.php";
-
-        }
-        if ($user_level > 0) {
-            $menu_names[] = "Logout";
-            $menu_links[] = "logout.php";
+    function get_menu_items ($user_level, $connection) {
+        $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." ORDER BY menu_order") or die(mysqli_error($connection));
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $menu_names[] = $row['menu_text'];
+                $menu_links[] = $row['link'];
+            }
         }
         $retval[0] = $menu_names;
         $retval[1] = $menu_links;

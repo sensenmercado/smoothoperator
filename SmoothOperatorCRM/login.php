@@ -13,6 +13,10 @@ if (isset($_POST['username'])) {
         require "footer.php";
         exit(0);
     }
+
+    //$messages[] = "Testing 123";
+    //$_SESSION['messages'] = $messages;
+
     $row = mysqli_fetch_assoc($result);
     $security_level = $row['security_level'];
     $_SESSION['user_name'] = $_POST['username'];
@@ -32,17 +36,22 @@ if (isset($_POST['username'])) {
 
 
 ?>
-<div style="background: #fff;width: 200px;border: 1px solid;margin-top: 30px;padding:40px;">
-<img src="images/icons/32x32/actions/lock.png"><br />
-<br />
+<div class="xxxx"  style="background: #cdf url('images/login-bg.jpg');height: 206px;width: 300px;margin-top: 30px;padding:40px;">
+<table height="100%">
+    <tr>
+        <td valign="center">
     <form action="<?=$this_page?>" method="post">
-        Username: <input type="text" name ="username"><br />
+        <b>Username:</b> <input class="rounded" type="text" name ="username"><br />
         <br />
-        Password: <input type="password" name="password"><br />
-        <br />
-        <input type="submit" value="login">
+        <b>Password:</b> <input class="rounded" type="password" name="password">
+        
+        </td><td>
+        <input class="rounded" type="submit" value="login">
     </form>
-    </div>
+    </td>
+    </tr>
+    </table>
+</div>
 <?
 require "footer.php";
 ?>

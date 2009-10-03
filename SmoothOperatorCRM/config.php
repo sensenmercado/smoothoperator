@@ -12,7 +12,8 @@
 
 require "header.php";
 ?>
-<div style="background: #fff;width: 600px;border: 1px solid;margin-top: 30px;padding:40px;">
+<div class="xxxx"  style="background: #cdf;width: 500px;margin-top: 30px;padding:10px;">
+
 <?
 if (isset($_GET['save'])) {
     foreach ($_POST as $field=>$value) {

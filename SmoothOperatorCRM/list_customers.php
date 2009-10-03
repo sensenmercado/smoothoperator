@@ -1,7 +1,14 @@
 <?
 require "header.php";
 ?>
-<div style="background: #fff;width: 500px;border: 1px solid;margin-top: 30px;padding:40px;">
+<div class="xxxx"  style="background: #cdf;width: 600px;margin-top: 10px;padding:5px;">
+
+<a href="receive.php"><img src="images/page_white_add.png">&nbsp;Import New List</a>&nbsp;
+<a href="manage_lists.php?export=1"><img src="images/page_white_lightning.png">&nbsp;Move List to SmoothTorque</a>&nbsp;
+</div>
+
+<div class="xxxx"  style="background: #cdf;width: 300px;margin-top: 30px;padding:10px;">
+
 <?
 $result = mysqli_query($connection, "SELECT phone, first_name, last_name FROM SmoothOperator.customers") or die(mysql_error());
 $printed_header = false;
