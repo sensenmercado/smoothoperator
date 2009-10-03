@@ -8,6 +8,9 @@ if (!function_exists('get_undefined_links')) {
         if ($user_level > 99) {
             $retval[] = 'receive.php';
         }
+        if ($user_level > 99) {
+            $retval[] = 'show_page.php';
+        }
         return $retval;
     }
 }
@@ -31,7 +34,12 @@ if (!function_exists('get_menu_items') ) {
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $menu_names[] = $row['menu_text'];
-                $menu_links[] = $row['link'];
+                if ($row['use_iframe'] == 1) {
+                    $menu_links[] = "show_page.php?id=".$row['id'];
+                } else {
+                    $menu_links[] = $row['link'];
+                }
+
             }
         }
         $retval[0] = $menu_names;

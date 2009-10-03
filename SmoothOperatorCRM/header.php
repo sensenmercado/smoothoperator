@@ -202,8 +202,15 @@ win.showCenter();
                 <ul id="nav">
                     <?
                     for ($i = 0;$i < sizeof($menu_names);$i++) {
+                        //$menu_link_page_name = explode("?", );
+                        if ($this_page == 'show_page.php') {
+                            $compare_to = $this_page."?".$_SERVER['QUERY_STRING'];
+                        } else {
+                            $compare_to = $this_page;
+                        }
+
                         echo '<li id="'.$menu_names[$i].'" ';
-                        if ($this_page == $menu_links[$i]) {
+                        if ($compare_to == $menu_links[$i]) {
                             echo 'class="activelink"';
                         }
                         echo '><a href="'.$menu_links[$i].'" class="page_menu">'.$menu_names[$i].'</a></li>';
@@ -234,4 +241,4 @@ win.showCenter();
 
                 </div>
             <?}}?>
-            
+    
