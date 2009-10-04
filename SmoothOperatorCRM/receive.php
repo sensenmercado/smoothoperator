@@ -57,11 +57,12 @@ $('#fileInput').uploadify({
 'auto'      : true,
 'sizeLimit' : '100000000',
 'scriptAccess': 'always',
+'onComplete'  : myfunc,
 'folder'    : 'uploads-folder/'
 });
 });
 // ]]>
-setInterval(myfunc, 2000);
+setInterval(myfunc, 30000);
 myfunc();
 function myfunc() {
     $("#contentx").load("view_files");
@@ -75,6 +76,10 @@ function myfunc() {
 
 <div id="contentx"><img src="images/sq_progress.gif">&nbsp;Please Wait...</div>
 </div>
+<script type="text/javascript">
+    myfunc();
+    </script>
+
 <?
 require "footer.php";
 ?>

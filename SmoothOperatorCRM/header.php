@@ -61,12 +61,10 @@
     require "config/db_config.php";
 
     /* Get a list of menu items for this user level */
-    $menu_items = get_menu_items($user_level, $connection);
+    $menu_items = get_links($user_level, $connection, 1);
     $menu_names = $menu_items[0];
     $menu_links = $menu_items[1];
 
-    /* Get a list of pages that this user has access to but have no menu item */
-    $undefined_links = get_undefined_links($user_level);
 
     /* By default nobody is allowed to access anything */
     $allowed = false;
@@ -80,6 +78,23 @@
         }
     }
 
+    /* Get a list of pages that this user has access to but have no menu item */
+    $undefined_links_array = get_links($user_level, $connection, 0, 0);
+    $undefined_links = $undefined_links_array[1];
+
+    /* If the page name is in the list of non-menu items for this user, allow it */
+    foreach($undefined_links as $link) {
+        if ($this_page == $link) {
+            $allowed = true;
+        }
+    }
+
+    unset($undefined_links_array);
+
+    /* Get a list of pages that this user has access to but have no menu item */
+    $undefined_links_array = get_links($user_level, $connection, 0, 1);
+    $undefined_links = $undefined_links_array[1];
+
     /* If the page name is in the list of non-menu items for this user, allow it */
     foreach($undefined_links as $link) {
         if ($this_page == $link) {
@@ -89,8 +104,7 @@
 
     /* If we've reached here and still are not allowed, go to the index page */
     if (!$allowed) {
-        $messages[] = "You have tried to access a page you are not permitted to access";
-        $_SESSION['messages'] = $messages;
+        $_SESSION['messages'][] = "You have tried to access a page you are not permitted to access";
         header("Location: index.php");
         exit(0);
     }

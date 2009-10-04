@@ -1,6 +1,29 @@
 <?
-if (!function_exists('get_undefined_links')) {
-    function get_undefined_links($user_level) {
+if (!function_exists('get_links')) {
+    function get_links($user_level, $connection, $visible, $is_setting = 0) {
+        /* TODO: make language selectable */
+        //if ($visible == "1") {
+            $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en' and is_setting = ".sanitize($is_setting)." and visible = ".sanitize($visible)." ORDER BY menu_order") or die(mysqli_error($connection));
+        //} //else {
+          //  $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en' and visible = ".sanitize($visible)." ORDER BY menu_order") or die(mysqli_error($connection));
+       // }
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $menu_names[] = $row['menu_text'];
+                if ($row['use_iframe'] == 1) {
+                    $menu_links[] = "show_page.php?id=".$row['id'];
+                } else {
+                    $menu_links[] = $row['link'];
+                }
+
+            }
+        }
+        $retval[0] = $menu_names;
+        $retval[1] = $menu_links;
+        return $retval;
+
+        /*
+
         $retval[] = 'login.php';
         if ($user_level > 0) {
             $retval[] = 'get_customer.php';
@@ -12,6 +35,8 @@ if (!function_exists('get_undefined_links')) {
             $retval[] = 'show_page.php';
         }
         return $retval;
+         * 
+         */
     }
 }
 if (!function_exists('draw_progress')) {
@@ -30,8 +55,9 @@ if (!function_exists('clean_field_name')) {
 
 if (!function_exists('get_menu_items') ) {
     function get_menu_items ($user_level, $connection) {
-        /* TODO: make language selectable */
-        $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en' ORDER BY menu_order") or die(mysqli_error($connection));
+        return (get_links($user_level, $connection, 1));
+        /*
+        $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en' and visible = 1 ORDER BY menu_order") or die(mysqli_error($connection));
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $menu_names[] = $row['menu_text'];
@@ -45,7 +71,7 @@ if (!function_exists('get_menu_items') ) {
         }
         $retval[0] = $menu_names;
         $retval[1] = $menu_links;
-        return $retval;
+        return $retval;*/
     }
 }
 

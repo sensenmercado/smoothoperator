@@ -13,7 +13,19 @@
 require "header.php";
 ?>
 <div class="xxxx"  style="background: #cdf;width: 500px;margin-top: 30px;padding:10px;">
+<?
+unset($links);
+$links = get_links($user_level, $connection, 0, 1);
+//print_pre($links);
+$link_names = $links[0];
+$link_urls = $links[1];
+for ($i = 0;$i<sizeof($link_names);$i++) {
+echo '<a href="'.$link_urls[$i].'">'.$link_names[$i].'</a><br />';
+}
 
+?>
+</div>
+<div class="xxxx"  style="background: #cdf;width: 500px;margin-top: 30px;padding:10px;">
 <?
 if (isset($_GET['save'])) {
     foreach ($_POST as $field=>$value) {

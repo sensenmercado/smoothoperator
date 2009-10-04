@@ -3,8 +3,8 @@ require "header.php";
 ?>
 <div class="xxxx"  style="background: #cdf;width: 600px;margin-top: 10px;padding:5px;">
 
-<a href="receive.php"><img src="images/page_white_add.png">&nbsp;Import New List</a>&nbsp;
-<a href="manage_lists.php?export=1"><img src="images/page_white_lightning.png">&nbsp;Move List to SmoothTorque</a>&nbsp;
+<a href="search_customer.php"><img src="images/icons/32x32/actions/find.png" align="absmiddle">&nbsp;Find Number</a>&nbsp;
+<a href="manage_lists.php?export=1"><img src="images/icons/32x32/globe_up.png" align="absmiddle">&nbsp;Move List to SmoothTorque</a>&nbsp;
 </div>
 
 <div class="xxxx"  style="background: #cdf;width: 300px;margin-top: 30px;padding:10px;">
