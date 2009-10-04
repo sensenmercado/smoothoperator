@@ -30,7 +30,8 @@ if (!function_exists('clean_field_name')) {
 
 if (!function_exists('get_menu_items') ) {
     function get_menu_items ($user_level, $connection) {
-        $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." ORDER BY menu_order") or die(mysqli_error($connection));
+        /* TODO: make language selectable */
+        $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en' ORDER BY menu_order") or die(mysqli_error($connection));
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $menu_names[] = $row['menu_text'];
@@ -73,7 +74,7 @@ if (!function_exists('box_button') ) {
 ?><div style="width:50%;height:80px;display:inline-table">
         <div class="boxbutton" id="<?=$name?>" >
             <a  href="<?=$url;?>" onclick="this.blur();new Effect.Pulsate('<?=$name?>',{ pulses: 1, duration: 0.5 });setTimeout('this.location=\'/<?=$url?>\'',1000);return false;">
-                <img src="/images/64x64/<?=$image?>.png" align="left" />
+                <img src="images/icons/32x32/<?=$image?>.png" align="left" />
                 <b><?=$name?></b><br /><?=$description?>
             </a>
         </font>

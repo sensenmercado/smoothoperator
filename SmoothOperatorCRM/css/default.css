@@ -1224,3 +1224,14 @@ ul#list_2 li{
 	cursor: move;
 }
 
+img.column1x {
+    padding: 20px;
+}
+
+tr.installed {
+    background: #efe;
+}
+
+tr.notinstalled {
+    background: #eee;
+}
