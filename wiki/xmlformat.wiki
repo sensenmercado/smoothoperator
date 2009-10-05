@@ -1,0 +1,52 @@
+Example XML stub format for modules:
+
+{{{
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<module>
+<version>2.0</version>
+<type>commands</type>
+<name>Operator Panel</name>
+<purchase>US$40.00</purchase>
+<credits>http://www.fop2.com</credits>
+<description>A console you can use to monitor and control calls</description>
+<icon>blue_button</icon>
+
+<allow_multiple>false</allow_multiple>
+
+<menu>
+<item>
+<link>panel/</link>
+<use_iframe>1</use_iframe>
+<text>
+<en>Operator Panel</en>
+<it>Operator Panel</it>
+</text>
+<security_level>1</security_level>
+</item>
+</menu>
+
+<configure>
+
+<run>pangen.php</run>
+</configure>
+<install>
+<command>/usr/bin/wget http://asternic.org/files/op_panel-0.29.tar.gz</command>
+<command>tar -zxvf op_panel-0.29.tar.gz</command>
+<command>mkdir panel/</command>
+<command>cp op_panel-0.29/* /panel</command>
+<command>mkdir /var/www/panel/</command>
+<command>cp op_panel-0.29/flash/* /var/www/panel/</command>
+<command>cp /var/www/install/init.d/panel /etc/init.d/</command>
+<command>chmod +x /etc/init.d/panel</command>
+<command>update-rc.d panel defaults</command>
+<command>rm -rf op_panel-0.29</command>
+<command>rm -f op_panel-0.29.tar.gz</command>
+</install>
+<uninstall>
+<command>rm -rf /panel</command>
+<command>rm -rf /var/www/panel</command>
+<command>update-rc.d panel remove</command>
+<command>rm /etc/init.d/panel</command>
+</uninstall>
+</module>
+}}}
