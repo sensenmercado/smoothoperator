@@ -6,18 +6,9 @@ Also provides a module repository for easy installation of commercial integratio
 
 =Note: This is under development and will be announced shortly=
 
-=== Description===
-
-This is a CRM with the ability to integrate with other packages via modules.
-
-Installing modules is as simple as pointing and clicking.
-
-This project is designed to provide a CRM for call centers which use Asterisk and is friendly to screen popping etc.
-
-Modules we are creating XML stubs for are:
+Links:
 
   * SmoothTorque
   * QueueMetrics
-  * Flash Operator Panel 2
-
-We will explain more as we get further into it
+  * [fop2# Flash Operator Panel 2]
+  * [documentation# Documentation]
