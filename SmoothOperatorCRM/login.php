@@ -14,8 +14,11 @@ if (isset($_POST['username'])) {
         exit(0);
     }
 
-    //$messages[] = "Testing 123";
-    //$_SESSION['messages'] = $messages;
+    /* If ?debug=1 is added to the login page, run some tests */
+    if (isset($_GET['debug'])) {
+        $messages[] = "Testing 123";
+        $_SESSION['messages'] = $messages;
+    }
 
     $row = mysqli_fetch_assoc($result);
     $security_level = $row['security_level'];
