@@ -1,12 +1,14 @@
 <?
 if (!function_exists('get_links')) {
-    function get_links($user_level, $connection, $visible, $child_of = -1) {
+    function get_links($user_level, $connection, $visible, $child_of = -1, $sub_menu_only = false) {
         /* TODO: make language selectable */
-        //if ($visible == "1") {
+        if ($sub_menu_only == true) {
+            $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en' and visible = ".sanitize($visible)." ORDER BY menu_order") or die(mysqli_error($connection));
+        } else if ($visible == "1") {
             $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en' and child_of = ".sanitize($child_of)." and visible = ".sanitize($visible)." ORDER BY menu_order") or die(mysqli_error($connection));
-        //} //else {
-          //  $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en' and visible = ".sanitize($visible)." ORDER BY menu_order") or die(mysqli_error($connection));
-       // }
+        } else {
+            $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en' and visible = ".sanitize($visible)." ORDER BY menu_order") or die(mysqli_error($connection));
+        }
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $menu_names[] = $row['menu_text'];
@@ -15,28 +17,11 @@ if (!function_exists('get_links')) {
                 } else {
                     $menu_links[] = $row['link'];
                 }
-
             }
         }
         $retval[0] = $menu_names;
         $retval[1] = $menu_links;
         return $retval;
-
-        /*
-
-        $retval[] = 'login.php';
-        if ($user_level > 0) {
-            $retval[] = 'get_customer.php';
-        }
-        if ($user_level > 99) {
-            $retval[] = 'receive.php';
-        }
-        if ($user_level > 99) {
-            $retval[] = 'show_page.php';
-        }
-        return $retval;
-         * 
-         */
     }
 }
 if (!function_exists('draw_progress')) {

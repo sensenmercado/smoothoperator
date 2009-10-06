@@ -79,11 +79,21 @@
     }
 
     /* Get a list of pages that this user has access to but have no menu item */
-    $undefined_links_array = get_links($user_level, $connection, 0, -1);
+    $undefined_links_array = get_links($user_level, $connection, 0);
     $undefined_links = $undefined_links_array[1];
 
     /* If the page name is in the list of non-menu items for this user, allow it */
     foreach($undefined_links as $link) {
+        if ($this_page == $link) {
+            $allowed = true;
+        }
+    }
+
+    $submenu_links_array = get_links($user_level, $connection, 1, -1, true);
+    $submenu_links = $submenu_links_array[1];
+
+    /* If the page name is in the list of sub-menu items for this user, allow it */
+    foreach($submenu_links as $link) {
         if ($this_page == $link) {
             $allowed = true;
         }
