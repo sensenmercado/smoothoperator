@@ -16,7 +16,7 @@ require "header.php";
 <?
 unset($links);
 /* TODO: 8 should be whatever page we are on */
-$links = get_links($user_level, $connection, 0, 8);
+$links = get_links($user_level, $connection, 1, 8);
 //print_pre($links);
 $link_names = $links[0];
 $link_urls = $links[1];
