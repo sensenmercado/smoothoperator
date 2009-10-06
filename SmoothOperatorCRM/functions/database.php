@@ -76,7 +76,7 @@ if (!function_exists('so_check_databases')) {
             $sql = "INSERT INTO `menu_items` (`id`,`menu_text`,`language`,`security_level`,`link`,`menu_order`,`use_iframe`,`visible`,`child_of`)
                     VALUES
                             (1,'Home','en',1,'index.php',0,0,1,-1),
-                            (2,'Search','en',1,'search_customer.php',3,0,0,-1),
+                            (2,'Search','en',1,'search_customer.php',3,0,1,3),
                             (3,'Numbers','en',10,'list_customers.php',6,0,1,-1),
                             (4,'Jobs','en',10,'jobs.php',5,0,1,-1),
                             (5,'Users','en',10,'users.php',8,0,1,-1),
@@ -87,9 +87,10 @@ if (!function_exists('so_check_databases')) {
                             (11,'Modules','en',100,'modules.php',2,0,1,-1),
                             (12,'Files','en',10,'receive.php',4,0,1,-1),
                             (41,'Login','en',0,'login.php',0,0,0,-1),
-                            (42,'','en',100,'receive.php',0,0,0,-1),
-                            (43,'','en',100,'show_page.php',0,0,0,-1),
-                            (84,NULL,'en',1,'get_customer.php',0,0,0,-1)";
+                            (42,'Receive Upload','en',100,'receive.php',0,0,0,-1),
+                            (43,'iFrame Page','en',100,'show_page.php',0,0,0,-1),
+                            (84,'Lookup Customer','en',1,'get_customer.php',0,0,0,-1),
+                            (87,'Manage Lists',NULL,10,'manage_lists.php',0,0,1,3)";
             $result = mysqli_query($link, $sql);
         }
 
