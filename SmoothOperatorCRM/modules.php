@@ -70,7 +70,7 @@ Module Repository
                             <td>
                         <?
                         //box_button("Uninstall ".$name,"delete","./view_modules.php?action=uninstall&filename=$file","");
-                        echo '<a href="./view_modules.php?action=uninstall&filename='.$file.'" title="Remove this module"><img border="0" align="left" src="images/icons/32x32/delete.png"></a>';
+                        echo '<a href="./view_modules.php?action=uninstall&filename='.$file.'" title="Remove this module"><img border="0" align="left" src="images/icons/32x32/filesystems/trashcan_full.png"></a>';
                         ?>
                         </td>
                         </tr>
@@ -99,7 +99,7 @@ Module Repository
 
 
                     <?
-                    echo '<a href="./add_module.php?action=install&filename='.$file.'" title="Install this module"><img border="0" align="left" src="images/icons/32x32/add.png"></a>';
+                    echo '<a href="./add_module.php?action=install&filename='.$file.'" title="Install this module"><img border="0" align="left" src="images/icons/32x32/actions/edit_add.png"></a>';
                     ?>
                     </td>
                     </tr>
