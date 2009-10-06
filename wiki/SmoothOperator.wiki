@@ -2,7 +2,7 @@
 
 ==A PHP and AJAX based package for maintaining customer records and integrating with Asterisk==
 
-[install# Setup and Installation instructions]
+[Installation# Setup and Installation instructions]
 
 Also provides a module repository for easy installation of commercial integration points and software.
 
