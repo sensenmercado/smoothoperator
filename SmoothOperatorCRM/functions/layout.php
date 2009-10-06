@@ -13,14 +13,18 @@ if (!function_exists('get_links')) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $menu_names[] = $row['menu_text'];
                 if ($row['use_iframe'] == 1) {
-                    $menu_links[] = "show_page.php?id=".$row['id'];
+                    $menu_links[] = "show_page.php?id=".$row['id'];                    
                 } else {
-                    $menu_links[] = $row['link'];
+                    $menu_links[] = $row['link'];                    
                 }
+                $ids[] = $row['id'];
+                $icons[] = $row['icon'];
             }
         }
         $retval[0] = $menu_names;
         $retval[1] = $menu_links;
+        $retval[2] = $ids;
+        $retval[3] = $icons;
         return $retval;
     }
 }

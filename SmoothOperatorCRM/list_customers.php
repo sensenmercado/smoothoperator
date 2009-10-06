@@ -1,10 +1,7 @@
 <?
 require "header.php";
 ?>
-<div class="xxxx"  style="background: #cdf;width: 600px;margin-top: 10px;padding:5px;">
 
-<a href="search_customer.php"><img src="images/icons/32x32/actions/find.png" align="absmiddle">&nbsp;Find Number</a>&nbsp;
-</div>
 
 <div class="xxxx"  style="background: #cdf;width: 300px;margin-top: 30px;padding:10px;">
 
