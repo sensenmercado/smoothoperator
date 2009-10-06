@@ -1229,9 +1229,9 @@ img.column1x {
 }
 
 tr.installed {
-    background: #efe;
+    background: #cfc;
 }
 
 tr.notinstalled {
-    background: #eee;
+    background: #fff;
 }
