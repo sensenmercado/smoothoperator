@@ -44,7 +44,7 @@ $(document).ready(function() {
     <ul id="test-list" class="xxxx">
         <?
         /* TODO: USE ALL LANGUAGES */
-        $result = mysqli_query($connection, "SELECT id, menu_order, menu_text, link FROM menu_items WHERE language = 'en' AND visible = 1 AND is_setting = 0 ORDER BY menu_order") or die(mysqli_error($connection));
+        $result = mysqli_query($connection, "SELECT id, menu_order, menu_text, link FROM menu_items WHERE language = 'en' AND visible = 1 AND child_of = -1 ORDER BY menu_order") or die(mysqli_error($connection));
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 echo '<li class="xxxx" id="listItem_'.$row['id'].'" align="left">';
