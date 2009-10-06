@@ -63,8 +63,6 @@ Module Repository
                                     <?=$description;?>
                                 </p>
                                 <p align="left">
-                                    Per Month: <?=$per_month;?><br />
-                                    Purchase: <?=$purchase;?><br />
                                     More Information: <a href="<?=$credit;?>"><?=$credit;?></a><br />
 
                                 </p>
@@ -85,16 +83,14 @@ Module Repository
                     <td class="column1x">
                         <img class="column1x" src="./images/icons/32x32/<?=$icon;?>.png" border="0">
                     </td>
-                    <td valign="center">
-                        <?=$name;?>
+                    <td class="column1x" valign="center" style="padding: 20px">
+                        <b><?=$name;?></b>
                     </td>
                     <td style="padding: 20px">
                         <p align="left">
                             <?=$description;?>
                         </p>
                         <p align="left">
-                            Per Month: <?=$per_month;?><br />
-                            Purchase: <?=$purchase;?><br />
                             More Information: <a href="<?=$credit;?>"><?=$credit;?></a><br />
 
                         </p>
