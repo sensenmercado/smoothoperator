@@ -1,15 +1,18 @@
-setup server with apache, php, mysql, php-mysql
+Set up server with apache, php, mysql, php-mysql
 
-change to web directory
+Change to web directory
 
-check out site from SVN:
+{{{cd /var/www/html}}}
+
+Check out site from SVN:
 
 http://code.google.com/p/smoothoperator/source/checkout
 
 Log in to web site
 
-Username: admin
-Password: adminpass
+Username: *admin*
+
+Password: *adminpass*
 
 First thing you _*must*_ do is change the password.
 
