@@ -81,7 +81,7 @@ if (!function_exists('so_check_databases')) {
                             (3,'Numbers','en',10,'list_customers.php',6,0,1,-1,NULL),
                             (4,'Jobs','en',10,'jobs.php',5,0,1,-1,NULL),
                             (5,'Users','en',10,'users.php',8,0,1,-1,NULL),
-                            (6,'Test System','en',100,'system_test.php',9,0,0,8,NULL),
+                            (6,'Test System','en',100,'system_test.php',9,0,0,8,'cog.png'),
                             (7,'Logout','en',1,'logout.php',10,0,1,-1,NULL),
                             (8,'Settings','en',100,'config.php',3,0,1,-1,NULL),
                             (9,'Menus','en',100,'menus.php',7,0,1,-1,NULL),
@@ -91,7 +91,8 @@ if (!function_exists('so_check_databases')) {
                             (42,'Receive Upload','en',100,'receive.php',0,0,0,-1,NULL),
                             (43,'iFrame Page','en',100,'show_page.php',0,0,0,-1,NULL),
                             (84,'Lookup Customer','en',1,'get_customer.php',0,0,0,-1,NULL),
-                            (87,'Manage Lists',NULL,10,'manage_lists.php',0,0,1,3,NULL)";
+                            (87,'Manage Lists','en',10,'manage_lists.php',0,0,1,3,'database.png'),
+                            (88,'Add Job','en',10,'jobs.php?add=1',0,0,1,4,'database_add.png')";
             $result = mysqli_query($link, $sql);
         }
 
