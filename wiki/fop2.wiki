@@ -1,3 +1,4 @@
+#summary Information about the Flash Operator Panel 2
 =Flash Operator Panel 2=
 
 We developed the first panel for Asterisk in 2004, and up until today is the most widely used operator console. Across the years we gained experience and we incorporated all this knowledge into version 2.
