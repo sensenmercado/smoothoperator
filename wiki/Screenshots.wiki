@@ -1,6 +1,9 @@
 #summary Screenshots of various pages in the SmoothOperator CRM
 #labels Featured
 
+===The Login Page===
+http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/login.png
+
 ===The Modules Page===
 http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/modules.png
 
