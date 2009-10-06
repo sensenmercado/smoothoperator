@@ -1,5 +1,5 @@
 =SmoothOperator CRM for Asterisk(tm)=
-
+http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/header-bg-light.png
 ==A PHP and AJAX based package for maintaining customer records and integrating with Asterisk==
 
 [Installation# Setup and Installation instructions]
