@@ -1,30 +1,5 @@
 <?php
 require "header.php";
-
-//box_start();
-?>
-<a href="get_customer.php?call=<?=$_GET['phone_number']?>">
-<img src="images/icons/32x32/apps/chat.png" />
-<font size="5">
-Call
-</font></a>&nbsp;
-
-<a href="get_customer.php?next=1">
-<img src="images/icons/32x32/apps/chat.png" />
-<font size="5">
-Next Number
-</font></a>&nbsp;
-
-<a href="get_customer.php?hangup=1">
-<img src="images/icons/32x32/apps/chat.png" />
-<font size="5">
-Hangup
-</font></a>&nbsp;
-
-<?
-//echo "Call Now";
-//box_end();
-
 if (!isset($_GET[phone_number])) {
     redirect("list_customers.php");
     exit(0);
