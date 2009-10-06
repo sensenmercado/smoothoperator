@@ -2,12 +2,7 @@
 if (!isset($_GET['job_id'])) {
     require "header.php";
 ?>
-<div class="xxxx"  style="background: #cdf;width: 600px;margin-top: 10px;padding:5px;">
-
-<a href="manage_lists.php?import=1"><img src="images/database_add.png">&nbsp;Add Job</a>&nbsp;
-<a href="manage_lists.php?export=1"><img src="images/page_white_lightning.png">&nbsp;Move List to SmoothTorque</a>&nbsp;
-</div>
-<div class="xxxx"  style="background: #cdf;width: 300px;margin-top: 30px;padding:10px;">
+<div class="xxxx"  style="background: #cdf;width: 300px;margin-top: 10px;padding:10px;">
 <?
 $result = mysqli_query($connection, "SELECT id, name, description FROM jobs") or die(mysqli_error($connection));;
 if (mysqli_num_rows($result) > 0) {
