@@ -1,9 +1,9 @@
 <?
 if (!function_exists('get_links')) {
-    function get_links($user_level, $connection, $visible, $is_setting = 0) {
+    function get_links($user_level, $connection, $visible, $child_of = -1) {
         /* TODO: make language selectable */
         //if ($visible == "1") {
-            $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en' and is_setting = ".sanitize($is_setting)." and visible = ".sanitize($visible)." ORDER BY menu_order") or die(mysqli_error($connection));
+            $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en' and child_of = ".sanitize($child_of)." and visible = ".sanitize($visible)." ORDER BY menu_order") or die(mysqli_error($connection));
         //} //else {
           //  $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en' and visible = ".sanitize($visible)." ORDER BY menu_order") or die(mysqli_error($connection));
        // }

@@ -56,6 +56,49 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('site_name', 'SmoothOperator CRM')");
         }
 
+        /* Create the menu_items table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "menu_items")) {
+            $messages[] =  "Config table is missing...created";
+            $sql = "CREATE TABLE `menu_items` (
+                  `id` int(11) NOT NULL auto_increment,
+                  `menu_text` varchar(255) default NULL,
+                  `language` varchar(255) default NULL,
+                  `security_level` int(11) default '0',
+                  `link` varchar(255) default NULL,
+                  `menu_order` int(11) NOT NULL default '0',
+                  `use_iframe` int(11) NOT NULL default '0',
+                  `visible` int(1) NOT NULL default '1',
+                  `child_of` int(11) NOT NULL default '-1',
+                  PRIMARY KEY  (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1";
+            $result = mysqli_query($link, $sql);
+
+            $sql = "INSERT INTO `menu_items` (`id`,`menu_text`,`language`,`security_level`,`link`,`menu_order`,`use_iframe`,`visible`,`child_of`)
+                    VALUES
+                            (1,'Home','en',1,'index.php',0,0,1,-1),
+                            (2,'Search','en',1,'search_customer.php',3,0,0,-1),
+                            (3,'Numbers','en',10,'list_customers.php',6,0,1,-1),
+                            (4,'Jobs','en',10,'jobs.php',5,0,1,-1),
+                            (5,'Users','en',10,'users.php',8,0,1,-1),
+                            (6,'Test System','en',100,'system_test.php',9,0,0,8),
+                            (7,'Logout','en',1,'logout.php',10,0,1,-1),
+                            (8,'Settings','en',100,'config.php',3,0,1,-1),
+                            (9,'Menus','en',100,'menus.php',7,0,1,-1),
+                            (11,'Modules','en',100,'modules.php',2,0,1,-1),
+                            (12,'Files','en',10,'receive.php',4,0,1,-1),
+                            (41,'Login','en',0,'login.php',0,0,0,-1),
+                            (42,'','en',100,'receive.php',0,0,0,-1),
+                            (43,'','en',100,'show_page.php',0,0,0,-1),
+                            (84,NULL,'en',1,'get_customer.php',0,0,0,-1)";
+            $result = mysqli_query($link, $sql);
+        }
+
+
+
+
+
+
+
         /* Create the customers table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "customers")) {
             $messages[] =  "Customers table is missing...created";

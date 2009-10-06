@@ -15,7 +15,8 @@ require "header.php";
 <div class="xxxx"  style="background: #cdf;width: 500px;margin-top: 30px;padding:10px;">
 <?
 unset($links);
-$links = get_links($user_level, $connection, 0, 1);
+/* TODO: 8 should be whatever page we are on */
+$links = get_links($user_level, $connection, 0, 8);
 //print_pre($links);
 $link_names = $links[0];
 $link_urls = $links[1];
