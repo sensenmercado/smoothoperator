@@ -1,0 +1,4 @@
+#summary Screenshots of various pages in the SmoothOperator CRM
+#labels Featured
+
+http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/modules.png
