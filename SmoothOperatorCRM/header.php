@@ -272,14 +272,11 @@ win.showCenter();
 
 <?
 unset($links);
-/* TODO: 8 should be whatever page we are on */
 $links = get_links($user_level, $connection, 1, $this_page_id);
-//print_pre($links);
 $link_names = $links[0];
 $link_urls = $links[1];
 $link_ids = $links[2];
 $link_icons = $links[3];
-//exit(0);
 
 if (sizeof($link_names) > 0) {
 ?>
