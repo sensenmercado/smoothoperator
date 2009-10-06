@@ -1,3 +1,4 @@
+#summary Information about the QueueMetrics queue monitoring software
 QueueMetrics is a comprehensive monitoring software for call centers based on the Asterisk PBX.
 
 As an old adage goes, "If you can measure it, you can improve it". With over 150 quantitative metrics available your call center runs smoothly and problems are easily pointed out. You can measure budget targets, SLA targets, agent activity and more, with a level of details that goes down to listening to any call on any queue - and right from your browser.
