@@ -1,3 +1,4 @@
+#summary Information about Areski's Asterisk-Stat package
 Asterisk-Stat provides different reports & Graph to allow  the Asterisk-admin to analyse quickly and easily the traffic on their Asterisk server.
 
 All the graphs & reports are based on the CDR database. 
