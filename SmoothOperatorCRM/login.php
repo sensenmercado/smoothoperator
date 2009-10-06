@@ -1,6 +1,8 @@
 <?php
 require "header.php";
 if (isset($_POST['username'])) {
+    /* If someone has started logging in start checking out the system */
+    /* First start by checking/creating the necessary databases        */
     $messages = so_check_databases($db_host, $db_user, $db_pass);
     draw_progress("Please wait, logging you in...");
     $username = sanitize($_POST['username']);
