@@ -1,0 +1,15 @@
+#summary Thoughts about development
+
+= Introduction =
+
+This is basically a  sounding board for the future of the product.  Things that may or may not end up actually being features.
+
+= Thoughts =
+
+== Module Installation==
+
+  * Have files available as .gz files (use gzdeflate to expand)
+  * Run a cron job to run queued commands - works but is a horrible hack and maybe difficult for people to set up
+  * Provide original files, download and put in place one at a time - problem if there is an upgrade
+  * Find a way to untar a file after using gzdeflate to expand (then you can use supplied .tar.gz files)
+  * Can currently add menu items, but maybe should also be able to add template pages
