@@ -3,3 +3,6 @@
 
 ===The Modules Page===
 http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/modules.png
+
+===Drag and Drop menu reorganisation===
+http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/modules.png
