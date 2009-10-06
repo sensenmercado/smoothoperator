@@ -1,4 +1,4 @@
-#labels Featured
+#labels Featured,Phase-Deploy
 Set up server with apache, php, mysql, php-mysql
 
 Change to web directory
