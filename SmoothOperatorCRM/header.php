@@ -79,7 +79,7 @@
     }
 
     /* Get a list of pages that this user has access to but have no menu item */
-    $undefined_links_array = get_links($user_level, $connection, 0, 0);
+    $undefined_links_array = get_links($user_level, $connection, 0, -1);
     $undefined_links = $undefined_links_array[1];
 
     /* If the page name is in the list of non-menu items for this user, allow it */
