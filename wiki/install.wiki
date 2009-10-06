@@ -11,7 +11,7 @@ Log in to web site
 Username: admin
 Password: adminpass
 
-First thing you *must* do is change the password.
+First thing you _*must*_ do is change the password.
 
 You can do this by going to the "users" tab and clicking on the "Change Password" link.
 
