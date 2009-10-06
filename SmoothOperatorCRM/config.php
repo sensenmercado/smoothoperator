@@ -14,20 +14,6 @@ require "header.php";
 ?>
 <div class="xxxx"  style="background: #cdf;width: 500px;margin-top: 30px;padding:10px;">
 <?
-unset($links);
-/* TODO: 8 should be whatever page we are on */
-$links = get_links($user_level, $connection, 1, 8);
-//print_pre($links);
-$link_names = $links[0];
-$link_urls = $links[1];
-for ($i = 0;$i<sizeof($link_names);$i++) {
-echo '<a href="'.$link_urls[$i].'">'.$link_names[$i].'</a><br />';
-}
-
-?>
-</div>
-<div class="xxxx"  style="background: #cdf;width: 500px;margin-top: 30px;padding:10px;">
-<?
 if (isset($_GET['save'])) {
     foreach ($_POST as $field=>$value) {
         $sql = "UPDATE config set value = ".sanitize($value)." WHERE parameter = ".sanitize($field);

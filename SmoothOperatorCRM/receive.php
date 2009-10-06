@@ -40,7 +40,7 @@ require "header.php";
 
 //echo "Time:".time();
 ?>
-<div class="xxxx" align="right" style="background: #cdf;width: 600px;margin-top: 30px;padding:10px;">
+<div class="xxxx" align="right" style="background: #cdf;width: 600px;margin-top: 10px;padding:10px;">
 <table>
 <tr>
 <td>
@@ -72,7 +72,7 @@ function myfunc() {
 </tr>
 </table>
 </div>
-<div class="xxxx"  style="background: #cdf;width: 600px;margin-top: 30px;padding:10px;">
+<div class="xxxx"  style="background: #cdf;width: 600px;margin-top: 10px;padding:10px;">
 
 <div id="contentx"><img src="images/sq_progress.gif">&nbsp;Please Wait...</div>
 </div>

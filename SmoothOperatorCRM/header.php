@@ -64,6 +64,7 @@
     $menu_items = get_links($user_level, $connection, 1);
     $menu_names = $menu_items[0];
     $menu_links = $menu_items[1];
+    $menu_ids = $menu_items[2];
 
 
     /* By default nobody is allowed to access anything */
@@ -71,31 +72,34 @@
 
     /* If the page name is in the list of menu items for this user, allow it */
     if (isset($menu_links)) {
-        foreach($menu_links as $link) {
-            if ($this_page == $link) {
+        for($i = 0;$i<sizeof($menu_links);$i++) {
+            if ($this_page == $menu_links[$i]) {
                 $allowed = true;
+                $this_page_id = $menu_ids[$i];
             }
         }
     }
 
     /* Get a list of pages that this user has access to but have no menu item */
     $undefined_links_array = get_links($user_level, $connection, 0);
-    $undefined_links = $undefined_links_array[1];
 
     /* If the page name is in the list of non-menu items for this user, allow it */
-    foreach($undefined_links as $link) {
-        if ($this_page == $link) {
+    for($i = 0; $i < sizeof($undefined_links_array[1]);$i++) {
+        if ($this_page == $undefined_links_array[1][$i]) {
             $allowed = true;
+            $this_page_id = $undefined_links_array[2][$i];
         }
     }
 
+    unset($submenu_links_array);
     $submenu_links_array = get_links($user_level, $connection, 1, -1, true);
-    $submenu_links = $submenu_links_array[1];
-
+    
     /* If the page name is in the list of sub-menu items for this user, allow it */
-    foreach($submenu_links as $link) {
-        if ($this_page == $link) {
+    for($i = 0; $i < sizeof($submenu_links_array[1]);$i++) {
+    //foreach($submenu_links as $link) {
+        if ($this_page == $submenu_links_array[1][$i]) {
             $allowed = true;
+            $this_page_id = $submenu_links_array[2][$i];
         }
     }
 
@@ -103,12 +107,12 @@
 
     /* Get a list of pages that this user has access to but have no menu item */
     $undefined_links_array = get_links($user_level, $connection, 0, 1);
-    $undefined_links = $undefined_links_array[1];
 
     /* If the page name is in the list of non-menu items for this user, allow it */
-    foreach($undefined_links as $link) {
-        if ($this_page == $link) {
+    for($i = 0; $i < sizeof($undefined_links_array[1]);$i++) {
+        if ($this_page == $undefined_links_array[1][$i]) {
             $allowed = true;
+            $this_page_id = $undefined_links_array[2][$i];
         }
     }
 
@@ -265,4 +269,35 @@ win.showCenter();
 
                 </div>
             <?}}?>
+
+<?
+unset($links);
+/* TODO: 8 should be whatever page we are on */
+$links = get_links($user_level, $connection, 1, $this_page_id);
+//print_pre($links);
+$link_names = $links[0];
+$link_urls = $links[1];
+$link_ids = $links[2];
+$link_icons = $links[3];
+//exit(0);
+
+if (sizeof($link_names) > 0) {
+?>
+    <div class="xxxx"  style="background: #cdf;width: 500px;margin-top: 10px;padding:5px;">
+
+<?
+for ($i = 0;$i<sizeof($link_names);$i++) {
+        echo '<a href="'.$link_urls[$i].'">';
+        if (strlen($link_icons[$i]) > 0) {
+            echo '<img src="images/'.$link_icons[$i].'" border="0">&nbsp;';
+        }
+
+        echo $link_names[$i].'</a>&nbsp;&nbsp;&nbsp;&nbsp;';
+    }
+    ?>
+    </div>
+    <?
+}
+?>
+
     
