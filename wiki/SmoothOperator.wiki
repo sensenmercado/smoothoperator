@@ -4,11 +4,9 @@
 
 Also provides a module repository for easy installation of commercial integration points and software.
 
-=Note: This is under development and will be announced shortly=
+Thoughts:
 
-Links:
-
-  * SmoothTorque
-  * QueueMetrics
-  * [fop2# Flash Operator Panel 2]
-  * [documentation# Documentation]
+1. Have files available as .gz files (use gzdeflate to expand)
+2. Run a cron job to run queued commands - works but is a horrible hack and maybe difficult for people to set up
+3. Provide original files, download and put in place one at a time - problem if there is an upgrade
+4. Find a way to untar a file after using gzdeflate to expand (then you can use supplied .tar.gz files)
