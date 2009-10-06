@@ -9,6 +9,10 @@ function display_customer_edit($row) {
     $fields_to_hide[] = "id";
     $fields_to_hide[] = "cleaned_number";
     $fields_to_hide[] = "last_updated";
+    $fields_to_hide[] = "status";
+    $fields_to_hide[] = "locked_by";
+    $fields_to_hide[] = "datetime_locked";
+    $fields_to_hide[] = "list_id";
     $textarea_fields[] = "notes";
     echo '<form action="get_customer.php" method="post">';
     echo '<table class="sample">';
@@ -38,7 +42,20 @@ if (mysqli_num_rows($result) > 0) {
         // Multiple Rows Found
     }
 } else {
-    echo "Not Found";
+    unset($row);
+    $row['first_name'] = "";
+    $row['last_name'] = "";
+    $row['address_line_1'] = "";
+    $row['address_line_2'] = "";
+    $row['city'] = "";
+    $row['state'] = "";
+    $row['zipcode'] = "";
+    $row['email'] = "";
+    $row['phone'] = $_GET['phone_number'];
+    $row['fax'] = "";
+    $row['notes'] = "";
+    display_customer_edit($row);
+
 }
 require "footer.php";
 ?>
