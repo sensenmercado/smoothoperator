@@ -1,3 +1,4 @@
+#summary How to set up and install the SmoothOperator CRM
 #labels Featured,Phase-Deploy
 Set up server with apache, php, mysql, php-mysql
 
