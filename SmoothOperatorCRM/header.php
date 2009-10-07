@@ -32,29 +32,25 @@
         }
     }
 
+    /* If the language is not set, set it to English - there is no current */
+    /* support for setting languages, but I realise it may be necessary in */
+    /* the future                                                          */
     if (!isset($_SESSION['language'])) {
-        $_SESSION['language'] = "en_gb";
+        $_SESSION['language'] = "en";
     }
 
     /* Get the actual PHP page (regardless of directory) */
     $full_path = $_SERVER['PHP_SELF'];
     $exploded_path = split("/",$full_path);
     $this_page = $exploded_path[sizeof($exploded_path)-1];
-    
-    switch ($user_level) {
-        case 1:   // Normal User
-            break;
-        case 10:  // Administrator
-            break;
-        case 100: // Super User
-            break;
-        default:  // Not logged in
-            // If not on login page, send to it
-            if ($this_page != "login.php") {
-                header("Location: login.php");
-                exit(0);
-            }
-            break;
+
+    /* If the user level is not set or if they have not logged in, and the */
+    /* current page is not login.php, send them to the login page.         */
+    if (!isset($user_level) || $user_level < 1) {
+        if ($this_page != "login.php") {
+            redirect("login.php");
+            exit(0);
+        }
     }
 
     /* Connect to the database */
@@ -65,7 +61,6 @@
     $menu_names = $menu_items[0];
     $menu_links = $menu_items[1];
     $menu_ids = $menu_items[2];
-
 
     /* By default nobody is allowed to access anything */
     $allowed = false;
@@ -126,13 +121,13 @@
     /* If we've made it this far, we're allowed to be viewing this page */
 
     $config_values = $_SESSION['config_values'];
-    //print_pre($config_values);
     ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><?=$config_values['site_name']?></title>
+
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" type="text/css" href="css/default.css">
         <link rel="stylesheet" type="text/css" href="css/uploadify.css">
@@ -140,48 +135,38 @@
         <script type="text/javascript" src="js/niftycube.js"></script>
         <script type="text/javascript" src="js/prototype_1.6.1.js"> </script>
         <script type="text/javascript" src="js/window.js"> </script>
+
         <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js'></script>
         <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.5.3/jquery-ui.min.js'></script>
+
         <script type="text/javascript" src="js/swfobject.js"></script>
         <script type="text/javascript" src="js/jquery.uploadify.v2.1.0.min.js"></script>
 
-<?
-if (isset($extra_head)) {
-    echo $extra_head;
-}
-?>
-<style type='text/css'>
-
-
-</style>
-<!--  Add this to have a specific theme-->
-<link href="themes/alphacube.css" rel="stylesheet" type="text/css"/>
+        <!--  Add this to have a specific theme-->
+        <link href="themes/alphacube.css" rel="stylesheet" type="text/css"/>
 
         <script type="text/javascript">
-function hide_message(layer_ref){
-    $.post("clear_message.php", {queryString: layer_ref});
-    if(document.all){ //IS IE 4 or 5 (or 6 beta)
-        eval("document.all." +layer_ref+ ".style.display = none");
-    }
-    if (document.layers) { //IS NETSCAPE 4 or below
-        document.layers[layer_ref].display = 'none';
-    }
-    if (document.getElementById &&!document.all) {
-        hza = document.getElementById(layer_ref);
-        hza.style.display = 'none';
-    }
-}
+            function hide_message(layer_ref){
+                $.post("clear_message.php", {queryString: layer_ref});
+                if(document.all){ //IS IE 4 or 5 (or 6 beta)
+                    eval("document.all." +layer_ref+ ".style.display = none");
+                }
+                if (document.layers) { //IS NETSCAPE 4 or below
+                    document.layers[layer_ref].display = 'none';
+                }
+                if (document.getElementById &&!document.all) {
+                    hza = document.getElementById(layer_ref);
+                    hza.style.display = 'none';
+                }
+            }
             NiftyLoad=function(){
-                Nifty("div.xxxx","large transparent");
-                
+                Nifty("div.xxxx","large transparent");                
                 Nifty("input.rounded","large");
                 Nifty("ul#nav a","small transparent top");
                 <?
                 if (isset($rounded)) {
                     foreach ($rounded as $item) {
-                      ?>
-                    Nifty("<?=$item?>","large transparent");
-                    <?
+                        ?>Nifty("<?=$item?>","large transparent");<?
                     }
                 }
                 if (isset($_SESSION['messages'])) {
@@ -193,35 +178,34 @@ function hide_message(layer_ref){
             }
             function show_confirm(in_text, in_delete_text, confirm_url) {
                 Dialog.confirm(in_text,
-               {className: "alphacube", width:400, okLabel: in_delete_text,
-               buttonClass: "myButtonClass",
-               id: "myDialogId",
-               cancel:function(win) {;},
-               ok:function(win) {window.location=confirm_url;}
-              });
+                    {className: "alphacube", width:400, okLabel: in_delete_text,
+                     buttonClass: "myButtonClass",
+                     id: "myDialogId",
+                     cancel:function(win) {;},
+                     ok:function(win) {window.location=confirm_url;}
+                    }
+                );
             }
-function showWindow2(in_title, in_text) {
-win = new Window({className: "mac_os_x", title: in_title, width:200, height:150, destroyOnClose: true, recenterAuto:false});
-
-win.getContent().update(in_text);
-win.showCenter();
-   }
-
-</script>
-
-
-
-
-
+            function showWindow2(in_title, in_text) {
+                win = new Window({className: "mac_os_x", title: in_title, width:200, height:150, destroyOnClose: true, recenterAuto:false});
+                win.getContent().update(in_text);
+                win.showCenter();
+            }
+        </script>
+        <?
+        /* If a page set extra head before calling header.php, include the contents */
+        if (isset($extra_head)) {
+            echo $extra_head;
+        }
+        ?>
     </head>
     <body>
         <center>
         <?if ($this_page != "login.php") {?>
             <div id="header">
                 <div id="header2" align="center">
-                <center>
-
-                    <b><?=$config_values['site_name']?></b>
+                    <center>
+                        <b><?=$config_values['site_name']?></b>
                     </center>
                 </div>
             </div>
