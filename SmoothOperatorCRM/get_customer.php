@@ -4,6 +4,20 @@ if (isset($_GET['save'])) {
     /* Saving a customer record */
     if (isset($_POST['new'])) {
         /* This is a new entry */
+        $fields_to_ignore[] = "new";
+        $sql1 = "INSERT INTO customers (";
+        $sql2 = "VALUES (";
+        foreach ($_POST as $field=>$value) {
+            if (!in_array($field, $fields_to_ignore)) {
+                $sql1.=sanitize($field, false).",";
+                $sql2.=sanitize($value, true).",";
+            }
+        }
+        $clean = clean_number($_POST['phone']);
+
+        $sql = $sql1."cleaned_number) ".$sql2.sanitize($clean).")";
+        $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+        redirect("list_customers.php");
     } else {
         /* This is an update of an existing entry */
         $sql = "UPDATE customers SET ";
@@ -44,6 +58,7 @@ function display_customer_edit($row) {
     $fields_to_hide[] = "locked_by";
     $fields_to_hide[] = "datetime_locked";
     $fields_to_hide[] = "list_id";
+    $fields_to_hide[] = "new";
     $textarea_fields[] = "notes";
     echo '<form action="get_customer.php?save=1" method="post">';
     echo '<table class="sample">';
