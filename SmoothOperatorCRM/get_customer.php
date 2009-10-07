@@ -42,6 +42,12 @@ if (mysqli_num_rows($result) > 0) {
         // Multiple Rows Found
     }
 } else {
+    ?>
+    <div class="xxxx"  style="background: #fdc;width: 300px;margin-top: 10px;margin-bottom: 10px;padding:5px;">
+    This is a new entry
+    </div>
+    
+    <?
     unset($row);
     $row['first_name'] = "";
     $row['last_name'] = "";
