@@ -110,13 +110,13 @@ div#header{
 }
 
 #navigation ul {
-	padding: 5px 0 4px;
+	padding: 5px 0 5px;
 	text-align: center;
 }
 
 #navigation ul li {
 	display: inline;
-	margin-right: .75em;
+	margin-right: .55em;
 }
 
 #navigation ul li.last {
@@ -124,26 +124,35 @@ div#header{
 }
 
 #navigation ul li a {
-	background: url("../images/tab-right.gif") no-repeat 100% 0;
+	background: url("../images/tab-right-dark.gif") no-repeat 100% 0;
 	color: #06C;
 	padding: 5px 0;
 	text-decoration: none;
 }
 
 #navigation ul li a span {
-	background: url("../images/tab-left.gif") no-repeat;
+	background: url("../images/tab-left-dark.gif") no-repeat;
 	padding: 5px 1em;
+        border-bottom: 0px solid #fff;
 }
 
 #navigation ul li a:hover span {
 	color: #69C;
 	text-decoration: underline;
 }
-
-.activelink {
-	font-weight: bold;
- 	
+#navigation ul li.activelink a {
+	background: url("../images/tab-right.gif") no-repeat 100% 0;
+	color: #06C;
+	padding: 5px 0;
+	text-decoration: none;
 }
+
+#navigation ul li.activelink a span {
+	background: url("../images/tab-left.gif") no-repeat;
+	padding: 5px 1em;
+        border-bottom: 1px solid #fff;
+}
+
 
 /*\*//*/
 #navigation ul li a {
