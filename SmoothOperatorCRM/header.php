@@ -207,15 +207,13 @@
         <center>
         <?if ($this_page != "login.php") {?>
             <div id="header">
-                <div id="header2" align="center">
-                    <center>
-                        <b><?=$config_values['site_name']?></b>
-                    </center>
-                </div>
+                <center>
+                    <b><?=$config_values['site_name']?></b>
+                </center>
             </div>
             
-            <div id="menu">
-                <ul id="nav">
+            <div id="navigation">
+                <ul>
                     <?
                     for ($i = 0;$i < sizeof($menu_names);$i++) {
                         //$menu_link_page_name = explode("?", );
@@ -225,15 +223,16 @@
                             $compare_to = $this_page;
                         }
 
-                        echo '<li id="'.$menu_names[$i].'" ';
+                        echo '<li ';
                         if ($compare_to == $menu_links[$i]) {
                             echo 'class="activelink"';
                         }
-                        echo '><a href="'.$menu_links[$i].'" class="page_menu">'.$menu_names[$i].'</a></li>';
+                        echo '><a href="'.$menu_links[$i].'" class="page_menu"><span>'.$menu_names[$i].'</span></a></li>';
                     }
                     ?>
                 </ul>
-            </div><?}
+            </div>
+            <?}
             if ($this_page == "login.php") {?>
                 
             <div id="content_login" align="center">
