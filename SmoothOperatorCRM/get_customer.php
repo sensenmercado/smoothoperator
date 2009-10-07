@@ -1,10 +1,41 @@
 <?php
 require "header.php";
+if (isset($_GET['save'])) {
+    /* Saving a customer record */
+    if (isset($_POST['new'])) {
+        /* This is a new entry */
+    } else {
+        /* This is an update of an existing entry */
+        $sql = "UPDATE customers SET ";
+        $fields_to_ignore[] = "id";
+        $fields_to_ignore[] = "new";
+        $fields_to_ignore[] = "last_updated";
+        $fields_to_ignore[] = "locked_by";
+        $fields_to_ignore[] = "datetime_locked";
+
+        foreach ($_POST as $field=>$value) {
+            /* Only update fields which are not id, last updated or new */
+            if (!in_array($field, $fields_to_ignore)) {
+                if ($field == "cleaned_number") {
+                    /* Remove any crap from the number - i.e. anything but numbers */
+                    $value = clean_number($_POST['phone']);
+                }
+                $sql.= " ".sanitize($field,false)." = ".sanitize($value).",";
+            }
+        }
+        /* Strip the comma */
+        $sql = substr($sql,0,strlen($sql)-1);
+        $sql.= " WHERE id = ".sanitize($_POST['id']);
+        $result = mysqli_query($connection, $sql);
+        redirect("list_customers.php");
+    }
+    require "footer.php";
+    exit(0);
+}
 if (!isset($_GET[phone_number])) {
     redirect("list_customers.php");
     exit(0);
 }
-
 function display_customer_edit($row) {
     $fields_to_hide[] = "id";
     $fields_to_hide[] = "cleaned_number";
@@ -14,7 +45,7 @@ function display_customer_edit($row) {
     $fields_to_hide[] = "datetime_locked";
     $fields_to_hide[] = "list_id";
     $textarea_fields[] = "notes";
-    echo '<form action="get_customer.php" method="post">';
+    echo '<form action="get_customer.php?save=1" method="post">';
     echo '<table class="sample">';
     foreach ($row as $field=>$value) {
         if (in_array($field, $fields_to_hide)) {
@@ -60,6 +91,8 @@ if (mysqli_num_rows($result) > 0) {
     $row['phone'] = $_GET['phone_number'];
     $row['fax'] = "";
     $row['notes'] = "";
+    /* This is a new record */
+    $row['new'] = 1;
     display_customer_edit($row);
 
 }
