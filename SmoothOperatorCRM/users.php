@@ -1,9 +1,9 @@
 <?
+$rounded[] = "div.thin_700px_box";
 require "header.php";
 
-
 if (isset($_GET['delete_sure'])) {
-    ?><div class="xxxx"  style="background: #cdf;width: 450px;margin-top: 30px;padding:10px;"><?
+    ?><div class="thin_700px_box"><?
     $id = sanitize($_GET['delete_sure']);
     $result = mysqli_query($connection, "DELETE FROM users WHERE id = $id");
     if (!$result) {
@@ -12,11 +12,12 @@ if (isset($_GET['delete_sure'])) {
     }
     draw_progress("Please wait we are saving your changes...");
     redirect("users.php", 0);
+    ?></div><?
     require "footer.php";
     exit(0);
 }
 if (isset($_GET['delete'])) {
-    ?><div class="xxxx"  style="background: #cdf;width: 450px;margin-top: 30px;padding:10px;"><?
+    ?><div class="thin_700px_box"><?
     ?>
     Are you sure you would like to delete this user?<br />
     <br />
@@ -32,12 +33,12 @@ if (isset($_GET['delete'])) {
     <br />
     <a href="users.php?delete_sure=<?=$_GET['delete']?>">Yes, delete them</a><br />
     <a href="users.php">No, do not delete them</a><br />
-    <?
+    </div><?
     require "footer.php";
     exit(0);
 }
 if (isset($_GET[save])) {
-    ?><div class="xxxx"  style="background: #cdf;width: 450px;margin-top: 30px;padding:10px;"><?
+    ?><div class="thin_700px_box"><?
     $id = sanitize($_POST[id]);
     $sql = "UPDATE users SET ";
     foreach ($_POST as $field=>$value) {
@@ -54,11 +55,12 @@ if (isset($_GET[save])) {
     }
     draw_progress("Please wait we are saving your changes...");
     redirect("users.php", 0);
+    ?></div><?
     require "footer.php";
     exit(0);
 }
 if (isset($_GET[save_new])) {
-    ?><div class="xxxx"  style="background: #cdf;width: 450px;margin-top: 30px;padding:10px;"><?
+    ?><div class="thin_700px_box"><?
     $sql1 = "INSERT INTO users (";
     $sql2 = ") VALUES (";
     foreach ($_POST as $field=>$value) {
@@ -75,17 +77,18 @@ if (isset($_GET[save_new])) {
     }
     draw_progress("Please wait we are saving your changes...");
     redirect("users.php", 0);
+    ?></div><?
     require "footer.php";
     exit(0);
 }
 if (isset($_GET[save_password])) {
-    ?><div class="xxxx"  style="background: #cdf;width: 450px;margin-top: 30px;padding:10px;"><?
-    //print_pre($_POST);
+    ?><div class="thin_700px_box"><?
     $id = sanitize($_POST[id]);
     if ($_POST['new_password'] != $_POST['new_password_repeat']) {
         $message[] = "Your Passwords Do Not Match";
         $_SESSION['messages'] = $message;
         redirect("users.php?change_password=".$_POST[id]);
+        ?></div><?
         exit(0);
     }
     $new_password = sanitize(sha1($_POST['new_password']));
@@ -93,11 +96,12 @@ if (isset($_GET[save_password])) {
     draw_progress("Please wait we are saving your changes...");
     $result = mysqli_query($connection, $sql);
     redirect("users.php", 0);
+    ?></div><?
     require "footer.php";
     exit(0);
 }
 if (isset($_GET[change_password])) {
-    ?><div class="xxxx"  style="background: #cdf;width: 450px;margin-top: 30px;padding:10px;"><?
+    ?><div class="thin_700px_box"><?
     ?>
 <form action="users.php?save_password=1" method="post">
     <input type="hidden" name="id" value="<?=$_GET['change_password']?>">
@@ -105,12 +109,13 @@ if (isset($_GET[change_password])) {
     New Password again: <input type="password" name="new_password_repeat"><br />
     <input type="submit" value="Save Changes">
 </form>
-<?
+
+</div><?
     exit(0);
 }
 
 if (isset($_GET['new'])) {
-    ?><div class="xxxx"  style="background: #cdf;width: 450px;margin-top: 30px;padding:10px;"><?
+    ?><div class="thin_700px_box"><?
     function display_user_new($row) {
         $fields_to_hide[] = "";
         $fields_to_ignore[] = "id";
@@ -155,13 +160,14 @@ if (isset($_GET['new'])) {
         //print_pre($row);
         display_user_new($row);
     }
+    ?></div><?
     require "footer.php";
     exit(0);
 }
 
 
 if (isset($_GET[edit])) {
-    ?><div class="xxxx"  style="background: #cdf;width: 450px;margin-top: 30px;padding:10px;"><?
+    ?><div class="thin_700px_box"><?
     function display_user_edit($row) {
         $fields_to_hide[] = "id";
         $fields_to_ignore[] = "password";
@@ -211,16 +217,18 @@ if (isset($_GET[edit])) {
         //print_pre($row);
         display_user_edit($row);
     }
+    ?></div><?
     require "footer.php";
     exit(0);
 }
 ?>
-<div class="xxxx"  style="background: #cdf;width: 600px;margin-top: 10px;padding:5px;">
-<center>
-<a href="users.php?new=1"><img src="images/user.png">&nbsp;Add User</a>&nbsp;
-</center>
+<div class="thin_700px_box">
+    <center>
+        <a href="users.php?new=1"><img src="images/user.png">&nbsp;Add User</a>&nbsp;
+    </center>
 </div>
-<div class="xxxx"  style="background: #cdf;width: 450px;margin-top: 30px;padding:10px;">
+
+<div class="thin_700px_box">
 <table class="sample">
     <tr>
         <th>Username</th>

@@ -1,9 +1,10 @@
 <?
+$rounded[] = "div.box_med";
 require "header.php";
 ?>
 
 
-<div class="xxxx"  style="background: #cdf;width: 400px;margin-top: 30px;padding:10px;">
+<div class="box_med" style="width: 400px">
 
 <?
 $result = mysqli_query($connection, "SELECT * FROM SmoothOperator.customers") or die(mysql_error());

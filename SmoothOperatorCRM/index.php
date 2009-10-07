@@ -1,7 +1,7 @@
 <?
 require "header.php";
 ?>
-<div class="xxxx"  style="background: #cdf;width: 300px;margin-top: 30px;padding:40px;">
+<div class="thin_700px_box">
     <p><img src="images/icons/32x32/actions/messagebox_info.png"><br />
     <br />
         Welcome to <?=$config_values['site_name']?><br />

@@ -1,8 +1,8 @@
 <?
-//$rounded[] = "#x12";
+$rounded[] = "div.thin_700px_box";
 require "header.php";
 ?>
-<div class="xxxx"  style="background: #cdf;width: 200px;margin-top: 30px;padding:40px;">
+<div class="thin_700px_box">
 
 <?
 if (isset($_GET['test'])) {

@@ -41,7 +41,7 @@ if (isset($_POST['username'])) {
 
 
 ?>
-<div class="xxxx"  style="background: #cdf url('images/login-bg.jpg');height: 206px;width: 300px;margin-top: 30px;padding:40px;">
+<div class="thin_700px_box"  style="background: #cdf url('images/login-bg.jpg');height: 206px;width: 300px;margin-top: 30px;padding:40px;">
 <table height="100%">
     <tr>
         <td valign="center">

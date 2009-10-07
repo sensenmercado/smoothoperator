@@ -36,7 +36,7 @@
     /* support for setting languages, but I realise it may be necessary in */
     /* the future                                                          */
     if (!isset($_SESSION['language'])) {
-        $_SESSION['language'] = "en";
+        $_SESSION['language'] = "en_gb";
     }
 
     /* Get the actual PHP page (regardless of directory) */
@@ -160,7 +160,11 @@
                 }
             }
             NiftyLoad=function(){
-                Nifty("div.xxxx","large transparent");                
+                Nifty("div.thin_700px_box","large transparent");
+                Nifty("div.box","large transparent");
+                Nifty("thin_700px_box","large transparent");
+                Nifty("box_med","large transparent");
+
                 Nifty("input.rounded","large");
                 Nifty("ul#nav a","small transparent top");
                 <?
@@ -258,7 +262,7 @@
 
             if (sizeof($link_names) > 0) {
             ?>
-                <div class="xxxx"  style="background: #cdf;width: 500px;margin-top: 10px;padding:5px;">
+                <div class="thin_700px_box">
 
             <?
             for ($i = 0;$i<sizeof($link_names);$i++) {

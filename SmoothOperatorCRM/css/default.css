@@ -31,9 +31,28 @@ div.messages {
     color: #000;
     margin-top: 5px;
     width: 800px;
-    padding: 0px;
+    padding: 10px;
 }
-
+div.thin_700px_box {
+    background: #cdf;
+    color: #000;
+    margin-top: 10px;
+    width: 700px;
+    padding: 5px;
+}
+div.box_med {
+    background: #cdf;
+    color: #000;
+    margin-top: 10px;
+    width: 800px;
+    padding: 10px;
+}
+div.box {
+    background: #cdf;
+    width: 300px;
+    margin-top: 10px;
+    padding:10px;
+}
 table.sample {
         border-width: thin thin thin thin;
         border-spacing: 0px;
