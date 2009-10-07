@@ -241,44 +241,38 @@
 
             /* If we have any error messages, display them */
             if (isset($_SESSION['messages'])) {
+                foreach ($_SESSION['messages'] as $index=>$message) {?>
+                    <div class="messages" id = "message<?=$index?>" align="center" style="display: block;padding: 0px;">
+                        <a href="#" onclick="hide_message('message<?=$index?>')"><div class="messages" align="right" style="width: 99%;background: #fcc;margin:0px;">Close Message&nbsp;<img src="images/cross.png" border="0">&nbsp;</div></a>
+                        <?=$message.""?>
+                    </div>
+                <?}
+            }
+
+            unset($links);
+            $links = get_links($user_level, $connection, 1, $this_page_id);
+            $link_names = $links[0];
+            $link_urls = $links[1];
+            $link_ids = $links[2];
+            $link_icons = $links[3];
+
+            if (sizeof($link_names) > 0) {
             ?>
-            <?foreach ($_SESSION['messages'] as $index=>$message) {?>
-                <div class="messages" id = "message<?=$index?>" align="center" style="display: block;padding: 0px;">
-                    <a href="#" onclick="hide_message('message<?=$index?>')"><div class="messages" align="right" style="width: 99%;background: #fcc;margin:0px;">Close Message&nbsp;<img src="images/cross.png" border="0">&nbsp;</div></a>
-                    
-                    <?
-                        echo $message."";
-                        //unset($_SESSION['messages']);
-                    ?>
+                <div class="xxxx"  style="background: #cdf;width: 500px;margin-top: 10px;padding:5px;">
 
+            <?
+            for ($i = 0;$i<sizeof($link_names);$i++) {
+                    echo '<a href="'.$link_urls[$i].'">';
+                    if (strlen($link_icons[$i]) > 0) {
+                        echo '<img src="images/'.$link_icons[$i].'" border="0">&nbsp;';
+                    }
+
+                    echo $link_names[$i].'</a>&nbsp;&nbsp;&nbsp;&nbsp;';
+                }
+                ?>
                 </div>
-            <?}}?>
-
-<?
-unset($links);
-$links = get_links($user_level, $connection, 1, $this_page_id);
-$link_names = $links[0];
-$link_urls = $links[1];
-$link_ids = $links[2];
-$link_icons = $links[3];
-
-if (sizeof($link_names) > 0) {
-?>
-    <div class="xxxx"  style="background: #cdf;width: 500px;margin-top: 10px;padding:5px;">
-
-<?
-for ($i = 0;$i<sizeof($link_names);$i++) {
-        echo '<a href="'.$link_urls[$i].'">';
-        if (strlen($link_icons[$i]) > 0) {
-            echo '<img src="images/'.$link_icons[$i].'" border="0">&nbsp;';
-        }
-
-        echo $link_names[$i].'</a>&nbsp;&nbsp;&nbsp;&nbsp;';
-    }
-    ?>
-    </div>
-    <?
-}
+                <?
+            }
 ?>
 
     
