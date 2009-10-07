@@ -16,3 +16,7 @@ This is basically a  sounding board for the future of the product.  Things that 
   * Can currently add menu items, but maybe should also be able to add template pages
   * Every module needs to be able to provide configuration options which appear under the settings page when the module is installed.  If a module is removed, these settings should remain, so that if you install it again, you get it set up exactly how you had it
   * Will need to be able to check for the presence of any features that a package requires.  I.E. SmoothTorque needs jpgraph (as does Asterisk-Stat)
+
+== Process ==
+
+  * Provide option which allows you to specify what happens when you have finished with a record - i.e. go back to list_customers.php or close the page
