@@ -1,4 +1,7 @@
 <?php
+$rounded[] = "div.messages";
+$rounded[] = "div.thin_700px_box";
+
 require "header.php";
 if (isset($_GET['save'])) {
     /* Saving a customer record */
@@ -83,13 +86,14 @@ if (mysqli_num_rows($result) > 0) {
     if (mysqli_num_rows($result) == 1) {
         // Single Row Found
         $row = mysqli_fetch_assoc($result);
+        echo '<div class="thin_700px_box">';
         display_customer_edit($row);
     } else {
         // Multiple Rows Found
     }
 } else {
     ?>
-    <div class="xxxx"  style="background: #fdc;width: 300px;margin-top: 10px;margin-bottom: 10px;padding:5px;">
+    <div class="messages">
     This is a new entry
     </div>
     
@@ -108,8 +112,10 @@ if (mysqli_num_rows($result) > 0) {
     $row['notes'] = "";
     /* This is a new record */
     $row['new'] = 1;
+    echo '<div class="thin_700px_box">';
     display_customer_edit($row);
 
 }
+echo "</div>";
 require "footer.php";
 ?>

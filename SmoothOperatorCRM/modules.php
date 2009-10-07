@@ -1,8 +1,9 @@
 <?
+$rounded[] = "div.thin_700px_box";
 require "header.php";
 
 ?>
-<div id="loading" class="xxxx"  style="background: #cdf;width: 700px;margin-top: 10px;padding:5px;">
+<div id="loading" class="thin_700px_box">
     <img src="images/sq_progress.gif">
     Please wait, attempting to connect to the module repository...
     
@@ -10,10 +11,10 @@ require "header.php";
 <?
 flush();
 ?>
-<div id="loading" class="xxxx"  style="background: #cdf;width: 700px;margin-top: 10px;padding:5px;">
+<div id="loading" class="thin_700px_box">
 Module Repository
 </div>
-<div class="xxxx"  style="background: #cdf;width: 700px;margin-top: 10px;padding:5px;">
+<div class="thin_700px_box">
     <table>
         <?
         $url = "http://www.venturevoip.com/so_modules.php";

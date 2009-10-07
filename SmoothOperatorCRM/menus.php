@@ -12,7 +12,7 @@ if (isset($_GET['listItem'])) {
     redirect("menus.php", 0);       /* Cause the menus to be reloaded    */
     exit(0);
 }
-
+$rounded[] = "div.thin_700px_box";
 require "header.php";
 ?>
 
@@ -33,15 +33,15 @@ $(document).ready(function() {
 <div id="info"></div>
 
 <!-- The links to create a new menu item -->
-<div class="xxxx"  style="background: #cdf;width: 600px;margin-top: 10px;padding:5px;">
+<div class="thin_700px_box">
     <center>
         <a href="menus.php?add=1"><img src="images/user.png">&nbsp;Add Menu Item</a>&nbsp;
     </center>
 </div>
 
 <!-- This is the actual draggable item list for menus - created from the db -->
-<div class="xxxx"  style="background: #cdf;width: 600px;margin-top: 30px;padding:10px;">
-    <ul id="test-list" class="xxxx">
+<div class="thin_700px_box" >
+    <ul id="test-list">
         <?
         /* TODO: USE ALL LANGUAGES */
         $result = mysqli_query($connection, "SELECT id, menu_order, menu_text, link FROM menu_items WHERE language = 'en' AND visible = 1 AND child_of = -1 ORDER BY menu_order") or die(mysqli_error($connection));

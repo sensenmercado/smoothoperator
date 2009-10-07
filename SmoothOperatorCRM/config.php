@@ -10,9 +10,10 @@
 /* can just add it to the database as well as a description for it and it will */
 /* be available for usage.                                                     */
 
+$rounded[] = "div.thin_700px_box";
 require "header.php";
 ?>
-<div class="xxxx"  style="background: #cdf;width: 500px;margin-top: 30px;padding:10px;">
+<div class="thin_700px_box">
 <?
 if (isset($_GET['save'])) {
     foreach ($_POST as $field=>$value) {

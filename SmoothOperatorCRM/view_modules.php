@@ -50,7 +50,7 @@ if (isset($_GET[filename])) {
             redirect("modules.php",0);
         } else if ($_GET[action] == "uninstall") {
             //flush();
-            exec("rm ./modules/".$_GET[filename]);
+            exec("rm ./modules/".escapeshellarg($_GET[filename]));
             redirect("modules.php",0);
         } else {
             print_pre($xml);
@@ -86,7 +86,7 @@ if (isset($_GET[filename])) {
                 fwrite($fp, $command."\n");
             }
             fclose($fp);
-            exec("rm ./modules/".$_GET[filename]);
+            exec("rm ./modules/".escapeshellarg($_GET[filename]));
             redirect("modules.php",0);
         } else {
             print_pre($xml);
