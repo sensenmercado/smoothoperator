@@ -16,7 +16,6 @@ if (isset($_GET[filename])) {
         $menus = $xml->menu;
 
         foreach ($menus->item as $menu_item) {
-            //print_pre($menu_item);
             $link = sanitize("".$menu_item->link, true);
             $use_iframe = sanitize("".$menu_item->use_iframe);
             $security_level = sanitize("".$menu_item->security_level);
@@ -27,11 +26,66 @@ if (isset($_GET[filename])) {
                     $menu_text = sanitize("".$value);
                     $language = sanitize("".$key);
                     if ($_GET[action] == "install") {
+                        /* ************************************************** */
+                        /* INSTALL A MENU ITEM                                */
+                        /* ************************************************** */
+
                         $sql = "INSERT INTO menu_items (menu_text, language, security_level, link, use_iframe) VALUES (";
                         $sql .=$menu_text.",".$language.",".$security_level.",".$link.",".$use_iframe;
                         $sql.=")";
+
+                        /* ************************************************** */
+                        /* CREATE A PAGE                                      */
+                        /* ************************************************** */
+
+                        unset($file_contents);
+                        if (isset($menu_item->page)) {
+                            $file_contents = base64_decode($menu_item->page->content);
+                            $filename = dirname(__FILE__)."/".$menu_item->link;
+
+                            if (file_exists($filename)) {
+                                /* File already Exists */
+                                //echo "File $filename already exists";
+                                //exit(0);
+                            } else {
+                                $fp = fopen($filename, w);
+                                if (!$fp) {
+                                    /* File creation failed */
+                                    //echo "File creation failed";
+                                } else {
+                                    /* File creation succeeded */
+                                    if (fwrite($fp, $file_contents)) {
+                                        /* Wrote Successufully */
+                                        //echo "Wrote";
+                                    } else {
+                                        /* Didn't write successfully */
+                                        //echo "Didn't";
+                                    }
+                                    fclose($fp);
+                                }
+                            }
+                        }
+
+
+
                     } else if ($_GET[action] == "uninstall") {
+                        /* ************************************************** */
+                        /* REMOVE A MENU ITEM                                 */
+                        /* ************************************************** */
+
                         $sql = "DELETE FROM menu_items WHERE menu_text=$menu_text AND language=$language AND link=$link";
+
+
+                        if (isset($menu_item->page)) {
+                            $filename = dirname(__FILE__)."/".$menu_item->link;
+                            if (strlen($filename) > 3) {
+                                /* Just in case the impossible happens don't  */
+                                /* unlink the root - should be impossible but */
+                                /* better safe than sorry                     */
+                                unlink($filename);
+                            }
+                        }
+
                     }
                     //echo $sql."<br />";
 

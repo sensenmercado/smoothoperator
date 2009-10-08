@@ -33,7 +33,7 @@ if (isset($_GET['save'])) {
 }
 $sql = "SELECT * FROM config, static_text WHERE config.parameter = static_text.parameter and static_text.language = ".sanitize($_SESSION['language']);
 $result = mysqli_query($connection, $sql) or die(mysqli_error());
-
+echo "SVN Revision: ".$_SESSION['revision']."<br />";
 echo '<form action="config.php?save=1" method="post"><table class="sample">';
 while ($row = mysqli_fetch_assoc($result)) {
     echo '<tr><th>'.$row['description'].'</th><td><input type="text" name="'.$row['parameter'].'" value="'.$config_values[$row['parameter']].'"></td></tr>';
