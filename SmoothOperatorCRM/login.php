@@ -1,5 +1,29 @@
 <?php
 require "header.php";
+
+
+if (!defined('REVISION')) {
+    /* Find out the current location */
+    $current_directory = dirname(__FILE__);
+    $filename = $current_directory . '/.svn' . "/" . 'entries';
+    if (file_exists($filename)) {
+        $svn = file($filename);
+        if (is_numeric(trim($svn[3]))) {
+            $version = $svn[3];
+        } else { // pre 1.4 svn used xml for this file
+            $version = explode('"', $svn[4]);
+            $version = $version[1];
+        }
+        define ('REVISION', trim($version));
+        unset ($svn);
+        unset ($version);
+    } else {
+        define ('REVISION', 0); // default if no svn data avilable
+    }
+}
+
+
+
 if (isset($_POST['username'])) {
     /* If someone has started logging in start checking out the system */
     /* First start by checking/creating the necessary databases        */
@@ -27,7 +51,7 @@ if (isset($_POST['username'])) {
     $_SESSION['user_name'] = $_POST['username'];
     $_SESSION['user_level'] = $security_level;
     $_SESSION['messages'] = $messages;
-
+    $_SESSION['revision'] = REVISION;
     $result = mysqli_query($connection, "SELECT parameter, value FROM config");
     while ($row = mysqli_fetch_assoc($result)) {
         $config_values[$row['parameter']] = $row['value'];
