@@ -20,3 +20,8 @@ This is basically a  sounding board for the future of the product.  Things that 
 == Process ==
 
   * Provide option which allows you to specify what happens when you have finished with a record - i.e. go back to list_customers.php or close the page
+
+== Screen Popping == 
+
+  * Could be done with VV AgentPopper or Flash Operator Panel, but I think it may be nicer if it was using an AJAX query to a backend DB.  I mean Comet would be heaps nicer but seems to fail on long term connections.  
+  * Different methods of agent login mean that different events need to be watched for in the Manager (i.e. AgentCallBackLogin or Dynamic Members vs Agent Login)
