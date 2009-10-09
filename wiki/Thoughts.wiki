@@ -17,6 +17,12 @@ This is basically a  sounding board for the future of the product.  Things that 
   * Every module needs to be able to provide configuration options which appear under the settings page when the module is installed.  If a module is removed, these settings should remain, so that if you install it again, you get it set up exactly how you had it
   * Will need to be able to check for the presence of any features that a package requires.  I.E. SmoothTorque needs jpgraph (as does Asterisk-Stat)
 
+Would be nice to use tar.gz files inside the xml file.  Alas tar is not supported.
+
+I could compress the files with gzip and use gzdeflate to bring them back but gzip doesn't support archiving (i.e. you can't compress a folder).
+
+I really don't want people to have to resort to the command line - that's what's slowing it down a bit.
+
 == Process ==
 
   * Provide option which allows you to specify what happens when you have finished with a record - i.e. go back to list_customers.php or close the page
