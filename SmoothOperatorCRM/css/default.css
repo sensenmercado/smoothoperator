@@ -67,14 +67,16 @@ table.sample th {
         border-color: gray gray gray gray;
         background-color: #ddddff;
         -moz-border-radius: 0px 0px 0px 0px;
+        text-align: left;
 }
 table.sample td {
         border-width: 1px 1px 1px 1px;
-        padding: 1px 0px 1px 0px;
+        padding: 2px;
         border-style: inset inset inset inset;
         border-color: gray gray gray gray;
         background-color: white;
         -moz-border-radius: 0px 0px 0px 0px;
+        text-align: left;
 }
 table.sample td input {
         padding: 0px 0px 0px 0px;
