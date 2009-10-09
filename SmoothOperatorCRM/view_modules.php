@@ -107,7 +107,18 @@ if (isset($_GET[filename])) {
         }
 
 
-        //exit(0);
+        if (isset($xml->config_options)) {
+            foreach ($xml->config_options->option as $option) {
+                unset($sql);
+                /* sanitize needs ""+ because it automatically detects object type */
+                $sql1 = "DELETE FROM config WHERE parameter = ".sanitize("".$option->name, true);
+                $sql2 = "DELETE FROM static_text WHERE parameter = ".sanitize("".$option->name);
+                $result = mysqli_query($connection, $sql1);
+                $result = mysqli_query($connection, $sql2);
+
+            }
+        }
+
 
         unset($filename);
         if (isset($xml->archive)) {
