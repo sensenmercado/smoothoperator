@@ -144,6 +144,28 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
 
+        /* Create the modules table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "modules")) {
+            $messages[] =  "Modules table is missing...created";
+            $sql = "CREATE TABLE `modules` (
+                  `id` int(11) NOT NULL auto_increment,
+                  `name` varchar(255) NOT NULL default '',
+                  PRIMARY KEY  (`id`)
+                ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
+        }
+
+        /* Create the module_files table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "module_files")) {
+            $messages[] =  "Module_files table is missing...created";
+            $sql = "CREATE TABLE `module_files` (
+                  `module_id` int(11) default NULL,
+                  `file_name` varchar(255) default NULL
+                ) ENGINE=MyISAM DEFAULT CHARSET=latin1";
+            $result = mysqli_query($link, $sql);
+        }
+
+
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "users")) {
             $messages[] =  "Users table is missing...created";
             $sql = "CREATE TABLE `users` (
