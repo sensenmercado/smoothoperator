@@ -1,5 +1,21 @@
 <?php
-require "header.php";
+    /* Start or continue a logged in session */
+    session_start();
+
+    /* Find out the current location */
+    $current_directory = dirname(__FILE__);
+    if (isset($override_directory)) {
+            $current_directory = $override_directory;
+    }
+
+    /* Include VentureVoIP Functions */
+    require "functions/functions.php";
+    /* Connect to the database */
+    require "config/db_config.php";
+
+    $messages = so_check_databases($db_host, $db_user, $db_pass);
+
+    require "header.php";
 
 
 if (!defined('REVISION')) {
@@ -27,7 +43,6 @@ if (!defined('REVISION')) {
 if (isset($_POST['username'])) {
     /* If someone has started logging in start checking out the system */
     /* First start by checking/creating the necessary databases        */
-    $messages = so_check_databases($db_host, $db_user, $db_pass);
     draw_progress("Please wait, logging you in...");
     $username = sanitize($_POST['username']);
     $password = sanitize(sha1($_POST['password']));
