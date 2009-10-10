@@ -90,8 +90,8 @@ body{background: #FFF;
 div#header{
     font: 40px Arial,sans-serif;
     color: #fff;
-    padding-top:35px;
-    padding-bottom:35px;
+    padding-top:25px;
+    padding-bottom:25px;
     width: 100%;
     background: #ABC9DE url('../images/header-bg-light.jpg') fixed no-repeat top
 }
