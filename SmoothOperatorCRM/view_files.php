@@ -27,12 +27,26 @@ if ($_SESSION['user_level'] < 10) {
 }
 //echo date("H:i:s");
 echo '<table class="sample" width="100%">';
-echo '<tr><th>File Name</th><th>File Size</th><th>Date Uploaded</th><th>Delete</th></tr>';
+echo '<tr><th>File Name</th><th></th><th>File Size</th><th>Date Uploaded</th><th>Delete</th></tr>';
 $result = mysqli_query($connection, "SELECT location, filename, size, date_imported, id FROM files");
 if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
         echo '<tr><td>';
         echo '<a href="receive.php?id='.$row['id'].'">'.$row['filename']."</a></td><td>";
+        /* Get the parts of the full path of the file name */
+        $path_parts = pathinfo($row['filename']);
+        $extension = $path_parts['extension'];
+        switch ($extension) {
+            case "xls":
+                ?>
+                <a href="receive.php?import_list=<?=$row['id']?>">Import List From File</a>
+                <?
+                break;
+            default:
+                echo "x".$extension;
+                break;
+        }
+        echo ''."</td><td>";
         echo formatBytes($row['size'])."</td><td>";
         echo $row['date_imported']."</td>";
         echo "<td>";
