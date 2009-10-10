@@ -9,11 +9,11 @@ if (!function_exists('get_links')) {
             return $retval;
         }
         if ($sub_menu_only == true) {
-            $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en_gb' and visible = ".sanitize($visible)." ORDER BY menu_order");
+            $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en' and visible = ".sanitize($visible)." ORDER BY menu_order");
         } else if ($visible == "1") {
-            $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en_gb' and child_of = ".sanitize($child_of)." and visible = ".sanitize($visible)." ORDER BY menu_order");
+            $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en' and child_of = ".sanitize($child_of)." and visible = ".sanitize($visible)." ORDER BY menu_order");
         } else {
-            $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en_gb' and visible = ".sanitize($visible)." ORDER BY menu_order");
+            $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en' and visible = ".sanitize($visible)." ORDER BY menu_order");
         }
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
@@ -52,7 +52,7 @@ if (!function_exists('get_menu_items') ) {
     function get_menu_items ($user_level, $connection) {
         return (get_links($user_level, $connection, 1));
         /*
-        $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en_gb' and visible = 1 ORDER BY menu_order") or die(mysqli_error($connection));
+        $result = mysqli_query($connection, "SELECT * FROM menu_items WHERE security_level <= ".sanitize($user_level)." and language = 'en' and visible = 1 ORDER BY menu_order") or die(mysqli_error($connection));
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $menu_names[] = $row['menu_text'];

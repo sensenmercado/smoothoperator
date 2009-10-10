@@ -5,13 +5,14 @@ require "header.php";
 ?>
 <div id="loading" class="thin_700px_box">
     <img src="images/sq_progress.gif">
-    Please wait, attempting to connect to the module repository...
+    Please wait, connecting to the module repository...
     
 </div>
 <?
+ob_flush();
 flush();
 ?>
-<div id="loading" class="thin_700px_box">
+<div id="loading2" class="thin_700px_box">
 Module Repository
 </div>
 <div class="thin_700px_box">

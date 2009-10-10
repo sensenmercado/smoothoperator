@@ -16,7 +16,7 @@ if (!function_exists('so_check_databases')) {
             $sql = "CREATE TABLE `static_text` (
                       `id` int(11) NOT NULL auto_increment,
                       `parameter` varchar(255) default NULL,
-                      `language` varchar(11) default 'en_gb',
+                      `language` varchar(11) default 'en',
                       `description` varchar(255) default NULL,
                       PRIMARY KEY  (`id`)
                     ) ENGINE=InnoDB";
@@ -76,24 +76,24 @@ if (!function_exists('so_check_databases')) {
 
             $sql = "INSERT INTO `menu_items` (`id`,`menu_text`,`language`,`security_level`,`link`,`menu_order`,`use_iframe`,`visible`,`child_of`,`icon`)
                     VALUES
-                            (1,'Home','en_gb',1,'index.php',0,0,1,-1,NULL),
-                            (2,'Search','en_gb',1,'search_customer.php',3,0,1,3,'magnifier.png'),
-                            (3,'Numbers','en_gb',10,'list_customers.php',6,0,1,-1,NULL),
-                            (4,'Jobs','en_gb',10,'jobs.php',5,0,1,-1,NULL),
-                            (5,'Users','en_gb',10,'users.php',8,0,1,-1,NULL),
-                            (6,'Test System','en_gb',100,'system_test.php',9,0,0,8,'cog.png'),
-                            (7,'Logout','en_gb',1,'logout.php',10,0,1,-1,NULL),
-                            (8,'Settings','en_gb',100,'config.php',3,0,1,-1,NULL),
-                            (9,'Menus','en_gb',100,'menus.php',7,0,1,-1,NULL),
-                            (11,'Modules','en_gb',100,'modules.php',2,0,1,-1,NULL),
-                            (12,'Files','en_gb',10,'receive.php',4,0,1,-1,NULL),
-                            (41,'Login','en_gb',0,'login.php',0,0,0,-1,NULL),
-                            (42,'Receive Upload','en_gb',100,'receive.php',0,0,0,-1,NULL),
-                            (43,'iFrame Page','en_gb',100,'show_page.php',0,0,0,-1,NULL),
-                            (84,'Lookup Customer','en_gb',1,'get_customer.php',0,0,0,-1,NULL),
-                            (87,'Manage Lists','en_gb',10,'manage_lists.php',0,0,1,3,'database.png'),
-                            (88,'Add Job','en_gb',10,'jobs.php?add=1',0,0,1,4,'database_add.png'),
-                            (89,'Add Customer','en_gb',1,'add_number.php',0,0,1,3,'database_add.png')";
+                            (1,'Home','en',1,'index.php',0,0,1,-1,NULL),
+                            (2,'Search','en',1,'search_customer.php',3,0,1,3,'magnifier.png'),
+                            (3,'Numbers','en',10,'list_customers.php',6,0,1,-1,NULL),
+                            (4,'Jobs','en',10,'jobs.php',5,0,1,-1,NULL),
+                            (5,'Users','en',10,'users.php',8,0,1,-1,NULL),
+                            (6,'Test System','en',100,'system_test.php',9,0,0,8,'cog.png'),
+                            (7,'Logout','en',1,'logout.php',10,0,1,-1,NULL),
+                            (8,'Settings','en',100,'config.php',3,0,1,-1,NULL),
+                            (9,'Menus','en',100,'menus.php',7,0,1,-1,NULL),
+                            (11,'Modules','en',100,'modules.php',2,0,1,-1,NULL),
+                            (12,'Files','en',10,'receive.php',4,0,1,-1,NULL),
+                            (41,'Login','en',0,'login.php',0,0,0,-1,NULL),
+                            (42,'Receive Upload','en',100,'receive.php',0,0,0,-1,NULL),
+                            (43,'iFrame Page','en',100,'show_page.php',0,0,0,-1,NULL),
+                            (84,'Lookup Customer','en',1,'get_customer.php',0,0,0,-1,NULL),
+                            (87,'Manage Lists','en',10,'manage_lists.php',0,0,1,3,'database.png'),
+                            (88,'Add Job','en',10,'jobs.php?add=1',0,0,1,4,'database_add.png'),
+                            (89,'Add Customer','en',1,'add_number.php',0,0,1,3,'database_add.png')";
             $result = mysqli_query($link, $sql);
         }
 
