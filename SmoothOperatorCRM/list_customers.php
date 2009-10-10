@@ -1,15 +1,15 @@
 <?
-$rounded[] = "div.box_med";
+$rounded[] = "div.thin_700px_box";
 require "header.php";
 ?>
 
 
-<div class="box_med" style="width: 400px">
+<div class="thin_700px_box" >
 
 <?
 $result = mysqli_query($connection, "SELECT * FROM SmoothOperator.customers limit 100") or die(mysql_error());
 $printed_header = false;
-echo "<table border=\"1\" class=\"sample\" width=\"100%\">";
+echo "<table border=\"1\" class=\"sample2\" width=\"100%\" style=\"background: #eee\">";
 $printable[] = "phone";
 $printable[] = "first_name";
 $printable[] = "last_name";
@@ -27,14 +27,10 @@ while ($row = mysqli_fetch_assoc($result)) {
         echo "</tr>";
     }
 
-    echo "<tr>";
+    echo "<tr onmouseover=\"this.style.background='#bcf ';this.style.cursor='pointer'\" onmouseout=\"this.style.background='#eee';\" onclick=\"window.location.href='get_customer.php?from=list&phone_number=".$row['phone']."';\">";
     foreach ($row as $field=>$value) {
         if (in_array($field, $printable)) {
-            if ($field == "phone") {
-                echo '<td><a href="get_customer.php?phone_number='.$value.'">'.$value.'</a></td>';
-            } else {
-                echo "<td>".$value."</td>";
-            }
+            echo "<td>".$value."</td>";
         }
     }
     echo "</tr>";

@@ -58,7 +58,7 @@ table.sample {
         border-style: solid solid solid solid;
         border-color: gray gray gray gray;
         border-collapse: collapse;
-        background-color: rgb(255, 255, 240);
+        /*background:#ffe;*/
 }
 table.sample th {
         border-width: 1px 1px 1px 1px;
@@ -74,15 +74,43 @@ table.sample td {
         padding: 2px;
         border-style: inset inset inset inset;
         border-color: gray gray gray gray;
-        background-color: white;
+        background: #fff;
         -moz-border-radius: 0px 0px 0px 0px;
         text-align: left;
 }
+
+table.sample2 {
+        border-width: thin thin thin thin;
+        border-spacing: 0px;
+        border-style: solid solid solid solid;
+        border-color: gray gray gray gray;
+        border-collapse: collapse;
+        /*background:#ffe;*/
+}
+table.sample2 th {
+        border-width: 1px 1px 1px 1px;
+        padding: 3px 3px 3px 3px;
+        border-style: inset inset inset inset;
+        border-color: gray gray gray gray;
+        background-color: #ddddff;
+        -moz-border-radius: 0px 0px 0px 0px;
+        text-align: left;
+}
+table.sample2 td {
+        border-width: 1px 1px 1px 1px;
+        padding: 2px;
+        border-style: inset inset inset inset;
+        border-color: gray gray gray gray;
+        -moz-border-radius: 0px 0px 0px 0px;
+        text-align: left;
+}
+
+/*
 table.sample td input {
         padding: 0px 0px 0px 0px;
         background: #ffe;
         font-size: 120%;
-}
+}*/
 html,body{margin:0;padding:0}
 body{background: #FFF;
     font: 80% Arial,sans-serif}
