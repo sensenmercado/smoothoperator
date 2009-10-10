@@ -1,6 +1,139 @@
 <?
 //phpinfo();
 //exit(0);
+if (isset($_GET['save_list'])) {
+    require "header.php";
+    
+    $result = mysqli_query($connection, "SELECT location, filename, size, date_imported, id FROM files WHERE id = ".sanitize($_GET['save_list']));
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $filename = $row['location'];
+    }
+    require_once 'excel_reader2.php';
+    /* conserve memory for large worksheets by not storing the extended */
+    /* information about cells like fonts, colors, etc.                 */
+    $data = new Spreadsheet_Excel_Reader($filename, false);
+    $arr = $data->dumptoarray(0);
+    //print_pre($_POST);
+    for ($row = $_POST['first_row'];$row<=sizeof($arr);$row++) {
+        $sql1 = "INSERT INTO customers (";
+        $sql2 = " VALUES (";
+
+        for ($col = 1;$col <= sizeof($arr[$row]);$col++) {
+            if (isset($_POST['col_'.$col])) {
+                if ($_POST['col_'.$col] == "phone") {
+                    $phone = $arr[$row][$col];
+                }
+                $sql1.= sanitize($_POST['col_'.$col], false ).",";
+                $sql2.= sanitize($arr[$row][$col]).",";
+            }
+            //echo "x".$_POST['col_'.$col].": ".$arr[$row][$col]."<br />";
+        }
+        $sql1.="cleaned_number) ";
+        $sql2.=clean_number($phone).")";
+        $sql = $sql1.$sql2;
+        echo "<!-- -->";
+        $result = mysqli_query($connection, $sql);
+    }
+    redirect("receive.php");
+    require "footer.php";
+    exit(0);
+}
+if (isset($_GET['import_list'])) {
+    if (!isset($_GET['option'])) {
+        require "header.php";
+
+        ?>
+        <div class="thin_700px_box">
+            <a href="receive.php?import_list=<?=$_GET['import_list']?>&option=new">Create New List</a><br />
+            <a href="receive.php?import_list=<?=$_GET['import_list']?>&option=existing">Import Into Existing List</a><br />
+            <a href="receive.php?import_list=<?=$_GET['import_list']?>&option=split">Split Into Multiple Lists</a><br />
+        </div>
+        <?
+        require "footer.php";
+        exit(0);
+    } else {
+        require "header.php";
+        ?>
+        <div class="thin_700px_box">
+        <form action="receive.php?save_list=<?=$_GET['import_list']?>&option=<?=$_GET['option']?>" method="POST">
+        First Row: <select name="first_row">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+
+        </select>
+        <?
+        if ($_GET['option'] == "new") {
+            ?>
+            <?
+        }
+
+        $result = mysqli_query($connection, "SELECT location, filename, size, date_imported, id FROM files WHERE id = ".sanitize($_GET['import_list']));
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $filename = $row['location'];
+        }
+        require_once 'excel_reader2.php';
+        /* conserve memory for large worksheets by not storing the extended */
+        /* information about cells like fonts, colors, etc.                 */
+        $data = new Spreadsheet_Excel_Reader($filename, false);
+        $arr = $data->dumptoarray(0);
+        //$max = sizeof($arr);
+        $max = 5;
+        $result = mysqli_query($connection, "SHOW COLUMNS FROM customers");
+        $fields_to_ignore[] = "id";
+        $fields_to_ignore[] = "new";
+        $fields_to_ignore[] = "last_updated";
+        $fields_to_ignore[] = "locked_by";
+        $fields_to_ignore[] = "datetime_locked";
+        $fields_to_ignore[] = "cleaned_number";
+        $fields_to_ignore[] = "list_id";
+
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                if (!in_array($row['Field'], $fields_to_ignore)) {
+                    $fields[] = $row['Field'];
+                }
+            }
+        }
+        
+        echo '<table class="sample">';
+        $printed_header = false;
+        /* Row and column offsets are 1 */
+        for ($row = 1;$row <= $max;$row++) {
+            if (!$printed_header) {
+                $printed_header = true;
+                echo '<tr>';
+                echo '<th>Row</th>';
+                for ($col = 1;$col <= sizeof($arr[$row]);$col++) {
+                    echo '<th><select name="col_'.$col.'"><option value="null">Not Used</option>';
+                    foreach ($fields as $field) {
+                        echo '<option value="'.$field.'">'.clean_field_name($field).'</option>';
+                    }
+                    echo '</select></th>';
+                }
+                echo '</tr>';
+            }
+            echo "<tr>";
+            echo "<td>$row</td>";
+            for ($col = 1;$col <= sizeof($arr[$row]);$col++) {
+                echo "<td>".$arr[$row][$col]."</td>";;
+            }
+            echo "</tr>";
+        }
+        echo "</table>";
+        ?>
+        <input type="submit" value="Import List">
+        </form>
+        </div>
+        <?
+        require "footer.php";
+        exit(0);
+    }
+}
 if (isset($_GET['delete'])) {
     require "config/db_config.php";
     require "functions/sanitize.php";
@@ -65,7 +198,7 @@ $('#fileInput').uploadify({
 setInterval(myfunc, 30000);
 myfunc();
 function myfunc() {
-    $("#contentx").load("view_files");
+    $("#contentx").load("view_files.php");
 }
 </script>
 </td>

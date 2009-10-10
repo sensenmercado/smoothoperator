@@ -7,7 +7,7 @@ require "header.php";
 <div class="box_med" style="width: 400px">
 
 <?
-$result = mysqli_query($connection, "SELECT * FROM SmoothOperator.customers") or die(mysql_error());
+$result = mysqli_query($connection, "SELECT * FROM SmoothOperator.customers limit 100") or die(mysql_error());
 $printed_header = false;
 echo "<table border=\"1\" class=\"sample\" width=\"100%\">";
 $printable[] = "phone";
