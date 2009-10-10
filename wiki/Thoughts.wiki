@@ -31,3 +31,7 @@ I really don't want people to have to resort to the command line - that's what's
 
   * Could be done with VV AgentPopper or Flash Operator Panel, but I think it may be nicer if it was using an AJAX query to a backend DB.  I mean Comet would be heaps nicer but seems to fail on long term connections.  
   * Different methods of agent login mean that different events need to be watched for in the Manager (i.e. AgentCallBackLogin or Dynamic Members vs Agent Login)
+
+== Scripts and Forms ==
+
+  * When talking to a customer there are many things that can be scripted.  Provide an interface to create these scripts and walk through them.
