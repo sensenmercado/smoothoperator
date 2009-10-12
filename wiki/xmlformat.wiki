@@ -1,4 +1,7 @@
 #summary XML format used for installing modules
+
+I will explain this in greater detail once it solidifies a bit.
+
 {{{
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <module>
