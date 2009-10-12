@@ -74,8 +74,9 @@ if (isset($_GET[filename])) {
             if (isset($xml->config_options)) {
                 foreach ($xml->config_options->option as $option) {
                     unset($sql);
-                    /* sanitize needs ""+ because it automatically detects object type */
-                    $sql1 = "INSERT INTO config (parameter, value) VALUES (".sanitize("".$option->name, true).", ".sanitize("".$option->value, true).")";
+                    /* sanitize needs "". because it automatically detects object type */
+                    $value = str_replace("FSROOT", $current_directory, "".$option->value);
+                    $sql1 = "INSERT INTO config (parameter, value) VALUES (".sanitize("".$option->name, true).", ".sanitize("".$value, true).")";
                     $sql2 = "INSERT IGNORE INTO static_text (parameter, language, description) VALUES (".sanitize("".$option->name).",'en_gb', ".sanitize("".$option->text).")";
                     $result = mysqli_query($connection, $sql1);
                     $result = mysqli_query($connection, $sql2);
