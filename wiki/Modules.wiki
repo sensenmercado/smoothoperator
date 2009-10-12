@@ -11,4 +11,6 @@ The way this is done is via the use of modules.  The system currently connects t
 
 The XML files that are downloaded contain everything you need to get the software working (at least in demo mode).
 
+You can see more info on the format of the xml document here: [xmlformat]
+
 http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/SmoothOperator_Modules.jpg
