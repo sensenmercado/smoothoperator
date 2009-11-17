@@ -229,9 +229,28 @@
                         }
                         echo '><a href="'.$menu_links[$i].'" class="page_menu"><span>'.$menu_names[$i].'</span></a></li>';
                     }
+                    echo '<div style="display: inline-block;color: #fff"  id="date_div">'.Date("H:i:s").'</div>';
                     ?>
+                    
                 </ul>
             </div>
+            <script type="text/javascript">
+                function draw_date() {
+                    var currentTime = new Date();
+                    var hours = currentTime.getHours();
+                    var minutes = currentTime.getMinutes();
+                    var seconds = currentTime.getSeconds();
+                    if (minutes < 10) {
+                        minutes = "0"+minutes;
+                    }
+                    if (seconds < 10) {
+                        seconds = "0"+seconds;
+                    }
+
+                    eval("document.all.date_div.innerHTML = '"+hours + ":" + minutes + ":"+seconds+"'");
+                }
+                setInterval(draw_date, 1000);
+            </script>
             <?}
             if ($this_page == "login.php") {?>
                 
