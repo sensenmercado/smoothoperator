@@ -67,17 +67,17 @@ if (!function_exists('so_check_databases')) {
             `date_imported` datetime default NULL,
             PRIMARY KEY  (`id`)
             ) ENGINE=InnoDB";
-            $result = mysqli_query($link, $sql);
-            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_host', '')");
-            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_user', '')");
-            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_pass', '')");
-            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_staff_context', '')");
-            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_outbound_trunk', 'SIP/\${EXTEN}@myprovider')");
-            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_outbound_prefix', '')");
-            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_host', '')");
-            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_user', '')");
-            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_pass', '')");
-            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('site_name', 'SmoothOperator CRM')");
+        }
+        
+        /* Create the jobs table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "jobs")) {
+            $messages[] =  "Files jobs is missing...created";
+            $sql = "CREATE TABLE `jobs` (
+            `id` int(11) NOT NULL auto_increment,
+            `name` text default NULL,
+            `description` text default NULL,
+            PRIMARY KEY  (`id`)
+            ) ENGINE=InnoDB";
         }
         
         
