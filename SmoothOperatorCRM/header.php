@@ -36,7 +36,7 @@
     /* support for setting languages, but I realise it may be necessary in */
     /* the future                                                          */
     if (!isset($_SESSION['language'])) {
-        $_SESSION['language'] = "en_gb";
+        $_SESSION['language'] = "en";
     }
 
     /* Get the actual PHP page (regardless of directory) */
