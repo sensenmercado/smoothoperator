@@ -55,6 +55,33 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('site_name', 'SmoothOperator CRM')");
         }
         
+        /* Create the files table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "files")) {
+            $messages[] =  "Files table is missing...created";
+            $sql = "CREATE TABLE `files` (
+            `id` int(11) NOT NULL auto_increment,
+            `filename` text default NULL,
+            `location` text default NULL,
+            `size` varchar(1024) default NULL,
+            `type` varchar(1024) default NULL,
+            `date_imported` datetime default NULL,
+            PRIMARY KEY  (`id`)
+            ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_host', '')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_user', '')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_pass', '')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_staff_context', '')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_outbound_trunk', 'SIP/\${EXTEN}@myprovider')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('manager_outbound_prefix', '')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_host', '')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_user', '')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_pass', '')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('site_name', 'SmoothOperator CRM')");
+        }
+        
+        
+        
         /* Create the menu_items table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "menu_items")) {
             $messages[] =  "Config table is missing...created";
