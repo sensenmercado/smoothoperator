@@ -71,7 +71,7 @@ if (!function_exists('so_check_databases')) {
         
         /* Create the jobs table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "jobs")) {
-            $messages[] =  "Files jobs is missing...created";
+            $messages[] =  "Jobs table is missing...created";
             $sql = "CREATE TABLE `jobs` (
             `id` int(11) NOT NULL auto_increment,
             `name` text default NULL,
