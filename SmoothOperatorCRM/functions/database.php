@@ -118,7 +118,7 @@ if (!function_exists('so_check_databases')) {
             VALUES
             (1,'Home','en',1,'index.php',0,0,1,-1,NULL),
             (2,'Search','en',1,'search_customer.php',3,0,1,3,'magnifier.png'),
-            (3,'Numbers','en',10,'list_customers.php',6,0,1,-1,NULL),
+            (3,'Numbers','en',1,'list_customers.php',6,0,1,-1,NULL),
             (4,'Jobs','en',10,'jobs.php',5,0,1,-1,NULL),
             (5,'Users','en',10,'users.php',8,0,1,-1,NULL),
             (6,'Test System','en',100,'system_test.php',9,0,0,8,'cog.png'),
