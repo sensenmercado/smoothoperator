@@ -67,6 +67,7 @@ if (!function_exists('so_check_databases')) {
             `date_imported` datetime default NULL,
             PRIMARY KEY  (`id`)
             ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
         }
         
         /* Create the jobs table if missing */
@@ -78,6 +79,7 @@ if (!function_exists('so_check_databases')) {
             `description` text default NULL,
             PRIMARY KEY  (`id`)
             ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
         }
         
         
