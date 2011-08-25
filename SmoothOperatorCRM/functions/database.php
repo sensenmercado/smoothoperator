@@ -142,6 +142,7 @@ if (!function_exists('so_check_databases')) {
             $messages[] =  "Customers table is missing...created";
             $sql = "CREATE TABLE `customers` (
             `id` int(11) NOT NULL auto_increment,
+            `list_id` int(11) default NULL,
             `first_name` varchar(255) default NULL,
             `last_name` varchar(255) default NULL,
             `address_line_1` varchar(1024) default NULL,
