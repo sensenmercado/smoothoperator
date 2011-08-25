@@ -2,37 +2,7 @@
 $rounded[] = "div.thin_700px_box";
 $rounded[] = "div.thick_700_box";
 require "header.php";
-if (!isset($_GET['list'])) {
-    //redirect("manage_lists.php");
-    ?>
-    <div class="thick_700_box" >
-    <?
-    $result  = mysqli_query($connection, "SELECT * FROM lists");
-    if ($result) {
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $result2 = mysqli_query($connection, "SELECT Count(*) as total FROM customers WHERE list_id = ".$row['id']);
-                if (mysqli_num_rows($result2) > 0) {
-                    $row2 = mysqli_fetch_assoc($result2);
-                    $count = $row2['total'];
-                }
-                //print_pre($row);
-                //print_pre($row2);
-                echo '<a href="list_customers.php?list='.$row['id'].'">'.$row['name'].' ('.number_format($count).' Numbers)</a><br />';
-                //echo "<hr />";
-            }
-        } else {
-            echo 'You have no lists of numbers. <a href="manage_lists.php?add=1">Click here</a> to create one';            
-        }
-    } else {
-        echo 'The lists table is missing - you shouldn\'t be here';        
-    }
-    ?>
-    </div>
-    <?
-    require "footer.php";
-    exit(0);
-}
+
 ?>
 
 
