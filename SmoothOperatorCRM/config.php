@@ -32,6 +32,7 @@ if (isset($_GET['save'])) {
     exit(0);
 }
 $sql = "SELECT * FROM config, static_text WHERE config.parameter = static_text.parameter and static_text.language = ".sanitize($_SESSION['language']);
+//echo $sql;
 $result = mysqli_query($connection, $sql) or die(mysqli_error());
 echo "SVN Revision: ".$_SESSION['revision']."<br />";
 echo '<form action="config.php?save=1" method="post"><table class="sample">';
