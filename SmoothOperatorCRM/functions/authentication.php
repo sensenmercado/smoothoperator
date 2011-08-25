@@ -1,5 +1,9 @@
 <?
-if (!function_exists('is_authenticated') ) {
+/*
+ 
+ What a terrible function - luckily it's not used!
+ 
+ if (!function_exists('is_authenticated') ) {
     function is_authenticated () {
         $user=$_COOKIE[user_wp];
 //        echo "Cookie Logged In: $_COOKIE[loggedin_wp]<br />";
@@ -7,6 +11,6 @@ if (!function_exists('is_authenticated') ) {
         return $_COOKIE["loggedin_wp"]==sha1("LoggedIn".$user);
         //return true;
     }
-}
+}*/
 
 ?>
