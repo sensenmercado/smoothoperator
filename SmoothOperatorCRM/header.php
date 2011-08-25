@@ -126,7 +126,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title><?=$config_values['site_name']?></title>
+        <title><?=stripslashes($config_values['site_name'])?></title>
 
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" type="text/css" href="css/default.css">
@@ -208,7 +208,7 @@
         <?if ($this_page != "login.php") {?>
             <div id="header">
                 <center>
-                    <b><?=$config_values['site_name']?></b>
+                    <b><?=stripslashes($config_values['site_name'])?></b>
                 </center>
             </div>
             
