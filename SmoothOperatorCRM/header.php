@@ -229,7 +229,7 @@
                         }
                         echo '><a href="'.$menu_links[$i].'" class="page_menu"><span>'.$menu_names[$i].'</span></a></li>';
                     }
-                    echo '<div style="display: inline-block;color: #fff"  id="date_div">'.Date("H:i:s").'</div>';
+                    echo '<div style="display: inline-block;color: #fff"  id="date_div">'.@Date("H:i:s").'</div>';
                     ?>
                     
                 </ul>
