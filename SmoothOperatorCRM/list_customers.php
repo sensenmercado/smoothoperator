@@ -22,8 +22,7 @@ if (!isset($_GET['list'])) {
                 //echo "<hr />";
             }
         } else {
-            echo 'You have no lists of numbers. <a href="manage_lists.php?add=1">Click here</a> to create one';
-            
+            echo 'You have no lists of numbers. <a href="manage_lists.php?add=1">Click here</a> to create one';            
         }
     } else {
         echo 'The lists table is missing - you shouldn\'t be here';        
