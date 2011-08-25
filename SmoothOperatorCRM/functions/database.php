@@ -131,7 +131,7 @@ if (!function_exists('so_check_databases')) {
             (42,'Receive Upload','en',100,'receive.php',0,0,0,-1,NULL),
             (43,'iFrame Page','en',100,'show_page.php',0,0,0,-1,NULL),
             (84,'Lookup Customer','en',1,'get_customer.php',0,0,0,-1,NULL),
-            (87,'Manage Lists','en',10,'manage_lists.php',0,0,1,3,'database.png'),
+            (87,'Manage Lists','en',10,'manage_lists.php',5,0,1,-1,'database.png'),
             (88,'Add Job','en',10,'jobs.php?add=1',0,0,1,4,'database_add.png'),
             (89,'Add Customer','en',1,'add_number.php',0,0,1,3,'database_add.png')";
             $result = mysqli_query($link, $sql);
