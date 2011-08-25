@@ -26,7 +26,7 @@ if (!isset($_GET['list'])) {
             
         }
     } else {
-        echo 'You have no lists of numbers. Click here to create one';        
+        echo 'The lists table is missing - you shouldn\'t be here';        
     }
     ?>
     </div>
