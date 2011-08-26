@@ -94,6 +94,18 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
         
+        /* Create the phone_calls table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "phone_calls")) {
+            $messages[] =  "Phone Calls table is missing...created";
+            $sql = "CREATE TABLE `phone_calls` (
+            `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
+            `callerid` VARCHAR(255) default NULL,
+            `extension` VARCHAR(255) default NULL,
+            PRIMARY KEY  (`id`)
+            ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
+        }
+        
         
         
         /* Create the menu_items table if missing */

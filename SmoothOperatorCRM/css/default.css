@@ -1359,3 +1359,8 @@ tr.installed {
 tr.notinstalled {
     background: #fff;
 }
+h2 {  
+    font-size: 1.5em;
+	margin: 1px;  
+    padding: 1px;
+} 
