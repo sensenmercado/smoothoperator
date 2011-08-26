@@ -258,7 +258,7 @@ if (isset($extra_head)) {
                          if (transport.responseText) {
                          var response = transport.responseText;
                          //alert("Success! \n\n" + response);
-                         window.location = "get_customer.php?phone_number="+response;
+                         window.location = "get_customer.php?pop=1&phone_number="+response;
                          }
                          },
                          onFailure: function(){ alert('Something went wrong...') }

@@ -86,12 +86,32 @@ if (mysqli_num_rows($result) > 0) {
     if (mysqli_num_rows($result) == 1) {
         // Single Row Found
         $row = mysqli_fetch_assoc($result);
+        if (isset($_GET['pop'])) {
+            $result = mysqli_query($connection, "INSERT INTO interractions (contact_date_time, notes, customer_id) VALUES (NOW(), 'Number screen popped to ".$_SESSION['user_name']." on extension: ".$_SESSION['extension']."', ".$row['id'].")");
+        } else {
+            $result = mysqli_query($connection, "INSERT INTO interractions (contact_date_time, notes, customer_id) VALUES (NOW(), 'Opened by ".$_SESSION['user_name']." on extension: ".$_SESSION['extension']."', ".$row['id'].")");
+
+        }
         echo '<div class="thin_700px_box">';
         display_customer_edit($row);
+        
+        $result = mysqli_query($connection, "SELECT * FROM interractions WHERE customer_id = ".$row['id']." ORDER BY contact_date_time desc");
+        if (mysqli_num_rows($result) > 0) {
+            echo '<br /><table class="sample">';
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo '<tr><th>Date: </th><td><b>'.$row['contact_date_time'].'</b></td></tr>';
+                echo '<tr><th>Notes: </th><td>'.$row['notes'].'</td></tr><tr><th colspan="2"></th></tr>';
+            }
+            echo '</table>';
+        }
+        
     } else {
         // Multiple Rows Found
+        
+        // TODO: FILL THIS OUT
+        
     }
-} else {
+} else {    
     ?>
     <div class="messages">
     This is a new entry
