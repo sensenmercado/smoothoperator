@@ -88,6 +88,7 @@ if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         if (isset($_GET['pop'])) {
             $result = mysqli_query($connection, "INSERT INTO interractions (contact_date_time, notes, customer_id) VALUES (NOW(), 'Number screen popped to ".$_SESSION['user_name']." on extension: ".$_SESSION['extension']."', ".$row['id'].")");
+            $_SESSION['calls']++;
         } else {
             $result = mysqli_query($connection, "INSERT INTO interractions (contact_date_time, notes, customer_id) VALUES (NOW(), 'Opened by ".$_SESSION['user_name']." on extension: ".$_SESSION['extension']."', ".$row['id'].")");
 

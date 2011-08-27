@@ -69,6 +69,7 @@
         $_SESSION['user_name'] = $_POST['username'];
         $_SESSION['user_level'] = $security_level;
         $_SESSION['extension'] = $row['extension'];
+        $_SESSION['calls'] = 0;
         $_SESSION['messages'] = $messages;
         $_SESSION['revision'] = REVISION;
         $result = mysqli_query($connection, "SELECT parameter, value FROM config");
