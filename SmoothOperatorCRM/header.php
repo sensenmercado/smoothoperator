@@ -229,7 +229,7 @@ if (isset($extra_head)) {
         }
         echo '><a href="'.$menu_links[$i].'" class="page_menu"><span>'.$menu_names[$i].'</span></a></li>';
     }
-    echo '<div style="display: inline-block;color: #fff"  id="date_div">'.@Date("H:i:s").'</div>';
+    echo '<div style="display: inline-block;color: #fff"  id="date_div">'.@Date("H:i:s").' ('.$_SESSION['calls'].' calls)</div>';
     ?>
     
     </ul>
@@ -247,7 +247,7 @@ if (isset($extra_head)) {
             seconds = "0"+seconds;
         }
         
-        eval("document.all.date_div.innerHTML = '"+hours + ":" + minutes + ":"+seconds+"'");
+        eval("document.all.date_div.innerHTML = '"+hours + ":" + minutes + ":"+seconds+" (<?=$_SESSION['calls']?> calls)'");
         
         
         
