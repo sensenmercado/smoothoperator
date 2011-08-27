@@ -106,6 +106,48 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
         
+        /* Create the scripts table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "scripts")) {
+            $messages[] =  "Scripts table is missing...created";
+            $sql = "CREATE TABLE `scripts` (
+            `id` INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
+            `name` VARCHAR(1024) default NULL,
+            `description` TEXT default NULL,
+            `owner` INT(11) default NULL,
+            `lastupdated` DATETIME default NULL,
+            `groupid` INT(11) default NULL,
+            PRIMARY KEY  (`id`)
+            ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
+        }
+        
+        /* Create the script_entries table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "script_entries")) {
+            $messages[] =  "Script Entries table is missing...created";
+            $sql = "CREATE TABLE `script_entries` (
+            `id` INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
+            `script_id` INT UNSIGNED default NULL,
+            `type` INT default NULL,
+            `statement` TEXT default NULL,
+            `order` INT(11) default NULL,
+            PRIMARY KEY  (`id`)
+            ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
+        }
+        
+        /* Create the script_choices table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "script_choices")) {
+            $messages[] =  "Script Choices table is missing...created";
+            $sql = "CREATE TABLE `script_choices` (
+            `id` INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
+            `script_id` INT UNSIGNED default NULL,
+            `text` VARCHAR(255) default NULL,
+            `value` VARCHAR(255) default NULL,
+            PRIMARY KEY  (`id`)
+            ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
+        }
+        
         
         
         /* Create the menu_items table if missing */
