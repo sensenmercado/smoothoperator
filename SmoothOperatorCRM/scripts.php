@@ -33,12 +33,12 @@
  * order - the position of the entry in the script as a whole
  *
  * If you are using a combo box field, the choices are supplied from the
- * combo_choices table.  This table has the following structure:
+ * script_choices table.  This table has the following structure:
  *
  * id - autoincrement index (automatically created)
  * script_id - id of the script that this refers to
  * text - the text of the choice (i.e. 'apple' or 'pear')
- * value - the value to be used when saving to database
+ * value - the value to be used when saving to database - i.e. without space
  *
 */
 
