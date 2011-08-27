@@ -149,25 +149,25 @@ DIV.mypars {text-align: left}
 
 #tlc
 	{
-	background-image:url(/images/tlc.gif);
+	background-image:url(../images/tlc.gif);
 	background-position: 0% 0%;
 	}
 
 #trc
 	{
-	background-image:url(/images/trc.gif);
+	background-image:url(../images/trc.gif);
 	background-position: 100% 0%;
 	}
 
 #blc
 	{
-	background-image:url(/images/blc.gif);
+	background-image:url(../images/blc.gif);
 	background-position: 0% 100%;
 	}
 
 #brc
 	{
-	background-image:url(/images/brc.gif);
+	background-image:url(../images/brc.gif);
 	background-position: 100% 100%;
 	}
 
@@ -179,19 +179,19 @@ DIV.mypars {text-align: left}
 
 #tb
 	{
-	background-image:url(/images/tb.gif);
+	background-image:url(../images/tb.gif);
 	background-position: 0% 0%;
 	}
 
 #bb
 	{
-	background-image:url(/images/bb.gif);
+	background-image:url(../images/bb.gif);
 	background-position: 50% 100%;
 	}
 
 #rb
 	{
-	background-image:url(/images/r.gif);
+	background-image:url(../images/r.gif);
 	background-position: 100% 0%;
 	background-repeat: repeat-y;
 	}
@@ -199,7 +199,7 @@ DIV.mypars {text-align: left}
 #lb
 	{
 	background-color: #eeeeee;
-	background-image:url(/images/l.gif);
+	background-image:url(../images/l.gif);
 	background-position: 0% 100%;
 	background-repeat: repeat-y;
 	}
