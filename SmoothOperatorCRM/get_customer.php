@@ -82,9 +82,44 @@
     
     
     /* Disposition */
-    echo '<div class="thin_700px_box">';
-    echo "Disposition:";
-    echo '</div>';
+    echo "<table>";
+    echo "Disposition:<tr>";
+    echo "<td><a href=\"aaa\">";
+    box_start(100);
+    echo "<center>";
+    echo "Success<br />";
+    ?>
+<br />
+<img src="images/icons/32x32/actions/button_ok" alt="Tick">
+<br />
+<br />
+    <?
+    box_end();
+    echo "</a></td>";
+    echo "<td><a href=\"aaa\">";
+    box_start(100);
+    echo "<center>";
+    echo "Unavailable<br />";
+?>
+<br />
+<img src="images/icons/32x32/actions/history" alt="Unavailable">
+<br />
+<br />
+<?
+    box_end();
+    echo "</a></td>";
+    echo "<td><a href=\"aaa\">";
+    box_start(100);
+    echo "<center>";
+    echo "Bla<br />";
+?>
+<br />
+<img src="images/icons/32x32/actions/button_cancel" alt="DNC">
+<br />
+<br />
+<?
+    box_end();
+    echo "</a></td></tr></table>";
     
     
     
