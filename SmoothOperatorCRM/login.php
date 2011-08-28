@@ -90,12 +90,13 @@
 <tr>
 <td valign="center">
 <form action="<?=$this_page?>" method="post">
-<b>Username:</b> <input class="rounded" type="text" name ="username"><br />
-<br />
-<b>Password:</b> <input class="rounded" type="password" name="password">
-
-</td><td>
-<input class="rounded" type="submit" value="login">
+<b>Username:</b>
+<input class="rounded" type="text" name ="username">
+<br /><br />
+<b>Password:</b>
+<input class="rounded" type="password" name="password">
+<br /><br />
+<input type="submit" value="login" style="width: 200px">
 </form>
 </td>
 </tr>
