@@ -136,8 +136,8 @@ $config_values = $_SESSION['config_values'];
 <script type="text/javascript" src="js/prototype_1.6.1.js"> </script>
 <script type="text/javascript" src="js/window.js"> </script>
 
-<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js'></script>
-<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.5.3/jquery-ui.min.js'></script>
+<script type='text/javascript' src='js/jquery.min.1.2.6.js'></script>
+<script type='text/javascript' src='js/jquery-ui.min.1.5.3.js'></script>
 
 <script type="text/javascript" src="js/swfobject.js"></script>
 <script type="text/javascript" src="js/jquery.uploadify.v2.1.0.min.js"></script>
