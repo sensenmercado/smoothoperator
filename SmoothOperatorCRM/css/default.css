@@ -68,7 +68,7 @@ table.sample {
         /*background:#ffe;*/
 }
 table.sample th {
-        border-width: 1px 1px 1px 1px;
+        border-width: 0px 1px 1px 0px;
         padding: 3px 3px 3px 3px;
         border-style: inset inset inset inset;
         border-color: gray gray gray gray;
@@ -77,11 +77,11 @@ table.sample th {
         text-align: left;
 }
 table.sample td {
-        border-width: 1px 1px 1px 1px;
+        border-width: 0px 0px 1px 0px;
         padding: 2px;
         border-style: inset inset inset inset;
         border-color: gray gray gray gray;
-        background: #fff;
+        background: #d6e5f4;
         -moz-border-radius: 0px 0px 0px 0px;
         text-align: left;
 }
@@ -584,6 +584,13 @@ div.inputhead {
 	width: 200px;
 	font-family: Verdana, "Bitstream Vera Sans", sans-serif;
 	font-size: small;
+}
+
+input[type="text"] {
+	width: 400px;
+    display: block;
+    padding: 4px;
+    border: solid 1px #85b1de;
 }
 
 .data {
