@@ -1,4 +1,4 @@
-<?php
+<?
 /* 
  * The idea here is to load and process customer records using scripts. This
  * differs from normal displaying of customer records in much the same way as a
@@ -40,12 +40,12 @@
  * text - the text of the choice (i.e. 'apple' or 'pear')
  * value - the value to be used when saving to database - i.e. without space
  *
-*/
+ */
 
-    require "header.php";
-    
-    
-    
-    require "footer.php";
-    
+require "header.php";
+
+
+
+require "footer.php";
+
 ?>
