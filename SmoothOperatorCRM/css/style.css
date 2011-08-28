@@ -123,7 +123,7 @@ DIV.mypars {text-align: left}
 	padding: 0;
 	text-align: left;
         background-color: #ffffff;
-	<-- use this to tie width to viewport size */
+        /* use this to tie width to viewport size */
         background-color: #ffffff;
 	}
 

@@ -491,9 +491,6 @@ div#header{
 }
 
 
-<!-- ----------------------------------------------- -->
-
-
 .tabbluelabel {
 	FONT: 12px Arial, Helvetica, sans-serif;
 	COLOR: #666666;
@@ -554,7 +551,7 @@ div#header{
 .tabimage {
 	text-decoration: none;
 	vertical-align: middle;
-	align: right;
+	text-align: right;
 }
 
 .progresscontainer {
