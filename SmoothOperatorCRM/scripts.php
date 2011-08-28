@@ -43,9 +43,63 @@
  */
 
 require "header.php";
-
-
-
+if (isset($_GET['add'])) {
+    ?>
+    <br />
+    <form action="scripts.php?edit_new=1" method="post">
+    <table class="sample">
+    <tr>
+    <th>Script Name</th>
+    <td><input type="text" name="name"></td>
+    </tr>
+    <tr>
+    <th colspan="2">Description</th>
+    </tr>
+    <tr>
+    <td colspan="2"><textarea name="description" rows="5"></textarea></td>
+    </tr>
+    <tr>
+    <th colspan="2"><center><input type="submit" value="Add Script" style="width: 200px"></center></th>
+    </tr>
+    </table>
+    </form>
+    <?
+    require "footer.php";
+    exit(0);
+}
+if (isset($_GET['edit_new'])) {
+    //TODO: make groupid work
+    $result = mysqli_query($connection, "INSERT INTO scripts (name, description, owner, lastupdated, groupid) VALUES (".sanitize($_POST['name']).",".sanitize($_POST['description']).", ".sanitize($_SESSION['user_name']).",NOW(),0)") or die(mysqli_error($connection));
+    $id =  mysqli_insert_id($connection);
+    redirect("scripts.php?edit=$id",0);
+    exit(0);
+}
+if (isset($_GET['edit'])) {
+    $result = mysqli_query($connection, "SELECT * FROM scripts WHERE id = ".sanitize($_GET['edit']));
+    if (mysqli_num_rows($result) == 0) {
+        // Not found - shouldn't be possible
+    } else {
+        $row = mysqli_fetch_assoc($result);
+        ?>
+        <br />
+        <form action="scripts.php?save=1" method="post">
+        <table class="sample">
+        <tr>
+        <th>Script Name</th>
+        <td><input type="text" name="name" value="<?=stripslashes($row['name'])?>"></td>
+        </tr>
+        <tr>
+        <th colspan="2">Description</th>
+        </tr>
+        <tr>
+        <td colspan="2"><textarea name="name" rows="5"><?=stripslashes($row['description'])?></textarea></td>
+        </tr>
+        </table>
+        <?
+    }
+    require "footer.php";
+    exit(0);
+}
 require "footer.php";
 
 ?>
