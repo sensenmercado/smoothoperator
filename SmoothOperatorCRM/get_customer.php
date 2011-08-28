@@ -72,7 +72,7 @@
                 echo '<tr><th colspan="2">'.clean_field_name($field).'</th></tr>';
                 echo '<tr><td colspan="2"><textarea cols="60" rows="10" name="'.$field.'">'.stripslashes($value).'</textarea></td></tr>';
             } else {
-                echo '<tr><th>'.clean_field_name($field).'</th><td><input type="text" name="'.$field.'" style="width: 400px" value="'.stripslashes($value).'"></td></tr>';
+                echo '<tr><th>'.clean_field_name($field).'</th><td><input type="text" name="'.$field.'" value="'.stripslashes($value).'"></td></tr>';
             }
         }
         echo '<tr><td colspan="2"><input type="submit" value="save changes"></td></tr>';
