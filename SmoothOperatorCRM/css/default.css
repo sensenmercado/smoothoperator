@@ -593,6 +593,21 @@ input[type="text"] {
     border: solid 1px #85b1de;
 }
 
+
+input.rounded {
+    display: inline;
+	width: 120px;
+    padding: 0px;
+    border: solid 1px #85b1de;
+}
+
+textarea {
+	width: 100%;
+    display: block;
+    padding: 4px;
+    border: solid 1px #85b1de;
+}
+
 .data {
 	margin-left: 20px;
 }
