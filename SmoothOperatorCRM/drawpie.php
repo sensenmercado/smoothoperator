@@ -1,3 +1,5 @@
+<?
+
 /* pChart library inclusions */
 include("class/pData.class.php");
 include("class/pDraw.class.php");
@@ -67,3 +69,5 @@ $PieChart->drawPieLegend(600,8,array("Style"=>LEGEND_NOBORDER,"Mode"=>LEGEND_HOR
 
 /* Render the picture (choose the best way) */
 $myPicture->autoOutput("pictures/example.draw3DPie.png");
+
+?>
