@@ -138,6 +138,10 @@ $config_values = $_SESSION['config_values'];
 
 <script type='text/javascript' src='js/jquery.min.1.2.6.js'></script>
 <script type='text/javascript' src='js/jquery-ui.min.1.5.3.js'></script>
+<script>
+jQuery.noConflict();
+</script>
+
 
 <script type="text/javascript" src="js/swfobject.js"></script>
 <script type="text/javascript" src="js/jquery.uploadify.v2.1.0.min.js"></script>

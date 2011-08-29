@@ -182,8 +182,8 @@ require "header.php";
 <td>
 <input id="fileInput" name="fileInput" type="file" />
 <script type="text/javascript">// <![CDATA[
-$(document).ready(function() {
-$('#fileInput').uploadify({
+jQuery(document).ready(function() {
+jQuery('#fileInput').uploadify({
 'uploader'  : 'swf/uploadify.swf',
 'script'    : 'uploadify.php',
 'cancelImg' : 'cancel.png',
@@ -198,7 +198,7 @@ $('#fileInput').uploadify({
 setInterval(myfunc, 30000);
 myfunc();
 function myfunc() {
-    $("#contentx").load("view_files.php");
+    jQuery("#contentx").load("view_files.php");
 }
 </script>
 </td>
