@@ -249,3 +249,6 @@ DIV.mypars {text-align: left}
     padding: 3px;
     border: 3px solid #f00;
 }
+.jeip-mouseover, .jeip-editfield {
+    background-color: #ffff99;
+}
