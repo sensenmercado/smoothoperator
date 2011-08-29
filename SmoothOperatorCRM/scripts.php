@@ -52,7 +52,7 @@ if (isset($_GET['save_field'])) {
     $field = sanitize($_POST['id'], false);
     $value = sanitize($_POST['new_value']);
     switch ($type) {
-            case "edit":
+        case "edit":
             $sql = "UPDATE scripts SET $field = $value WHERE id = $id";
             $result = mysqli_query($connection, $sql);
             break;
@@ -108,18 +108,83 @@ if (isset($_GET['edit'])) {
         $row = mysqli_fetch_assoc($result);
         ?>
         <script language="javascript">
-        var counter = 1;
-        var limit = 3;
         function addInput(divName){
-            if (counter == limit)  {
-                alert("You have reached the limit of adding " + counter + " inputs");
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = "Entry <br><input type='text' name='myInputs[]'>";
+            document.getElementById(divName).appendChild(newdiv);
+        }
+        function add_end_of_section(divName){
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = "<hr />";
+            document.getElementById(divName).appendChild(newdiv);
+        }
+        function add_statement_followed_by_text_field(statement, divName){
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = nl2br(statement)+" <br><input type='text' name='myInputs[]'>";
+            document.getElementById(divName).appendChild(newdiv);
+        }
+        function nl2br(dataStr) {
+            return dataStr.replace(/(\r\n|\r|\n)/g, "<br />");
+        }
+        function display_adder() {
+            /*
+             *       -1 - end of section/page
+             *        0 - statement followed by text field
+             *        1 - statement followed by a yes/no field
+             *        2 - statement followed by a combo box field
+             *        3 - statement followed by nothing
+             */
+            switch (jQuery("#input_type option:selected").val()) {
+                case '-1':
+                    /* End of section/page */
+                    add_end_of_section('dynamicInput');
+                    break;
+                case '0':
+                    Dialog.confirm('Statement: <textarea id="xxx"></textarea>', {className:'alphacube', width:400, 
+                                   okLabel: 'Add Section', cancelLabel: 'cancel',
+                                   onOk:function(win){
+                                   add_statement_followed_by_text_field(jQuery('#xxx').val(),'dynamicInput');
+                                   return true;
+                                   }
+                                   }
+                                   );
+                    break;
+                case '1':
+                    Dialog.confirm($('new_section_1').innerHTML, {className:'alphacube', width:400, 
+                                   okLabel: 'Add Section', cancelLabel: 'cancel',
+                                   onOk:function(win){
+                                   addInput('dynamicInput');
+                                   return true;
+                                   }
+                                   }
+                                   );
+                    break;
+                case '2':
+                    Dialog.confirm($('new_section_2').innerHTML, {className:'alphacube', width:400, 
+                                   okLabel: 'Add Section', cancelLabel: 'cancel',
+                                   onOk:function(win){
+                                   addInput('dynamicInput');
+                                   return true;
+                                   }
+                                   }
+                                   );
+                    break;
+                case '3':
+                    Dialog.confirm($('new_section_3').innerHTML, {className:'alphacube', width:400, 
+                                   okLabel: 'Add Section', cancelLabel: 'cancel',
+                                   onOk:function(win){
+                                   addInput('dynamicInput');
+                                   return true;
+                                   }
+                                   }
+                                   );
+                    break;
+                default:
+                    break;
+                    
             }
-            else {
-                var newdiv = document.createElement('div');
-                newdiv.innerHTML = "Entry " + (counter + 1) + " <br><input type='text' name='myInputs[]'>";
-                document.getElementById(divName).appendChild(newdiv);
-                counter++;
-            }
+            
+            
         }
         </script>
         <br />
@@ -134,19 +199,48 @@ if (isset($_GET['edit'])) {
         </tr>
         </table>
         <br />
+        <select name="input_type" id="input_type">
+        <option value="0">statement followed by text field</option>
+        <option value="1">statement followed by a yes/no field</option>
+        <option value="2">statement followed by a combo box field</option>
+        <option value="3">statement followed by nothing</option>
+        <option value="-1">end of section/page</option>
+        </select>
         
-        <a href="#" onClick="addInput('dynamicInput');"><img src="images/icons/32x32/add.png" width="32" height="32" alt="Add Section">Add Section</a>
-        <div id="dynamicInput">
+        <a href="#" onClick="display_adder();">Add Section</a>
+        <div id="dynamicInput" style="border: 1px solid #ccc; width: 75%;text-align: left; padding: 20px">
         </div>
-        <table class="sample">
-        <tr>
-        <td>Bla</td>
-        </tr>
-        </table>
+        <?/*
+           <table class="sample">
+           <tr>
+           <td>Bla</td>
+           </tr>
+           </table>
+           */?>
+        
+
+        <div id="new_section_1" style="display:none">
+        Bla        
+        <div style="clear:both"></div>
+        </div>
+
+        <div id="new_section_2" style="display:none">
+        Bla        
+        <div style="clear:both"></div>
+        </div>
+
+        <div id="new_section_3" style="display:none">
+        Bla        
+        <div style="clear:both"></div>
+        </div>
+
         <script>
         jQuery( "#name" ).eip( "scripts.php?save_field=1" );
         jQuery( "#description" ).eip( "scripts.php?save_field=1" );
-
+        
+        
+        
+        
         </script>
         <?
         
