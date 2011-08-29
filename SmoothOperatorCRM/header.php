@@ -141,6 +141,7 @@ $config_values = $_SESSION['config_values'];
 <script>
 jQuery.noConflict();
 </script>
+<script type="text/javascript" src="js/jeip.js"> </script>
 
 
 <script type="text/javascript" src="js/swfobject.js"></script>
