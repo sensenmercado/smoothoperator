@@ -42,6 +42,32 @@
  *
  */
 
+if (isset($_GET['save_field'])) {
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+    $url = parse_url($_POST['url']);
+    $exploded = explode("=",$url['query']);
+    $type = $exploded[0];
+    $id = sanitize($exploded[1]);
+    $field = sanitize($_POST['id'], false);
+    $value = sanitize($_POST['new_value']);
+    switch ($type) {
+            case "edit":
+            $sql = "UPDATE scripts SET $field = $value WHERE id = $id";
+            $result = mysqli_query($connection, $sql);
+            break;
+        default:
+            break;
+    }
+    
+    $response['is_error'] = false;
+    $response['error_string'] = mysqli_error($connection);;
+    $response['html'] = $_POST['new_value'];
+    echo json_encode($response);
+    exit(0);
+}
+
+
 require "header.php";
 if (isset($_GET['add'])) {
     ?>
@@ -78,24 +104,52 @@ if (isset($_GET['edit'])) {
     $result = mysqli_query($connection, "SELECT * FROM scripts WHERE id = ".sanitize($_GET['edit']));
     if (mysqli_num_rows($result) == 0) {
         // Not found - shouldn't be possible
-    } else {
+    } else {        
         $row = mysqli_fetch_assoc($result);
         ?>
+        <script language="javascript">
+        var counter = 1;
+        var limit = 3;
+        function addInput(divName){
+            if (counter == limit)  {
+                alert("You have reached the limit of adding " + counter + " inputs");
+            }
+            else {
+                var newdiv = document.createElement('div');
+                newdiv.innerHTML = "Entry " + (counter + 1) + " <br><input type='text' name='myInputs[]'>";
+                document.getElementById(divName).appendChild(newdiv);
+                counter++;
+            }
+        }
+        </script>
         <br />
-        <form action="scripts.php?save=1" method="post">
-        <table class="sample">
+        <table class="sample" width="400">
         <tr>
         <th>Script Name</th>
-        <td><input type="text" name="name" value="<?=stripslashes($row['name'])?>"></td>
+        <td><img src="images/pencil.png" align="right"><div id="name"><?=stripslashes($row['name'])?></div></td>
         </tr>
         <tr>
-        <th colspan="2">Description</th>
-        </tr>
-        <tr>
-        <td colspan="2"><textarea name="name" rows="5"><?=stripslashes($row['description'])?></textarea></td>
+        <th>Description</th>
+        <td><img src="images/pencil.png" align="right"><div id="description"><?=stripslashes($row['description'])?></div></td>
         </tr>
         </table>
+        <br />
+        
+        <a href="#" onClick="addInput('dynamicInput');"><img src="images/icons/32x32/add.png" width="32" height="32" alt="Add Section">Add Section</a>
+        <div id="dynamicInput">
+        </div>
+        <table class="sample">
+        <tr>
+        <td>Bla</td>
+        </tr>
+        </table>
+        <script>
+        jQuery( "#name" ).eip( "scripts.php?save_field=1" );
+        jQuery( "#description" ).eip( "scripts.php?save_field=1" );
+
+        </script>
         <?
+        
     }
     require "footer.php";
     exit(0);
