@@ -108,7 +108,9 @@ if (isset($_GET['edit'])) {
         $row = mysqli_fetch_assoc($result);
         ?>
         <script language="javascript">
+        var counter = 0;
         function addInput(divName){
+            counter++;
             var newdiv = document.createElement('div');
             newdiv.innerHTML = "Entry <br><input type='text' name='myInputs[]'>";
             document.getElementById(divName).appendChild(newdiv);
@@ -118,11 +120,14 @@ if (isset($_GET['edit'])) {
             newdiv.innerHTML = "<hr />";
             document.getElementById(divName).appendChild(newdiv);
         }
-        function add_statement_followed_by_text_field(statement, divName){
+        
+        function add_statement_followed_by_text_field(statement, textfield_name, divName){
+            counter++;
             var newdiv = document.createElement('div');
-            newdiv.innerHTML = nl2br(statement)+" <br><input type='text' name='myInputs[]'>";
+            newdiv.innerHTML = "<div class='script_input_entry'><b>"+counter+".</b> "+nl2br(statement)+" <br><input type='text' name='"+textfield_name+"'>";
             document.getElementById(divName).appendChild(newdiv);
         }
+        
         function nl2br(dataStr) {
             return dataStr.replace(/(\r\n|\r|\n)/g, "<br />");
         }
@@ -140,10 +145,10 @@ if (isset($_GET['edit'])) {
                     add_end_of_section('dynamicInput');
                     break;
                 case '0':
-                    Dialog.confirm('Statement: <textarea id="xxx"></textarea>', {className:'alphacube', width:400, 
+                    Dialog.confirm('Statement: <textarea id="statement_text"></textarea><br />Textfield Name (no spaces, unique): <input type="text" id="textfield_name">', {className:'alphacube', width:400, 
                                    okLabel: 'Add Section', cancelLabel: 'cancel',
                                    onOk:function(win){
-                                   add_statement_followed_by_text_field(jQuery('#xxx').val(),'dynamicInput');
+                                   add_statement_followed_by_text_field(jQuery('#statement_text').val(), jQuery('#textfield_name').val(),'dynamicInput');
                                    return true;
                                    }
                                    }
@@ -208,7 +213,14 @@ if (isset($_GET['edit'])) {
         </select>
         
         <a href="#" onClick="display_adder();">Add Section</a>
-        <div id="dynamicInput" style="border: 1px solid #ccc; width: 75%;text-align: left; padding: 20px">
+        <br />
+        <br />
+        <input type="button" value="Save Script">
+        <br />
+        <br />
+        
+        <div id="dynamicInput" class="script_input_section" style="">
+        <center><h3>Sample Script</h3></center>
         </div>
         <?/*
            <table class="sample">
