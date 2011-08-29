@@ -4,35 +4,35 @@ DIV.mypars {text-align: left}
 
 /*core drop shadow rules*/
 .wrap1, .wrap2, .wrap3 {
-        display:inline-table;
-        /* \*/display:block;/**/}
+    display:inline-table;
+    /* \*/display:block;/**/}
 .wrap1 {
-        float:left;
-        background:url(/images/shadow.gif) right bottom no-repeat;}
+    float:left;
+    background:url(/images/shadow.gif) right bottom no-repeat;}
 .wrap2 {background:url(/images/corner_bl.gif) left bottom no-repeat;}
 .wrap3 {
-        padding:0 8px 8px 0;
-        background:url(/images/corner_tr.gif) right top no-repeat;}
+    padding:0 8px 8px 0;
+    background:url(/images/corner_tr.gif) right top no-repeat;}
 .wrap3 table {
-       display:block;
-        border:1px solid #ccc;
-
-        border-color:#efefef #ccc #ccc #efefef;}
+    display:block;
+    border:1px solid #ccc;
+    
+    border-color:#efefef #ccc #ccc #efefef;}
 #v6 .wrap1 {background:url(/images/shadow.gif) right bottom no-repeat;}
 #v6 .wrap2 {background:url(/images/corner_bl.gif) -4px 100% no-repeat;}
 #v6 .wrap3 {
-        padding:0 16px 16px 0;
-        background:url(/images/corner_tr.gif) 100% -4px no-repeat;}
+    padding:0 16px 16px 0;
+    background:url(/images/corner_tr.gif) 100% -4px no-repeat;}
 .example {clear:both;
 }
-  table.center {}
+table.center {}
 
 
 /*--------------------------------------------------|
-| dTree 2.05 | www.destroydrop.com/javascript/tree/ |
-|---------------------------------------------------|
-| Copyright (c) 2002-2003 Geir Landrö               |
-|--------------------------------------------------*/
+ | dTree 2.05 | www.destroydrop.com/javascript/tree/ |
+ |---------------------------------------------------|
+ | Copyright (c) 2002-2003 Geir Landrö               |
+ |--------------------------------------------------*/
 
 .dtree {
     margin: 10px;
@@ -68,46 +68,46 @@ DIV.mypars {text-align: left}
 * html .boxhead h2 {height: 1%;} /* For IE 5 PC */
 
 .sidebox {
-        margin: 0 auto; /* center for now */
-        width: 17em; /* ems so it will grow */
-        background: url(http://www.venturevoip.com/sbbody-r.gif) no-repeat bottom right;
-        font-size: 100%;
+    margin: 0 auto; /* center for now */
+    width: 17em; /* ems so it will grow */
+    background: url(http://www.venturevoip.com/sbbody-r.gif) no-repeat bottom right;
+    font-size: 100%;
 }
 .boxhead {
-        background: url(http://www.venturevoip.com/sbhead-r.gif) no-repeat top right;
-        margin: 0;
-        padding: 0;
-        text-align: center;
+    background: url(http://www.venturevoip.com/sbhead-r.gif) no-repeat top right;
+    margin: 0;
+    padding: 0;
+    text-align: center;
 }
 .boxtext {
-        text-align: center;
-        background: url(http://www.venturevoip.com/sbhead-l.gif) no-repeat top left;
-        margin: 0;
-        padding: 22px 30px 5px;
-        color: white;
-        font-weight: bold;
-        font-size: 1.2em;
-        line-height: 1em;
-        text-shadow: rgba(0,0,0,.4) 0px 2px 5px; /* Safari-only, but cool */
+    text-align: center;
+    background: url(http://www.venturevoip.com/sbhead-l.gif) no-repeat top left;
+    margin: 0;
+    padding: 22px 30px 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+    line-height: 1em;
+    text-shadow: rgba(0,0,0,.4) 0px 2px 5px; /* Safari-only, but cool */
 }
 .boxhead h2 {
-        font-size:14px;
-        font-family:arial,sans-serif;
-        margin:500px;
-        color: #4B6EAD;
-        background: url(http://www.venturevoip.com/sbhead-l.gif) no-repeat top left;
-        padding: 22px 30px 5px;
-        padding: 600px;
-        color: white;
-        font-weight: bold;
-        font-size: 1.2em;
-        line-height: 1em;
-        text-shadow: rgba(0,0,0,.4) 0px 2px 5px; /* Safari-only, but cool */
+    font-size:14px;
+    font-family:arial,sans-serif;
+    margin:500px;
+    color: #4B6EAD;
+    background: url(http://www.venturevoip.com/sbhead-l.gif) no-repeat top left;
+    padding: 22px 30px 5px;
+    padding: 600px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+    line-height: 1em;
+    text-shadow: rgba(0,0,0,.4) 0px 2px 5px; /* Safari-only, but cool */
 }
 .boxbody {
-        background: url(http://www.venturevoip.com/sbbody-l.gif) no-repeat bottom left;
-        margin: 0;
-        padding: 5px 30px 31px;
+    background: url(http://www.venturevoip.com/sbbody-l.gif) no-repeat bottom left;
+    margin: 0;
+    padding: 5px 30px 31px;
 }
 
 
@@ -115,116 +115,116 @@ DIV.mypars {text-align: left}
 
 
 #box
-	{
+{
 	position: relative;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 0em;
 	padding: 0;
 	text-align: left;
-        background-color: #ffffff;
-        /* use this to tie width to viewport size */
-        background-color: #ffffff;
-	}
+    background-color: #ffffff;
+    /* use this to tie width to viewport size */
+    background-color: #ffffff;
+}
 
 
 
 
 /* ---=== border code follows ===--- */
 /*
-	tlc = top left corner
-	trc = top right corner
-	blc = bottom left corner
-	brc = bottom right corner
-	lb = left border
-	rb = right border
-	tb = top border
-	bb = bottom border
-*/
+ tlc = top left corner
+ trc = top right corner
+ blc = bottom left corner
+ brc = bottom right corner
+ lb = left border
+ rb = right border
+ tb = top border
+ bb = bottom border
+ */
 
 #tlc, #trc, #blc, #brc
-	{
+{
 	background-color: transparent;
 	background-repeat: no-repeat;
-	}
+}
 
 #tlc
-	{
+{
 	background-image:url(../images/tlc.png);
 	background-position: 0% 0%;
-	}
+}
 
 #trc
-	{
+{
 	background-image:url(../images/trc.png);
 	background-position: 100% 0%;
-	}
+}
 
 #blc
-	{
+{
 	background-image:url(../images/blc.png);
 	background-position: 0% 100%;
-	}
+}
 
 #brc
-	{
+{
 	background-image:url(../images/brc.png);
 	background-position: 100% 100%;
-	}
+}
 
 #tb, #bb
-	{
+{
 	background-color: transparent;
 	background-repeat: repeat-x;
-	}
+}
 
 #tb
-	{
+{
 	background-image:url(../images/tb.png);
 	background-position: 0% 0%;
-	}
+}
 
 #bb
-	{
+{
 	background-image:url(../images/bb.png);
 	background-position: 50% 100%;
-	}
+}
 
 #rb
-	{
+{
 	background-image:url(../images/r.png);
 	background-position: 100% 0%;
 	background-repeat: repeat-y;
-	}
+}
 
 #lb
-	{
-        background-color: #ffffff;
+{
+    background-color: #ffffff;
 	background-image:url(../images/l.png);
 	background-position: 0% 100%;
 	background-repeat: repeat-y;
-	}
+}
 
 #boxcontent
-	{
+{
 	padding:1em;
-	}
+}
 
 #boxcontent h1
-	{
+{
 	color:#0354c2;
 	font-weight: bold;
 	font-size: 1em;
 	font-family: helvetica, geneva, arial, sans-serif;
-	}
+}
 
 #boxcontent p
-	{
+{
 	color:#3b3b3b;
 	font-size: 1em;
 	line-height: 1.1em;
 	font-family: arial, helvetica, sans-serif;
-	}
+}
 
 .boxbutton {
     vertical-align:super;
@@ -251,4 +251,10 @@ DIV.mypars {text-align: left}
 }
 .jeip-mouseover, .jeip-editfield {
     background-color: #ffff99;
+}
+.script_input_section {
+    border: 1px solid #ccc; width: 75%;text-align: left; padding: 5px;background: #eee
+}
+.script_input_entry {
+    border: 1px solid #ccc;margin:10px;padding: 10px;background: #fff;
 }
