@@ -48,6 +48,16 @@ if (isset($_GET['add_section'])) {
     $sql = "INSERT INTO script_entries (`script_id`, `type`, `statement`, `order`) VALUES (".sanitize($_POST['script_id']).",".sanitize($_POST['type']).",".sanitize($_POST['statement']).",".sanitize($_POST['order']).")";
     //echo $sql;
     $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+    $new_id = mysqli_insert_id($connection);
+    echo $new_id;
+    exit(0);
+}
+if (isset($_GET['delete_section'])) {
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+    $sql = "DELETE FROM script_entries WHERE id = ".sanitize($_GET['delete_section']);
+    echo $sql;
+    $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     exit(0);
 }
 if (isset($_GET['save_field'])) {
@@ -116,6 +126,7 @@ if (isset($_GET['edit'])) {
         $row = mysqli_fetch_assoc($result);
         ?>
         <script language="javascript">
+        var entries_to_ids=new Array();
         var counter = 0;
         function addInput(divName){
             counter++;
@@ -130,8 +141,9 @@ if (isset($_GET['edit'])) {
         }
         
         
-        function save_statement_followed_by_text_field(statement, divName){
-            new Ajax.Request('scripts.php?add_section=1',{parameters: {script_id: <?=$_GET['edit']?>, type: 0, statement: statement, order: counter}});
+        function delete_entry_from_database(item) {
+            //alert("Deleting item "+item+" from script <?=$_GET['edit']?> (id "+entries_to_ids[parseInt(item)]+")");
+            new Ajax.Request('scripts.php?delete_section='+entries_to_ids[parseInt(item)]);
         }
         
         function delete_entry(item) {
@@ -142,10 +154,21 @@ if (isset($_GET['edit'])) {
                            okLabel: 'Yes', cancelLabel: 'No',
                            onOk:function(win){
                            jQuery("#entry"+item).remove();
+                           delete_entry_from_database(item);
                            return true;
                            }
                            }
                            );
+        }
+        
+        function save_statement_followed_by_text_field(statement, divName){
+            new Ajax.Request('scripts.php?add_section=1',{parameters: {script_id: <?=$_GET['edit']?>, type: 0, statement: statement, order: counter}, onSuccess: function(transport){
+                             if (transport.responseText) {
+                             var response = transport.responseText;
+                             entries_to_ids[counter] = parseInt(response);
+                             }
+                             }
+                             });
         }
         
         function add_statement_followed_by_text_field(statement, divName){
@@ -156,7 +179,14 @@ if (isset($_GET['edit'])) {
         }
         
         function save_statement_followed_by_yesno(statement, divName){
-            new Ajax.Request('scripts.php?add_section=1',{parameters: {script_id: <?=$_GET['edit']?>, type: 1, statement: statement, order: counter}});
+            new Ajax.Request('scripts.php?add_section=1',{parameters: {script_id: <?=$_GET['edit']?>, type: 1, statement: statement, order: counter}, onSuccess: function(transport){
+                             if (transport.responseText) {
+                             var response = transport.responseText;
+                             entries_to_ids[counter] = parseInt(response);
+                             }
+                             }
+                             });
+
         }
         
         function add_statement_followed_by_yesno(statement, divName){
@@ -238,11 +268,11 @@ if (isset($_GET['edit'])) {
         <table class="sample" width="400">
         <tr>
         <th>Script Name</th>
-        <td><img src="images/pencil.png" align="right"><div id="name"><?=stripslashes($row['name'])?></div></td>
+        <td><img src="images/pencil.png" align="right"><div id="name"><?if (strlen(stripslashes($row['name'])) > 0) {echo stripslashes($row['name']);} else {echo "No description";}?></div></td>
         </tr>
         <tr>
         <th>Description</th>
-        <td><img src="images/pencil.png" align="right"><div id="description"><?=stripslashes($row['description'])?></div></td>
+        <td><img src="images/pencil.png" align="right"><div id="description"><?if (strlen(stripslashes($row['description'])) > 0) {echo stripslashes($row['description']);} else {echo "No description";}?></div></td>
         </tr>
         </table>
         <br />
@@ -265,8 +295,15 @@ if (isset($_GET['edit'])) {
         <center><h3>Sample Script</h3></center>
         <?
         $result_entries = mysqli_query($connection, "SELECT * FROM script_entries WHERE script_id = ".$row['id']);
+        $x = 0;
         if (mysqli_num_rows($result_entries) > 0) {
             while ($row_entries = mysqli_fetch_assoc($result_entries)) {
+                $x++;
+                ?>
+                <script language="javascript">
+                entries_to_ids[<?=$x?>] = <?=$row_entries['id']?>;
+                </script>
+                <?
                 switch ($row_entries['type']) {
                     case 0:
                         ?>
