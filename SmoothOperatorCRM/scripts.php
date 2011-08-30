@@ -42,6 +42,14 @@
  *
  */
 
+if (isset($_GET['add_section'])) {
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+    $sql = "INSERT INTO script_entries (`script_id`, `type`, `statement`, `order`) VALUES (".sanitize($_POST['script_id']).",".sanitize($_POST['type']).",".sanitize($_POST['statement']).",".sanitize($_POST['order']).")";
+    //echo $sql;
+    $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+    exit(0);
+}
 if (isset($_GET['save_field'])) {
     require "config/db_config.php";
     require "functions/sanitize.php";
@@ -121,10 +129,15 @@ if (isset($_GET['edit'])) {
             document.getElementById(divName).appendChild(newdiv);
         }
         
-        function add_statement_followed_by_text_field(statement, textfield_name, divName){
+        
+        function save_statement_followed_by_text_field(statement, divName){
+            new Ajax.Request('scripts.php?add_section=1',{parameters: {script_id: <?=$_GET['edit']?>, type: 0, statement: statement, order: counter}});
+        }
+        
+        function add_statement_followed_by_text_field(statement, divName){
             counter++;
             var newdiv = document.createElement('div');
-            newdiv.innerHTML = "<div class='script_input_entry'><b>"+counter+".</b> "+nl2br(statement)+" <br><input type='text' name='"+textfield_name+"'>";
+            newdiv.innerHTML = "<div class='script_input_entry'><b>"+counter+".</b> "+nl2br(statement)+" <br><input type='text' name='field"+counter+"'>";
             document.getElementById(divName).appendChild(newdiv);
         }
         
@@ -145,10 +158,11 @@ if (isset($_GET['edit'])) {
                     add_end_of_section('dynamicInput');
                     break;
                 case '0':
-                    Dialog.confirm('Statement: <textarea id="statement_text"></textarea><br />Textfield Name (no spaces, unique): <input type="text" id="textfield_name">', {className:'alphacube', width:400, 
+                    Dialog.confirm('Statement: <textarea id="statement_text" rows="10"></textarea>', {className:'alphacube', width:400, 
                                    okLabel: 'Add Section', cancelLabel: 'cancel',
                                    onOk:function(win){
-                                   add_statement_followed_by_text_field(jQuery('#statement_text').val(), jQuery('#textfield_name').val(),'dynamicInput');
+                                   save_statement_followed_by_text_field(nl2br(jQuery('#statement_text').val()), 'dynamicInput');
+                                   add_statement_followed_by_text_field(jQuery('#statement_text').val(), 'dynamicInput');
                                    return true;
                                    }
                                    }
@@ -221,6 +235,22 @@ if (isset($_GET['edit'])) {
         
         <div id="dynamicInput" class="script_input_section" style="">
         <center><h3>Sample Script</h3></center>
+        <?
+        $result_entries = mysqli_query($connection, "SELECT * FROM script_entries WHERE script_id = ".$row['id']);
+        if (mysqli_num_rows($result_entries) > 0) {
+            while ($row_entries = mysqli_fetch_assoc($result_entries)) {
+                switch ($row_entries['type']) {
+                    case 0:
+                        ?>
+                        <script>add_statement_followed_by_text_field(<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput');</script>
+                        <?
+                        break;
+                }
+                
+            }
+        }
+        
+        ?>
         </div>
         <?/*
            <table class="sample">
@@ -230,22 +260,22 @@ if (isset($_GET['edit'])) {
            </table>
            */?>
         
-
+        
         <div id="new_section_1" style="display:none">
         Bla        
         <div style="clear:both"></div>
         </div>
-
+        
         <div id="new_section_2" style="display:none">
         Bla        
         <div style="clear:both"></div>
         </div>
-
+        
         <div id="new_section_3" style="display:none">
         Bla        
         <div style="clear:both"></div>
         </div>
-
+        
         <script>
         jQuery( "#name" ).eip( "scripts.php?save_field=1" );
         jQuery( "#description" ).eip( "scripts.php?save_field=1" );
