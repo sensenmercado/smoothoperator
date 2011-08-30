@@ -135,11 +135,22 @@ if (isset($_GET['edit'])) {
             document.getElementById(divName).appendChild(newdiv);
         }
         function add_end_of_section(divName){
+            counter++;
             var newdiv = document.createElement('div');
-            newdiv.innerHTML = "<hr />";
+            newdiv.innerHTML = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16 height='16' align='right'></a><hr /></div>";
             document.getElementById(divName).appendChild(newdiv);
         }
         
+        function save_end_of_section(){
+            new Ajax.Request('scripts.php?add_section=1',{parameters: {script_id: <?=$_GET['edit']?>, type: -1, statement: "", order: counter}, onSuccess: function(transport){
+                             if (transport.responseText) {
+                             var response = transport.responseText;
+                             entries_to_ids[counter] = parseInt(response);
+                             }
+                             }
+                             });
+            
+        }
         
         function delete_entry_from_database(item) {
             //alert("Deleting item "+item+" from script <?=$_GET['edit']?> (id "+entries_to_ids[parseInt(item)]+")");
@@ -161,6 +172,9 @@ if (isset($_GET['edit'])) {
                            );
         }
         
+        
+        /* Statement followed by text field */
+        
         function save_statement_followed_by_text_field(statement, divName){
             new Ajax.Request('scripts.php?add_section=1',{parameters: {script_id: <?=$_GET['edit']?>, type: 0, statement: statement, order: counter}, onSuccess: function(transport){
                              if (transport.responseText) {
@@ -178,6 +192,9 @@ if (isset($_GET['edit'])) {
             document.getElementById(divName).appendChild(newdiv);
         }
         
+        
+        /* Statement followed by yes/no */
+        
         function save_statement_followed_by_yesno(statement, divName){
             new Ajax.Request('scripts.php?add_section=1',{parameters: {script_id: <?=$_GET['edit']?>, type: 1, statement: statement, order: counter}, onSuccess: function(transport){
                              if (transport.responseText) {
@@ -186,7 +203,7 @@ if (isset($_GET['edit'])) {
                              }
                              }
                              });
-
+            
         }
         
         function add_statement_followed_by_yesno(statement, divName){
@@ -195,6 +212,47 @@ if (isset($_GET['edit'])) {
             newdiv.innerHTML = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16 height='16' align='right'></a>"+nl2br(statement)+" <br><select name='field"+counter+"'><option value='YES'>Yes</option><option value='NO'>No</option></select>";
             document.getElementById(divName).appendChild(newdiv);
         }
+        
+        /* Statement followed by combobox */
+        
+        function save_statement_followed_by_combobox(statement, divName){
+            new Ajax.Request('scripts.php?add_section=1',{parameters: {script_id: <?=$_GET['edit']?>, type: 2, statement: statement, order: counter}, onSuccess: function(transport){
+                             if (transport.responseText) {
+                             var response = transport.responseText;
+                             entries_to_ids[counter] = parseInt(response);
+                             }
+                             }
+                             });            
+        }
+        
+        function add_statement_followed_by_combobox(statement, divName){
+            counter++;
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16 height='16' align='right'></a>"+nl2br(statement)+" <br><select name='field"+counter+"'><option value='YES'>Yes</option><option value='NO'>No</option></select>";
+            document.getElementById(divName).appendChild(newdiv);
+        }
+        
+        /* Statement followed by nothing */
+        
+        function save_statement_followed_by_nothing(statement, divName){
+            new Ajax.Request('scripts.php?add_section=1',{parameters: {script_id: <?=$_GET['edit']?>, type: 3, statement: statement, order: counter}, onSuccess: function(transport){
+                             if (transport.responseText) {
+                             var response = transport.responseText;
+                             entries_to_ids[counter] = parseInt(response);
+                             }
+                             }
+                             });
+            
+        }
+        
+        function add_statement_followed_by_nothing(statement, divName){
+            counter++;
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16 height='16' align='right'></a>"+nl2br(statement);
+            document.getElementById(divName).appendChild(newdiv);
+        }
+        
+        
         
         function nl2br(dataStr) {
             return dataStr.replace(/(\r\n|\r|\n)/g, "<br />");
@@ -210,6 +268,7 @@ if (isset($_GET['edit'])) {
             switch (jQuery("#input_type option:selected").val()) {
                 case '-1':
                     /* End of section/page */
+                    save_end_of_section('dynamicInput');
                     add_end_of_section('dynamicInput');
                     break;
                 case '0':
@@ -238,8 +297,8 @@ if (isset($_GET['edit'])) {
                     Dialog.confirm('Statement: <textarea id="statement_text" rows="10"></textarea>', {className:'alphacube', width:400, 
                                    okLabel: 'Add Section', cancelLabel: 'cancel',
                                    onOk:function(win){
-                                   save_statement_followed_by_text_field(nl2br(jQuery('#statement_text').val()), 'dynamicInput');
-                                   add_statement_followed_by_text_field(jQuery('#statement_text').val(), 'dynamicInput');
+                                   save_statement_followed_by_combobox(nl2br(jQuery('#statement_text').val()), 'dynamicInput');
+                                   add_statement_followed_by_combobox(jQuery('#statement_text').val(), 'dynamicInput');
                                    return true;
                                    }
                                    }
@@ -249,8 +308,8 @@ if (isset($_GET['edit'])) {
                     Dialog.confirm('Statement: <textarea id="statement_text" rows="10"></textarea>', {className:'alphacube', width:400, 
                                    okLabel: 'Add Section', cancelLabel: 'cancel',
                                    onOk:function(win){
-                                   save_statement_followed_by_text_field(nl2br(jQuery('#statement_text').val()), 'dynamicInput');
-                                   add_statement_followed_by_text_field(jQuery('#statement_text').val(), 'dynamicInput');
+                                   save_statement_followed_by_nothing(nl2br(jQuery('#statement_text').val()), 'dynamicInput');
+                                   add_statement_followed_by_nothing(jQuery('#statement_text').val(), 'dynamicInput');
                                    return true;
                                    }
                                    }
@@ -313,6 +372,21 @@ if (isset($_GET['edit'])) {
                     case 1:
                         ?>
                         <script>add_statement_followed_by_yesno(<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput');</script>
+                        <?
+                        break;
+                    case 2:
+                        ?>
+                        <script>add_statement_followed_by_combobox(<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput');</script>
+                        <?
+                        break;
+                    case 3:
+                        ?>
+                        <script>add_statement_followed_by_nothing(<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput');</script>
+                        <?
+                        break;
+                    case -1:
+                        ?>
+                        <script>add_end_of_section('dynamicInput');</script>
                         <?
                         break;
                 }
