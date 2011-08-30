@@ -260,6 +260,23 @@ if (isset($_GET['edit'])) {
     require "footer.php";
     exit(0);
 }
+
+/* Just display entries */
+echo "<br />";
+$result = mysqli_query($connection, "SELECT * FROM scripts");
+if (mysqli_num_rows($result) == 0) {
+    echo "There are currently no scripts defined.";
+} else {
+    echo '<table class="sample">';
+    echo '<tr><th>Name</th><th>Last Updated</th><th>Delete</th></tr>';
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo "<tr>";
+        echo '<td><a href="scripts.php?edit='.$row['id'].'">'.$row['name'].'&nbsp;<img src="images/pencil.png" alt="edit"></a></td><td>'.$row['lastupdated'].'</td><td><a href="scripts.php?delete='.$row['id'].'"><img src="images/delete.png" alt="delete"></a></td>';
+        //print_pre($row);
+        echo "</tr>";
+    }
+    echo '</table>';
+}
 require "footer.php";
 
 ?>
