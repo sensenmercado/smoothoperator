@@ -141,6 +141,17 @@ if (isset($_GET['edit'])) {
             document.getElementById(divName).appendChild(newdiv);
         }
         
+        function save_statement_followed_by_yesno(statement, divName){
+            new Ajax.Request('scripts.php?add_section=1',{parameters: {script_id: <?=$_GET['edit']?>, type: 1, statement: statement, order: counter}});
+        }
+        
+        function add_statement_followed_by_yesno(statement, divName){
+            counter++;
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = "<div class='script_input_entry'><b>"+counter+".</b> "+nl2br(statement)+" <br><select name='field"+counter+"'><option value='YES'>Yes</option><option value='NO'>No</option></select>";
+            document.getElementById(divName).appendChild(newdiv);
+        }
+        
         function nl2br(dataStr) {
             return dataStr.replace(/(\r\n|\r|\n)/g, "<br />");
         }
@@ -169,30 +180,33 @@ if (isset($_GET['edit'])) {
                                    );
                     break;
                 case '1':
-                    Dialog.confirm($('new_section_1').innerHTML, {className:'alphacube', width:400, 
+                    Dialog.confirm('Statement: <textarea id="statement_text" rows="10"></textarea>', {className:'alphacube', width:400, 
                                    okLabel: 'Add Section', cancelLabel: 'cancel',
                                    onOk:function(win){
-                                   addInput('dynamicInput');
+                                   save_statement_followed_by_yesno(nl2br(jQuery('#statement_text').val()), 'dynamicInput');
+                                   add_statement_followed_by_yesno(jQuery('#statement_text').val(), 'dynamicInput');
                                    return true;
                                    }
                                    }
                                    );
                     break;
                 case '2':
-                    Dialog.confirm($('new_section_2').innerHTML, {className:'alphacube', width:400, 
+                    Dialog.confirm('Statement: <textarea id="statement_text" rows="10"></textarea>', {className:'alphacube', width:400, 
                                    okLabel: 'Add Section', cancelLabel: 'cancel',
                                    onOk:function(win){
-                                   addInput('dynamicInput');
+                                   save_statement_followed_by_text_field(nl2br(jQuery('#statement_text').val()), 'dynamicInput');
+                                   add_statement_followed_by_text_field(jQuery('#statement_text').val(), 'dynamicInput');
                                    return true;
                                    }
                                    }
                                    );
                     break;
                 case '3':
-                    Dialog.confirm($('new_section_3').innerHTML, {className:'alphacube', width:400, 
+                    Dialog.confirm('Statement: <textarea id="statement_text" rows="10"></textarea>', {className:'alphacube', width:400, 
                                    okLabel: 'Add Section', cancelLabel: 'cancel',
                                    onOk:function(win){
-                                   addInput('dynamicInput');
+                                   save_statement_followed_by_text_field(nl2br(jQuery('#statement_text').val()), 'dynamicInput');
+                                   add_statement_followed_by_text_field(jQuery('#statement_text').val(), 'dynamicInput');
                                    return true;
                                    }
                                    }
@@ -243,6 +257,11 @@ if (isset($_GET['edit'])) {
                     case 0:
                         ?>
                         <script>add_statement_followed_by_text_field(<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput');</script>
+                        <?
+                        break;
+                    case 1:
+                        ?>
+                        <script>add_statement_followed_by_yesno(<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput');</script>
                         <?
                         break;
                 }
