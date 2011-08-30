@@ -134,10 +134,24 @@ if (isset($_GET['edit'])) {
             new Ajax.Request('scripts.php?add_section=1',{parameters: {script_id: <?=$_GET['edit']?>, type: 0, statement: statement, order: counter}});
         }
         
+        function delete_entry(item) {
+            /* The item number is the number in the script starting from one - bearing in mind that there may be deleted
+             entries.  I.E. Item 1 may not be id 1.  If you had three entries and you delete id 1 and id 2 then item 1 would
+             be id 2 (id is zero based) */
+            Dialog.confirm('Are you sure you want to remove this section?', {className:'alphacube', width:400, 
+                           okLabel: 'Yes', cancelLabel: 'No',
+                           onOk:function(win){
+                           jQuery("#entry"+item).remove();
+                           return true;
+                           }
+                           }
+                           );
+        }
+        
         function add_statement_followed_by_text_field(statement, divName){
             counter++;
             var newdiv = document.createElement('div');
-            newdiv.innerHTML = "<div class='script_input_entry'><b>"+counter+".</b> "+nl2br(statement)+" <br><input type='text' name='field"+counter+"'>";
+            newdiv.innerHTML = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16 height='16' align='right'></a>"+nl2br(statement)+" <br><input type='text' name='field"+counter+"'>";
             document.getElementById(divName).appendChild(newdiv);
         }
         
@@ -148,7 +162,7 @@ if (isset($_GET['edit'])) {
         function add_statement_followed_by_yesno(statement, divName){
             counter++;
             var newdiv = document.createElement('div');
-            newdiv.innerHTML = "<div class='script_input_entry'><b>"+counter+".</b> "+nl2br(statement)+" <br><select name='field"+counter+"'><option value='YES'>Yes</option><option value='NO'>No</option></select>";
+            newdiv.innerHTML = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16 height='16' align='right'></a>"+nl2br(statement)+" <br><select name='field"+counter+"'><option value='YES'>Yes</option><option value='NO'>No</option></select>";
             document.getElementById(divName).appendChild(newdiv);
         }
         
