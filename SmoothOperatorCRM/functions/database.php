@@ -140,7 +140,7 @@ if (!function_exists('so_check_databases')) {
             $messages[] =  "Script Choices table is missing...created";
             $sql = "CREATE TABLE `script_choices` (
             `id` INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
-            `script_id` INT UNSIGNED default NULL,
+            `script_entry_id` INT UNSIGNED default NULL,
             `text` VARCHAR(255) default NULL,
             `value` VARCHAR(255) default NULL,
             PRIMARY KEY  (`id`)
