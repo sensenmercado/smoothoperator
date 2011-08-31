@@ -36,7 +36,7 @@
  * script_choices table.  This table has the following structure:
  *
  * id - autoincrement index (automatically created)
- * script_id - id of the script that this refers to
+ * script_entry_id - id of the script entry that this refers to
  * text - the text of the choice (i.e. 'apple' or 'pear')
  * value - the value to be used when saving to database - i.e. without space
  *
