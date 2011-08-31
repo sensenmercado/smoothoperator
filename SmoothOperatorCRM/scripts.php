@@ -38,7 +38,6 @@
  * id - autoincrement index (automatically created)
  * script_entry_id - id of the script entry that this refers to
  * text - the text of the choice (i.e. 'apple' or 'pear')
- * value - the value to be used when saving to database - i.e. without space
  *
  */
 
@@ -52,6 +51,18 @@ if (isset($_GET['add_section'])) {
     echo $new_id;
     exit(0);
 }
+
+if (isset($_GET['add_combobox_entry'])) {
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+    $sql = "INSERT INTO script_choices (`script_entry_id`, `text`) VALUES (".sanitize($_POST['script_entry_id']).",".sanitize($_POST['text']).")";
+    //echo $sql;
+    $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+    //  $new_id = mysqli_insert_id($connection);
+    //echo $new_id;
+    exit(0);
+}
+
 if (isset($_GET['delete_section'])) {
     require "config/db_config.php";
     require "functions/sanitize.php";
@@ -188,7 +199,7 @@ if (isset($_GET['edit'])) {
         function add_statement_followed_by_text_field(statement, divName){
             counter++;
             var newdiv = document.createElement('div');
-            newdiv.innerHTML = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16 height='16' align='right'></a>"+nl2br(statement)+" <br><input type='text' name='field"+counter+"'>";
+            newdiv.innerHTML = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16' height='16' align='right'></a>"+nl2br(statement)+" <br><input type='text' name='field"+counter+"'></div>";
             document.getElementById(divName).appendChild(newdiv);
         }
         
@@ -209,28 +220,71 @@ if (isset($_GET['edit'])) {
         function add_statement_followed_by_yesno(statement, divName){
             counter++;
             var newdiv = document.createElement('div');
-            newdiv.innerHTML = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16 height='16' align='right'></a>"+nl2br(statement)+" <br><select name='field"+counter+"'><option value='YES'>Yes</option><option value='NO'>No</option></select>";
+            newdiv.innerHTML = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16' height='16' align='right'></a>"+nl2br(statement)+" <br><select name='field"+counter+"'><option value='YES'>Yes</option><option value='NO'>No</option></select></div>";
             document.getElementById(divName).appendChild(newdiv);
         }
         
         /* Statement followed by combobox */
         
-        function save_statement_followed_by_combobox(statement, divName){
+        function save_statement_followed_by_combobox(statement, comboboxes, divName){
+            var saved_id = 0;
             new Ajax.Request('scripts.php?add_section=1',{parameters: {script_id: <?=$_GET['edit']?>, type: 2, statement: statement, order: counter}, onSuccess: function(transport){
                              if (transport.responseText) {
                              var response = transport.responseText;
+                             //alert("Response: "+response);
                              entries_to_ids[counter] = parseInt(response);
+                             saved_id = parseInt(response);
+                             //alert(saved_id);
+                             comboboxes.each(function(){
+                                             new Ajax.Request('scripts.php?add_combobox_entry=1',{parameters: {script_entry_id: saved_id, text: jQuery(this).val()}, onSuccess: function(transport){
+                                                              if (transport.responseText) {
+                                                              //alert(transport.responseText);
+                                                              
+                                                              }
+                                                              }
+                                                              });  
+                                             });
+                             
                              }
                              }
-                             });            
+                             });       
         }
         
-        function add_statement_followed_by_combobox(statement, divName){
+        function add_statement_followed_by_combobox(statement, comboboxes, divName){
             counter++;
             var newdiv = document.createElement('div');
-            newdiv.innerHTML = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16 height='16' align='right'></a>"+nl2br(statement)+" <br><select name='field"+counter+"'><option value='YES'>Yes</option><option value='NO'>No</option></select>";
+            var ih = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16' height='16' align='right'></a>"+nl2br(statement)+" <br><select name='field"+counter+"'>";
+            comboboxes.each(function(){
+                            ih += "<option value='"+jQuery(this).val()+"'>"+jQuery(this).val()+"</option>";
+                            });
+            ih += "</select></div>";
+            newdiv.innerHTML = ih;            
             document.getElementById(divName).appendChild(newdiv);
         }
+        
+        function add_statement_followed_by_combobox_from_db(statement, comboboxes, divName){
+            counter++;
+            var newdiv = document.createElement('div');
+            var ih = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16' height='16' align='right'></a>"+nl2br(statement)+" <br><select name='field"+counter+"'>";
+            comboboxes.forEach(function(item){
+                               ih += "<option value='"+item+"'>"+item+"</option>";
+                               });
+            ih += "</select></div>";
+            newdiv.innerHTML = ih;            
+            document.getElementById(divName).appendChild(newdiv);
+        }
+        
+        
+        function add_combobox_option(divName){
+            //alert("Adding option");
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = '<input type="text" name="combobox_option[]"><br />';
+            document.getElementById(divName).appendChild(newdiv);
+            Windows.focusedWindow.updateHeight();
+        }
+        
+        
+        
         
         /* Statement followed by nothing */
         
@@ -248,7 +302,7 @@ if (isset($_GET['edit'])) {
         function add_statement_followed_by_nothing(statement, divName){
             counter++;
             var newdiv = document.createElement('div');
-            newdiv.innerHTML = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16 height='16' align='right'></a>"+nl2br(statement);
+            newdiv.innerHTML = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16' height='16' align='right'></a>"+nl2br(statement)+"</div>";
             document.getElementById(divName).appendChild(newdiv);
         }
         
@@ -294,11 +348,12 @@ if (isset($_GET['edit'])) {
                                    );
                     break;
                 case '2':
-                    Dialog.confirm('Statement: <textarea id="statement_text" rows="10"></textarea>', {className:'alphacube', width:400, 
+                    /* Add a statement followed by a combobox */
+                    Dialog.confirm('Statement: <textarea id="statement_text" rows="10"></textarea><div id="combobox_options">Options: </div><a href="#" onclick="add_combobox_option(\'combobox_options\');">Add Option</a>', {className:'alphacube', width:400, 
                                    okLabel: 'Add Section', cancelLabel: 'cancel',
                                    onOk:function(win){
-                                   save_statement_followed_by_combobox(nl2br(jQuery('#statement_text').val()), 'dynamicInput');
-                                   add_statement_followed_by_combobox(jQuery('#statement_text').val(), 'dynamicInput');
+                                   save_statement_followed_by_combobox(nl2br(jQuery('#statement_text').val()), jQuery('input[name="combobox_option[]"]'), 'dynamicInput');
+                                   add_statement_followed_by_combobox(jQuery('#statement_text').val(), jQuery('input[name="combobox_option[]"]'), 'dynamicInput');
                                    return true;
                                    }
                                    }
@@ -346,7 +401,7 @@ if (isset($_GET['edit'])) {
         <a href="#" onClick="display_adder();">Add Section</a>
         <br />
         <br />
-        <input type="button" value="Save Script">
+        <input type="button" value="Close Script" onclick="window.location='scripts.php';">
         <br />
         <br />
         
@@ -376,7 +431,25 @@ if (isset($_GET['edit'])) {
                         break;
                     case 2:
                         ?>
-                        <script>add_statement_followed_by_combobox(<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput');</script>
+                        <script>
+                        var combobox_entries=new Array();
+                        <?
+                        $sql = "SELECT * FROM script_choices WHERE script_entry_id = ".$row_entries['id'];
+                        $result_comboboxes = mysqli_query($connection, $sql);
+                        if (mysqli_num_rows($result_comboboxes) > 0) {
+                            //echo "alert('$sql');";
+                            $count = 0;
+                            while ($row_comboboxes = mysqli_fetch_assoc($result_comboboxes)) {
+                                $string = 'combobox_entries['.$count.'] = "'.$row_comboboxes['text'].'";';
+                                echo $string;
+                                $count++;
+                            }
+                        } else {
+                            //echo "alert('No results from $sql');";
+                        }
+                        ?>
+                        add_statement_followed_by_combobox_from_db(<?=stripslashes(sanitize($row_entries['statement']))?>, combobox_entries, 'dynamicInput');
+                        </script>
                         <?
                         break;
                     case 3:

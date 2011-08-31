@@ -141,8 +141,7 @@ if (!function_exists('so_check_databases')) {
             $sql = "CREATE TABLE `script_choices` (
             `id` INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
             `script_entry_id` INT UNSIGNED default NULL,
-            `text` VARCHAR(255) default NULL,
-            `value` VARCHAR(255) default NULL,
+            `text` VARCHAR(1024) default NULL,
             PRIMARY KEY  (`id`)
             ) ENGINE=InnoDB";
             $result = mysqli_query($link, $sql);
