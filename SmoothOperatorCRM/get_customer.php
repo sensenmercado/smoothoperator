@@ -90,7 +90,7 @@
     echo "Success<br />";
     ?>
 <br />
-<img src="images/icons/32x32/actions/button_ok" alt="Tick">
+<img src="images/icons/32x32/actions/button_ok.png" alt="Tick">
 <br />
 <br />
     <?
@@ -102,7 +102,7 @@
     echo "Unavailable<br />";
 ?>
 <br />
-<img src="images/icons/32x32/actions/history" alt="Unavailable">
+<img src="images/icons/32x32/actions/history.png" alt="Unavailable">
 <br />
 <br />
 <?
@@ -114,7 +114,7 @@
     echo "Bla<br />";
 ?>
 <br />
-<img src="images/icons/32x32/actions/button_cancel" alt="DNC">
+<img src="images/icons/32x32/actions/button_cancel.png" alt="DNC">
 <br />
 <br />
 <?
