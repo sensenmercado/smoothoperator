@@ -65,7 +65,11 @@ if (isset($_GET[save_new])) {
     $sql2 = ") VALUES (";
     foreach ($_POST as $field=>$value) {
         $field = sanitize($field, false);
-        $value = sanitize($value);
+        if ($field == "password") {
+            $value = sanitize(sha1($value));
+        } else {
+            $value = sanitize($value);
+        }
         $sql1.= "$field, ";
         $sql2.= "$value, ";
     }
