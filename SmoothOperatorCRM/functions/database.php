@@ -98,8 +98,8 @@ if (!function_exists('so_check_databases')) {
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "job_members")) {
             $messages[] =  "Job Members table is missing...created";
             $sql = "CREATE TABLE `job_members` (
-            `job_id` int(11) NOT NULL auto_increment,
-            `user_id` text default NULL
+            `job_id` int(11),
+            `user_id` int(11)
             ) ENGINE=InnoDB";
             $result = mysqli_query($link, $sql);
         }
