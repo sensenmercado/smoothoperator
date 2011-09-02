@@ -1308,6 +1308,10 @@ ul#list_1 li{
     width:180px;
     padding:5px 10px;
     margin-bottom:5px;
+    background-position-x: 2px;
+    background-position-y: 2px;
+    background-image: url("../images/drag.png");
+    background-repeat: no-repeat;
 }
 
 ul#list_2 {
@@ -1324,6 +1328,10 @@ ul#list_2 li{
     width:180px;
     padding:5px 10px;
     margin-bottom:5px;
+    background-position-x: 2px;
+    background-position-y: 2px;
+    background-image: url("../images/drag.png");
+    background-repeat: no-repeat;
 }
 
 .dds_selected {

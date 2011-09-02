@@ -258,7 +258,7 @@ require "header.php";
  jQuery.fn.drag_drop_selectable.unique=0;
  jQuery.fn.drag_drop_selectable.stack=[];
  jQuery.fn.drag_drop_selectable.defaults={
- moveOpacity: 0.8, //opacity of moving items
+ moveOpacity: 0.5, //opacity of moving items
  ghostClass: 'dds_ghost', //class for "left-behind" item.
  hoverClass: 'dds_hover', //class for acceptable drop targets on hover
  moveClass:  'dds_move', //class to apply to items whilst moving them.
