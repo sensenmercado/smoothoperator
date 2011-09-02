@@ -94,6 +94,16 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
         
+        /* Create the job_members table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "job_members")) {
+            $messages[] =  "Job Members table is missing...created";
+            $sql = "CREATE TABLE `job_members` (
+            `job_id` int(11) NOT NULL auto_increment,
+            `user_id` text default NULL
+            ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
+        }
+        
         /* Create the phone_calls table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "phone_calls")) {
             $messages[] =  "Phone Calls table is missing...created";
