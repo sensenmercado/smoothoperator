@@ -152,7 +152,7 @@ jQuery.noConflict();
 
 <script type="text/javascript">
 function hide_message(layer_ref){
-    $.post("clear_message.php", {queryString: layer_ref});
+    jQuery.post("clear_message.php", {queryString: layer_ref});
     if(document.all){ //IS IE 4 or 5 (or 6 beta)
         eval("document.all." +layer_ref+ ".style.display = none");
     }
