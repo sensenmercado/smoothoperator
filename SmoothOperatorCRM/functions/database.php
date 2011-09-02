@@ -99,7 +99,8 @@ if (!function_exists('so_check_databases')) {
             $messages[] =  "Job Members table is missing...created";
             $sql = "CREATE TABLE `job_members` (
             `job_id` int(11),
-            `user_id` int(11)
+            `user_id` int(11),
+            PRIMARY KEY (`job_id`,`user_id`)
             ) ENGINE=InnoDB";
             $result = mysqli_query($link, $sql);
         }
