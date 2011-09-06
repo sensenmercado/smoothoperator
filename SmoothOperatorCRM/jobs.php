@@ -24,6 +24,39 @@ if (isset($_GET['save_members'])) {
     
     exit(0);
 }
+if (isset($_GET['save'])) {
+    require "header.php";
+    $sql = "INSERT INTO jobs (name, description) VALUES (".sanitize($_POST['name']).", ".sanitize($_POST['description']).")";
+    mysqli_query($connection, $sql);
+    redirect("jobs.php",0);
+    require "footer.php";
+    exit(0);
+}
+if (isset($_GET['add'])) {
+    require "header.php";
+    ?>
+    <br />
+    <form action="jobs.php?save=1" method="post">
+    <table class="sample">
+    <tr>
+    <th>Job Name</th>
+    <td><input type="text" name="name"></td>
+    </tr>
+    <tr>
+    <th colspan="2">Job Description</th></tr>
+    <tr>
+    <td colspan="2"><textarea name="description"></textarea></td>
+    </tr>
+    <tr>
+    <td colspan="2"><input type="submit" value="Add Job"></td>
+    </tr>
+    </table>
+    </form>
+    <?
+    require "footer.php";
+    exit(0);
+}
+
 if (!isset($_GET['job_id'])) {
     $rounded[] = "div.box";
     require "header.php";
@@ -34,7 +67,7 @@ if (!isset($_GET['job_id'])) {
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             ?>
-            <a href="jobs.php?job_id=<?=$row['id']?>"><img src="images/pencil.png" border="0">&nbsp;<?=$row['name']?></a><br />
+            <a href="jobs.php?job_id=<?=$row['id']?>"><img src="images/pencil.png" border="0">&nbsp;<?=$row['name']?></a><a href="jobs.php?delete=<?=$row['id']?>"><img src="images/delete.png" border="0"></a><br />
             <?
             
         }
@@ -49,11 +82,6 @@ if (!isset($_GET['job_id'])) {
 $rounded[] = 'div.panel_l';
 $rounded[] = 'div.panel_r';
 require "header.php";
-
-if (isset($_GET['add'])) {
-    require "footer.php";
-    exit(0);
-}
 
 ?>
 <script type='text/javascript' src='js/multiselect.js'></script>
