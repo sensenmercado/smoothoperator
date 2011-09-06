@@ -1,4 +1,12 @@
 <?
+if (isset($_GET['save_script'])) {
+    //    print_r($_POST);
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+    $sql = "UPDATE jobs SET script_id=".sanitize($_POST['script'])." WHERE id = ".sanitize($_GET['save_script']);
+    $result = mysqli_query($connection, $sql);
+    exit(0);    
+}    
 if (isset($_GET['save_members'])) {
     //    print_r($_POST);
     require "config/db_config.php";
@@ -81,6 +89,7 @@ if (!isset($_GET['job_id'])) {
 }
 $rounded[] = 'div.panel_l';
 $rounded[] = 'div.panel_r';
+$rounded[] = 'div.panel_b';
 require "header.php";
 
 ?>
@@ -144,6 +153,27 @@ if (count($not_in_job) > 0) {
 ?>
 </ul>
 </div>
+
 </td>
 </tr>
 </table>
+
+
+
+<div class='panel_b'>
+<h2>Job Details</h2>
+Script: <select name="script" id="script" onchange="new Ajax.Request('jobs.php?save_script='+getUrlVars()['job_id'],{parameters: {script: jQuery('#script').val()}, onSuccess: function(transport){if (transport.responseText) {var response = transport.responseText;alert(response);}}});">
+<option value="-1">Please select a script...</option>
+<?
+$result_x = mysqli_query($connection, "SELECT * FROM jobs WHERE id = ".sanitize($_GET['job_id']));
+$row_x = mysqli_fetch_assoc($result_x);
+$result = mysqli_query($connection, "SELECT * FROM scripts");
+while ($row = mysqli_fetch_assoc($result)) {
+    
+    echo '<option value="'.$row['id'].'" '.($row_x['script_id']==$row['id']?"SELECTED":"").'>'.$row['name'].'</option>';
+    //print_pre($row);
+}
+?></select>
+</div>
+
+
