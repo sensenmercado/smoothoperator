@@ -1,4 +1,22 @@
 <?
+if (isset($_GET['save_field'])) {
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+    $url = parse_url($_POST['url']);
+    $exploded = explode("=",$url['query']);
+    $type = $exploded[0];
+    $id = sanitize($exploded[1]);
+    $field = sanitize($_POST['id'], false);
+    $value = sanitize($_POST['new_value']);
+    
+    $sql = "UPDATE jobs SET $field = $value WHERE id = $id";
+    $result = mysqli_query($connection, $sql);
+    $response['is_error'] = false;
+    $response['error_string'] = mysqli_error($connection);;
+    $response['html'] = $_POST['new_value'];
+    echo json_encode($response);
+    exit(0);
+}
 if (isset($_GET['save_script'])) {
     //    print_r($_POST);
     require "config/db_config.php";
@@ -124,9 +142,9 @@ $result_x = mysqli_query($connection, "SELECT * FROM jobs WHERE id = ".sanitize(
 $row_x = mysqli_fetch_assoc($result_x);
 
 ?>
-
 <div class='panel_t'>
-<h2>Job: <?=$row_x['name']?></h2>
+<h2>Job Title: <span id="name"><?=$row_x['name']?></span></h2>
+Job Description: <span id="description"><?=$row_x['description']?></span>
 </div>
 <table>
 <tr>
@@ -185,4 +203,8 @@ Dispositions:
 <br />
 </div>
 
+<script>
+jQuery( "#name" ).eip( "jobs.php?save_field=1" );
+jQuery( "#description" ).eip( "jobs.php?save_field=1" );
+</script>
 
