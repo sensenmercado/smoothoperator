@@ -1,3 +1,17 @@
+// Read a page's GET URL variables and return them as an associative array.
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
 /**
  *   Multi-Select And Drag
  *
@@ -254,21 +268,16 @@
 
 jQuery(function(){
        mychange = function ( list ){
-       new Ajax.Request('jobs.php?save_members=<?=$_GET['job_id']?>',{parameters: {members: jQuery.dds.serialize('list_1')}, onSuccess: function(transport){
+       new Ajax.Request('jobs.php?save_members='+getUrlVars()["job_id"],{parameters: {members: jQuery.dds.serialize('list_1')}, onSuccess: function(transport){
                         if (transport.responseText) {
                         var response = transport.responseText;
                         //entries_to_ids[counter] = parseInt(response);
                         alert(response);
                         }
                         }
-                        });
-       
-       
-       
-       
-       
-       //jQuery( '#'+$list.attr('id')+'_serialised').html( jQuery.dds.serialize( $list.attr('id')) );
+                        });       
        }
+       
        jQuery('ul').drag_drop_selectable({
                                          onListChange:mychange
                                          });
