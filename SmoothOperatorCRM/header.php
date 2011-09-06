@@ -234,14 +234,14 @@ if (isset($extra_head)) {
         }
         echo '><a href="'.$menu_links[$i].'" class="page_menu"><span>'.$menu_names[$i].'</span></a></li>';
     }
-    echo '<div style="display: inline-block;color: #fff"  id="date_div">('.$_SESSION['calls'].' calls)</div> <span style="display: inline-block;color: #fff"  id="job_details"></span>';
+    //echo '<div style="display: inline-block;color: #fff"  id="date_div">('.$_SESSION['calls'].' calls)</div> <span style="display: inline-block;color: #fff"  id="job_details"></span>';
     ?>
     
     </ul>
     </div>
     <script type="text/javascript">
     function draw_date() {
-        /*var currentTime = new Date();
+        var currentTime = new Date();
         var hours = currentTime.getHours();
         var minutes = currentTime.getMinutes();
         var seconds = currentTime.getSeconds();
@@ -253,8 +253,8 @@ if (isset($extra_head)) {
         }
         
         eval("document.all.date_div.innerHTML = '"+hours + ":" + minutes + ":"+seconds+" (<?=$_SESSION['calls']?> calls)'");
-        */
-        eval("document.all.date_div.innerHTML = ' (<?=$_SESSION['calls']?> calls)'");
+        
+        //eval("document.all.date_div.innerHTML = ' (<?=$_SESSION['calls']?> calls)'");
         
         
         
@@ -338,4 +338,15 @@ if (sizeof($link_names) > 0) {
     <?
 }
 ?>
-
+<div id="site-bottom-bar" class="fixed-position">
+<div id="site-bottom-bar-frame">
+<div id="site-bottom-bar-content">
+<?
+echo '<div style="display: inline-block;color: #999"  id="date_div">'.@Date("H:i:s").' ('.$_SESSION['calls'].' calls)</div> <span style="display: inline-block;color: #999"  id="job_details">Job: ';
+include "check_job.php";
+echo '</span>';
+//echo '<span id="statusbar" style="display: inline-block;color: #999"></span>';
+?>
+</div>
+</div>
+</div>
