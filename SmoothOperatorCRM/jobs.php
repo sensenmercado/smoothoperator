@@ -89,6 +89,7 @@ if (!isset($_GET['job_id'])) {
 }
 $rounded[] = 'div.panel_l';
 $rounded[] = 'div.panel_r';
+$rounded[] = 'div.panel_t';
 $rounded[] = 'div.panel_b';
 require "header.php";
 
@@ -119,9 +120,14 @@ if (count($not_in_job) > 0) {
     }
     $not_used = substr($not_used,0,strlen($not_used)-1);
 }
+$result_x = mysqli_query($connection, "SELECT * FROM jobs WHERE id = ".sanitize($_GET['job_id']));
+$row_x = mysqli_fetch_assoc($result_x);
+
 ?>
 
-
+<div class='panel_t'>
+<h2>Job: <?=$row_x['name']?></h2>
+</div>
 <table>
 <tr>
 <td>
@@ -165,8 +171,6 @@ if (count($not_in_job) > 0) {
 Script: <select name="script" id="script" onchange="new Ajax.Request('jobs.php?save_script='+getUrlVars()['job_id'],{parameters: {script: jQuery('#script').val()}, onSuccess: function(transport){if (transport.responseText) {var response = transport.responseText;alert(response);}}});">
 <option value="-1">Please select a script...</option>
 <?
-$result_x = mysqli_query($connection, "SELECT * FROM jobs WHERE id = ".sanitize($_GET['job_id']));
-$row_x = mysqli_fetch_assoc($result_x);
 $result = mysqli_query($connection, "SELECT * FROM scripts");
 while ($row = mysqli_fetch_assoc($result)) {
     
@@ -174,6 +178,11 @@ while ($row = mysqli_fetch_assoc($result)) {
     //print_pre($row);
 }
 ?></select>
+<br />
+<br />
+Dispositions: 
+<br />
+<br />
 </div>
 
 
