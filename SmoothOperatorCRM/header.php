@@ -337,7 +337,8 @@ if (sizeof($link_names) > 0) {
     </div>
     <?
 }
-?>
+if ($this_page != "login.php") {
+    ?>
 <div id="site-bottom-bar" class="fixed-position">
 <div id="site-bottom-bar-frame">
 <div id="site-bottom-bar-content">
@@ -350,3 +351,5 @@ echo '</span>';
 </div>
 </div>
 </div>
+<?
+}?>
