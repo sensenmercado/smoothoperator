@@ -89,6 +89,7 @@ if (!function_exists('so_check_databases')) {
             `id` int(11) NOT NULL auto_increment,
             `name` text default NULL,
             `description` text default NULL,
+            `script_id` int(11) default NULL,
             PRIMARY KEY  (`id`)
             ) ENGINE=InnoDB";
             $result = mysqli_query($link, $sql);
