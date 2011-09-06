@@ -1291,10 +1291,10 @@ TD.subheader:hover {
 }
 
 
-.panel_l {display: block;width:246px;margin:0px 20px 0px 20px;border: 0px solid;background:#acf}
-.panel_r {display: block;width:246px;margin:0px 20px 0px 20px;border: 0px solid;background:#9ac}
-.panel_t {display: block;width:540px;margin:20px 20px 10px 0px;border: 0px solid;background:#dde}
-.panel_b {display: block;width:540px;margin:10px;border: 0px solid;background:#bac}
+.panel_l {display: block;width:246px;margin:0px 20px 0px 20px;border: 0px solid;background:#acf; padding-top: 10px; padding-bottom: 10px}
+.panel_r {display: block;width:246px;margin:0px 20px 0px 20px;border: 0px solid;background:#9ac; padding-top: 10px; padding-bottom: 10px}
+.panel_t {display: block;width:540px;margin:20px 20px 10px 0px;border: 0px solid;background:#dde; padding-top: 10px; padding-bottom: 10px}
+.panel_b {display: block;width:540px;margin:10px;border: 0px solid;background:#bac; padding-top: 10px; padding-bottom: 10px}
 
 ul#list_1 {
     list-style-type:none;
