@@ -49,7 +49,7 @@
         draw_progress("Please wait, logging you in...");
         $username = sanitize($_POST['username']);
         $password = sanitize(sha1($_POST['password']));
-        $result = mysqli_query($connection, "SELECT security_level, extension FROM users WHERE username = $username AND password = $password");
+        $result = mysqli_query($connection, "SELECT security_level, extension, id FROM users WHERE username = $username AND password = $password");
         if (mysqli_num_rows($result) < 1) {
             $messages[] = "Incorrect Username/Password";
             $_SESSION['messages'] = $messages;
@@ -67,6 +67,7 @@
         $row = mysqli_fetch_assoc($result);
         $security_level = $row['security_level'];
         $_SESSION['user_name'] = $_POST['username'];
+        $_SESSION['user_id'] = $row['id'];
         $_SESSION['user_level'] = $security_level;
         $_SESSION['extension'] = $row['extension'];
         $_SESSION['calls'] = 0;
