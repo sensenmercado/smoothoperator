@@ -38,6 +38,7 @@ if (isset($_GET['save_members'])) {
     $sql2 = "REPLACE INTO job_members (job_id, user_id) VALUES ";
     $sql3 = "";
     foreach ($exploded as $member) {
+        mysqli_query($connection, "DELETE FROM job_members WHERE user_id = ".sanitize(substr(trim($member),5)));
         //echo strlen($member)."\n";
         $sql3 .= "(".sanitize($_GET['save_members']).", ".sanitize(substr(trim($member),5))."),";
         
