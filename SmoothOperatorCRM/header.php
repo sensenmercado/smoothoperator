@@ -234,14 +234,14 @@ if (isset($extra_head)) {
         }
         echo '><a href="'.$menu_links[$i].'" class="page_menu"><span>'.$menu_names[$i].'</span></a></li>';
     }
-    echo '<div style="display: inline-block;color: #fff"  id="date_div">'.@Date("H:i:s").' ('.$_SESSION['calls'].' calls)</div>';
+    echo '<div style="display: inline-block;color: #fff"  id="date_div">('.$_SESSION['calls'].' calls)</div> <span style="display: inline-block;color: #fff"  id="job_details"></span>';
     ?>
     
     </ul>
     </div>
     <script type="text/javascript">
     function draw_date() {
-        var currentTime = new Date();
+        /*var currentTime = new Date();
         var hours = currentTime.getHours();
         var minutes = currentTime.getMinutes();
         var seconds = currentTime.getSeconds();
@@ -253,6 +253,8 @@ if (isset($extra_head)) {
         }
         
         eval("document.all.date_div.innerHTML = '"+hours + ":" + minutes + ":"+seconds+" (<?=$_SESSION['calls']?> calls)'");
+        */
+        eval("document.all.date_div.innerHTML = ' (<?=$_SESSION['calls']?> calls)'");
         
         
         
@@ -264,6 +266,20 @@ if (isset($extra_head)) {
                          var response = transport.responseText;
                          //alert("Success! \n\n" + response);
                          window.location = "get_customer.php?pop=1&phone_number="+response;
+                         }
+                         },
+                         onFailure: function(){ alert('Something went wrong...') }
+                         });
+        
+        new Ajax.Request('check_job.php?user_id=<?=$_SESSION['user_id']?>',
+                         {
+                         method:'get',
+                         onSuccess: function(transport){
+                         if (transport.responseText) {
+                         var response = transport.responseText;
+                         jQuery("#job_details").text("Job: "+response);
+                         //alert("Success! \n\n" + response);
+                         //window.location = "get_customer.php?pop=1&phone_number="+response;
                          }
                          },
                          onFailure: function(){ alert('Something went wrong...') }
