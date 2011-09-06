@@ -1393,3 +1393,82 @@ h2 {
 	margin: 1px;  
     padding: 1px;
 } 
+
+
+
+
+
+
+
+
+
+
+
+#site-bottom-bar {
+    background-color: #F0F0FF ;
+    border-top: 1px solid #CCCCCC ;
+    bottom: 0px ;
+    font-family: verdana, arial ;
+    font-size: 12px ;
+    height: 20px ;
+    position: fixed ;
+    width: 100% ;
+    z-index: 1000 ;
+}
+
+#site-bottom-bar-frame {
+    height: 20px ;
+    margin: 0px 10px 0px 10px ;
+    position: relative ;
+}
+
+#site-bottom-bar-content {
+    padding: 3px 0px 0px 0px ;
+}
+
+
+
+/* -------------------------------------------------- */
+/* -- IE 6 FIXED POSITION HACK ---------------------- */
+/* -------------------------------------------------- */
+
+html,
+body,
+#site-body-container {
+    _height: 100% ;
+    _overflow: hidden ;
+    _width: 100% ;
+}
+
+#site-body-container {
+    _overflow-y: scroll ;
+    _overflow-x: hidden ;
+    _position: relative ;
+}
+
+/* To make up for scroll-bar. */
+#site-bottom-bar {
+    _bottom: -1px ;
+    _position: absolute ;
+    _right: 16px ;
+}
+
+/* To make up for overflow left. */
+#site-bottom-bar-frame {
+    _margin-left: 26px ;
+}
+
+/* To fix IE6 display bugs. */
+#menu a {
+    _display: inline-block ;
+    _width: 99% ;
+}
+
+
+
+
+
+
+
+
+
