@@ -398,7 +398,7 @@ if (isset($_GET['edit'])) {
         <option value="-1">end of section/page</option>
         </select>
         
-        <a href="#" onClick="display_adder();">Add Section</a>
+        <a href="#" onClick="display_adder();"><img src="images/add.png">&nbsp;Add Section</a>
         <br />
         <br />
         <input type="button" value="Close Script" onclick="window.location='scripts.php';">
