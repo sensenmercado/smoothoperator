@@ -258,3 +258,7 @@ table.center {}
 .script_input_entry {
     border: 1px solid #ccc;margin:10px;padding: 10px;background: #fff;
 }
+
+.disposition_entry {
+    border: 1px solid #ccc;margin:10px;padding: 10px;background: #fff;
+}

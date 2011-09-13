@@ -1,4 +1,19 @@
 <?
+if (isset($_GET['add_disposition'])) {
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+    $sql = "INSERT INTO job_dispositions (`job_id`, `text`) VALUES (".sanitize($_POST['job_id']).",".sanitize($_POST['text']).")";
+    $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+    $new_id = mysqli_insert_id($connection);
+    echo $new_id;
+    exit(0);
+}
+if (isset($_GET['delete_disposition'])) {
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+    $result = mysqli_query($connection, "DELETE FROM job_dispositions WHERE id = ".sanitize($_GET['delete_disposition']));
+    exit(0);
+}
 if (isset($_GET['save_field'])) {
     require "config/db_config.php";
     require "functions/sanitize.php";
@@ -183,7 +198,61 @@ if (count($not_in_job) > 0) {
 </tr>
 </table>
 
+<script>
+var counter = 0;
+var entries_to_ids=new Array();
 
+
+function delete_entry_from_database(item) {
+    //alert("Deleting item "+item+" from script <?=$_GET['edit']?> (id "+entries_to_ids[parseInt(item)]+")");
+    new Ajax.Request('jobs.php?delete_disposition='+entries_to_ids[parseInt(item)]);
+}
+
+function delete_entry(item) {
+    /* The item number is the number in the script starting from one - bearing in mind that there may be deleted
+     entries.  I.E. Item 1 may not be id 1.  If you had three entries and you delete id 1 and id 2 then item 1 would
+     be id 2 (id is zero based) */
+    Dialog.confirm('Are you sure you want to remove this section?', {className:'alphacube', width:400, 
+                   okLabel: 'Yes', cancelLabel: 'No',
+                   onOk:function(win){
+                   jQuery("#entry"+item).remove();
+                   delete_entry_from_database(item);
+                   return true;
+                   }
+                   }
+                   );
+}
+
+function save_disposition(statement, divName){
+    new Ajax.Request('jobs.php?add_disposition=1',{parameters: {job_id: <?=$_GET['job_id']?>, text: statement}, onSuccess: function(transport){
+                     if (transport.responseText) {
+                     var response = transport.responseText;
+                     entries_to_ids[counter] = parseInt(response);
+                     }
+                     }
+                     });
+}
+
+function add_disposition(statement, divName){
+    counter++;
+    var newdiv = document.createElement('div');
+    newdiv.innerHTML = "<div class='disposition_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16' height='16' align='right'></a>"+statement+"</div>";
+    document.getElementById(divName).appendChild(newdiv);
+}
+
+
+function add_new_disposition() {
+    Dialog.confirm('Disposition Text: <input type="text" id="disposition_text">', {className:'alphacube', width:400, 
+                   okLabel: 'Save', cancelLabel: 'cancel',
+                   onOk:function(win){
+                   save_disposition(jQuery('#disposition_text').val(), 'dynamicInput');
+                   add_disposition(jQuery('#disposition_text').val(), 'dynamicInput');
+                   return true;
+                   }
+                   }
+                   );
+}
+</script>
 
 <div class='panel_b'>
 <h2>Job Details</h2>
@@ -199,8 +268,24 @@ while ($row = mysqli_fetch_assoc($result)) {
 ?></select>
 <br />
 <br />
-Dispositions: 
+Dispositions: <a href="#" onclick="add_new_disposition();"><img src="images/add.png">&nbsp;Add Disposition</a>
 <br />
+<div id="dynamicInput"></div>
+<?
+$result_entries = mysqli_query($connection, "SELECT * FROM job_dispositions WHERE job_id = ".sanitize($_GET['job_id']));
+$x = 0;
+if (mysqli_num_rows($result_entries) > 0) {
+    while ($row_entries = mysqli_fetch_assoc($result_entries)) {
+        $x++;
+        ?>
+        <script language="javascript">
+        entries_to_ids[<?=$x?>] = <?=$row_entries['id']?>;
+        add_disposition('<?=$row_entries['text']?>', 'dynamicInput');
+        </script>
+        <?
+    }
+}
+?>
 <br />
 </div>
 

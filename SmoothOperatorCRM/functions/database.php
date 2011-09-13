@@ -95,6 +95,18 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
         
+        /* Create the job_dispositions table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "job_dispositions")) {
+            $messages[] =  "Jobs table is missing...created";
+            $sql = "CREATE TABLE `job_dispositions` (
+            `id` int(11) NOT NULL auto_increment,
+            `text` text default NULL,
+            `job_id` int(11) default NULL,
+            PRIMARY KEY  (`id`)
+            ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
+        }
+        
         /* Create the job_members table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "job_members")) {
             $messages[] =  "Job Members table is missing...created";
