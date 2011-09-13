@@ -18,12 +18,12 @@ require "header.php";
 
 <script type="text/javascript">
 // When the document is ready set up our sortable with it's inherant function(s)
-$(document).ready(function() {
-  $("#test-list").sortable({
+jQuery(document).ready(function() {
+  jQuery("#test-list").sortable({
     handle : '.handle',
     update : function () {
-      var order = $('#test-list').sortable('serialize');
-      $("#info").load("menus.php?"+order);
+      var order = jQuery('#test-list').sortable('serialize');
+      jQuery("#info").load("menus.php?"+order);
     }
   });
 });
