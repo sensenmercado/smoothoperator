@@ -346,7 +346,7 @@ if ($this_page != "login.php") {
 echo '<div style="display: inline-block;color: #999"  id="date_div">'.@Date("H:i:s").' ('.$_SESSION['calls'].' calls)</div> <span style="display: inline-block;color: #999"  id="job_details">Job: ';
 include "check_job.php";
 echo '</span>';
-//echo '<span id="statusbar" style="display: inline-block;color: #999"></span>';
+echo '&nbsp;<span id="status_bar" style="display: inline-block;color: #f00;font-weight: bold;"></span>';
 ?>
 </div>
 </div>

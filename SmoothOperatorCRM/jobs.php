@@ -205,7 +205,11 @@ var entries_to_ids=new Array();
 
 function delete_entry_from_database(item) {
     //alert("Deleting item "+item+" from script <?=$_GET['edit']?> (id "+entries_to_ids[parseInt(item)]+")");
-    new Ajax.Request('jobs.php?delete_disposition='+entries_to_ids[parseInt(item)]);
+    new Ajax.Request('jobs.php?delete_disposition='+entries_to_ids[parseInt(item)], {onSuccess: function(transport){
+    jQuery('#status_bar').text("Deleted Disposition");
+    jQuery('#status_bar').fadeIn(1000);    
+    jQuery('#status_bar').fadeOut(5000);    
+                     }});
 }
 
 function delete_entry(item) {
@@ -228,6 +232,10 @@ function save_disposition(statement, divName){
                      if (transport.responseText) {
                      var response = transport.responseText;
                      entries_to_ids[counter] = parseInt(response);
+                     jQuery('#status_bar').text("Saved Disposition");
+                     jQuery('#status_bar').fadeIn(1000);    
+                     jQuery('#status_bar').fadeOut(5000);
+
                      }
                      }
                      });
@@ -256,7 +264,7 @@ function add_new_disposition() {
 
 <div class='panel_b'>
 <h2>Job Details</h2>
-Script: <select name="script" id="script" onchange="new Ajax.Request('jobs.php?save_script='+getUrlVars()['job_id'],{parameters: {script: jQuery('#script').val()}, onSuccess: function(transport){if (transport.responseText) {var response = transport.responseText;alert(response);}}});">
+Script: <select name="script" id="script" onchange="new Ajax.Request('jobs.php?save_script='+getUrlVars()['job_id'],{parameters: {script: jQuery('#script').val()}, onSuccess: function(transport){                     jQuery('#status_bar').text('Saved Script');jQuery('#status_bar').fadeIn(1000);jQuery('#status_bar').fadeOut(5000);if (transport.responseText) {var response = transport.responseText;alert(response);}}});">
 <option value="-1">Please select a script...</option>
 <?
 $result = mysqli_query($connection, "SELECT * FROM scripts");

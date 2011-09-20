@@ -269,6 +269,9 @@ function getUrlVars()
 jQuery(function(){
        mychange = function ( list ){
        new Ajax.Request('jobs.php?save_members='+getUrlVars()["job_id"],{parameters: {members: jQuery.dds.serialize('list_1')}, onSuccess: function(transport){
+                        jQuery('#status_bar').text("Saved Job Changes");
+                        jQuery('#status_bar').fadeIn(1000);    
+                        jQuery('#status_bar').fadeOut(5000);
                         if (transport.responseText) {
                         var response = transport.responseText;
                         //entries_to_ids[counter] = parseInt(response);
