@@ -212,7 +212,7 @@ function delete_entry(item) {
     /* The item number is the number in the script starting from one - bearing in mind that there may be deleted
      entries.  I.E. Item 1 may not be id 1.  If you had three entries and you delete id 1 and id 2 then item 1 would
      be id 2 (id is zero based) */
-    Dialog.confirm('Are you sure you want to remove this section?', {className:'alphacube', width:400, 
+    Dialog.confirm('Are you sure you want to remove this disposition', {className:'alphacube', width:400, 
                    okLabel: 'Yes', cancelLabel: 'No',
                    onOk:function(win){
                    jQuery("#entry"+item).remove();
