@@ -1,4 +1,7 @@
 <?
+if (isset($_GET['delete'])) {
+    // TODO: finish this
+}
 if (isset($_GET['add_disposition'])) {
     require "config/db_config.php";
     require "functions/sanitize.php";
