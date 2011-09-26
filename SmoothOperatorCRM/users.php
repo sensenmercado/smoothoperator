@@ -233,7 +233,7 @@ if (isset($_GET[edit])) {
 </div>
 
 <div class="thin_700px_box">
-<table class="sample">
+<table class="sample2" width="100%">
     <tr>
         <th>Username</th>
         <th>Password</th>
