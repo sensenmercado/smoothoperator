@@ -96,7 +96,7 @@ if (isset($_GET['save_field'])) {
     exit(0);
 }
 
-
+$rounded[] = 'div.thin_700px_box';
 require "header.php";
 if (isset($_GET['add'])) {
     ?>
@@ -509,12 +509,12 @@ if (isset($_GET['edit'])) {
 }
 
 /* Just display entries */
-echo "<br />";
+?><div class='thin_700px_box'><?
 $result = mysqli_query($connection, "SELECT * FROM scripts");
 if (mysqli_num_rows($result) == 0) {
     echo "There are currently no scripts defined.";
 } else {
-    echo '<table class="sample">';
+    echo '<table class="sample2" width="100%">';
     echo '<tr><th>Name</th><th>Last Updated</th><th>Delete</th></tr>';
     while ($row = mysqli_fetch_assoc($result)) {
         echo "<tr>";
@@ -524,6 +524,7 @@ if (mysqli_num_rows($result) == 0) {
     }
     echo '</table>';
 }
+echo "</div>";
 require "footer.php";
 
 ?>
