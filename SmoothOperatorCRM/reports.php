@@ -1,4 +1,5 @@
 <?
+$rounded[] = 'div.thin_700px_box';
 require "header.php";
 if (isset($_GET['save'])) {
     $sql = "INSERT INTO reports (name, description) VALUES (".sanitize($_POST['name']).", ".sanitize($_POST['description']).")";
@@ -31,14 +32,26 @@ if (isset($_GET['add'])) {
     exit(0);
 }
 if (!isset($_GET['report_id'])) {
+    ?><div class='thin_700px_box'><?
     $result = mysqli_query($connection, "SELECT * FROM reports");
     if (mysqli_num_rows($result) == 0) {
-        echo '<br />There are currently no jobs defined - please <a href="reports.php?add=1">add one by clicking here.</a>';
+        echo 'There are currently no jobs defined - please <a href="reports.php?add=1">add one by clicking here.</a>';
     } else {
+        echo '<table class="sample2" width="100%">';
+        ?>
+        <tr><th>Name</th><th>Description</th><th>Delete</th></tr>
+        <?
         while ($row = mysqli_fetch_assoc($result)) {
-            print_pre($row);
+            echo '<tr>';
+            echo '<td><a href="reports.php?edit='.$row['id'].'"><img src="images/pencil.png">&nbsp;'.$row['name'].'</a></td>';
+            echo '<td>'.substr($row['description'],0,30).'</td>';
+            echo '<td><a href="reports.php?delete='.$row['id'].'"><img src="images/delete.png">&nbsp;Delete</a></td>';
+            //print_pre($row);
+            echo '</tr>';
         }
+        echo '</table>';
     }
+    echo '</div>';
 }
 ?>
 <?
