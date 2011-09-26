@@ -41,6 +41,45 @@
  *
  */
 
+if (isset($_GET['delete_sure'])) {
+    require "header.php";
+    ?><div class="thin_700px_box"><?
+    $id = sanitize($_GET['delete_sure']);
+    //TODO: Make this delete script entries
+    $result = mysqli_query($connection, "DELETE FROM scripts WHERE id = $id");
+    if (!$result) {
+        $messages[] = "There was a problem deleting this script: ".mysqli_error();
+        $_SESSION['messages'] = $messages;
+    }
+    draw_progress("Please wait we are saving your changes...");
+    redirect("scripts.php", 0);
+    ?></div><?
+    require "footer.php";
+    exit(0);
+}
+if (isset($_GET['delete'])) {
+    require "header.php";
+    ?><div class="thin_700px_box"><?
+    ?>
+    Are you sure you would like to delete this script?<br />
+    <br />
+    <?
+    $id = sanitize($_GET['delete']);
+    $result = mysqli_query($connection, "SELECT * FROM scripts WHERE id = $id");
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        echo "<b>Name: </b>".$row['name']."<br />";
+        echo "<b>Description: </b>".$row['description']."<br />";
+    }
+    ?>
+    <br />
+    <a href="scripts.php?delete_sure=<?=$_GET['delete']?>">Yes, delete it</a><br />
+    <a href="scripts.php">No, do not delete it</a><br />
+        </div><?
+        require "footer.php";
+    exit(0);
+}
+
 if (isset($_GET['add_section'])) {
     require "config/db_config.php";
     require "functions/sanitize.php";
