@@ -90,7 +90,7 @@ function display_customer_edit($row) {
                              if (transport.responseText) {
                              var response = transport.responseText;
                              var newID = parseInt(response);
-                             alert(response);
+                             //alert(response);
                              new Ajax.Request('get_customer.php?save_disposition=1',{parameters: {id: newID, disposition: disposition, user_name: "<?=$_SESSION['user_name']?>", extension: "<?=$_SESSION['extension']?>"}, onSuccess: function(transport){
                                               if (transport.responseText) {
                                               var response = transport.responseText;
@@ -119,7 +119,7 @@ function display_customer_edit($row) {
                              jQuery('#status_bar').text("Saved Disposition");
                              jQuery('#status_bar').fadeIn(1000);    
                              jQuery('#status_bar').fadeOut(5000);
-                             alert(response);
+                             //alert(response);
                              }
                              }
                              });
