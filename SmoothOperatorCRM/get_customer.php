@@ -209,13 +209,14 @@ function display_customer_edit($row) {
     $fields_to_hide[] = "locked_by";
     $fields_to_hide[] = "datetime_locked";
     $fields_to_hide[] = "list_id";
+    $fields_to_hide[] = "job_id";
     $fields_to_hide[] = "new";
     $textarea_fields[] = "notes";
     echo '<form action="get_customer.php?save=1" method="post">';
     echo '<table class="sample">';
     foreach ($row as $field=>$value) {
         if (in_array($field, $fields_to_hide)) {
-            echo '<input type="hidden" name="'.$field.'" value="'.stripslashes($value).'">';
+            echo '<input type="hidden" name="'.$field.'" value="'.@stripslashes($value).'">';
         } else if (in_array($field, $textarea_fields)) {
             echo '<tr><th colspan="2">'.clean_field_name($field).'</th></tr>';
             echo '<tr><td colspan="2"><textarea cols="60" rows="10" name="'.$field.'">'.stripslashes($value).'</textarea></td></tr>';
@@ -277,9 +278,20 @@ function display_customer_edit($row) {
 $phone_number = clean_number($_GET[phone_number]);
 $result = mysqli_query($connection, "SELECT * FROM SmoothOperator.customers WHERE cleaned_number = '$phone_number'");
 if (mysqli_num_rows($result) > 0) {
-    if (mysqli_num_rows($result) == 1) {
+    if (1||mysqli_num_rows($result) == 1) {
         // Single Row Found
         $row = mysqli_fetch_assoc($result);
+        
+        $sql = "SELECT job_id FROM job_members WHERE user_id = ".sanitize($_SESSION['user_id']);
+        //echo $sql;
+        $resultx = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+        if ($resultx && mysqli_num_rows($resultx) > 0) {
+            $row_temp = mysqli_fetch_assoc($resultx);
+            $row['job_id'] = $row_temp['job_id'];
+        } else {
+            $row['job_id'] = "-1";
+        }
+        
         if (isset($_GET['pop'])) {
             $result = mysqli_query($connection, "INSERT INTO interractions (contact_date_time, notes, customer_id) VALUES (NOW(), 'Number screen popped to ".$_SESSION['user_name']." on extension: ".$_SESSION['extension']."', ".$row['id'].")");
             $_SESSION['calls']++;
@@ -316,10 +328,23 @@ if (mysqli_num_rows($result) > 0) {
     $row['zipcode'] = "";
     $row['email'] = "";
     $row['phone'] = $_GET['phone_number'];
+    //$row['cleaned_number'] = $_GET['phone_number'];
     $row['fax'] = "";
     $row['notes'] = "";
     /* This is a new record */
     $row['new'] = 1;
+    
+    $sql = "SELECT job_id FROM job_members WHERE user_id = ".sanitize($_SESSION['user_id']);
+    //echo $sql;
+    $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row_temp = mysqli_fetch_assoc($result);
+        $row['job_id'] = $row_temp['job_id'];
+    } else {
+        $row['job_id'] = "-1";
+    }
+    //print_pre($_SESSION);
+    //print_r($row);exit(0);
     display_customer_edit($row);
     
 }
