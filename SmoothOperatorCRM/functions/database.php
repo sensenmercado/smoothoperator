@@ -251,6 +251,7 @@ if (!function_exists('so_check_databases')) {
             $sql = "CREATE TABLE `customers` (
             `id` int(11) NOT NULL auto_increment,
             `list_id` int(11) default NULL,
+            `job_id` int(11) default NULL,
             `first_name` varchar(255) default NULL,
             `last_name` varchar(255) default NULL,
             `address_line_1` varchar(1024) default NULL,
@@ -271,6 +272,13 @@ if (!function_exists('so_check_databases')) {
             PRIMARY KEY  (`id`)
             ) ENGINE=InnoDB";
             $result = mysqli_query($link, $sql);
+        }
+        
+        /* Add missing job_id column */
+        $field_array = mysqli_get_field_names($host, $user, $pass, 'SmoothOperator', 'customers');        
+        if (!in_array('job_id', $field_array)) {
+			$result = mysqli_query($link, 'ALTER TABLE customers ADD job_id int(10)');
+			$messages[] =  "Add job_id field to customers table";
         }
         
         /* Create the interractions table if missing */
@@ -332,6 +340,20 @@ if (!function_exists('so_check_databases')) {
         return $messages;
     }
 }
+
+if (!function_exists('mysqli_get_field_names')) {
+    function mysqli_get_field_names($host, $user, $pass, $db, $table) {
+        $fields = array();
+        $link = mysqli_connect($host, $user, $pass) or die(mysql_error());
+        $result = @mysqli_query($link, "DESCRIBE $db.$table");
+        while ($row = mysqli_fetch_array($result)) {
+            $fields[] = $row['Field'];
+        }
+        return $fields;
+    }
+}
+
+
 
 if (!function_exists('mysql_is_database')) {
     function mysql_is_database($host, $user, $pass, $db) {
