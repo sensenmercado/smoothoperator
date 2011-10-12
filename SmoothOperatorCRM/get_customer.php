@@ -256,8 +256,8 @@ if (mysqli_num_rows($result) > 0) {
             
         }
         display_customer_edit($row);
-        display_script();
         display_dispositions();
+        display_script();
         
         /* Display interractions */
         
@@ -307,8 +307,9 @@ if (mysqli_num_rows($result) > 0) {
     //print_pre($_SESSION);
     //print_r($row);exit(0);
     display_customer_edit($row);
-    display_script();
     display_dispositions();
+    display_script();
+    
 }
 
 require "footer.php";
