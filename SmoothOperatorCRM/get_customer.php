@@ -13,7 +13,7 @@ if (isset($_GET['save_disposition'])) {
     require "functions/sanitize.php";
     $sql = "INSERT INTO customer_dispositions (contact_date_time, disposition, user_id, extension, customer_id) VALUES (NOW(), ".sanitize($_POST['disposition']).", ".sanitize($_POST['user_name']).", ".sanitize($_POST['extension']).", ".sanitize($_POST['id']).")";
     //$result = mysqli_query($connection, $sql);
-
+    
     //$sql = "INSERT INTO customers (`phone`) VALUES (".sanitize($_POST['phonenumber']).")";
     $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     //$new_id = mysqli_insert_id($connection);
@@ -79,56 +79,12 @@ if (!isset($_GET['phone_number'])) {
 if (!is_numeric($_GET['phone_number'])) {
     $_GET['phone_number'] = preg_replace('/[^0-9]/',"",$_GET['phone_number']);
 }
-function display_customer_edit($row) {
-    global $connection;    
-    //print_pre($row);
-    if ($row['new'] == 1) {
-        ?>
-        <script>
-        function save_disposition(disposition){
-            new Ajax.Request('get_customer.php?save_record=1',{parameters: {phonenumber: <?=$_GET['phone_number']?>}, onSuccess: function(transport){
-                             if (transport.responseText) {
-                             var response = transport.responseText;
-                             var newID = parseInt(response);
-                             //alert(response);
-                             new Ajax.Request('get_customer.php?save_disposition=1',{parameters: {id: newID, disposition: disposition, user_name: "<?=$_SESSION['user_name']?>", extension: "<?=$_SESSION['extension']?>"}, onSuccess: function(transport){
-                                              if (transport.responseText) {
-                                              var response = transport.responseText;
-                                              //entries_to_ids[counter] = parseInt(response);
-                                              //alert('x');
-                                              window.location="get_customer.php?phone_number=<?=$_GET['phone_number']?>&disposition_set=1";
-                                              }
-                                              }
-                                              });
-                             }
-                             
-                             }
-                             });
-        }
-        
-        </script>
-        <?
-    } else {
-        ?>
-        <script>
-        function save_disposition(disposition){
-            new Ajax.Request('get_customer.php?save_disposition=1',{parameters: {id: <?=$row['id']?>, disposition: disposition, user_name: "<?=$_SESSION['user_name']?>", extension: "<?=$_SESSION['extension']?>"}, onSuccess: function(transport){
-                             if (transport.responseText) {
-                             var response = transport.responseText;
-                             //entries_to_ids[counter] = parseInt(response);
-                             jQuery('#status_bar').text("Saved Disposition");
-                             jQuery('#status_bar').fadeIn(1000);    
-                             jQuery('#status_bar').fadeOut(5000);
-                             //alert(response);
-                             }
-                             }
-                             });
-        }
-        </script>
-        <?
-    }
-    /* Disposition */
+function display_script() {
     
+}
+
+function display_dispositions() {
+    global $connection;    
     if (!isset($_GET['disposition_set'])) {
         if (!isset($_GET['user_id'])) {
             $_GET['user_id'] = $_SESSION['user_id'];
@@ -192,15 +148,60 @@ function display_customer_edit($row) {
             box_end();
         }
     }
+
+}
+function display_customer_edit($row) {
+    global $connection;    
+    //print_pre($row);
+    if ($row['new'] == 1) {
+        ?>
+        <script>
+        function save_disposition(disposition){
+            new Ajax.Request('get_customer.php?save_record=1',{parameters: {phonenumber: <?=$_GET['phone_number']?>}, onSuccess: function(transport){
+                             if (transport.responseText) {
+                             var response = transport.responseText;
+                             var newID = parseInt(response);
+                             //alert(response);
+                             new Ajax.Request('get_customer.php?save_disposition=1',{parameters: {id: newID, disposition: disposition, user_name: "<?=$_SESSION['user_name']?>", extension: "<?=$_SESSION['extension']?>"}, onSuccess: function(transport){
+                                              if (transport.responseText) {
+                                              var response = transport.responseText;
+                                              //entries_to_ids[counter] = parseInt(response);
+                                              //alert('x');
+                                              window.location="get_customer.php?phone_number=<?=$_GET['phone_number']?>&disposition_set=1";
+                                              }
+                                              }
+                                              });
+                             }
+                             
+                             }
+                             });
+        }
+        
+        </script>
+        <?
+    } else {
+        ?>
+        <script>
+        function save_disposition(disposition){
+            new Ajax.Request('get_customer.php?save_disposition=1',{parameters: {id: <?=$row['id']?>, disposition: disposition, user_name: "<?=$_SESSION['user_name']?>", extension: "<?=$_SESSION['extension']?>"}, onSuccess: function(transport){
+                             if (transport.responseText) {
+                             var response = transport.responseText;
+                             //entries_to_ids[counter] = parseInt(response);
+                             jQuery('#status_bar').text("Saved Disposition");
+                             jQuery('#status_bar').fadeIn(1000);    
+                             jQuery('#status_bar').fadeOut(5000);
+                             //alert(response);
+                             }
+                             }
+                             });
+        }
+        </script>
+        <?
+    }
     
     
     
     echo '<div class="thin_700px_box">';
-    
-    
-    
-    
-    
     
     $fields_to_hide[] = "id";
     $fields_to_hide[] = "cleaned_number";
@@ -227,53 +228,8 @@ function display_customer_edit($row) {
     echo '<tr><td colspan="2"><input type="submit" value="save changes"></td></tr>';
     echo '</form>';
     echo "</table>";
+    echo "</div>";            
 }
-
-
-
-
-/*
- echo "<table>";
- echo "Disposition:<tr>";
- echo "<td><a href=\"aaa\">";
- box_start(100);
- echo "<center>";
- echo "Success<br />";
- ?>
- <br />
- <img src="images/icons/32x32/actions/button_ok.png" alt="Tick">
- <br />
- <br />
- <?
- box_end();
- echo "</a></td>";
- echo "<td><a href=\"aaa\">";
- box_start(100);
- echo "<center>";
- echo "Unavailable<br />";
- ?>
- <br />
- <img src="images/icons/32x32/actions/history.png" alt="Unavailable">
- <br />
- <br />
- <?
- box_end();
- echo "</a></td>";
- echo "<td><a href=\"aaa\">";
- box_start(100);
- echo "<center>";
- echo "Bla<br />";
- ?>
- <br />
- <img src="images/icons/32x32/actions/button_cancel.png" alt="DNC">
- <br />
- <br />
- <?
- box_end();
- echo "</a></td></tr></table>";
- 
- */
-
 
 $phone_number = clean_number($_GET[phone_number]);
 $result = mysqli_query($connection, "SELECT * FROM SmoothOperator.customers WHERE cleaned_number = '$phone_number'");
@@ -300,17 +256,22 @@ if (mysqli_num_rows($result) > 0) {
             
         }
         display_customer_edit($row);
+        display_script();
+        display_dispositions();
         
-        $result = mysqli_query($connection, "SELECT * FROM interractions WHERE customer_id = ".$row['id']." ORDER BY contact_date_time desc");
-        if (mysqli_num_rows($result) > 0) {
-            echo '<br /><table class="sample">';
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo '<tr><th>Date: </th><td><b>'.$row['contact_date_time'].'</b></td></tr>';
-                echo '<tr><th>Notes: </th><td>'.$row['notes'].'</td></tr><tr><th colspan="2"></th></tr>';
+        /* Display interractions */
+        
+        if (isset($_GET['interractions'])) {
+            $result = mysqli_query($connection, "SELECT * FROM interractions WHERE customer_id = ".$row['id']." ORDER BY contact_date_time desc");
+            if (mysqli_num_rows($result) > 0) {
+                echo '<br /><table class="sample">';
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo '<tr><th>Date: </th><td><b>'.$row['contact_date_time'].'</b></td></tr>';
+                    echo '<tr><th>Notes: </th><td>'.$row['notes'].'</td></tr><tr><th colspan="2"></th></tr>';
+                }
+                echo '</table>';
             }
-            echo '</table>';
         }
-        
     } else {
         // Multiple Rows Found
         
@@ -346,8 +307,9 @@ if (mysqli_num_rows($result) > 0) {
     //print_pre($_SESSION);
     //print_r($row);exit(0);
     display_customer_edit($row);
-    
+    display_script();
+    display_dispositions();
 }
-echo "</div>";
+
 require "footer.php";
 ?>
