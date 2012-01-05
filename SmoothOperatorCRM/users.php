@@ -149,6 +149,8 @@ if (isset($_GET['new'])) {
             } else if (in_array($field, $textarea_fields)) {
                 echo '<tr><td colspan="2">'.clean_field_name($field).'</td></tr>';
                 echo '<tr><td colspan="2"><textarea cols="60" rows="10" name="'.$field.'"></textarea></td></tr>';
+            } else if ($field == "extension") {
+                echo '<tr><td>SIP Account</td><td><input type="text" name="'.$field.'" value=""></td></tr>';
             } else {
                 echo '<tr><td>'.clean_field_name($field).'</td><td><input type="text" name="'.$field.'" value=""></td></tr>';
             }
@@ -206,6 +208,8 @@ if (isset($_GET[edit])) {
             } else if (in_array($field, $textarea_fields)) {
                 echo '<tr><td colspan="2">'.clean_field_name($field).'</td></tr>';
                 echo '<tr><td colspan="2"><textarea cols="60" rows="10" name="'.$field.'">'.$value.'</textarea></td></tr>';
+            } else if ($field == "extension") {
+                echo '<tr><td>SIP Account</td><td><input type="text" name="'.$field.'" value="'.$value.'"></td></tr>';
             } else {
                 echo '<tr><td>'.clean_field_name($field).'</td><td><input type="text" name="'.$field.'" value="'.$value.'"></td></tr>';
             }
@@ -238,7 +242,7 @@ if (isset($_GET[edit])) {
         <th>Username</th>
         <th>Password</th>
         <th>Name</th>
-        <th>Extension</th>
+        <th>SIP Account</th>
         <th>Security Level</th>
         <th>Delete</th>
     </tr>
