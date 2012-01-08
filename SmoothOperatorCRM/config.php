@@ -37,7 +37,11 @@ $result = mysqli_query($connection, $sql) or die(mysqli_error());
 echo "SVN Revision: ".$_SESSION['revision']."<br />";
 echo '<form action="config.php?save=1" method="post"><table class="sample">';
 while ($row = mysqli_fetch_assoc($result)) {
-    echo '<tr><th>'.$row['description'].'</th><td><input type="text" name="'.$row['parameter'].'" value="'.stripslashes($config_values[$row['parameter']]).'"></td></tr>';
+    if ($row['parameter'] == 'smoothtorque_db_pass') {
+        echo '<tr><th>'.$row['description'].'</th><td><input type="password" name="'.$row['parameter'].'" value="'.stripslashes($config_values[$row['parameter']]).'"></td></tr>';
+    } else {
+        echo '<tr><th>'.$row['description'].'</th><td><input type="text" name="'.$row['parameter'].'" value="'.stripslashes($config_values[$row['parameter']]).'"></td></tr>';
+    }
 }
 echo '<tr><td colspan="2"><input type="submit" value = "Save Changes"></td></tr>';
 echo '</table></form>';
