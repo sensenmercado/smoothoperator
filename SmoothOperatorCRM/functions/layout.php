@@ -39,7 +39,7 @@ if (!function_exists('draw_progress')) {
         
         
         ?>
-        <div id="progress" style="display:none">
+        <div id="progress" style="display:none" title="Please Wait...">
         <center><?
         if (isset($message)) {
             echo $message."<br />";
