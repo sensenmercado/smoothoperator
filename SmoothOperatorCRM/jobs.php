@@ -71,9 +71,11 @@ if (isset($_GET['save_members'])) {
 }
 if (isset($_GET['save'])) {
     require "header.php";
+    /* Add a job to the database */
     $sql = "INSERT INTO jobs (name, description) VALUES (".sanitize($_POST['name']).", ".sanitize($_POST['description']).")";
     mysqli_query($connection, $sql);
-    redirect("jobs.php",0);
+    $job = mysqli_insert_id($connection);
+    redirect("jobs.php?job_id=".$job,0);
     require "footer.php";
     exit(0);
 }
