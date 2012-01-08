@@ -1,7 +1,17 @@
 <?
 if (!function_exists(redirect)) {
-    function redirect($url, $timeout = 0) {
-        echo "<meta http-equiv='refresh' content='".$timeout.";URL=".$url."'>";
+    function redirect($url, $timeout = 0, $message="Please Wait...") {
+        ?>
+        <div id="redirect" style="display:none">
+        <center><?=$message?><br />
+        <?echo "<meta http-equiv='refresh' content='".$timeout.";URL=".$url."'>";?>
+        </center>
+        </div>
+        <script>
+        jQuery("#redirect").dialog({modal: true});
+        </script>
+        <?
+        //echo "";
     }
 }
 if (!function_exists('open_page') ) {

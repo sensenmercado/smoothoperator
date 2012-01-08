@@ -48,6 +48,17 @@ $this_page = $exploded_path[sizeof($exploded_path)-1];
 /* current page is not login.php, send them to the login page.         */
 if (!isset($user_level) || $user_level < 1) {
     if ($this_page != "login.php") {
+        ?>
+        <script type='text/javascript' src='js/jquery-1.3.2.min.js'></script>
+        <script type='text/javascript' src='js/jquery-ui-1.7.3.custom.min.js'></script>
+        <script>
+        jQuery.noConflict();
+        </script>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/default.css">
+
+        <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.7.3.custom.css">
+        <?
         redirect("login.php");
         exit(0);
     }
@@ -131,13 +142,15 @@ $config_values = $_SESSION['config_values'];
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <link rel="stylesheet" type="text/css" href="css/default.css">
 <link rel="stylesheet" type="text/css" href="css/uploadify.css">
+<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.7.3.custom.css">
+
 
 <script type="text/javascript" src="js/niftycube.js"></script>
 <script type="text/javascript" src="js/prototype_1.6.1.js"> </script>
 <script type="text/javascript" src="js/window.js"> </script>
 
-<script type='text/javascript' src='js/jquery.min.1.2.6.js'></script>
-<script type='text/javascript' src='js/jquery-ui.min.1.5.3.js'></script>
+<script type='text/javascript' src='js/jquery-1.3.2.min.js'></script>
+<script type='text/javascript' src='js/jquery-ui-1.7.3.custom.min.js'></script>
 <script>
 jQuery.noConflict();
 </script>
