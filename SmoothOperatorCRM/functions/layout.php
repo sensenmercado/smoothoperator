@@ -36,10 +36,28 @@ if (!function_exists('get_links')) {
 }
 if (!function_exists('draw_progress')) {
     function draw_progress($message = "") {
+        
+        
+        ?>
+        <div id="progress" style="display:none">
+        <center><?
         if (isset($message)) {
             echo $message."<br />";
         }
         echo '<img src="images/progress.gif" border="0">';
+
+        ?>
+        <br />
+        </center>
+        </div>
+        <script>
+        jQuery("#progress").dialog({modal: true});
+        </script>
+        <?
+
+        flush();
+        sleep(1);        
+        
     }
 }
 if (!function_exists('clean_field_name')) {
