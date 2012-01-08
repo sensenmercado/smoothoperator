@@ -80,8 +80,8 @@ if (isset($_GET['save'])) {
     
     /* If there is a SmoothTorque host/user/pass connect to it */
     if (strlen($config_values['smoothtorque_db_host']) > 0) {
-        /* First create a campaign */
-        /* Then create a queue */        
+        /* Create a queue */
+        /* Create a campaign */
     }
 
     
