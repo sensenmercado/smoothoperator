@@ -78,10 +78,10 @@ if (isset($_GET['save'])) {
     /* Find out the newly created job ID */
     $job = mysqli_insert_id($connection);
     
-    /* If there is a SmoothTorque host/user/pass connect to it and create a campaign */
+    /* If there is a SmoothTorque host/user/pass connect to it */
     if (strlen($config_values['smoothtorque_db_host']) > 0) {
-        ?>
-        <?
+        /* First create a campaign */
+        /* Then create a queue */        
     }
 
     
@@ -108,10 +108,21 @@ if (isset($_GET['add'])) {
     <?
     /* If there is a SmoothTorque host/user/pass show campaign types */
     if (strlen($config_values['smoothtorque_db_host']) > 0) {
+        
+        /* Make sure there is a user in SmoothTorque we can use to create the campaign under */
+        $link = mysql_connect($config_values['smoothtorque_db_host'], $config_values['smoothtorque_db_user'], $config_values['smoothtorque_db_pass']) or die(mysql_error());
+        $result = mysql_query("SELECT username, campaigngroupid FROM SineDialer.customer");
+        echo '<tr><th>Dialer Account:</th><td><select name="st_account">';
+        while($row = mysql_fetch_assoc($result)) {
+            echo '<option value="'.$row['username']."!".$row['campaigngroupid'].'">'.$row['username'].'</option>';
+        }
+        echo '</select></td></tr>';
+        
+        
         ?>
         <tr><th>Dialer Campaign Type:</th>
         <td>
-        <select name="campaign_type">
+        <select name="st_campaign_type">
         <option value="-1" SELECTED>Please chose a type of campaign...</option>
         <option value="0" title="No phone calls are made">Load Simulation</option>
         <option value="1" title="Only leave a message for answering machines, hang up when a person answers">Answer Machine Only</option>
