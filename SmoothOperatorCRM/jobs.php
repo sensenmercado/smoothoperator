@@ -79,7 +79,11 @@ if (isset($_GET['save'])) {
     $job = mysqli_insert_id($connection);
     
     /* If there is a SmoothTorque host/user/pass connect to it and create a campaign */
-    
+    if (strlen($config_values['smoothtorque_db_host']) > 0) {
+        ?>
+        <?
+    }
+
     
     /* Redirect to edit the new job */
     redirect("jobs.php?job_id=".$job,0);
@@ -101,6 +105,28 @@ if (isset($_GET['add'])) {
     <tr>
     <td colspan="2"><textarea name="description"></textarea></td>
     </tr>
+    <?
+    /* If there is a SmoothTorque host/user/pass show campaign types */
+    if (strlen($config_values['smoothtorque_db_host']) > 0) {
+        ?>
+        <tr><th>Dialer Campaign Type:</th>
+        <td>
+        <select name="campaign_type">
+        <option value="-1" SELECTED>Please chose a type of campaign...</option>
+        <option value="0" title="No phone calls are made">Load Simulation</option>
+        <option value="1" title="Only leave a message for answering machines, hang up when a person answers">Answer Machine Only</option>
+        <option value="2" title="Automatically send a person straight through to the call center">Immediate Live</option>
+        <option value="4" title="Play a message to a person, hang up for answering machines">Press 1 Live Only</option>
+        <option value="5" title="Put a person straight through to the call center, and leave a message for the answer machines">Immediate Live and Answer Machine</option>
+        <option value="3" title="Play a message to a person, if they press 1, put them through to the call center. Leave a message for answering machines">Press 1 Live and Answer Machine</option>
+        <option value="6" title="As soon as a number is connected, transfer it to a staff memeber"> Direct Transfer</option>
+        <option value="7" title="When a call is answered, play back the message and then hang up"> Immediate Message Playback</option>
+        </select>
+        </td>
+        </tr>
+        <?
+    }
+    ?>
     <tr>
     <td colspan="2"><input type="submit" value="Add Job"></td>
     </tr>
