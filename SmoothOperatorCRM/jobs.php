@@ -74,7 +74,14 @@ if (isset($_GET['save'])) {
     /* Add a job to the database */
     $sql = "INSERT INTO jobs (name, description) VALUES (".sanitize($_POST['name']).", ".sanitize($_POST['description']).")";
     mysqli_query($connection, $sql);
+    
+    /* Find out the newly created job ID */
     $job = mysqli_insert_id($connection);
+    
+    /* If there is a SmoothTorque host/user/pass connect to it and create a campaign */
+    
+    
+    /* Redirect to edit the new job */
     redirect("jobs.php?job_id=".$job,0);
     require "footer.php";
     exit(0);
