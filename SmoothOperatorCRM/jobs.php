@@ -71,6 +71,7 @@ if (isset($_GET['save_members'])) {
 }
 if (isset($_GET['save'])) {
     require "header.php";
+    draw_progress("Please wait, saving your job");
     /* Add a job to the database */
     $sql = "INSERT INTO jobs (name, description) VALUES (".sanitize($_POST['name']).", ".sanitize($_POST['description']).")";
     mysqli_query($connection, $sql);
@@ -80,8 +81,19 @@ if (isset($_GET['save'])) {
     
     /* If there is a SmoothTorque host/user/pass connect to it */
     if (strlen($config_values['smoothtorque_db_host']) > 0) {
+        /* Connect to SmoothTorque MySQL Database */
+        $link = mysql_connect($config_values['smoothtorque_db_host'], $config_values['smoothtorque_db_user'], $config_values['smoothtorque_db_pass']) or die(mysql_error());
+        
         /* Create a queue */
+        $sql = "INSERT INTO SineDialer.queue_table (name) VALUES (".sanitize("so_crm_".$job).")";
+        $result = mysql_query($sql);
+        
         /* Create a campaign */
+        $sql = "INSERT INTO SineDialer.campaign (id, name, description, groupid, astqueuename, mode, clid, context) VALUES (";
+        $sql.= sanitize($job+100000).",".sanitize($_POST['name']).",".sanitize("From SmoothOperator").",".sanitize($_POST['st_campaign_group_id']).",".sanitize("so_crm_".$job).",1,".sanitize($_POST['st_callerid']).",".sanitize($_POST['st_campaign_type']).")";
+        
+        $result = mysql_query($sql);
+        
     }
 
     
@@ -112,26 +124,23 @@ if (isset($_GET['add'])) {
         /* Make sure there is a user in SmoothTorque we can use to create the campaign under */
         $link = mysql_connect($config_values['smoothtorque_db_host'], $config_values['smoothtorque_db_user'], $config_values['smoothtorque_db_pass']) or die(mysql_error());
         $result = mysql_query("SELECT username, campaigngroupid FROM SineDialer.customer");
-        echo '<tr><th>Dialer Account:</th><td><select name="st_account">';
+        echo '<tr><th>Dialer Account:</th><td><select name="st_campaign_group_id">';
         while($row = mysql_fetch_assoc($result)) {
-            echo '<option value="'.$row['username']."!".$row['campaigngroupid'].'">'.$row['username'].'</option>';
+            echo '<option value="'.$row['campaigngroupid'].'">'.$row['username'].'</option>';
         }
         echo '</select></td></tr>';
         
         
         ?>
+        <tr><th>CallerID:</th>
+        <td><input type="text" name="st_callerid"></td>
+        </tr>
         <tr><th>Dialer Campaign Type:</th>
         <td>
         <select name="st_campaign_type">
         <option value="-1" SELECTED>Please chose a type of campaign...</option>
-        <option value="0" title="No phone calls are made">Load Simulation</option>
-        <option value="1" title="Only leave a message for answering machines, hang up when a person answers">Answer Machine Only</option>
-        <option value="2" title="Automatically send a person straight through to the call center">Immediate Live</option>
-        <option value="4" title="Play a message to a person, hang up for answering machines">Press 1 Live Only</option>
-        <option value="5" title="Put a person straight through to the call center, and leave a message for the answer machines">Immediate Live and Answer Machine</option>
-        <option value="3" title="Play a message to a person, if they press 1, put them through to the call center. Leave a message for answering machines">Press 1 Live and Answer Machine</option>
-        <option value="6" title="As soon as a number is connected, transfer it to a staff memeber"> Direct Transfer</option>
-        <option value="7" title="When a call is answered, play back the message and then hang up"> Immediate Message Playback</option>
+        <option value="2" title="Automatically send a person straight through to the call center">Transfer Live, Hang up Answer Machine</option>
+        <option value="6" title="As soon as a number is connected, transfer it to a staff memeber">Transfer Connected</option>
         </select>
         </td>
         </tr>
