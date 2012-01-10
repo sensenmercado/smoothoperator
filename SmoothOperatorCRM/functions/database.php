@@ -316,6 +316,25 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
         
+        /* Create the agent_nums table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "agent_nums")) {
+            $messages[] =  "agent_nums table is missing...created";
+            $sql = "CREATE TABLE `agent_nums` (
+            `agent_num` VARCHAR(11) default NULL,
+            `pin` VARCHAR(11) default NULL,
+            `used` int(2) default 0
+            ) ENGINE=MyISAM DEFAULT CHARSET=latin1";
+            $result = mysqli_query($link, $sql);
+            
+            for ($i = 0;$i<10000;$i++) {
+                $str = str_pad((int) $i,4,"0",STR_PAD_LEFT);
+                $pin = substr('0000' . rand(1, 9999), -4);
+                mysqli_query($link,"INSERT INTO agent_nums (agent_num, pin) VALUES ('$str', '$pin')");                
+            }
+            
+            
+        }
+        
         
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "users")) {
             $messages[] =  "Users table is missing...created";
