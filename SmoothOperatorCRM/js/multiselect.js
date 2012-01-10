@@ -272,6 +272,7 @@ jQuery(function(){
                         jQuery('#status_bar').text("Saved Job Changes");
                         jQuery('#status_bar').fadeIn(1000);    
                         jQuery('#status_bar').fadeOut(5000);
+                        //alert(transport.responseText);
                         if (transport.responseText) {
                         var response = transport.responseText;
                         //entries_to_ids[counter] = parseInt(response);
