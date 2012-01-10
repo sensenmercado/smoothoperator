@@ -41,9 +41,11 @@ if (!function_exists('draw_progress')) {
         ?>
         <div id="progress" style="display:none" title="Please Wait...">
         <center><?
+        echo "<br />";
         if (isset($message)) {
             echo $message."<br />";
         }
+        echo "<br />";
         echo '<img src="images/progress.gif" border="0">';
 
         ?>
