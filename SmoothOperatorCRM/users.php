@@ -37,7 +37,7 @@ if (isset($_GET['delete'])) {
     require "footer.php";
     exit(0);
 }
-if (isset($_GET[save])) {
+if (isset($_GET['save'])) {
     ?><div class="thin_700px_box"><?
     $id = sanitize($_POST[id]);
     $sql = "UPDATE users SET ";
@@ -59,7 +59,7 @@ if (isset($_GET[save])) {
     require "footer.php";
     exit(0);
 }
-if (isset($_GET[save_new])) {
+if (isset($_GET['save_new'])) {
     ?><div class="thin_700px_box"><?
     $sql1 = "INSERT INTO users (";
     $sql2 = ") VALUES (";
@@ -85,7 +85,7 @@ if (isset($_GET[save_new])) {
     require "footer.php";
     exit(0);
 }
-if (isset($_GET[save_password])) {
+if (isset($_GET['save_password'])) {
     ?><div class="thin_700px_box"><?
     $id = sanitize($_POST[id]);
     if ($_POST['new_password'] != $_POST['new_password_repeat']) {
@@ -104,7 +104,7 @@ if (isset($_GET[save_password])) {
     require "footer.php";
     exit(0);
 }
-if (isset($_GET[change_password])) {
+if (isset($_GET['change_password'])) {
     ?><div class="thin_700px_box"><?
     ?>
 <form action="users.php?save_password=1" method="post">
@@ -150,7 +150,7 @@ if (isset($_GET['new'])) {
                 echo '<tr><td colspan="2">'.clean_field_name($field).'</td></tr>';
                 echo '<tr><td colspan="2"><textarea cols="60" rows="10" name="'.$field.'"></textarea></td></tr>';
             } else if ($field == "extension") {
-                echo '<tr><td>SIP Account</td><td><input type="text" name="'.$field.'" value=""></td></tr>';
+                echo '<tr><td>Agent Number</td><td><input type="text" name="'.$field.'" value=""></td></tr>';
             } else {
                 echo '<tr><td>'.clean_field_name($field).'</td><td><input type="text" name="'.$field.'" value=""></td></tr>';
             }
@@ -159,7 +159,7 @@ if (isset($_GET['new'])) {
         echo '</form>';
         echo "</table>";
     }
-    $id = sanitize($_GET[edit]);
+    $id = sanitize($_GET['edit']);
     $result = mysqli_query($connection, "SELECT * FROM users LIMIT 1");
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
@@ -172,7 +172,7 @@ if (isset($_GET['new'])) {
 }
 
 
-if (isset($_GET[edit])) {
+if (isset($_GET['edit'])) {
     ?><div class="thin_700px_box"><?
     function display_user_edit($row) {
         $fields_to_hide[] = "id";
@@ -209,7 +209,7 @@ if (isset($_GET[edit])) {
                 echo '<tr><td colspan="2">'.clean_field_name($field).'</td></tr>';
                 echo '<tr><td colspan="2"><textarea cols="60" rows="10" name="'.$field.'">'.$value.'</textarea></td></tr>';
             } else if ($field == "extension") {
-                echo '<tr><td>SIP Account</td><td><input type="text" name="'.$field.'" value="'.$value.'"></td></tr>';
+                echo '<tr><td>Agent Number</td><td><input type="text" name="'.$field.'" value="'.$value.'"></td></tr>';
             } else {
                 echo '<tr><td>'.clean_field_name($field).'</td><td><input type="text" name="'.$field.'" value="'.$value.'"></td></tr>';
             }
@@ -218,7 +218,7 @@ if (isset($_GET[edit])) {
         echo '</form>';
         echo "</table>";
     }
-    $id = sanitize($_GET[edit]);
+    $id = sanitize($_GET['edit']);
     $result = mysqli_query($connection, "SELECT * FROM users WHERE id = $id LIMIT 1");
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
