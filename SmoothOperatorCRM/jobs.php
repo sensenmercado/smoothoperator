@@ -65,8 +65,36 @@ if (isset($_GET['save_members'])) {
         $sql = $sql2.substr($sql3,0,strlen($sql3)-1);
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     }
-    //echo $sql."\n";
     
+    /* Get the config values */
+    session_start();
+    $config_values = $_SESSION['config_values'];
+    /* If SmoothTorque is enabled */
+    if (strlen($config_values['smoothtorque_db_host']) > 0) {
+        unset($sqls);
+        /* Delete all members from this queue */
+        $sqls[] = "DELETE FROM SineDialer.queue_member_table WHERE queue_name = 'so_crm_".sanitize($_GET['save_members'],false)."'";
+        foreach ($exploded as $member) {
+            $member = sanitize(substr(trim($member),5));
+            $result = mysqli_query($connection, "SELECT username, extension FROM users WHERE id = ".$member);
+            $row = mysqli_fetch_assoc($result);
+            $agent_num = $row['extension'];
+            $username = $row['username'];
+            /* Add the new members to the queue */
+            $sqls[] = "INSERT INTO SineDialer.queue_member_table (queue_name, membername, interface) VALUES ('so_crm_".sanitize($_GET['save_members'],false)."', ".sanitize($username).",".sanitize("Agent/".$agent_num).")";
+            
+            
+
+        }        
+        /* Connect to SmoothTorque MySQL Database */
+        $link = mysql_connect($config_values['smoothtorque_db_host'], $config_values['smoothtorque_db_user'], $config_values['smoothtorque_db_pass']) or die(mysql_error());
+        foreach ($sqls as $sql) {
+            mysql_query($sql) or die(mysql_error());
+        }
+                
+        
+    }    
+    //echo $sql."\n";
     exit(0);
 }
 if (isset($_GET['save'])) {
