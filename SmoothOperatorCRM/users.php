@@ -33,8 +33,8 @@ if (isset($_GET['delete'])) {
     <br />
     <a href="users.php?delete_sure=<?=$_GET['delete']?>">Yes, delete them</a><br />
     <a href="users.php">No, do not delete them</a><br />
-    </div><?
-    require "footer.php";
+        </div><?
+        require "footer.php";
     exit(0);
 }
 if (isset($_GET['save'])) {
@@ -42,9 +42,11 @@ if (isset($_GET['save'])) {
     $id = sanitize($_POST[id]);
     $sql = "UPDATE users SET ";
     foreach ($_POST as $field=>$value) {
-        $field = sanitize($field, false);
-        $value = sanitize($value);
-        $sql.= "$field = $value, ";
+        if ($field != "orig_extension") {
+            $field = sanitize($field, false);
+            $value = sanitize($value);
+            $sql.= "$field = $value, ";
+        }
     }
     $sql = substr($sql, 0, strlen($sql)-2);
     $sql.= " WHERE id=$id";
@@ -53,6 +55,8 @@ if (isset($_GET['save'])) {
         $messages[] = "There was a problem saving your changes: ".mysqli_error();
         $_SESSION['messages'] = $messages;
     }
+    mysqli_query($connection, "UPDATE agent_nums SET used=0 WHERE agent_num = ".sanitize($_POST['orig_extension']));
+    mysqli_query($connection, "UPDATE agent_nums SET used=1 WHERE agent_num = ".sanitize($_POST['extension']));
     draw_progress("Please wait we are saving your changes...");
     redirect("users.php", 0);
     ?></div><?
@@ -60,6 +64,7 @@ if (isset($_GET['save'])) {
     exit(0);
 }
 if (isset($_GET['save_new'])) {
+    //print_pre($_POST);exit(0);
     ?><div class="thin_700px_box"><?
     $sql1 = "INSERT INTO users (";
     $sql2 = ") VALUES (";
@@ -79,6 +84,7 @@ if (isset($_GET['save_new'])) {
         $messages[] = "There was a problem saving your changes: ".mysqli_error();
         $_SESSION['messages'] = $messages;
     }
+    mysqli_query($connection, "UPDATE agent_nums SET used=1 WHERE agent_num = ".sanitize($_POST['extension']));
     draw_progress("Please wait we are saving your changes...");
     redirect("users.php", 0);
     ?></div><?
@@ -107,20 +113,21 @@ if (isset($_GET['save_password'])) {
 if (isset($_GET['change_password'])) {
     ?><div class="thin_700px_box"><?
     ?>
-<form action="users.php?save_password=1" method="post">
+    <form action="users.php?save_password=1" method="post">
     <input type="hidden" name="id" value="<?=$_GET['change_password']?>">
     New Password: <input type="password" name="new_password"><br />
     New Password again: <input type="password" name="new_password_repeat"><br />
     <input type="submit" value="Save Changes">
-</form>
-
-</div><?
+    </form>
+    
+    </div><?
     exit(0);
 }
 
 if (isset($_GET['new'])) {
     ?><div class="thin_700px_box"><?
     function display_user_new($row) {
+        global $connection;
         $fields_to_hide[] = "";
         $fields_to_ignore[] = "id";
         $textarea_fields[] = "";
@@ -128,7 +135,7 @@ if (isset($_GET['new'])) {
         $select_values['security_level'][] = "0";
         $select_names['security_level'][] = "No Access";
         $select_values['security_level'][] = "1";
-        $select_names['security_level'][] = "Normal User";
+        $select_names['security_level'][] = "Agent";
         $select_values['security_level'][] = "10";
         $select_names['security_level'][] = "Administrator";
         $select_values['security_level'][] = "100";
@@ -143,14 +150,28 @@ if (isset($_GET['new'])) {
                 }
                 echo "</select></td></tr>";
             } else if (in_array($field, $fields_to_ignore)) {
-
+                
             } else if (in_array($field, $fields_to_hide)) {
                 echo '<input type="hidden" name="'.$field.'" value="'.$value.'">';
             } else if (in_array($field, $textarea_fields)) {
                 echo '<tr><td colspan="2">'.clean_field_name($field).'</td></tr>';
                 echo '<tr><td colspan="2"><textarea cols="60" rows="10" name="'.$field.'"></textarea></td></tr>';
             } else if ($field == "extension") {
-                echo '<tr><td>Agent Number</td><td><input type="text" name="'.$field.'" value=""></td></tr>';
+                echo '<tr><td>Agent Number</td>';
+                echo '<td>';
+                $result_agents = mysqli_query($connection, "SELECT agent_num, pin FROM agent_nums WHERE used = 0") or die(mysqli_error($connection));
+                if (mysqli_num_rows($result_agents) == 0) {
+                    echo "No agents remaining...";
+                } else {
+                    echo '<select name="'.$field.'">';
+                    while ($row = mysqli_fetch_assoc($result_agents)) {
+                        echo '<option value="'.$row['agent_num'].'">'.$row['agent_num'].' (PIN: '.$row['pin'].')</option>';
+                    }
+                    echo "</select>";
+                }
+                //echo '<input type="text" name="'.$field.'" value="">
+                echo '</td></tr>';
+                
             } else {
                 echo '<tr><td>'.clean_field_name($field).'</td><td><input type="text" name="'.$field.'" value=""></td></tr>';
             }
@@ -175,6 +196,7 @@ if (isset($_GET['new'])) {
 if (isset($_GET['edit'])) {
     ?><div class="thin_700px_box"><?
     function display_user_edit($row) {
+        global $connection;
         $fields_to_hide[] = "id";
         $fields_to_ignore[] = "password";
         $textarea_fields[] = "";
@@ -182,7 +204,7 @@ if (isset($_GET['edit'])) {
         $select_values['security_level'][] = "0";
         $select_names['security_level'][] = "No Access";
         $select_values['security_level'][] = "1";
-        $select_names['security_level'][] = "Normal User";
+        $select_names['security_level'][] = "Agent";
         $select_values['security_level'][] = "10";
         $select_names['security_level'][] = "Administrator";
         $select_values['security_level'][] = "100";
@@ -209,7 +231,29 @@ if (isset($_GET['edit'])) {
                 echo '<tr><td colspan="2">'.clean_field_name($field).'</td></tr>';
                 echo '<tr><td colspan="2"><textarea cols="60" rows="10" name="'.$field.'">'.$value.'</textarea></td></tr>';
             } else if ($field == "extension") {
-                echo '<tr><td>Agent Number</td><td><input type="text" name="'.$field.'" value="'.$value.'"></td></tr>';
+                //echo '<tr><td>Agent Number</td><td><input type="text" name="'.$field.'" value="'.$value.'"></td></tr>';
+                
+                echo '<tr><td>Agent Number</td>';
+                echo '<td>';
+                $result_agents = mysqli_query($connection, "SELECT agent_num, pin FROM agent_nums WHERE used = 0 or agent_num = '$value'") or die(mysqli_error($connection));
+                if (mysqli_num_rows($result_agents) == 0) {
+                    echo "No agents remaining...";
+                } else {
+                    echo '<select name="'.$field.'">';
+                    while ($row = mysqli_fetch_assoc($result_agents)) {
+                        if ($row['agent_num'] == $value) {
+                            echo '<option value="'.$row['agent_num'].'" selected>'.$row['agent_num'].' (PIN: '.$row['pin'].')</option>';
+                        } else {
+                            echo '<option value="'.$row['agent_num'].'">'.$row['agent_num'].' (PIN: '.$row['pin'].')</option>';
+                        }
+                    }
+                    echo "</select>";
+                }
+                ?>
+                <input type="hidden" name="orig_extension" value="<?=$value?>">
+                <?
+                //echo '<input type="text" name="'.$field.'" value="">
+                echo '</td></tr>';
             } else {
                 echo '<tr><td>'.clean_field_name($field).'</td><td><input type="text" name="'.$field.'" value="'.$value.'"></td></tr>';
             }
@@ -231,54 +275,54 @@ if (isset($_GET['edit'])) {
 }
 ?>
 <div class="thin_700px_box">
-    <center>
-        <a href="users.php?new=1"><img src="images/user.png">&nbsp;Add User</a>&nbsp;
-    </center>
+<center>
+<a href="users.php?new=1"><img src="images/user.png">&nbsp;Add User</a>&nbsp;
+</center>
 </div>
 
 <div class="thin_700px_box">
 <table class="sample2" width="100%">
-    <tr>
-        <th>Username</th>
-        <th>Password</th>
-        <th>Name</th>
-        <th>SIP Account</th>
-        <th>Security Level</th>
-        <th>Delete</th>
-    </tr>
-    <?
-    $result = @mysqli_query($connection, "SELECT * FROM users");
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo '<tr>';
-        echo '<td><a href="users.php?edit='.$row[id].'">'.$row[username].'&nbsp;<img src="images/pencil.png"></a></td>';
-        echo '<td><a href="users.php?change_password='.$row[id].'">Change Password</a></td>';
-        echo "<td>$row[first_name] $row[last_name]</td>";
-        echo "<td>$row[extension]</td>";
-        echo "<td>";
-        switch ($row[security_level]) {
-            case 100:
-                echo "Super User";
-                break;
-            case 10:
-                echo "Administrator";
-                break;
-            case 1:
-                echo "Normal User";
-                break;
-            default:
-                echo "No Access";
-                break;
-
-        }
-        echo "</td>";
-
-        echo '<td>';
-        ?><a href="#" onclick="show_confirm('Are you really sure you want to delete <b><?=$row[username]?></b>?', 'Delete', 'users.php?delete_sure=<?=$row[id]?>');return false;"><?
-        //echo '<a href="users.php?delete='.$row[id].'">';
-        echo '<img src="images/delete.png"></td>';
-        echo '</tr>';
+<tr>
+<th>Username</th>
+<th>Password</th>
+<th>Name</th>
+<th>SIP Account</th>
+<th>Security Level</th>
+<th>Delete</th>
+</tr>
+<?
+$result = @mysqli_query($connection, "SELECT * FROM users");
+while ($row = mysqli_fetch_assoc($result)) {
+    echo '<tr>';
+    echo '<td><a href="users.php?edit='.$row[id].'">'.$row[username].'&nbsp;<img src="images/pencil.png"></a></td>';
+    echo '<td><a href="users.php?change_password='.$row[id].'">Change Password</a></td>';
+    echo "<td>$row[first_name] $row[last_name]</td>";
+    echo "<td>$row[extension]</td>";
+    echo "<td>";
+    switch ($row[security_level]) {
+        case 100:
+            echo "Super User";
+            break;
+        case 10:
+            echo "Administrator";
+            break;
+        case 1:
+            echo "Agent";
+            break;
+        default:
+            echo "No Access";
+            break;
+            
     }
-    ?>
+    echo "</td>";
+    
+    echo '<td>';
+    ?><a href="#" onclick="show_confirm('Are you really sure you want to delete <b><?=$row[username]?></b>?', 'Delete', 'users.php?delete_sure=<?=$row[id]?>');return false;"><?
+    //echo '<a href="users.php?delete='.$row[id].'">';
+    echo '<img src="images/delete.png"></td>';
+    echo '</tr>';
+}
+?>
 </table>
 </div>
 <?
