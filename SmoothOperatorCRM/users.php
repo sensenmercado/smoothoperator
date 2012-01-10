@@ -38,8 +38,13 @@ if (isset($_GET['delete'])) {
     exit(0);
 }
 if (isset($_GET['save'])) {
-    ?><div class="thin_700px_box"><?
+    
+    draw_progress("Please wait we are saving your changes...");
     $id = sanitize($_POST[id]);
+    $exploded = explode("!",$_POST['extension']);
+    $_POST['extension'] = $exploded[0];
+    $pin = $exploded[1];
+    
     $sql = "UPDATE users SET ";
     foreach ($_POST as $field=>$value) {
         if ($field != "orig_extension") {
@@ -57,9 +62,26 @@ if (isset($_GET['save'])) {
     }
     mysqli_query($connection, "UPDATE agent_nums SET used=0 WHERE agent_num = ".sanitize($_POST['orig_extension']));
     mysqli_query($connection, "UPDATE agent_nums SET used=1 WHERE agent_num = ".sanitize($_POST['extension']));
-    draw_progress("Please wait we are saving your changes...");
+    
+    if (strlen($config_values['smoothtorque_db_host']) > 0) {
+        
+        /* Make sure there is a user in SmoothTorque we can use to create the campaign under */
+        $link = mysql_connect($config_values['smoothtorque_db_host'], $config_values['smoothtorque_db_user'], $config_values['smoothtorque_db_pass']) or die(mysql_error());
+        
+        $sql = "DELETE FROM SineDialer.sip_buddies WHERE username = 'agent_".sanitize($_POST['orig_extension'],false)."'";
+        $result = mysql_query($sql) or die(mysql_error());
+        $sql = "DELETE FROM SineDialer.sip_buddies WHERE username = 'agent_".sanitize($_POST['extension'],false)."'";
+        $result = mysql_query($sql) or die(mysql_error());
+        //exit(0);
+        $sql = "INSERT INTO SineDialer.sip_buddies (qualify, name, username, secret, context) VALUES ('yes', 'agent_".sanitize($_POST['extension'],false)."', 'agent_".sanitize($_POST['extension'],false)."', 'pass_".sanitize($pin,false)."','internal')";
+        //echo $sql;
+        $result = mysql_query($sql) or die(mysql_error());
+        //flush();
+        //exit(0);
+        
+    }
+    
     redirect("users.php", 0);
-    ?></div><?
     require "footer.php";
     exit(0);
 }
@@ -96,10 +118,8 @@ if (isset($_GET['save_new'])) {
         /* Make sure there is a user in SmoothTorque we can use to create the campaign under */
         $link = mysql_connect($config_values['smoothtorque_db_host'], $config_values['smoothtorque_db_user'], $config_values['smoothtorque_db_pass']) or die(mysql_error());
         $sql = "DELETE FROM SineDialer.sip_buddies WHERE username = 'agent_".sanitize($_POST['extension'],false)."'";
-        echo $sql;
         $result = mysql_query($sql) or die(mysql_error());
-        $sql = "REPLACE INTO SineDialer.sip_buddies (username, secret, context) VALUES ('agent_".sanitize($_POST['extension'],false)."', 'pass_".sanitize($pin,false)."','internal')";
-        echo $sql;
+        $sql = "REPLACE INTO SineDialer.sip_buddies (qualify, name, username, secret, context) VALUES ('yes', 'agent_".sanitize($_POST['extension'],false)."', 'agent_".sanitize($_POST['extension'],false)."', 'pass_".sanitize($pin,false)."','internal')";
         $result = mysql_query($sql) or die(mysql_error());
         
         
@@ -261,9 +281,9 @@ if (isset($_GET['edit'])) {
                     echo '<select name="'.$field.'">';
                     while ($row = mysqli_fetch_assoc($result_agents)) {
                         if ($row['agent_num'] == $value) {
-                            echo '<option value="'.$row['agent_num'].'" selected>'.$row['agent_num'].' (PIN: '.$row['pin'].')</option>';
+                            echo '<option value="'.$row['agent_num']."!".$row['pin'].'" selected>'.$row['agent_num'].' (PIN: '.$row['pin'].')</option>';
                         } else {
-                            echo '<option value="'.$row['agent_num'].'">'.$row['agent_num'].' (PIN: '.$row['pin'].')</option>';
+                            echo '<option value="'.$row['agent_num']."!".$row['pin'].'">'.$row['agent_num'].' (PIN: '.$row['pin'].')</option>';
                         }
                     }
                     echo "</select>";
