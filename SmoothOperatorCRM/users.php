@@ -65,9 +65,12 @@ if (isset($_GET['save'])) {
 }
 if (isset($_GET['save_new'])) {
     //print_pre($_POST);exit(0);
-    ?><div class="thin_700px_box"><?
+    draw_progress("Please wait we are saving your changes...");
     $sql1 = "INSERT INTO users (";
     $sql2 = ") VALUES (";
+    $exploded = explode("!",$_POST['extension']);
+    $_POST['extension'] = $exploded[0];
+    $pin = $exploded[1];
     foreach ($_POST as $field=>$value) {
         $field = sanitize($field, false);
         if ($field == "password") {
@@ -85,9 +88,25 @@ if (isset($_GET['save_new'])) {
         $_SESSION['messages'] = $messages;
     }
     mysqli_query($connection, "UPDATE agent_nums SET used=1 WHERE agent_num = ".sanitize($_POST['extension']));
-    draw_progress("Please wait we are saving your changes...");
+    
+    
+    
+    if (strlen($config_values['smoothtorque_db_host']) > 0) {
+        
+        /* Make sure there is a user in SmoothTorque we can use to create the campaign under */
+        $link = mysql_connect($config_values['smoothtorque_db_host'], $config_values['smoothtorque_db_user'], $config_values['smoothtorque_db_pass']) or die(mysql_error());
+        $sql = "DELETE FROM SineDialer.sip_buddies WHERE username = 'agent_".sanitize($_POST['extension'],false)."'";
+        echo $sql;
+        $result = mysql_query($sql) or die(mysql_error());
+        $sql = "REPLACE INTO SineDialer.sip_buddies (username, secret, context) VALUES ('agent_".sanitize($_POST['extension'],false)."', 'pass_".sanitize($pin,false)."','internal')";
+        echo $sql;
+        $result = mysql_query($sql) or die(mysql_error());
+        
+        
+    }
+    
+    
     redirect("users.php", 0);
-    ?></div><?
     require "footer.php";
     exit(0);
 }
@@ -165,7 +184,7 @@ if (isset($_GET['new'])) {
                 } else {
                     echo '<select name="'.$field.'">';
                     while ($row = mysqli_fetch_assoc($result_agents)) {
-                        echo '<option value="'.$row['agent_num'].'">'.$row['agent_num'].' (PIN: '.$row['pin'].')</option>';
+                        echo '<option value="'.$row['agent_num']."!".$row['pin'].'">'.$row['agent_num'].' (PIN: '.$row['pin'].')</option>';
                     }
                     echo "</select>";
                 }
