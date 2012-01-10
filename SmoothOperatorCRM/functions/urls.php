@@ -3,7 +3,10 @@ if (!function_exists(redirect)) {
     function redirect($url, $timeout = 0, $message="Please Wait...") {
         ?>
         <div id="redirect" style="display:none">
-        <center><?=$message?><br />
+        <center><br />
+        <?=$message?><br /><br />
+
+        <img src="images/progress.gif" border="0">
         <?echo "<meta http-equiv='refresh' content='".$timeout.";URL=".$url."'>";?>
         </center>
         </div>
