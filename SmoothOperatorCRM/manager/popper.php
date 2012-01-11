@@ -20,7 +20,7 @@ require "../config/db_config.php";
 
 $MYSQL_BACKEND = false;
 $FILE_BACKEND = false;
-
+$DEBUG_MANAGER = false;
 require "manager_events.php";
 
 while (1) {
@@ -124,9 +124,9 @@ while (1) {
                         } else if ($eventname == "QueueMemberStatus") {
                             queue_member_status($member_name, $queue, $location, $membership, $calls_taken, $last_call, $status, $paused, $penalty);
                         } else if ($eventname == "Link") {
-                            asterisk_link($clid_1, $clid_2);
+                            asterisk_link($chan_1, $chan_2, $clid_1, $clid_2);
                         } else if ($eventname == "Unlink") {
-                            asterisk_unlink($clid_1, $clid_2);
+                            asterisk_unlink($chan_1, $chan_2, $clid_1, $clid_2);
                         } else if ($eventname == "Newstate") {
                             $exploded = explode("-", $channel);
                             $peer_name = trim($exploded[0]);
