@@ -79,8 +79,143 @@ if (!isset($_GET['phone_number'])) {
 if (!is_numeric($_GET['phone_number'])) {
     $_GET['phone_number'] = preg_replace('/[^0-9]/',"",$_GET['phone_number']);
 }
-function display_script() {
+function display_script() {    
+    global $connection;
+    ?>
+    <script>
     
+    
+    var entries_to_ids=new Array();
+    var counter = 0;
+    function addInput(divName){
+        counter++;
+        jQuery("#"+divName).append("Entry <br><input type='text' name='myInputs[]'>");
+    }
+    function add_end_of_section(divName){
+        counter++;
+        jQuery("#"+divName).append("<hr />");
+    }
+    
+    /* Statement followed by text field */
+    
+    function add_statement_followed_by_text_field(statement, divName){
+        counter++;
+        jQuery("#"+divName).append(nl2br(statement)+" <br><input type='text' name='field"+counter+"'><br />");
+    }
+    
+    /* Statement followed by yes/no */
+    
+    function add_statement_followed_by_yesno(statement, divName){
+        counter++;
+        jQuery("#"+divName).append(nl2br(statement)+" <br><select name='field"+counter+"'><option value='YES'>Yes</option><option value='NO'>No</option></select><br />");
+    }
+    
+    function add_statement_followed_by_combobox(statement, comboboxes, divName){
+        counter++;
+        var ih = nl2br(statement)+" <br><select name='field"+counter+"'>";
+        comboboxes.each(function(){
+                        ih += "<option value='"+jQuery(this).val()+"'>"+jQuery(this).val()+"</option>";
+                        });
+        ih += "</select>";
+        jQuery("#"+divName).append(ih+"<br />");
+    }
+    
+    function add_statement_followed_by_combobox_from_db(statement, comboboxes, divName){
+        counter++;
+        var ih = nl2br(statement)+" <br><select name='field"+counter+"'>";
+        comboboxes.forEach(function(item){ih += "<option value='"+item+"'>"+item+"</option>";});
+        ih += "</select>";
+        jQuery("#"+divName).append(ih+"<br />");
+    }
+    
+    /* Statement followed by nothing */
+    
+    function add_statement_followed_by_nothing(statement, divName){
+        counter++;
+        jQuery("#"+divName).append(nl2br(statement)+"<br />");
+    }
+    function nl2br(dataStr) {
+        return dataStr.replace(/(\r\n|\r|\n)/g, "<br />");
+    }
+    </script>
+    <div id="dynamicInput3" class="script_input_section" style="">
+    <form action="xxx.php" method="post" id="script_form">
+    <span id="dynamicInput2"></span>
+    </form>
+    </div>
+
+    <div id="dynamicInput" class="script_input_section" style="">
+    <?
+    $sql = "SELECT scripts.id FROM scripts, job_members, jobs  WHERE scripts.id = jobs.script_id and job_members.job_id = jobs.id and job_members.user_id = ".sanitize($_SESSION['user_id']);
+    $result_script = mysqli_query($connection, $sql);
+    $row_script = mysqli_fetch_assoc($result_script);
+    $script_id = $row_script['id'];
+    $result_entries = mysqli_query($connection, "SELECT * FROM script_entries WHERE script_id = ".$script_id);
+    $x = 0;
+    if (mysqli_num_rows($result_entries) > 0) {
+        while ($row_entries = mysqli_fetch_assoc($result_entries)) {
+            $x++;
+            ?>
+            <script language="javascript">
+            entries_to_ids[<?=$x?>] = <?=$row_entries['id']?>;
+            </script>
+            <?
+            switch ($row_entries['type']) {
+                case 0:
+                    ?>
+                    <script>add_statement_followed_by_text_field(<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput2');</script>
+                    <?
+                    break;
+                case 1:
+                    ?>
+                    <script>add_statement_followed_by_yesno(<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput2');</script>
+                    <?
+                    break;
+                case 2:
+                    ?>
+                    <script>
+                    var combobox_entries=new Array();
+                    <?
+                    $sql = "SELECT * FROM script_choices WHERE script_entry_id = ".$row_entries['id'];
+                    $result_comboboxes = mysqli_query($connection, $sql);
+                    if (mysqli_num_rows($result_comboboxes) > 0) {
+                        //echo "alert('$sql');";
+                        $count = 0;
+                        while ($row_comboboxes = mysqli_fetch_assoc($result_comboboxes)) {
+                            $string = 'combobox_entries['.$count.'] = "'.$row_comboboxes['text'].'";';
+                            echo $string;
+                            $count++;
+                        }
+                    } else {
+                        //echo "alert('No results from $sql');";
+                    }
+                    ?>
+                    add_statement_followed_by_combobox_from_db(<?=stripslashes(sanitize($row_entries['statement']))?>, combobox_entries, 'dynamicInput2');
+                    </script>
+                    <?
+                    break;
+                case 3:
+                    ?>
+                    <script>add_statement_followed_by_nothing(<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput2');</script>
+                    <?
+                    break;
+                case -1:
+                    ?>
+                    <script>add_end_of_section('dynamicInput2');</script>
+                    <?
+                    break;
+            }
+            
+        }
+    }
+    
+    ?>
+    <script>
+    jQuery("#dynamicInput2").append("</form>");
+    </script>
+    </div>
+
+    <?
 }
 
 function display_dispositions() {
@@ -182,7 +317,9 @@ function display_customer_edit($row) {
     } else {
         ?>
         <script>
+
         function save_disposition(disposition){
+            alert(jQuery("#script_form").serialize());
             new Ajax.Request('get_customer.php?save_disposition=1',{parameters: {id: <?=$row['id']?>, disposition: disposition, user_name: "<?=$_SESSION['user_name']?>", extension: "<?=$_SESSION['extension']?>"}, onSuccess: function(transport){
                              if (transport.responseText) {
                              var response = transport.responseText;
@@ -255,9 +392,9 @@ if (mysqli_num_rows($result) > 0) {
             $result = mysqli_query($connection, "INSERT INTO interractions (contact_date_time, notes, customer_id) VALUES (NOW(), 'Opened by ".$_SESSION['user_name']." on extension: ".$_SESSION['extension']."', ".$row['id'].")");
             
         }
-        display_customer_edit($row);
-        display_dispositions();
         display_script();
+        display_dispositions();
+        display_customer_edit($row);
         
         /* Display interractions */
         
