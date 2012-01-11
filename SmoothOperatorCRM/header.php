@@ -358,7 +358,7 @@ if ($this_page != "login.php") {
     <div id="site-bottom-bar-frame">
     <div id="site-bottom-bar-content">
     <?
-    echo "Agent Num: <b>".$row_agents['agent_num']."</b> PIN: <b>".$row_agents['pin'].'</b> <div style="display: inline-block;color: #999"  id="date_div">'.@Date("H:i:s").' ('.$_SESSION['calls'].' calls)</div> <span style="display: inline-block;color: #999"  id="job_details">Job: ';
+    echo '<div style="display: inline-block;color: #999"  id="agent_div">Agent Number: <b>'.$row_agents['agent_num']."</b> Pin: <b>".$row_agents['pin'].'</b></div> <div style="display: inline-block;color: #999"  id="date_div">'.@Date("H:i:s").' ('.$_SESSION['calls'].' calls)</div> <span style="display: inline-block;color: #999"  id="job_details">Job: ';
     include "check_job.php";
     echo '</span>';
     echo '&nbsp;<span id="status_bar" style="display: inline-block;color: #f00;font-weight: bold;"></span>';
