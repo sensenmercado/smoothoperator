@@ -56,7 +56,7 @@ if (!isset($user_level) || $user_level < 1) {
         </script>
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" type="text/css" href="css/default.css">
-
+        
         <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.7.3.custom.css">
         <?
         redirect("login.php");
@@ -351,18 +351,20 @@ if (sizeof($link_names) > 0) {
     <?
 }
 if ($this_page != "login.php") {
+    $result_agents = mysqli_query($connection, "SELECT agent_num, pin FROM agent_nums, users WHERE agent_num = users.extension and users.id=".sanitize($_SESSION['user_id'])) or die(mysqli_error($connection));
+    $row_agents = mysqli_fetch_assoc($result_agents);
     ?>
-<div id="site-bottom-bar" class="fixed-position">
-<div id="site-bottom-bar-frame">
-<div id="site-bottom-bar-content">
-<?
-echo '<div style="display: inline-block;color: #999"  id="date_div">'.@Date("H:i:s").' ('.$_SESSION['calls'].' calls)</div> <span style="display: inline-block;color: #999"  id="job_details">Job: ';
-include "check_job.php";
-echo '</span>';
-echo '&nbsp;<span id="status_bar" style="display: inline-block;color: #f00;font-weight: bold;"></span>';
-?>
-</div>
-</div>
-</div>
-<?
+    <div id="site-bottom-bar" class="fixed-position">
+    <div id="site-bottom-bar-frame">
+    <div id="site-bottom-bar-content">
+    <?
+    echo "Agent Num: <b>".$row_agents['agent_num']."</b> PIN: <b>".$row_agents['pin'].'</b> <div style="display: inline-block;color: #999"  id="date_div">'.@Date("H:i:s").' ('.$_SESSION['calls'].' calls)</div> <span style="display: inline-block;color: #999"  id="job_details">Job: ';
+    include "check_job.php";
+    echo '</span>';
+    echo '&nbsp;<span id="status_bar" style="display: inline-block;color: #f00;font-weight: bold;"></span>';
+    ?>
+    </div>
+    </div>
+    </div>
+    <?
 }?>
