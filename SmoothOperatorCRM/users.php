@@ -119,7 +119,7 @@ if (isset($_GET['save_new'])) {
         $link = mysql_connect($config_values['smoothtorque_db_host'], $config_values['smoothtorque_db_user'], $config_values['smoothtorque_db_pass']) or die(mysql_error());
         $sql = "DELETE FROM SineDialer.sip_buddies WHERE username = 'agent_".sanitize($_POST['extension'],false)."'";
         $result = mysql_query($sql) or die(mysql_error());
-        $sql = "REPLACE INTO SineDialer.sip_buddies (qualify, name, username, secret, context) VALUES ('yes', 'agent_".sanitize($_POST['extension'],false)."', 'agent_".sanitize($_POST['extension'],false)."', 'pass_".sanitize($pin,false)."','internal')";
+        $sql = "REPLACE INTO SineDialer.sip_buddies (qualify, name, username, secret, context, `call-limit`) VALUES ('yes', 'agent_".sanitize($_POST['extension'],false)."', 'agent_".sanitize($_POST['extension'],false)."', 'pass_".sanitize($pin,false)."','internal', 10)";
         $result = mysql_query($sql) or die(mysql_error());
         
         
