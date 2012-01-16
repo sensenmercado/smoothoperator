@@ -295,6 +295,18 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
         
+        /* Create the script_results table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "script_results")) {
+            $messages[] =  "script_results table is missing...created";
+            $sql = "CREATE TABLE `script_results` (
+            `customer_id` int(11) unsigned NOT NULL,
+            `script_id` int(11) DEFAULT NULL,
+            `question_number` int(11) DEFAULT NULL,
+            `answer` text
+            ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
+        }
+        
         /* Create the modules table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "modules")) {
             $messages[] =  "Modules table is missing...created";
