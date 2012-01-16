@@ -1,4 +1,23 @@
 <?
+if (isset($_GET['save_script'])) {
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+    /*    $sql = "INSERT INTO customers (`phone`, `cleaned_number`) VALUES (".sanitize($_POST['phonenumber']).",".sanitize(clean_number($_POST['phonenumber'])).")";
+     $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+     $new_id = mysqli_insert_id($connection);
+     echo $new_id;
+     */
+    foreach ($_GET as $field=>$value) {
+        if (strlen($field) > 5 && substr($field, 0, 5) == "field") {
+            $fieldnum = substr($field,5);
+            echo $fieldnum.":".$value."\n";
+            $sql = "REPLACE INTO script_results (customer_id, script_id, question_number, answer) VALUES (".sanitize($_GET['customer_id']).",".sanitize($_GET['script_id']).",".sanitize($fieldnum).",".sanitize($value).")";
+            mysqli_query($connection, $sql) or die(mysqli_error($connection));
+        }
+    }
+    echo "Done";
+    exit(0);
+}
 if (isset($_GET['save_record'])) {
     require "config/db_config.php";
     require "functions/sanitize.php";
@@ -138,13 +157,13 @@ function display_script() {
         return dataStr.replace(/(\r\n|\r|\n)/g, "<br />");
     }
     </script>
+    <br />
     <div id="dynamicInput3" class="script_input_section" style="">
     <form action="xxx.php" method="post" id="script_form">
     <span id="dynamicInput2"></span>
     </form>
     </div>
-
-    <div id="dynamicInput" class="script_input_section" style="">
+    
     <?
     $sql = "SELECT scripts.id FROM scripts, job_members, jobs  WHERE scripts.id = jobs.script_id and job_members.job_id = jobs.id and job_members.user_id = ".sanitize($_SESSION['user_id']);
     $result_script = mysqli_query($connection, $sql);
@@ -158,6 +177,8 @@ function display_script() {
             ?>
             <script language="javascript">
             entries_to_ids[<?=$x?>] = <?=$row_entries['id']?>;
+            jQuery("#dynamicInput2").append('<input type="hidden" name="script_id" value="<?=$script_id?>">');
+            
             </script>
             <?
             switch ($row_entries['type']) {
@@ -213,8 +234,7 @@ function display_script() {
     <script>
     jQuery("#dynamicInput2").append("</form>");
     </script>
-    </div>
-
+    
     <?
 }
 
@@ -283,7 +303,7 @@ function display_dispositions() {
             box_end();
         }
     }
-
+    
 }
 function display_customer_edit($row) {
     global $connection;    
@@ -291,17 +311,28 @@ function display_customer_edit($row) {
     if ($row['new'] == 1) {
         ?>
         <script>
+        window.newID = 0;
         function save_disposition(disposition){
             new Ajax.Request('get_customer.php?save_record=1',{parameters: {phonenumber: <?=$_GET['phone_number']?>}, onSuccess: function(transport){
                              if (transport.responseText) {
                              var response = transport.responseText;
-                             var newID = parseInt(response);
+                             window.newID = parseInt(response);
                              //alert(response);
-                             new Ajax.Request('get_customer.php?save_disposition=1',{parameters: {id: newID, disposition: disposition, user_name: "<?=$_SESSION['user_name']?>", extension: "<?=$_SESSION['extension']?>"}, onSuccess: function(transport){
+                             
+                             new Ajax.Request('get_customer.php?save_script=1&customer_id='+window.newID+"&"+jQuery("#script_form").serialize(),{onSuccess: function(transport){
+                                              if (transport.responseText) {
+                                              var response = transport.responseText;
+                                              jQuery('#dynamicInput3').fadeOut(3000);
+                                              //alert(response);
+                                              }
+                                              }
+                                              });
+                             
+                             
+                             new Ajax.Request('get_customer.php?save_disposition=1',{parameters: {id: window.newID, disposition: disposition, user_name: "<?=$_SESSION['user_name']?>", extension: "<?=$_SESSION['extension']?>"}, onSuccess: function(transport){
                                               if (transport.responseText) {
                                               var response = transport.responseText;
                                               //entries_to_ids[counter] = parseInt(response);
-                                              //alert('x');
                                               window.location="get_customer.php?phone_number=<?=$_GET['phone_number']?>&disposition_set=1";
                                               }
                                               }
@@ -310,6 +341,8 @@ function display_customer_edit($row) {
                              
                              }
                              });
+            
+            
         }
         
         </script>
@@ -317,9 +350,9 @@ function display_customer_edit($row) {
     } else {
         ?>
         <script>
-
+        
         function save_disposition(disposition){
-            alert(jQuery("#script_form").serialize());
+            
             new Ajax.Request('get_customer.php?save_disposition=1',{parameters: {id: <?=$row['id']?>, disposition: disposition, user_name: "<?=$_SESSION['user_name']?>", extension: "<?=$_SESSION['extension']?>"}, onSuccess: function(transport){
                              if (transport.responseText) {
                              var response = transport.responseText;
@@ -331,6 +364,15 @@ function display_customer_edit($row) {
                              }
                              }
                              });
+            new Ajax.Request('get_customer.php?save_script=1&customer_id='+<?=$row['id']?>+'&'+jQuery("#script_form").serialize(),{onSuccess: function(transport){
+                             if (transport.responseText) {
+                             var response = transport.responseText;
+                             jQuery('#dynamicInput3').fadeOut(3000);
+                             //alert(response);
+                             }
+                             }
+                             });
+            
         }
         </script>
         <?
@@ -443,9 +485,9 @@ if (mysqli_num_rows($result) > 0) {
     }
     //print_pre($_SESSION);
     //print_r($row);exit(0);
-    display_customer_edit($row);
-    display_dispositions();
     display_script();
+    display_dispositions();
+    display_customer_edit($row);
     
 }
 
