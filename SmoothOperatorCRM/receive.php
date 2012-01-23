@@ -20,7 +20,7 @@ if (isset($_GET['save_list'])) {
         $sql2 = " VALUES (";
 
         for ($col = 1;$col <= sizeof($arr[$row]);$col++) {
-            if (isset($_POST['col_'.$col])) {
+            if (isset($_POST['col_'.$col]) && $_POST['col_'.$col] != "null") {
                 if ($_POST['col_'.$col] == "phone") {
                     $phone = $arr[$row][$col];
                 }
@@ -32,8 +32,8 @@ if (isset($_GET['save_list'])) {
         $sql1.="cleaned_number) ";
         $sql2.=clean_number($phone).")";
         $sql = $sql1.$sql2;
-        echo "<!-- -->";
-        $result = mysqli_query($connection, $sql);
+        //echo "<!-- -->$sql<br />";
+        $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     }
     redirect("receive.php");
     require "footer.php";
