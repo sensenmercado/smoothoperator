@@ -372,6 +372,9 @@ Dispositions: <a href="#" onclick="add_new_disposition();"><img src="images/add.
     
     <?
 }
+/* No option selected in get query */
+/* Display jobs */
+
 $rounded[] = "div.box";
 require "header.php";
 ?>
