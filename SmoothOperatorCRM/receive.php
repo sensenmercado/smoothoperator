@@ -55,7 +55,6 @@ if (isset($_GET['import_list'])) {
     } else {
         require "header.php";
         ?>
-        <div class="thin_700px_box">
         <form action="receive.php?save_list=<?=$_GET['import_list']?>&option=<?=$_GET['option']?>" method="POST">
         First Row: <select name="first_row">
             <option value="1">1</option>
@@ -128,7 +127,6 @@ if (isset($_GET['import_list'])) {
         ?>
         <input type="submit" value="Import List">
         </form>
-        </div>
         <?
         require "footer.php";
         exit(0);
