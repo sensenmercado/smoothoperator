@@ -1,6 +1,10 @@
 <?
 if (isset($_GET['delete'])) {
-    // TODO: finish this
+    require "header.php";
+    $result = mysqli_query($connection, "DELETE FROM jobs WHERE id = ".sanitize($_GET['delete']));
+    redirect("jobs.php",1,"Deleted your job");
+    require "footer.php";
+    exit(0);
 }
 if (isset($_GET['add_disposition'])) {
     require "config/db_config.php";
@@ -378,19 +382,46 @@ Dispositions: <a href="#" onclick="add_new_disposition();"><img src="images/add.
 $rounded[] = "div.box";
 require "header.php";
 ?>
+
+
+<div id="dialog" title="Delete Job?" style="display:none"></div>
+
+
 <div class="box">
 <?
 $result = mysqli_query($connection, "SELECT id, name, description FROM jobs") or die(mysqli_error($connection));;
 if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
         ?>
-        <a href="jobs.php?job_id=<?=$row['id']?>"><img src="images/pencil.png" border="0">&nbsp;<?=$row['name']?></a><a href="jobs.php?delete=<?=$row['id']?>"><img src="images/delete.png" border="0"></a><br />
+        <a href="jobs.php?job_id=<?=$row['id']?>"><img src="images/pencil.png" border="0">&nbsp;<?=$row['name']?></a><a class="confirmLink" href="jobs.php?delete=<?=$row['id']?>" title="<?=$row['name']?>"><img src="images/delete.png" border="0"></a><br />
         <?
         
     }
 }
 ?>
 </div>
+<script type="text/javascript">
+
+jQuery(".confirmLink").click(function(e) {
+                             e.preventDefault();
+                             //alert("x");
+                             var targetUrl = jQuery(this).attr("href");
+                             jQuery("#dialog").html("Are you sure you want to delete this job:<br /><br /><center><b>"+jQuery(this).attr("title")+"</b></center>");
+                             jQuery("#dialog").dialog({
+                                                      modal: true,
+                                                      buttons : {
+                                                      "Delete" : function() {
+                                                      window.location.href = targetUrl;
+                                                      },
+                                                      "Cancel" : function() {
+                                                      jQuery(this).dialog("close");
+                                                      }
+                                                      }
+                                                      });
+                             
+                             jQuery("#dialog").dialog("open");
+                             });
+</script>
 
 <?
 require "footer.php";
