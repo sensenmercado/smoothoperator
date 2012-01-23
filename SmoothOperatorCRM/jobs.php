@@ -375,6 +375,8 @@ Dispositions: <a href="#" onclick="add_new_disposition();"><img src="images/add.
     </script>
     
     <?
+    require "footer.php";
+    exit(0);
 }
 /* No option selected in get query */
 /* Display jobs */
