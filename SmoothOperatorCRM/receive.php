@@ -1,9 +1,8 @@
 <?
-//phpinfo();
-//exit(0);
 if (isset($_GET['save_list'])) {
     require "header.php";
-    
+    echo $_GET['option'];
+    exit(0);
     $result = mysqli_query($connection, "SELECT location, filename, size, date_imported, id FROM files WHERE id = ".sanitize($_GET['save_list']));
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
@@ -52,6 +51,16 @@ if (isset($_GET['import_list'])) {
         <?
         require "footer.php";
         exit(0);
+    } else if (!isset($_GET['list_id'])) {
+        // List ID not specified
+        switch ($_GET['option']) {
+                case "new":
+                break;
+                case "existing":
+                break;
+                case "split":
+                break;
+        }
     } else {
         require "header.php";
         ?>
