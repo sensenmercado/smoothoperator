@@ -1,4 +1,9 @@
 <?
+if (isset($_GET['create_list'])) {
+    print_r($_POST);
+    echo "bla";
+    exit(0);
+}
 if (isset($_GET['save_list'])) {
     require "header.php";
     echo $_GET['option'];
@@ -68,7 +73,7 @@ if (isset($_GET['import_list'])) {
             ?>Sorry there are no existing lists...<br />
             <br />
             <script>
-            $('#existing_list').dialog('option', 'buttons', {"bla"}); 
+            jQuery('#existing_list').dialog('option', 'buttons', {"bla"}); 
             </script>
             <?
             
@@ -90,7 +95,15 @@ if (isset($_GET['import_list'])) {
                                            width:'auto',
                                            buttons: {
                                            "Add List": function() {
-                                           alert(jQuery("#new_list_form").serialize());
+                                           
+                                           
+                                           
+                                           
+                                           jQuery.post('receive.php?create_list=1', jQuery("#new_list_form").serialize(), function(data) {alert(data);});
+                                           
+                                           
+                                           jQuery(this).dialog("close");
+                                           
                                            }
                                            }
                                            });
