@@ -44,15 +44,70 @@ if (isset($_GET['import_list'])) {
 
         ?>
         <div class="thin_700px_box">
-            <a href="receive.php?import_list=<?=$_GET['import_list']?>&option=new">Create New List</a><br />
-            <a href="receive.php?import_list=<?=$_GET['import_list']?>&option=existing">Import Into Existing List</a><br />
-            <a href="receive.php?import_list=<?=$_GET['import_list']?>&option=split">Split Into Multiple Lists</a><br />
+        Where would you like to import them to?<br />
+        <form action="receive.php" method="get">
+        <select id="list_type" name="option" onchange="choose_list(this);">
+        <option value="none">Please select an entry</option>
+        <option value="new">Create a new list</option>
+        <option value="existing">Import into existing list</option>
+        
+        </select>
         </div>
+        <input type="hidden" name="list_id" id="list_id">
+        </form>
+        <div id="new_list" style="display: none" title="New List">
+        <form id="new_list_form">
+        Name: <input type="text" name="list_name" id="list_name" >
+    Description: <br /><textarea name="list_description" id="list_description"></textarea>
+        </form>
+        </div>
+        <div id="existing_list" style="display: none">
+        <?
+        $result = mysqli_query($connection, "SELECT * FROM lists");
+        if (mysqli_num_rows($result) == 0) {
+            ?>Sorry there are no existing lists...<br />
+            <br />
+            <script>
+            $('#existing_list').dialog('option', 'buttons', {"bla"}); 
+            </script>
+            <?
+            
+        } else {
+            ?>
+            <select name="list" id="existing_list_id">
+            
+            </select>
+            <?
+        }
+        ?>
+        </div>
+        <script>
+        function choose_list() {
+            var type = jQuery("#list_type").val();
+            if (type == "new") {
+                jQuery("#new_list").dialog({
+                                           modal: true, 
+                                           width:'auto',
+                                           buttons: {
+                                           "Add List": function() {
+                                           alert(jQuery("#new_list_form").serialize());
+                                           }
+                                           }
+                                           });
+            } else if (type == "existing") {
+                jQuery("#existing_list").dialog({modal: true});
+            }
+            
+        }
+        </script>
         <?
         require "footer.php";
         exit(0);
     } else if (!isset($_GET['list_id'])) {
         // List ID not specified
+        ?>
+        <form action=
+        <?
         switch ($_GET['option']) {
                 case "new":
                 break;
