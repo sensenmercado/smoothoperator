@@ -1,13 +1,23 @@
 <?
 if (isset($_GET['create_list'])) {
-    print_r($_POST);
-    echo "bla";
+    
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+    //echo $new_id;
+    //exit(0);
+
+    
+    
+    $result = mysqli_query($connection, "INSERT INTO lists (name, description) VALUES (".sanitize($_POST['name']).",".sanitize($_POST['description']).")");
+    $new_id = mysqli_insert_id($connection);
+    echo $new_id;
     exit(0);
 }
 if (isset($_GET['save_list'])) {
     require "header.php";
-    echo $_GET['option'];
-    exit(0);
+    //print_pre($_POST);
+    //echo $_GET['option'];
+    //exit(0);
     $result = mysqli_query($connection, "SELECT location, filename, size, date_imported, id FROM files WHERE id = ".sanitize($_GET['save_list']));
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
@@ -33,10 +43,10 @@ if (isset($_GET['save_list'])) {
             }
             //echo "x".$_POST['col_'.$col].": ".$arr[$row][$col]."<br />";
         }
-        $sql1.="cleaned_number) ";
-        $sql2.=clean_number($phone).")";
+        $sql1.="cleaned_number,list_id) ";
+        $sql2.=clean_number($phone).",".sanitize($_POST['list_id']).")";
         $sql = $sql1.$sql2;
-        //echo "<!-- -->$sql<br />";
+        echo "<!-- -->$sql<br />";
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     }
     redirect("receive.php");
@@ -99,7 +109,11 @@ if (isset($_GET['import_list'])) {
                                            
                                            
                                            
-                                           jQuery.post('receive.php?create_list=1', jQuery("#new_list_form").serialize(), function(data) {alert(data);});
+                                           jQuery.post('receive.php?create_list=1', jQuery("#new_list_form").serialize(), function(data) {
+                                                       //alert(data);
+                                                       window.location.href="receive.php?import_list=1&option=new&list_id="+data;
+                                                       
+                                                       });
                                            
                                            
                                            jQuery(this).dialog("close");
@@ -202,6 +216,7 @@ if (isset($_GET['import_list'])) {
         }
         echo "</table>";
         ?>
+        <input type="hidden" name="list_id" value="<?=$_GET['list_id']?>">
         <input type="submit" value="Import List">
         </form>
         <?
