@@ -3,12 +3,7 @@ if (isset($_GET['create_list'])) {
     
     require "config/db_config.php";
     require "functions/sanitize.php";
-    //echo $new_id;
-    //exit(0);
-
-    
-    
-    $result = mysqli_query($connection, "INSERT INTO lists (name, description) VALUES (".sanitize($_POST['name']).",".sanitize($_POST['description']).")");
+    $result = mysqli_query($connection, "INSERT INTO lists (name, description) VALUES (".sanitize($_POST['list_name']).",".sanitize($_POST['list_description']).")");
     $new_id = mysqli_insert_id($connection);
     echo $new_id;
     exit(0);
@@ -44,7 +39,7 @@ if (isset($_GET['save_list'])) {
             //echo "x".$_POST['col_'.$col].": ".$arr[$row][$col]."<br />";
         }
         $sql1.="cleaned_number,list_id) ";
-        $sql2.=clean_number($phone).",".sanitize($_POST['list_id']).")";
+        $sql2.="'".clean_number($phone)."',".sanitize($_POST['list_id']).")";
         $sql = $sql1.$sql2;
         echo "<!-- -->$sql<br />";
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
