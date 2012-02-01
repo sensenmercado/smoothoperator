@@ -41,7 +41,7 @@ if (isset($_GET['save_list'])) {
         $sql1.="cleaned_number,list_id) ";
         $sql2.="'".clean_number($phone)."',".sanitize($_POST['list_id']).")";
         $sql = $sql1.$sql2;
-        echo "<!-- -->$sql<br />";
+        //echo "<!-- -->$sql<br />";
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     }
     redirect("receive.php");
@@ -84,9 +84,16 @@ if (isset($_GET['import_list'])) {
             
         } else {
             ?>
+            Please Select Your List:<br />
+            <br />
             <select name="list" id="existing_list_id">
-            
-            </select>
+            <?
+            while($row = mysqli_fetch_assoc($result)) {
+                echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
+            }
+            ?>
+            </select><br />
+            <br />
             <?
         }
         ?>
@@ -117,7 +124,19 @@ if (isset($_GET['import_list'])) {
                                            }
                                            });
             } else if (type == "existing") {
-                jQuery("#existing_list").dialog({modal: true});
+                jQuery("#existing_list").dialog({modal: true,
+                                                width:'auto',
+                                                buttons: {
+                                                "Select List": function() {
+                                                
+                                                            window.location.href="receive.php?import_list=1&option=existing&list_id="+jQuery("#existing_list_id").val();                                                           
+                                                
+                                                
+                                                jQuery(this).dialog("close");
+                                                
+                                                }
+                                                }
+                                                });
             }
             
         }
