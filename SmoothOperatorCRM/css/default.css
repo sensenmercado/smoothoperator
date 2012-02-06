@@ -125,10 +125,17 @@ body{background: #FFF;
 div#header{
     font: 40px Arial,sans-serif;
     color: #fff;
-    padding-top:25px;
-    padding-bottom:25px;
+    text-shadow: 2px 2px 4px #555;
+    padding-top:10px;
+    padding-bottom:10px;
     width: 100%;
     background: #ABC9DE url('../images/header-bg-light.jpg') fixed no-repeat top
+    background-color:rgba(0, 195, 255, 0.6);
+    background-image: -moz-radial-gradient(50% 50%, ellipse cover, rgba(0, 195, 255, 0.6), #0081e3 100%);
+    background-image: -webkit-radial-gradient(50% 50%, ellipse cover, rgba(0, 195, 255, 0.6), #0081e3 100%);
+    background-image: -o-radial-gradient(50% 50%, ellipse cover, rgba(0, 195, 255, 0.6), #0081e3 100%);
+    background-image: -ms-radial-gradient(50% 50%, ellipse cover, rgba(0, 195, 255, 0.6), #0081e3 100%);
+    background-image: radial-gradient(50% 50%, ellipse cover, rgba(0, 195, 255, 0.6), #0081e3 100%);
 }
 
 #navigation {
