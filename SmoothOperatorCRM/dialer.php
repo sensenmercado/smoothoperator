@@ -32,17 +32,20 @@ while ($row = mysql_fetch_assoc($result)) {
     $result2 = mysql_query("SELECT * FROM SineDialer.queue where campaignID = ".$row['id']);
     if (mysql_num_rows($result2) > 0) {
         /* Has a queue entry associated */
+        $highest = -100;
         while ($row2 = mysql_fetch_assoc($result2)) {
-            print_pre($row2);
+            if ($row['status'] >$highest && $row['status'] != 104 && $row['status'] != 4) {
+                $highest = $row['status'];
+            }
         }
+        $row['status'] = $highest;
     } else {
         /* Does not have a queue entry associated */
         echo "No Queue";
+        $row['status'] = 0;
     }
     print_pre($row);
 }
-
-exit(0);
 
 $result = mysqli_query($connection, "SELECT count(*) as count, list_id, lists.name FROM customers, lists where customers.list_id = lists.id group by customers.list_id") or die(mysqli_error($connection));
 if (mysqli_num_rows($result) == 0) {
