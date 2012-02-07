@@ -320,7 +320,6 @@ if ($this_page == "login.php") {
 if ($this_page == "login.php") {?>
     <div id="login_outer" style="display: table; height: 100%; #position: relative; overflow: hidden;">
     <div id="login_middle" style=" #position: absolute; #top: 50%;display: table-cell; vertical-align: middle;">
-    <div id="login_inner"  style=" #position: relative; #top: -50%">
     
     <?} else {?>
         <div id="content" align="center">
