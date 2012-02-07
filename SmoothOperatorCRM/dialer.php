@@ -34,9 +34,13 @@ while ($row = mysql_fetch_assoc($result)) {
         /* Has a queue entry associated */
         $highest = -100;
         while ($row2 = mysql_fetch_assoc($result2)) {
-            if ($row['status'] >$highest && $row['status'] != 104 && $row['status'] != 4) {
-                $highest = $row['status'];
+            /* A status of 1 means about to start, 2 means about to stop.      */
+            /* Once processed it will add 100, so 101 means started, 102 means */
+            /* stopped.  4 and 104 are for changing agent numbers.             */
+            if ($row2['status'] >$highest && $row2['status'] != 104 && $row2['status'] != 4) {
+                $highest = $row2['status'];
             }
+            print_pre($row2);
         }
         $row['status'] = $highest;
     } else {
