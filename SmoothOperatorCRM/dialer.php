@@ -27,7 +27,11 @@ if (mysqli_num_rows($result) == 0) {
 $job_ids = substr($job_ids,0,-1);
 
 $link = mysql_connect($config_values['smoothtorque_db_host'], $config_values['smoothtorque_db_user'], $config_values['smoothtorque_db_pass']) or die(mysql_error());
-$result = mysql_query("SELECT * FROM SineDialer.campaign where description = 'From SmoothOperator' and id in ($job_ids) ") or die(mysql_error());
+$result = mysql_query("SELECT id, name FROM SineDialer.campaign where description = 'From SmoothOperator' and id in ($job_ids) ") or die(mysql_error());
+?>
+<table border="1">
+<?
+$header_printed = false;
 while ($row = mysql_fetch_assoc($result)) {
     $result2 = mysql_query("SELECT * FROM SineDialer.queue where campaignID = ".$row['id']);
     if (mysql_num_rows($result2) > 0) {
@@ -48,8 +52,24 @@ while ($row = mysql_fetch_assoc($result)) {
         echo "No Queue";
         $row['status'] = 0;
     }
+    if (!$header_printed) {
+        $header_printed = true;
+        echo "<tr>";
+        foreach ($row as $field=>$value) {
+            echo "<th>".$field."</th>";
+        }
+        echo "</tr>";
+    }
+    echo "<tr>";
+    foreach ($row as $field=>$value) {
+        echo "<td>".$value."</td>";
+    }
+    echo "</tr>";
     print_pre($row);
 }
+?>
+</table>
+<?
 
 $result = mysqli_query($connection, "SELECT count(*) as count, list_id, lists.name FROM customers, lists where customers.list_id = lists.id group by customers.list_id") or die(mysqli_error($connection));
 if (mysqli_num_rows($result) == 0) {
