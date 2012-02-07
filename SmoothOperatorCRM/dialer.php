@@ -1,63 +1,56 @@
 <?
-require "header.php";
-?>
-<div class="thin_700px_box">
-<br />
-From here you can run lists of numbers through the SmoothTorque dialer.<br />
-<br />
-The way this is done is by setting up rules for which numbers you would like to call<br />
-<br />
-<?
 /*
- Dialing rules 
+ SmoothTorque Dialer Integration
+ ===============================
+ 
+ You need two things:
+ 
+ 1. A list you would like to run
+ 2. A job you would like to run
+ 
+ From this main page you can view running campaigns, add/remove numbers and
+ start new campaigns running
+ 
  */
+require "header.php";
+
 $result = mysqli_query($connection, "SELECT * FROM jobs");
+$job_ids = "";
 if (mysqli_num_rows($result) == 0) {
-    echo "Before you create rules to dial some jobs you will need to create jobs.";
+    /* No jobs */
 } else {
-    echo '<table class="sample">';
-    echo '<tr><th>Job Name</th>';
-    echo '<th>0-6 days</th>';
-    echo '<th>7-13 days</th>';
-    echo '<th>14-20 days</th>';
-    echo '<th>21-27 days</th>';
-    echo '<th>4 weeks+</th>';
-    echo '<th>Run Dialer</th>';
-    echo '<th>Edit Rules</th>';
-    echo '</tr>';
     while ($row = mysqli_fetch_assoc($result)) {
-        echo '<tr>';
-        echo '<td>'.$row['name'].'</td>';
-
-        $result_num_count = mysqli_query($connection, "SELECT count(*) from customers where date_sub(now(), interval 6 day) < last_updated and job_id = ".$row['id']);
-        $temp_val = mysqli_fetch_assoc($result_num_count);        
-        echo '<td>'.$temp_val['count(*)'].'</td>';
-        
-        $result_num_count = mysqli_query($connection, "SELECT count(*) from customers where date_sub(now(), interval 13 day) < last_updated and date_sub(now(), interval 7 day) > last_updated and job_id = ".$row['id']);
-        $temp_val = mysqli_fetch_assoc($result_num_count);        
-        echo '<td>'.$temp_val['count(*)'].'</td>';
-        
-        $result_num_count = mysqli_query($connection, "SELECT count(*) from customers where date_sub(now(), interval 20 day) < last_updated and date_sub(now(), interval 14 day) > last_updated and job_id = ".$row['id']);
-        $temp_val = mysqli_fetch_assoc($result_num_count);        
-        echo '<td>'.$temp_val['count(*)'].'</td>';
-        
-        $result_num_count = mysqli_query($connection, "SELECT count(*) from customers where date_sub(now(), interval 27 day) < last_updated and date_sub(now(), interval 21 day) > last_updated and job_id = ".$row['id']);
-        $temp_val = mysqli_fetch_assoc($result_num_count);        
-        echo '<td>'.$temp_val['count(*)'].'</td>';
-        
-        $result_num_count = mysqli_query($connection, "SELECT count(*) from customers where date_sub(now(), interval 28 day) > last_updated and job_id = ".$row['id']);
-        $temp_val = mysqli_fetch_assoc($result_num_count);        
-        echo '<td>'.$temp_val['count(*)'].'</td>';
-
-        echo '<td>'.$temp_val['count(*)'].'</td>';
-        echo '<td>'.$temp_val['count(*)'].'</td>';
-
-        echo '</tr>';
+        $job_ids.= (100000+$row['id']).",";
     }
-    echo '</table>';
 }
-?>
-</div>
-<?
+/* cut off the last comma */
+$job_ids = substr($job_ids,0,-1);
+
+$link = mysql_connect($config_values['smoothtorque_db_host'], $config_values['smoothtorque_db_user'], $config_values['smoothtorque_db_pass']) or die(mysql_error());
+$result = mysql_query("SELECT * FROM SineDialer.campaign where description = 'From SmoothOperator' and id in ($job_ids) ") or die(mysql_error());
+while ($row = mysql_fetch_assoc($result)) {
+    $result2 = mysql_query("SELECT * FROM SineDialer.queue where campaignID = ".$row['id']);
+    if (mysql_num_rows($result2) > 0) {
+        /* Has a queue entry associated */
+        while ($row2 = mysql_fetch_assoc($result2)) {
+            print_pre($row2);
+        }
+    } else {
+        /* Does not have a queue entry associated */
+        echo "No Queue";
+    }
+    print_pre($row);
+}
+
+exit(0);
+
+$result = mysqli_query($connection, "SELECT count(*) as count, list_id, lists.name FROM customers, lists where customers.list_id = lists.id group by customers.list_id") or die(mysqli_error($connection));
+if (mysqli_num_rows($result) == 0) {
+    /* No lists */
+} else {
+    while ($row = mysqli_fetch_assoc($result)) {
+        print_pre($row);
+    }
+}
 require "footer.php";
 ?>
