@@ -226,7 +226,7 @@ if (isset($extra_head)) {
 <?if ($this_page != "login.php") {?>
     <div id="header">
     <center>
-    <b><?=stripslashes($config_values['site_name'])?></b>
+    <a href="index.php"><b><?=stripslashes($config_values['site_name'])?></b></a>
     </center>
     </div>
     
