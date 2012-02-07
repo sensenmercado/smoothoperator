@@ -221,7 +221,17 @@ if (isset($extra_head)) {
 }
 ?>
 </head>
-<body>
+<?
+if ($this_page == "login.php") {
+    ?>
+    <body class="login_body">
+    <?
+} else {
+    ?>
+    <body>
+    <?
+}
+?>
 <center>
 <?if ($this_page != "login.php") {?>
     <div id="header">
@@ -308,8 +318,10 @@ if (isset($extra_head)) {
     </script>
     <?}
 if ($this_page == "login.php") {?>
+    <div id="login_outer" style="display: table; height: 100%; #position: relative; overflow: hidden;">
+    <div id="login_middle" style=" #position: absolute; #top: 50%;display: table-cell; vertical-align: middle;">
+    <div id="login_inner"  style=" #position: relative; #top: -50%">
     
-    <div id="content_login" align="center">
     <?} else {?>
         <div id="content" align="center">
         
