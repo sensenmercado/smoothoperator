@@ -122,7 +122,7 @@ while ($row = mysql_fetch_assoc($result)) {
         }
     }
     echo "</tr>";
-    //print_pre($row);
+    print_pre($row);
 }
 ?>
 </tbody>
