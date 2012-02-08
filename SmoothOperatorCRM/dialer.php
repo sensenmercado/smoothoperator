@@ -78,6 +78,28 @@ while ($row = mysql_fetch_assoc($result)) {
     echo "<tr>";
     foreach ($row as $field=>$value) {
         if ($field == "status") {
+            switch ($value) {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case -1:
+                    break;
+                case 101:
+                    break;
+                case 102:
+                    break
+                case 103:
+                    break;
+                case 104:
+                    break;
+            }
             echo "<td>".$value."</td>";
         } else {
             echo "<td>".$value."</td>";
