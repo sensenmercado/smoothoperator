@@ -76,35 +76,37 @@ while ($row = mysql_fetch_assoc($result)) {
         echo "</tr>";
     }
     echo "<tr>";
+    if ($row['status'] == 1 && $row['status'] == 101) {
+        // Campaign is running
+        $style=' style="background: #cfc"';
+    } else {
+        // Campaign is not running
+        $style=' style="background: #fff"';
+    }
     foreach ($row as $field=>$value) {
         if ($field == "status") {
             switch ($value) {
-                case 0:
-                    break;
                 case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case -1:
-                    break;
                 case 101:
-                    break;
-                case 102:
+                    // Running
+                    echo "<td $style>Running</td>";
                     break;
                 case 103:
-                    break;
                 case 104:
-                    break;
+                case 3:
+                case 4:
+                case -1:
+                case 102:
+                case 0:
+                case 2:
                 default:
+                    // Not running
+                    echo "<td $style>Not Running</td>";
                     break;
             }
-            echo "<td>".$value."</td>";
+            
         } else {
-            echo "<td>".$value."</td>";
+            echo "<td $style>".$value."</td>";
         }
     }
     echo "</tr>";
