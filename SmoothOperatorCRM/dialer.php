@@ -141,7 +141,7 @@ while ($row = mysql_fetch_assoc($result)) {
         }
     }
     echo "</tr>";
-    print_pre($row);
+    //print_pre($row);
 }
 ?>
 </tbody>
@@ -154,7 +154,7 @@ if (mysqli_num_rows($result) == 0) {
     /* No lists */
 } else {
     while ($row = mysqli_fetch_assoc($result)) {
-        print_pre($row);
+        //print_pre($row);
     }
 }
 require "footer.php";
