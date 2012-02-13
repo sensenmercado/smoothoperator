@@ -15,6 +15,72 @@
 $rounded[] = "div.thin_700px_box";
 require "header.php";
 
+if (isset($_GET['start_campaign'])) {
+    ?>
+    <div id="starting" style="display: none" title="Campaign Starting">
+    <center>
+    <br />Please wait...starting your campaign.
+    <br />
+    <br />
+    <div id="progress"></div>
+    <span id="start_status"></span>
+    </center>
+    </div>
+    <script>
+    jQuery("#starting").dialog({modal: true});
+    </script>
+    <?
+    /* We now have a campaign id we'd like to use and a list id of phone numbers 
+     we'd like to call.  Take the following actions:
+     
+     1. Connect to SmoothOperator
+     2. Grab the numbers we'd like to call from the list
+     3. Add a customer interraction for each number to say they are being sent 
+        to SmoothTorque for dialling
+     4. Connect to SmoothTorque
+     5. Delete any existing numbers from that campaign
+     6. Insert the new numbers
+     7. Start the campaign     
+     */
+    
+    $result = mysqli_query($connection, "SELECT * FROM customers WHERE list_id = ".sanitize($_GET['list_id']));
+    
+    $link = mysql_connect($config_values['smoothtorque_db_host'], $config_values['smoothtorque_db_user'], $config_values['smoothtorque_db_pass']) or die(mysql_error());
+    $result_x = mysql_query("DELETE FROM SineDialer.number WHERE campaignid = ".sanitize($_GET['start_campaign']));
+    
+    $total = mysqli_num_rows($result);
+    $i = 0;
+    ?>
+    <script>
+    jQuery("#progress").progressbar({value: 0});
+    </script>
+    <?
+    while ($row = mysqli_fetch_assoc($result)) {
+        $result_x = mysql_query("INSERT INTO SineDialer.number (campaignid, phonenumber, status, random_sort) VALUES (".sanitize($_GET['start_campaign']).",".sanitize($row['cleaned_number']).",'new',".sanitize(rand(0,99999999)).")") or die(mysql_error());
+        
+        $i++;
+        $perc = round($i/$total*100);
+        //$perc = 30;
+        ?>
+        <script>
+        jQuery("#start_status").text("Updating <?=$row['cleaned_number']?>");
+        
+        jQuery( "#progress" ).progressbar( "option", "value", <?=$perc?> );
+        </script>
+        <?
+        //usleep(10000);
+        //sleep(1);
+        flush();
+    }
+    ?>
+    <script>
+    jQuery("#starting").dialog("close");
+    </script>
+    <?
+    require "footer.php";
+    exit(0);
+}
+
 $result = mysqli_query($connection, "SELECT * FROM jobs");
 $job_ids = "";
 if (mysqli_num_rows($result) == 0) {
@@ -183,7 +249,7 @@ if (mysqli_num_rows($result) == 0) {
     echo '<select name="list_to_run" id="lists_to_run">';
     while ($row = mysqli_fetch_assoc($result)) {
         //        print_pre($row);
-        echo '<option value="'.$row['list_id'].'">'.$row['name'].'</option>';
+        echo '<option value="'.$row['list_id'].'">'.$row['name'].' ('.$row['count'].' numbers)</option>';
     }
     echo '</select>';
     ?>
