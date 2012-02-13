@@ -33,18 +33,22 @@ $result = mysql_query("SELECT id, name FROM SineDialer.campaign where descriptio
 <script>
 var $the_dialog;
 jQuery(document).ready(function() {
-                $the_dialog = jQuery('#start_campaign_dialog').dialog({
-                                        autoOpen: false,
-                                        modal: true,
-                                        buttons: {
-                                        Ok: function() {
-                                        jQuery( this ).dialog( "close" );
-                                        }
-                                        }
-                                        });
-                  });
+                       $the_dialog = jQuery('#start_campaign_dialog').dialog({
+                                                                             autoOpen: false,
+                                                                             modal: true,
+                                                                             buttons: {
+                                                                             Ok: function() {
+                                                                             var list_id = jQuery("#lists_to_run").val();
+                                                                             var campaign_id = jQuery("#campaign_id").val();
+                                                                             alert(list_id+" "+campaign_id);
+                                                                             window.location = "dialer.php?start_campaign="+campaign_id+"&list_id="+list_id;
+                                                                             }
+                                                                             }
+                                                                             });
+                       });
 function show_start(campaign_id, title) {
     jQuery('#start_campaign_dialog').dialog("option","title","Start "+title);
+    jQuery("#campaign_id").val(campaign_id);
     $the_dialog.dialog('open');
 }
 </script>
@@ -145,15 +149,15 @@ while ($row = mysql_fetch_assoc($result)) {
             </script>
             <?
             echo "</center></td>";
-        /*} else if ($field == "progress") {
-            echo "<td $style><center>";
-            ?>
-            <div id="progress_<?=$row['id']?>" style="height: 10px; width: 150px"></div>
-            <script>
-            jQuery("#progress_<?=$row['id']?>").progressbar({value: <?=$value?>});
-            </script>
-            <?
-            echo "</center></td>";*/
+            /*} else if ($field == "progress") {
+             echo "<td $style><center>";
+             ?>
+             <div id="progress_<?=$row['id']?>" style="height: 10px; width: 150px"></div>
+             <script>
+             jQuery("#progress_<?=$row['id']?>").progressbar({value: <?=$value?>});
+             </script>
+             <?
+             echo "</center></td>";*/
         } else {
             echo "<td $style><center>".$value."</center></td>";
         }
@@ -176,12 +180,15 @@ $result = mysqli_query($connection, "SELECT count(*) as count, list_id, lists.na
 if (mysqli_num_rows($result) == 0) {
     /* No lists */
 } else {
-    echo '<select name="list_to_run">';
+    echo '<select name="list_to_run" id="lists_to_run">';
     while ($row = mysqli_fetch_assoc($result)) {
-//        print_pre($row);
+        //        print_pre($row);
         echo '<option value="'.$row['list_id'].'">'.$row['name'].'</option>';
     }
     echo '</select>';
+    ?>
+    <input type="hidden" name="campaign_id" id="campaign_id" value="x">
+    <?
 }
 echo "</center></div>";
 require "footer.php";
