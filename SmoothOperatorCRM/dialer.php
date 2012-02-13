@@ -30,6 +30,24 @@ $job_ids = substr($job_ids,0,-1);
 $link = mysql_connect($config_values['smoothtorque_db_host'], $config_values['smoothtorque_db_user'], $config_values['smoothtorque_db_pass']) or die(mysql_error());
 $result = mysql_query("SELECT id, name FROM SineDialer.campaign where description = 'From SmoothOperator' and id in ($job_ids) ") or die(mysql_error());
 ?>
+<script>
+var $the_dialog;
+jQuery(document).ready(function() {
+                $the_dialog = jQuery('#start_campaign_dialog').dialog({
+                                        autoOpen: false,
+                                        modal: true,
+                                        buttons: {
+                                        Ok: function() {
+                                        jQuery( this ).dialog( "close" );
+                                        }
+                                        }
+                                        });
+                  });
+function show_start(campaign_id, title) {
+    jQuery('#start_campaign_dialog').dialog("option","title","Start "+title);
+    $the_dialog.dialog('open');
+}
+</script>
 <div class="thin_700px_box">
 <table class="sample2" width="100%">
 <tbody>
@@ -113,7 +131,7 @@ while ($row = mysql_fetch_assoc($result)) {
                 case 2:
                 default:
                     // Not running
-                    echo '<td '.$style.'><center><a href="dialer.php?start='.$row['id'].'">Not Running&nbsp;<img src="images/control_play_blue.png" alt="Stop Campaign" border="0" valign="middle"></a></center></td>';
+                    echo '<td '.$style.'><center><a href="#" onclick="show_start('.$row['id'].',\''.$row['name'].'\');return false;">Not Running&nbsp;<img src="images/control_play_blue.png" alt="Stop Campaign" border="0" valign="middle"></a></center></td>';
                     break;
             }
         } else if ($field == "id") {
@@ -147,15 +165,24 @@ while ($row = mysql_fetch_assoc($result)) {
 </tbody>
 </table>
 </div>
+<div id="start_campaign_dialog" style="display: none">
+<center>
+<br />
+Please select a list to run:<br />
+<br />
 <?
 
 $result = mysqli_query($connection, "SELECT count(*) as count, list_id, lists.name FROM customers, lists where customers.list_id = lists.id group by customers.list_id") or die(mysqli_error($connection));
 if (mysqli_num_rows($result) == 0) {
     /* No lists */
 } else {
+    echo '<select name="list_to_run">';
     while ($row = mysqli_fetch_assoc($result)) {
-        //print_pre($row);
+//        print_pre($row);
+        echo '<option value="'.$row['list_id'].'">'.$row['name'].'</option>';
     }
+    echo '</select>';
 }
+echo "</center></div>";
 require "footer.php";
 ?>
