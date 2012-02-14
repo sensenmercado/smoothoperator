@@ -23,6 +23,7 @@ if (isset($_GET['start_campaign'])) {
     <br />
     <br />
     <div id="progress"></div>
+    <br />
     <span id="start_status"></span>
     </center>
     </div>
@@ -36,14 +37,14 @@ if (isset($_GET['start_campaign'])) {
      1. Connect to SmoothOperator
      2. Grab the numbers we'd like to call from the list
      3. Add a customer interraction for each number to say they are being sent 
-        to SmoothTorque for dialling
+     to SmoothTorque for dialling
      4. Connect to SmoothTorque
      5. Delete any existing numbers from that campaign
      6. Insert the new numbers
      7. Start the campaign     
      */
     
-    $result = mysqli_query($connection, "SELECT * FROM customers WHERE list_id = ".sanitize($_GET['list_id']));
+    $result = mysqli_query($connection, "SELECT distinct cleaned_number, id FROM customers WHERE list_id = ".sanitize($_GET['list_id']));
     
     $link = mysql_connect($config_values['smoothtorque_db_host'], $config_values['smoothtorque_db_user'], $config_values['smoothtorque_db_pass']) or die(mysql_error());
     $result_x = mysql_query("DELETE FROM SineDialer.number WHERE campaignid = ".sanitize($_GET['start_campaign']));
@@ -57,20 +58,23 @@ if (isset($_GET['start_campaign'])) {
     <?
     while ($row = mysqli_fetch_assoc($result)) {
         $result_x = mysql_query("INSERT INTO SineDialer.number (campaignid, phonenumber, status, random_sort) VALUES (".sanitize($_GET['start_campaign']).",".sanitize($row['cleaned_number']).",'new',".sanitize(rand(0,99999999)).")") or die(mysql_error());
-        
+        $result2_x = mysqli_query($connection, "INSERT INTO SmoothOperator.interractions (contact_date_time, notes, customer_id) VALUES (NOW(), 'Sent for dialing', ".$row['id'].")");
         $i++;
         $perc = round($i/$total*100);
         //$perc = 30;
-        ?>
-        <script>
-        jQuery("#start_status").text("Updating <?=$row['cleaned_number']?>");
-        
-        jQuery( "#progress" ).progressbar( "option", "value", <?=$perc?> );
-        </script>
-        <?
+        if ($i % 30) {
+            ?>
+            <script>
+            jQuery("#start_status").text("Updating <?=$row['cleaned_number']?>");
+            
+            jQuery( "#progress" ).progressbar( "option", "value", <?=$perc?> );
+            </script>
+            <?
+            flush();
+        }
         //usleep(10000);
         //sleep(1);
-        flush();
+        
     }
     ?>
     <script>
@@ -106,7 +110,7 @@ jQuery(document).ready(function() {
                                                                              Ok: function() {
                                                                              var list_id = jQuery("#lists_to_run").val();
                                                                              var campaign_id = jQuery("#campaign_id").val();
-                                                                             alert(list_id+" "+campaign_id);
+                                                                             //alert(list_id+" "+campaign_id);
                                                                              window.location = "dialer.php?start_campaign="+campaign_id+"&list_id="+list_id;
                                                                              }
                                                                              }
