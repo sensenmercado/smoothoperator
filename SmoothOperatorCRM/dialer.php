@@ -126,12 +126,12 @@ if (isset($_GET['start_campaign'])) {
     $account ="stl-matt";
     $trunkid = 506;
     $customerid = 1;
-    echo $queue_name;
+    //echo $queue_name;
     $sql = "INSERT INTO SineDialer.queue (`queuename`, `status`, `campaignID`, `details`, `flags`, `transferclid`, `starttime`, `endtime`, `startdate`, `enddate`, `did`, `clid`, `context`, `maxcalls`, `maxchans`, `maxretries`, `retrytime`, `waittime`, `timespent`, `progress`, `expectedRate`, `mode`, `astqueuename`, `trunk`, `accountcode`, `trunkid`, `customerID`, `maxcps`, `drive_min`, `drive_max`)
     VALUES
     ('crm-autostart-".sanitize($_GET['start_campaign']-100000, false)."', 1, ".sanitize($_GET['start_campaign']-100000, false).", 'No details', 0, 'nocallerid', '00:00:00', '23:59:00', '2005-01-01', '2020-01-01', 'nodid', '$clid',$context, 30, $maxchans, 0, 0, 30, '0', '-1', 100, '1', '$queue_name', '$trunk', '$account', $trunkid, $customerid, $maxcps, '43.0', '61.0')";
     echo $sql;
-    //$result = mysql_query($sql);
+    $result = mysql_query($sql);
     ?>
     <script>
     jQuery("#starting").dialog("close");
