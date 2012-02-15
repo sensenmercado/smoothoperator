@@ -56,8 +56,19 @@ if (isset($_GET['start_campaign'])) {
     jQuery("#progress").progressbar({value: 0});
     </script>
     <?
+    $number_sql_start = "REPLACE INTO SineDialer.number (campaignid, phonenumber, status, random_sort) VALUES ";
+    $end_sql = "";
+    $count = 0;
     while ($row = mysqli_fetch_assoc($result)) {
-        $result_x = mysql_query("REPLACE INTO SineDialer.number (campaignid, phonenumber, status, random_sort) VALUES (".sanitize($_GET['start_campaign']).",".sanitize($row['cleaned_number']).",'new',".sanitize(rand(0,99999999)).")") or die(mysql_error());
+        $count++;
+        $end_sql .= "(".sanitize($_GET['start_campaign']).",".sanitize($row['cleaned_number']).",'new',".sanitize(rand(0,99999999))."),";
+        if ($count > 100) {
+            $sql = $number_sql_start.substr($end_sql,0,strlen($end_sql)-1);
+            $result_x = mysql_query($sql) or die(mysql_error());
+            $end_sql = "";
+            $count = 0;
+        }
+        
         $result2_x = mysqli_query($connection, "INSERT INTO SmoothOperator.interractions (contact_date_time, notes, customer_id) VALUES (NOW(), 'Sent for dialing', ".$row['id'].")");
         $i++;
         $perc = round($i/$total*100);
@@ -72,6 +83,10 @@ if (isset($_GET['start_campaign'])) {
             <?
             flush();
         }
+    }
+    if (strlen($end_sql) > 0) {
+        $sql = $number_sql_start.substr($end_sql,0,strlen($end_sql)-1);
+        $result_x = mysql_query($sql) or die(mysql_error());
     }
     $queue_name = "so_crm_".sanitize($_GET['start_campaign']-100000, false);
     $sql = "SELECT context, groupid, clid FROM SineDialer.campaign WHERE id = ".sanitize($_GET['start_campaign'], false);
