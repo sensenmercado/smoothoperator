@@ -112,7 +112,7 @@ if (isset($_GET['ajax'])) {
                     case 1:
                     case 101:
                         // Running
-                        echo '<td '.$style.'>Running&nbsp;<a href="dialer.php?stop='.$row['id'].'"><img src="images/control_stop_blue.png" alt="Stop Campaign" border="0" valign="middle"></a></td>';
+                        echo '<td '.$style.'><center><a href="dialer.php?stop='.$row['id'].'">Running&nbsp;<img src="images/control_stop_blue.png" alt="Stop Campaign" border="0" valign="middle"></a></center></td>';
                         break;
                     case 103:
                     case 104:
@@ -164,6 +164,19 @@ if (isset($_GET['ajax'])) {
 
 $rounded[] = "div.thin_700px_box";
 require "header.php";
+
+if (isset($_GET['stop'])) {
+    $link = mysql_connect($config_values['smoothtorque_db_host'], $config_values['smoothtorque_db_user'], $config_values['smoothtorque_db_pass']) or die(mysql_error());
+    
+    $sql = "INSERT INTO `queue` (`queuename`, `status`, `campaignID`, `details`, `flags`, `transferclid`, `starttime`, `endtime`, `startdate`, `enddate`, `did`, `clid`, `context`, `maxcalls`, `maxchans`, `maxretries`, `retrytime`, `waittime`, `timespent`, `progress`, `expectedRate`, `mode`, `astqueuename`, `trunk`, `accountcode`, `trunkid`, `customerID`, `maxcps`, `drive_min`, `drive_max`)
+    VALUES
+	('crm-autostop', 2, ".sanitize($_GET['stop']).", 'No details', 0, '0', '00:00:00', '23:59:00', '2005-01-01', '2020-01-01', '', '000', 0, 0, 500, 0, 0, 30, '0', '0', 100, '0', '', 'Local/s@${EXTEN}', 'noaccount', -1, -1, 31, '43.0', '61.0')";
+    
+    $result = mysql_query($sql) or die(mysql_error());
+    redirect("dialer.php", 2, "Campaign stopping...");
+    require "footer.php";
+    exit(0);
+}
 
 if (isset($_GET['start_campaign'])) {
     ?>
@@ -264,6 +277,7 @@ if (isset($_GET['start_campaign'])) {
         // Using default trunk
         $result_trunk = mysql_query("SELECT * FROM SineDialer.trunk WHERE current = 1");
         $row_trunk = mysql_fetch_assoc($result_trunk);
+        $trunkid = $row_trunk['id'];
     } else {
         $trunkid = $row_customer['trunkid'];
         $result_trunk = mysql_query("SELECT * FROM SineDialer.trunk WHERE id = ".$trunkid) or die(mysql_error());
@@ -284,13 +298,14 @@ if (isset($_GET['start_campaign'])) {
     $sql = "INSERT INTO SineDialer.queue (`queuename`, `status`, `campaignID`, `details`, `flags`, `transferclid`, `starttime`, `endtime`, `startdate`, `enddate`, `did`, `clid`, `context`, `maxcalls`, `maxchans`, `maxretries`, `retrytime`, `waittime`, `timespent`, `progress`, `expectedRate`, `mode`, `astqueuename`, `trunk`, `accountcode`, `trunkid`, `customerID`, `maxcps`, `drive_min`, `drive_max`)
     VALUES
     ('crm-autostart-".sanitize($_GET['start_campaign']-100000, false)."', 1, ".sanitize($_GET['start_campaign'], false).", 'No details', 0, 'nocallerid', '00:00:00', '23:59:00', '2005-01-01', '2020-01-01', '$did', '$clid',$context, 30, $maxchans, 0, 0, 30, '0', '-1', 100, '$mode', '$queue_name', '$trunk', '$account', $trunkid, $customerid, $maxcps, '43.0', '61.0')";
-    echo $sql;
+    //echo $sql;
     $result = mysql_query($sql);
     ?>
     <script>
     jQuery("#starting").dialog("close");
     </script>
     <?
+    redirect("dialer.php",2,"Campaign Started");
     require "footer.php";
     exit(0);
 }
@@ -330,7 +345,7 @@ function update() {
     jQuery("#ajax_content").load("dialer.php?ajax=1", function() {jQuery("#ajax_status").fadeOut();});
 }
 update();
-setInterval("update()",15000);
+setInterval("update()",5000);
 
 </script>
 <div id="start_campaign_dialog" style="display: none">
