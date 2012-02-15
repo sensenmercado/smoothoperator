@@ -72,10 +72,43 @@ if (isset($_GET['start_campaign'])) {
             <?
             flush();
         }
-        //usleep(10000);
-        //sleep(1);
-        
     }
+    $queue_name = "so_crm_".sanitize($_GET['start_campaign']-100000, false);
+    $sql = "SELECT context, groupid, clid FROM SineDialer.campaign WHERE id = ".sanitize($_GET['start_campaign'], false);
+    //echo $sql;
+    $result_campaign = mysql_query($sql) or die(mysql_error());
+    $row_campaign = mysql_fetch_assoc($result_campaign);
+    $clid = $row_campaign['clid'];
+    $context = $row_campaign['context'];
+    //print_pre($row_campaign);
+    $result_customer = mysql_query("SELECT * FROM SineDialer.customer WHERE campaigngroupid = ".$row_campaign['groupid']) or die(mysql_error());
+    $row_customer = mysql_fetch_assoc($result_customer);
+    //print_pre($row_customer);
+    $account = "stl-".$row_customer['username'];
+    $row_trunk = array();
+    if ($row_customer['trunkid'] == -1) {
+        // Using default trunk
+        $result_trunk = mysql_query("SELECT * FROM SineDialer.trunk WHERE current = 1");
+        $row_trunk = mysql_fetch_assoc($result_trunk);
+    } else {
+        $trunkid = $row_customer['trunkid'];
+        $result_trunk = mysql_query("SELECT * FROM SineDialer.trunk WHERE id = ".$trunkid) or die(mysql_error());
+        $row_trunk = mysql_fetch_assoc($result_trunk);
+    }
+    
+    $trunk = $row_trunk['dialstring'];
+    $maxchans = $row_trunk['maxchans'];
+    $maxcps = $row_trunk['maxcps'];
+    $trunk = $row_trunk['dialstring'];
+    $account ="stl-matt";
+    $trunkid = 506;
+    $customerid = 1;
+    //echo $queue_name;
+    $sql = "INSERT INTO SineDialer.queue (`queuename`, `status`, `campaignID`, `details`, `flags`, `transferclid`, `starttime`, `endtime`, `startdate`, `enddate`, `did`, `clid`, `context`, `maxcalls`, `maxchans`, `maxretries`, `retrytime`, `waittime`, `timespent`, `progress`, `expectedRate`, `mode`, `astqueuename`, `trunk`, `accountcode`, `trunkid`, `customerID`, `maxcps`, `drive_min`, `drive_max`)
+    VALUES
+    ('crm-autostart-".sanitize($_GET['start_campaign']-100000, false)."', 1, ".sanitize($_GET['start_campaign']-100000, false).", 'No details', 0, 'nocallerid', '00:00:00', '23:59:00', '2005-01-01', '2020-01-01', 'nodid', '$clid',$context, 30, $maxchans, 0, 0, 30, '0', '-1', 100, '1', '$queue_name', '$trunk', '$account', $trunkid, $customerid, $maxcps, '43.0', '61.0')";
+    //echo $sql;
+    $result = mysql_query($sql);
     ?>
     <script>
     jQuery("#starting").dialog("close");
