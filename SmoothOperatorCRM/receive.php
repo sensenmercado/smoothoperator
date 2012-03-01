@@ -113,7 +113,7 @@ if (isset($_GET['import_list'])) {
                                            
                                            jQuery.post('receive.php?create_list=1', jQuery("#new_list_form").serialize(), function(data) {
                                                        //alert(data);
-                                                       window.location.href="receive.php?import_list=1&option=new&list_id="+data;
+                                                       window.location.href="receive.php?import_list=<?=$_GET['import_list']?>&option=new&list_id="+data;
                                                        
                                                        });
                                            
@@ -129,7 +129,7 @@ if (isset($_GET['import_list'])) {
                                                 buttons: {
                                                 "Select List": function() {
                                                 
-                                                            window.location.href="receive.php?import_list=1&option=existing&list_id="+jQuery("#existing_list_id").val();                                                           
+                                                            window.location.href="receive.php?import_list=<?=$_GET['import_list']?>&option=existing&list_id="+jQuery("#existing_list_id").val();                                                           
                                                 
                                                 
                                                 jQuery(this).dialog("close");
