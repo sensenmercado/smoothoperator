@@ -41,7 +41,7 @@ if (!isset($_SESSION['language'])) {
 
 /* Get the actual PHP page (regardless of directory) */
 $full_path = $_SERVER['PHP_SELF'];
-$exploded_path = split("/",$full_path);
+$exploded_path = explode("/",$full_path);
 $this_page = $exploded_path[sizeof($exploded_path)-1];
 
 /* If the user level is not set or if they have not logged in, and the */
