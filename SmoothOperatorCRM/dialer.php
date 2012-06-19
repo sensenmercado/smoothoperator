@@ -355,7 +355,7 @@ Please select a list to run:<br />
 <br />
 <?
 
-$result = mysqli_query($connection, "SELECT count(*) as count, list_id, lists.name FROM customers, lists where customers.list_id = lists.id group by customers.list_id") or die(mysqli_error($connection));
+$result = mysqli_query($connection, "SELECT count(*) as count, list_id, lists.name FROM customers, lists where customers.list_id = lists.id group by customers.list_id") or die("x".mysqli_error($connection));
 if (mysqli_num_rows($result) == 0) {
     /* No lists */
 } else {
