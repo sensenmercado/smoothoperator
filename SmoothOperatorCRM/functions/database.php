@@ -27,6 +27,7 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, "INSERT INTO static_text (parameter, description) VALUES ('manager_host', 'Asterisk Manager Host or IP Address')");
             $result = mysqli_query($link, "INSERT INTO static_text (parameter, description) VALUES ('manager_user', 'Asterisk Manager Username')");
             $result = mysqli_query($link, "INSERT INTO static_text (parameter, description) VALUES ('manager_pass', 'Asterisk Manager Password')");
+            $result = mysqli_query($link, "INSERT INTO static_text (parameter, description) VALUES ('phono_key', 'phono API key')");
             $result = mysqli_query($link, "INSERT INTO static_text (parameter, description) VALUES ('site_name', 'Name of this site')");
             $result = mysqli_query($link, "INSERT INTO static_text (parameter, description) VALUES ('smoothtorque_db_host', 'SmoothTorque Database Host')");
             $result = mysqli_query($link, "INSERT INTO static_text (parameter, description) VALUES ('smoothtorque_db_user', 'SmoothTorque Database User')");
@@ -52,6 +53,7 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_host', '')");
             $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_user', '')");
             $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('smoothtorque_db_pass', '')");
+            $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('phono_key', '')");
             $result = mysqli_query($link, "INSERT INTO config (parameter, value) VALUES ('site_name', 'SmoothOperator CRM')");
         }
         
@@ -200,7 +202,7 @@ if (!function_exists('so_check_databases')) {
         
         /* Create the menu_items table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "menu_items")) {
-            $messages[] =  "Config table is missing...created";
+            $messages[] =  "menu_items table is missing...created";
             $sql = "CREATE TABLE `menu_items` (
             `id` int(11) NOT NULL auto_increment,
             `menu_text` varchar(255) default NULL,
