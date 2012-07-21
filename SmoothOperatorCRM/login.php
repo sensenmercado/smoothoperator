@@ -79,6 +79,14 @@ if (isset($_POST['username'])) {
     }
     
     $_SESSION['config_values'] = $config_values;
+    
+    /* Get the agent login details and add them to the session */
+    $result_agents = mysqli_query($connection, "SELECT agent_num, pin FROM agent_nums, users WHERE agent_num = users.extension and users.id=".sanitize($_SESSION['user_id'])) or die(mysqli_error($connection));
+    $row_agents = mysqli_fetch_assoc($result_agents);
+    $_SESSION['agent_num'] = $row_agents['agent_num'];
+    $_SESSION['agent_pass'] = $row_agents['pin'];
+    
+    
     redirect("index.php", 0);
     require "footer.php";
     exit(0);
