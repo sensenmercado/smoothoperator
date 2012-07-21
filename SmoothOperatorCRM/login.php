@@ -87,7 +87,7 @@ if (isset($_POST['username'])) {
     $_SESSION['agent_pass'] = $row_agents['pin'];
     
     
-    redirect("index.php", 0);
+    redirect("outer_header.php", 0);
     require "footer.php";
     exit(0);
 }
