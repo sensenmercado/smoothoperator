@@ -1,12 +1,10 @@
 <?
 session_start();
-echo "<pre>";
-print_r($_SESSION);
 ?>
 <html>
 <head>
-<script src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
-<script src="http://s.phono.com/releases/0.3/jquery.phono.js"></script>
+<script src="js/jquery-1.4.2.min.js"></script>
+<script src="js/jquery.phono.0.3.js"></script>
 </head>
 <body>
 
