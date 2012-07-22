@@ -14,6 +14,7 @@ Soft Phone
 </span><br />
 <br />
 <input id="call" type="button" disabled="true" value="Loading..." /><br />
+<input id="disconnect" type="button" disabled = "true" value="Disconnect caller" /><br />
 <input id="hangup" type="button" disabled="true" value="Logout" /><br />
 <br />
 <span id="status" style="font-family: arial"><img src="images/small_progress.gif"></span>
@@ -22,13 +23,14 @@ Soft Phone
 $(document).ready(function(){
                   var audioType = 'auto';
                   if (navigator.javaEnabled()) {
-                  //audioType = 'java';
+                  audioType = 'java';
                   }
                   
                   var phono = $.phono({
                                       apiKey: "<?=$_SESSION['config_values']['phono_key']?>",
-                                      audio: {type:audioType,
-                                      jar:"http://s.phono.com/releases/0.3/plugins/audio/phono.audio.jar"},
+                                      audio: {
+                                      type:audioType,
+                                      jar:"http://s.phono.com/releases/0.4/plugins/audio/phono.audio.jar"},
                                       onReady: function() {
                                       //alert("My SIP address is sip:" + this.sessionId);
                                       //$("#status").text(this.sessionId);
@@ -36,7 +38,7 @@ $(document).ready(function(){
                                       $("#call").attr("disabled", false).val("Login");
                                       },
                                       phone: {
-                                      
+                                      wideband: false,
                                       
                                       
                                       onIncomingCall: function(event) {
@@ -79,6 +81,7 @@ $(document).ready(function(){
                                    });*/
                   $("#call").click(function() {
                                    $("#call").attr("disabled", true);
+                                   $("#disconnect").attr("disabled", false);                                   
                                    $("#hangup").attr("disabled", false);
                                    phono.phone.dial("sip:500@<?=$_SESSION['config_values']['manager_host']?>", {
                                                     onRing: function() {
@@ -115,10 +118,14 @@ $(document).ready(function(){
                                                     $("#hangup").click(function() {
                                                                        objx.hangup();
                                                                        });
+                                                    $("#disconnect").click(function() {
+                                                                       objx.digit("*");
+                                                                       });
                                                     },
                                                     onHangup: function() {
                                                     $("#call").attr("disabled", false).val("Login");
                                                     $("#hangup").attr("disabled", true);
+                                                    $("#disconnect").attr("disabled", true);
                                                     $("#status").html("Logged Out.  Please click the button above to log back in");
                                                     }
                                                     });
