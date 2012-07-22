@@ -4,7 +4,8 @@ session_start();
 <html>
 <head>
 <script src="js/jquery-1.4.2.min.js"></script>
-<script src="js/jquery.phono.0.3.js"></script>
+<?/*<script src="js/jquery.phono.0.3.js"></script>*/?>
+<script src="http://s.phono.com/releases/0.4/jquery.phono.js"></script>
 </head>
 <body bgcolor="#ccc">
 <center>
