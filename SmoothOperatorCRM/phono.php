@@ -39,7 +39,7 @@ $(document).ready(function(){
                                       },
                                       phone: {
                                       wideband: false,
-                                      
+                                      headset: true,
                                       
                                       onIncomingCall: function(event) {
                                       var call = event.call;
