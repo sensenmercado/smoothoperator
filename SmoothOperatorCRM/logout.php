@@ -6,5 +6,10 @@ if (isset($_COOKIE[session_name()])) {
 
 // Finally, destroy the session.
 session_destroy();
-header("location: index.php");
+    ?>
+<script>
+    top.location.href = "index.php" ;
+</script>
+<?
+//header("location: index.php");
 ?>
