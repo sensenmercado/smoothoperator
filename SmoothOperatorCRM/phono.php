@@ -22,7 +22,7 @@ Soft Phone
 $(document).ready(function(){
                   var audioType = 'auto';
                   if (navigator.javaEnabled()) {
-                  audioType = 'java';
+                  //audioType = 'java';
                   }
                   
                   var phono = $.phono({
