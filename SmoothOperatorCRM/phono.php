@@ -6,10 +6,16 @@ session_start();
 <script src="js/jquery-1.4.2.min.js"></script>
 <script src="js/jquery.phono.0.3.js"></script>
 </head>
-<body>
-
-<input id="call" type="button" disabled="true" value="Loading..." />
-<span id="status"></span>
+<body bgcolor="#ccc">
+<center>
+<span id="heading" style="font-family: arial">
+Soft Phone
+</span><br />
+<br />
+<input id="call" type="button" disabled="true" value="Loading..." /><br />
+<input id="hangup" type="button" disabled="true" value="Logout" /><br />
+<br />
+<span id="status" style="font-family: arial"><img src="images/small_progress.gif"></span>
 
 <script>
 $(document).ready(function(){
@@ -24,10 +30,13 @@ $(document).ready(function(){
                                       jar:"http://s.phono.com/releases/0.3/plugins/audio/phono.audio.jar"},
                                       onReady: function() {
                                       //alert("My SIP address is sip:" + this.sessionId);
-                                      $("#xxx").val(this.sessionId);
-                                      $("#call").attr("disabled", false).val("Call");
+                                      //$("#status").text(this.sessionId);
+                                      $("#status").text("Click the button above to log in");
+                                      $("#call").attr("disabled", false).val("Login");
                                       },
                                       phone: {
+                                      
+                                      
                                       
                                       onIncomingCall: function(event) {
                                       var call = event.call;
@@ -46,8 +55,30 @@ $(document).ready(function(){
                                       }
                                       });
                   
+                  
+                  
+                  
+
+                  
+                  
+                 /* $("#hangup").click(function() {
+                                     
+                                     
+                                     var out = '';
+                                     for (var i in phono.phone) {
+                                     out += i + ": " + phono.phone[i] + "\n";
+                                     }
+                                     var pre = document.createElement('pre');
+                                     pre.innerHTML = out;
+                                     document.body.appendChild(pre);
+                                     
+                                     
+                                     
+                                   //phono.hangup();
+                                   });*/
                   $("#call").click(function() {
-                                   $("#call").attr("disabled", true).val("Busy");
+                                   $("#call").attr("disabled", true);
+                                   $("#hangup").attr("disabled", false);
                                    phono.phone.dial("sip:500@<?=$_SESSION['config_values']['manager_host']?>", {
                                                     onRing: function() {
                                                     $("#status").html("Ringing");
@@ -66,8 +97,11 @@ $(document).ready(function(){
                                                     }
                                                     echo 'this.digit("#");';
                                                     ?>
+                                                    $("#status").html("Logged in.");
+
                                                     //alert(event.call.id);
                                                     //$("#status").html(event.call.id);
+                                                    /*
                                                     var out = '';
                                                     for (var i in this) {
                                                     out += i + ": " + this[i] + "\n";
@@ -75,16 +109,20 @@ $(document).ready(function(){
                                                     var pre = document.createElement('pre');
                                                     pre.innerHTML = out;
                                                     document.body.appendChild(pre);
-                                                    
+                                                    */
+                                                    var objx = this;
+                                                    $("#hangup").click(function() {
+                                                                       objx.hangup();
+                                                                       });
                                                     },
                                                     onHangup: function() {
-                                                    $("#call").attr("disabled", false).val("Call");
-                                                    $("#status").html("Hangup");
+                                                    $("#call").attr("disabled", false).val("Login");
+                                                    $("#hangup").attr("disabled", true);
+                                                    $("#status").html("Logged Out.  Please click the button above to log back in");
                                                     }
                                                     });
                                    });
                   })
 </script>
-<input id="xxx" type="text">
 </body>
 </html>
