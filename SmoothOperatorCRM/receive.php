@@ -17,7 +17,12 @@ if (isset($_GET['save_list'])) {
     <img src="images/progress.gif"><br />
     Importing numbers<br />
     <?
-    flush();
+    if (ob_get_length()){            
+        @ob_flush();
+        @flush();
+        @ob_end_flush();
+    }    
+    @ob_start();
     $result = mysqli_query($connection, "SELECT location, filename, size, date_imported, id FROM files WHERE id = ".sanitize($_GET['save_list']));
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
@@ -43,6 +48,7 @@ if (isset($_GET['save_list'])) {
             break;
     }
     //print_pre($_POST);
+    $z =0;
     for ($row = $_POST['first_row'];$row<=sizeof($arr);$row++) {
         $sql1 = "INSERT INTO customers (";
         $sql2 = " VALUES (";
@@ -61,6 +67,17 @@ if (isset($_GET['save_list'])) {
         $sql2.="'".clean_number($phone)."',".sanitize($_POST['list_id']).")";
         $sql = $sql1.$sql2;
         //echo "<!-- -->$sql<br />";
+        $z++;
+        if ($z > 100) {
+            $z =0;
+            echo ".";
+            if (ob_get_length()){            
+                @ob_flush();
+                @flush();
+                @ob_end_flush();
+            }    
+            @ob_start();
+        }
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     }
     redirect("receive.php");
