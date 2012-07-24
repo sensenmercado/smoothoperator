@@ -13,22 +13,41 @@ if (isset($_GET['save_list'])) {
     //print_pre($_POST);
     //echo $_GET['option'];
     //exit(0);
+    ?>
+    <img src="images/progress.gif"><br />
+    Importing numbers<br />
+    <?
+    flush();
     $result = mysqli_query($connection, "SELECT location, filename, size, date_imported, id FROM files WHERE id = ".sanitize($_GET['save_list']));
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         $filename = $row['location'];
     }
-    require_once 'excel_reader2.php';
-    /* conserve memory for large worksheets by not storing the extended */
-    /* information about cells like fonts, colors, etc.                 */
-    $data = new Spreadsheet_Excel_Reader($filename, false);
-    $arr = $data->dumptoarray(0);
+    switch ($_GET['format']) {
+            case "txt":
+            $start = 0;
+            if (($handle = fopen($filename, "r")) !== FALSE) {
+                while (($line = fgetcsv($handle)) !== FALSE) {
+                    $arr[] = $line;
+                }
+                fclose($handle);
+            }
+            break;
+            case "xls":
+            $start = 1;
+            require_once 'excel_reader2.php';
+            /* conserve memory for large worksheets by not storing the extended */
+            /* information about cells like fonts, colors, etc.                 */
+            $data = new Spreadsheet_Excel_Reader($filename, false);
+            $arr = $data->dumptoarray(0);
+            break;
+    }
     //print_pre($_POST);
     for ($row = $_POST['first_row'];$row<=sizeof($arr);$row++) {
         $sql1 = "INSERT INTO customers (";
         $sql2 = " VALUES (";
-
-        for ($col = 1;$col <= sizeof($arr[$row]);$col++) {
+        
+        for ($col = $start;$col <= sizeof($arr[$row]);$col++) {
             if (isset($_POST['col_'.$col]) && $_POST['col_'.$col] != "null") {
                 if ($_POST['col_'.$col] == "phone") {
                     $phone = $arr[$row][$col];
@@ -51,7 +70,7 @@ if (isset($_GET['save_list'])) {
 if (isset($_GET['import_list'])) {
     if (!isset($_GET['option'])) {
         require "header.php";
-
+        
         ?>
         <div class="thin_700px_box">
         Where would you like to import them to?<br />
@@ -64,10 +83,11 @@ if (isset($_GET['import_list'])) {
         </select>
         </div>
         <input type="hidden" name="list_id" id="list_id">
+        <input type="hidden" name="format" id="type">
         </form>
         <div id="new_list" style="display: none" title="New List">
         <form id="new_list_form">
-        Name: <input type="text" name="list_name" id="list_name" >
+    Name: <input type="text" name="list_name" id="list_name" >
     Description: <br /><textarea name="list_description" id="list_description"></textarea>
         </form>
         </div>
@@ -113,7 +133,7 @@ if (isset($_GET['import_list'])) {
                                            
                                            jQuery.post('receive.php?create_list=1', jQuery("#new_list_form").serialize(), function(data) {
                                                        //alert(data);
-                                                       window.location.href="receive.php?import_list=<?=$_GET['import_list']?>&option=new&list_id="+data;
+                                                       window.location.href="receive.php?format=<?=$_GET['type']?>&import_list=<?=$_GET['import_list']?>&option=new&list_id="+data;
                                                        
                                                        });
                                            
@@ -129,7 +149,7 @@ if (isset($_GET['import_list'])) {
                                                 buttons: {
                                                 "Select List": function() {
                                                 
-                                                            window.location.href="receive.php?import_list=<?=$_GET['import_list']?>&option=existing&list_id="+jQuery("#existing_list_id").val();                                                           
+                                                window.location.href="receive.php?format=<?=$_GET['type']?>&import_list=<?=$_GET['import_list']?>&option=existing&list_id="+jQuery("#existing_list_id").val();                                                           
                                                 
                                                 
                                                 jQuery(this).dialog("close");
@@ -150,41 +170,57 @@ if (isset($_GET['import_list'])) {
         <form action=
         <?
         switch ($_GET['option']) {
-                case "new":
+            case "new":
                 break;
-                case "existing":
+            case "existing":
                 break;
-                case "split":
+            case "split":
                 break;
         }
     } else {
         require "header.php";
         ?>
-        <form action="receive.php?save_list=<?=$_GET['import_list']?>&option=<?=$_GET['option']?>" method="POST">
+        <form action="receive.php?format=<?=$_GET['format']?>&save_list=<?=$_GET['import_list']?>&option=<?=$_GET['option']?>" method="POST">
         First Row: <select name="first_row">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        
         </select>
         <?
         if ($_GET['option'] == "new") {
             ?>
             <?
         }
-
+        
         $result = mysqli_query($connection, "SELECT location, filename, size, date_imported, id FROM files WHERE id = ".sanitize($_GET['import_list']));
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
             $filename = $row['location'];
         }
-        require_once 'excel_reader2.php';
-        /* conserve memory for large worksheets by not storing the extended */
-        /* information about cells like fonts, colors, etc.                 */
-        $data = new Spreadsheet_Excel_Reader($filename, false);
-        $arr = $data->dumptoarray(0);
+        switch ($_GET['format']) {
+            case "txt":
+                $start = 0;
+                $extra = 1;
+                if (($handle = fopen($filename, "r")) !== FALSE) {
+                    while (($line = fgetcsv($handle)) !== FALSE) {
+                        $arr[] = $line;
+                    }
+                    fclose($handle);
+                }
+                break;
+            case "xls":
+                $start = 1;
+                $extra = 0;
+                require_once 'excel_reader2.php';
+                /* conserve memory for large worksheets by not storing the extended */
+                /* information about cells like fonts, colors, etc.                 */
+                $data = new Spreadsheet_Excel_Reader($filename, false);
+                $arr = $data->dumptoarray(0);
+                break;
+        }
         //$max = sizeof($arr);
         $max = 5;
         $result = mysqli_query($connection, "SHOW COLUMNS FROM customers");
@@ -195,7 +231,7 @@ if (isset($_GET['import_list'])) {
         $fields_to_ignore[] = "datetime_locked";
         $fields_to_ignore[] = "cleaned_number";
         $fields_to_ignore[] = "list_id";
-
+        
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 if (!in_array($row['Field'], $fields_to_ignore)) {
@@ -212,7 +248,7 @@ if (isset($_GET['import_list'])) {
                 $printed_header = true;
                 echo '<tr>';
                 echo '<th>Row</th>';
-                for ($col = 1;$col <= sizeof($arr[$row]);$col++) {
+                for ($col = $start;$col <= sizeof($arr[$row])-$extra;$col++) {
                     echo '<th><select name="col_'.$col.'"><option value="null">Not Used</option>';
                     foreach ($fields as $field) {
                         echo '<option value="'.$field.'">'.clean_field_name($field).'</option>';
@@ -223,7 +259,7 @@ if (isset($_GET['import_list'])) {
             }
             echo "<tr>";
             echo "<td>$row</td>";
-            for ($col = 1;$col <= sizeof($arr[$row]);$col++) {
+            for ($col = $start;$col <= sizeof($arr[$row]);$col++) {
                 echo "<td>".$arr[$row][$col]."</td>";;
             }
             echo "</tr>";
@@ -236,6 +272,8 @@ if (isset($_GET['import_list'])) {
         <?
         require "footer.php";
         exit(0);
+        
+        
     }
 }
 if (isset($_GET['delete'])) {
@@ -247,7 +285,7 @@ if (isset($_GET['delete'])) {
             unlink($row['location']);
         }
     }
-
+    
     $result = mysqli_query($connection, "DELETE FROM files where id = ".sanitize($_GET['delete']));
 }
 
@@ -287,17 +325,17 @@ require "header.php";
 <input id="fileInput" name="fileInput" type="file" />
 <script type="text/javascript">// <![CDATA[
 jQuery(document).ready(function() {
-jQuery('#fileInput').uploadify({
-'uploader'  : 'swf/uploadify.swf',
-'script'    : 'uploadify.php',
-'cancelImg' : 'cancel.png',
-'auto'      : true,
-'sizeLimit' : '100000000',
-'scriptAccess': 'always',
-'onComplete'  : myfunc,
-'folder'    : 'uploads-folder/'
-});
-});
+                       jQuery('#fileInput').uploadify({
+                                                      'uploader'  : 'swf/uploadify.swf',
+                                                      'script'    : 'uploadify.php',
+                                                      'cancelImg' : 'cancel.png',
+                                                      'auto'      : true,
+                                                      'sizeLimit' : '100000000',
+                                                      'scriptAccess': 'always',
+                                                      'onComplete'  : myfunc,
+                                                      'folder'    : 'uploads-folder/'
+                                                      });
+                       });
 // ]]>
 setInterval(myfunc, 30000);
 myfunc();
@@ -314,8 +352,8 @@ function myfunc() {
 <div id="contentx"><img src="images/sq_progress.gif">&nbsp;Please Wait...</div>
 </div>
 <script type="text/javascript">
-    myfunc();
-    </script>
+myfunc();
+</script>
 
 <?
 require "footer.php";

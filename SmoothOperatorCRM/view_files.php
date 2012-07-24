@@ -40,11 +40,16 @@ if ($result) {
             switch ($extension) {
                 case "xls":
                     ?>
-                    <a href="receive.php?import_list=<?=$row['id']?>">Import List From File</a>
+                    <a href="receive.php?import_list=<?=$row['id']?>&type=xls">Import List From File</a>
+                    <?
+                    break;
+                case "txt":
+                    ?>
+                    <a href="receive.php?import_list=<?=$row['id']?>&type=txt">Import List From File</a>
                     <?
                     break;
                 default:
-                    echo "".$extension." (xls required for import)";
+                    echo "".$extension." (xls or txt required for import)";
                     break;
             }
             echo ''."</td><td>";
