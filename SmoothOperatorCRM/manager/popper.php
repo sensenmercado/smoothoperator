@@ -306,6 +306,8 @@ while (1) {
                             $domain = substr($line, 8);
                         } else if (substr($line, 0, 8) == "Penalty:") {
                             $penalty = substr($line, 9);
+                        } else if (substr($line, 0, 8) == "FullyBooted") {
+                            // Asterisk Manager Connection started up
                         } else {
                             if ($DEBUG_UNKNOWN)
                             {
