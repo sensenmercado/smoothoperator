@@ -151,7 +151,8 @@ while (1) {
                         } else if ($eventname == "Dial") {
                         } else if ($eventname == "Newexten") {
                         } else if ($eventname == "Registry") {
-                        } else if ($eventname == "QueueCallerAbandon") {
+                        } else if ($eventname == "QueueCallerAbandon") {                            
+                        } else if ($eventname == "FullyBooted") {                            
                         } else {
                             if ($DEBUG_UNKNOWN) {
                                 echo "Unknown event: $eventname\n";
@@ -306,8 +307,6 @@ while (1) {
                             $domain = substr($line, 8);
                         } else if (substr($line, 0, 8) == "Penalty:") {
                             $penalty = substr($line, 9);
-                        } else if (substr($line, 0, 11) == "FullyBooted") {
-                            // Asterisk Manager Connection started up
                         } else {
                             if ($DEBUG_UNKNOWN)
                             {
