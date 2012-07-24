@@ -49,6 +49,7 @@ if (isset($_GET['save_list'])) {
     }
     //print_pre($_POST);
     $z =0;
+    $x =0;
     for ($row = $_POST['first_row'];$row<=sizeof($arr);$row++) {
         $sql1 = "INSERT INTO customers (";
         $sql2 = " VALUES (";
@@ -69,6 +70,11 @@ if (isset($_GET['save_list'])) {
         //echo "<!-- -->$sql<br />";
         $z++;
         if ($z > 100) {
+            $x++;
+            if ($x> 100) {
+                $x = 0;
+                echo "<br />";
+            }
             $z =0;
             echo ".";
             if (ob_get_length()){            
