@@ -12,7 +12,7 @@ $MyData->addPoints(array(40,30,20),"ScoreA");
 $MyData->setSerieDescription("ScoreA","Application A");
 
 /* Define the absissa serie */
-$MyData->addPoints(array("A","B","C"),"Labels");
+$MyData->addPoints(array("Bla","B","C"),"Labels");
 $MyData->setAbscissa("Labels");
 
 /* Create the pChart object */

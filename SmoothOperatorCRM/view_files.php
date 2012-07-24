@@ -43,8 +43,13 @@ if ($result) {
                     <a href="receive.php?import_list=<?=$row['id']?>">Import List From File</a>
                     <?
                     break;
+                case "xlsx":
+                    ?>
+                    <a href="receive.php?import_list=<?=$row['id']?>">Import List From File</a>
+                    <?
+                    break;
                 default:
-                    echo "x".$extension;
+                    echo "".$extension;
                     break;
             }
             echo ''."</td><td>";
