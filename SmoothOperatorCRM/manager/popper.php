@@ -21,6 +21,7 @@ require "../config/db_config.php";
 $MYSQL_BACKEND = false;
 $FILE_BACKEND = false;
 $DEBUG_MANAGER = false;
+$DEBUG_UNKNOWN = true;
 require "manager_events.php";
 
 while (1) {
@@ -46,6 +47,7 @@ while (1) {
          * up the data we receive until the last 4 characters are equal to \r\n\r\n
          * This signifies the end of an event or piece of information.
          */
+        $wrets = "";
         while (!(strlen($wrets) >= 4 && substr($wrets, strlen($wrets)-4) == "\r\n\r\n") ){
             if (!($wrets .= fread($socket, 8192))) {
                 // Socket error - reconnect
