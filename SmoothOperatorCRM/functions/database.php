@@ -330,6 +330,30 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
         
+        
+        /* Create the queue_log table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "queue_log")) {
+            $messages[] =  "queue_log table is missing...created";
+            $sql = "CREATE TABLE `queue_log` (
+            `id` int(10) unsigned NOT NULL auto_increment,
+            `time` char(26) default NULL,
+            `callid` varchar(32) NOT NULL default '',
+            `queuename` varchar(32) NOT NULL default '',
+            `agent` varchar(32) NOT NULL default '',
+            `event` varchar(32) NOT NULL default '',
+            `data` varchar(100) NOT NULL default '',
+            `data1` VARCHAR(100),
+            `data2` VARCHAR(100),
+            `data3` VARCHAR(100),
+            `data4` VARCHAR(100),
+            `data5` VARCHAR(100),
+            PRIMARY KEY (`id`)
+            )ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
+        }
+        
+                
+        
         /* Create the agent_nums table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "agent_nums")) {
             $messages[] =  "agent_nums table is missing...created";
