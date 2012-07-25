@@ -352,7 +352,38 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
         
+        /* Create the cdr table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "cdr")) {
+            $messages[] =  "cdr table is missing...created";
+            $sql = "CREATE TABLE `cdr` (
+            `calldate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+            `clid` varchar(80) NOT NULL DEFAULT '',
+            `src` varchar(80) NOT NULL DEFAULT '',
+            `dst` varchar(80) NOT NULL DEFAULT '',
+            `dcontext` varchar(80) NOT NULL DEFAULT '',
+            `channel` varchar(80) NOT NULL DEFAULT '',
+            `dstchannel` varchar(80) NOT NULL DEFAULT '',
+            `lastapp` varchar(80) NOT NULL DEFAULT '',
+            `lastdata` varchar(80) NOT NULL DEFAULT '',
+            `duration` int(11) NOT NULL DEFAULT '0',
+            `billsec` int(11) NOT NULL DEFAULT '0',
+            `disposition` varchar(45) NOT NULL DEFAULT '',
+            `amaflags` int(11) NOT NULL DEFAULT '0',
+            `accountcode` varchar(20) NOT NULL DEFAULT '',
+            `userfield` varchar(255) NOT NULL DEFAULT '',
+            `userfield2` varchar(2) NOT NULL DEFAULT '',
+            `uniqueid` varchar(32) NOT NULL DEFAULT '',
+            `rounded_billsec` int(5) DEFAULT NULL,
+            KEY `dcontext` (`dcontext`,`userfield`,`userfield2`),
+            KEY `calldate` (`calldate`),
+            KEY `dst` (`dst`),
+            KEY `accountcode` (`accountcode`),
+            KEY `rounded_billsec` (`rounded_billsec`)
+            ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
+        }
                 
+        
         
         /* Create the agent_nums table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "agent_nums")) {
