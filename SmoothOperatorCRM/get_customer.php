@@ -98,7 +98,7 @@ if (!isset($_GET['phone_number'])) {
 if (!is_numeric($_GET['phone_number'])) {
     $_GET['phone_number'] = preg_replace('/[^0-9]/',"",$_GET['phone_number']);
 }
-function display_script() {    
+function display_script($customer) {
     global $connection;
     ?>
     <script>
@@ -173,6 +173,9 @@ function display_script() {
     $x = 0;
     if (mysqli_num_rows($result_entries) > 0) {
         while ($row_entries = mysqli_fetch_assoc($result_entries)) {
+            $row_entries['statement'] = str_replace("{first_name}","<b>".$customer['first_name']."</b>",$row_entries['statement']);
+            $row_entries['statement'] = str_replace("{agent}","<b>".$_SESSION['name']."</b>",$row_entries['statement']);
+
             $x++;
             ?>
             <script language="javascript">
@@ -434,7 +437,7 @@ if (mysqli_num_rows($result) > 0) {
             $result = mysqli_query($connection, "INSERT INTO interractions (contact_date_time, notes, customer_id) VALUES (NOW(), 'Opened by ".$_SESSION['user_name']." on extension: ".$_SESSION['extension']."', ".$row['id'].")");
             
         }
-        display_script();
+        display_script($row);
         display_dispositions();
         display_customer_edit($row);
         
@@ -485,7 +488,7 @@ if (mysqli_num_rows($result) > 0) {
     }
     //print_pre($_SESSION);
     //print_r($row);exit(0);
-    display_script();
+    display_script($row);
     display_dispositions();
     display_customer_edit($row);
     
