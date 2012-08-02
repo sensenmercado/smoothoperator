@@ -451,6 +451,9 @@ if (isset($_GET['edit'])) {
         $x = 0;
         if (mysqli_num_rows($result_entries) > 0) {
             while ($row_entries = mysqli_fetch_assoc($result_entries)) {
+                // Do the mail merge style replacements
+                $row_entries['statement'] = str_replace("{first_name}","<b>Person\'s First Name</b>",$row_entries['statement']);
+                $row_entries['statement'] = str_replace("{agent}","<b>".$_SESSION['name']."</b>",$row_entries['statement']);
                 $x++;
                 ?>
                 <script language="javascript">
