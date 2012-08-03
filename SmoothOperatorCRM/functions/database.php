@@ -320,6 +320,18 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
         
+        /* Create the reschedule table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "reschedule")) {
+            $messages[] =  "reschedule table is missing...created";
+            $sql = "CREATE TABLE `reschedule` (
+            `phone_number` varchar(255) NOT NULL,
+            `reschedule_datetime` datetime NOT NULL,
+            `user` int(11) NOT NULL
+            ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
+        }
+        
+        
         /* Create the module_files table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "module_files")) {
             $messages[] =  "Module_files table is missing...created";
