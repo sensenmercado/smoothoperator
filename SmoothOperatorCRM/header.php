@@ -151,6 +151,9 @@ $config_values = $_SESSION['config_values'];
 
 <script type='text/javascript' src='js/jquery-1.3.2.min.js'></script>
 <script type='text/javascript' src='js/jquery-ui-1.7.3.custom.min.js'></script>
+<style>
+.ui-datepicker { width: 17em; padding: .2em .2em 0; z-index: 9999 !important; }
+</style>
 <script>
 jQuery.noConflict();
 </script>

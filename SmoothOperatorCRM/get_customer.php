@@ -1,6 +1,8 @@
 <?
 if (isset($_GET['reschedule_number'])) {
     require "header.php";
+    $sql = "INSERT INTO reschedule (phone_number, reschedule_datetime, user) VALUES (".sanitize($_GET['phone_number']).",".sanitize($_GET['date']." ".$_GET['time']).", ".$_SESSION['user_id'].")";
+    $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     redirect("get_customer.php?from=".$_GET['from']."&phone_number=".$_GET['phone_number'],3,"Rescheduling a call for ".$_GET['time']." on ".$_GET['date']);
     require "footer.php";
     exit(0);
