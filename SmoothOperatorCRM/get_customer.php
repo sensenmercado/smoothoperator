@@ -1,4 +1,10 @@
 <?
+if (isset($_GET['reschedule_number'])) {
+    require "header.php";
+    redirect("get_customer.php?from=".$_GET['from']."&phone_number=".$_GET['phone_number'],3,"Rescheduling a call for ".$_GET['time']." on ".$_GET['date']);
+    require "footer.php";
+    exit(0);
+}
 if (isset($_GET['save_script'])) {
     require "config/db_config.php";
     require "functions/sanitize.php";
@@ -175,7 +181,7 @@ function display_script($customer) {
         while ($row_entries = mysqli_fetch_assoc($result_entries)) {
             $row_entries['statement'] = str_replace("{first_name}","<b>".$customer['first_name']."</b>",$row_entries['statement']);
             $row_entries['statement'] = str_replace("{agent}","<b>".$_SESSION['name']."</b>",$row_entries['statement']);
-
+            
             $x++;
             ?>
             <script language="javascript">
@@ -242,7 +248,7 @@ function display_script($customer) {
 }
 
 function display_dispositions() {
-    global $connection;    
+    global $connection;
     if (!isset($_GET['disposition_set'])) {
         if (!isset($_GET['user_id'])) {
             $_GET['user_id'] = $_SESSION['user_id'];
@@ -257,8 +263,29 @@ function display_dispositions() {
                 
             } else {
                 $x = 0;
-                echo "<table id=\"dispositions\">";        
-                $close = true;
+                echo "<table id=\"dispositions\">";
+                $closed = false;
+                
+                // Add disposition for rescheduling a call
+                echo "<tr>";
+                $x++;
+                echo "<td>";
+                
+                echo '<a href="javascript:void(0)" onclick="reschedule();">';
+                
+                box_start(145);
+                echo "<center>";
+                ?>
+                <img src = "images/clock.png" alt="Reschedule Call">
+                <?
+                echo "Reschedule Call";
+                box_end();
+                echo '</a>';
+                echo "</td>";
+                
+                
+                
+                
                 while ($rowx = mysqli_fetch_assoc($result_dispositions)) {
                     if ($x == 0) {
                         echo "<tr>";
@@ -275,7 +302,7 @@ function display_dispositions() {
                      
                      */
                     
-                    echo '<a href="#" onclick="save_disposition(\''.$rowx['id'].'\');jQuery(\'#dispositions\').fadeOut(500);jQuery(\'#status_bar\').text(\'Disposition set to '.$rowx['text'].'\');jQuery(\'#status_bar\').fadeIn(2000);jQuery(\'#status_bar\').fadeOut(5000);    ">';                    
+                    echo '<a href="#" onclick="save_disposition(\''.$rowx['id'].'\');jQuery(\'#dispositions\').fadeOut(500);jQuery(\'#status_bar\').text(\'Disposition set to '.$rowx['text'].'\');jQuery(\'#status_bar\').fadeIn(2000);jQuery(\'#status_bar\').fadeOut(5000);    ">';
                     
                     box_start(135);
                     echo "<center>";
@@ -294,6 +321,8 @@ function display_dispositions() {
                     }
                     //echo '</div></div>';
                 }
+                
+                
                 if (!$closed) {
                     echo "</tr>";
                 }
@@ -309,8 +338,11 @@ function display_dispositions() {
     
 }
 function display_customer_edit($row) {
-    global $connection;    
+    global $connection;
     //print_pre($row);
+    ?>
+
+    <?
     if ($row['new'] == 1) {
         ?>
         <script>
@@ -348,6 +380,11 @@ function display_customer_edit($row) {
             
         }
         
+        
+        
+        
+        
+        
         </script>
         <?
     } else {
@@ -361,7 +398,7 @@ function display_customer_edit($row) {
                              var response = transport.responseText;
                              //entries_to_ids[counter] = parseInt(response);
                              jQuery('#status_bar').text("Saved Disposition");
-                             jQuery('#status_bar').fadeIn(1000);    
+                             jQuery('#status_bar').fadeIn(1000);
                              jQuery('#status_bar').fadeOut(5000);
                              //alert(response);
                              }
@@ -381,7 +418,33 @@ function display_customer_edit($row) {
         <?
     }
     
+    ?>
+    <script>
     
+    
+    function reschedule(){
+        
+        <?
+        /*foreach ($_GET as $field=>$value) {
+            ?>alert('<?=$field."=".$value?>');<?
+        }*/
+        ?>
+        jQuery("#content").append('<div id="reschedule" style="display: none"><center><form id="reschedule_form">Date: <input id="date-picker" name="date-picker"><br />Time: <input type="text" id="time-picker" name="time-picker" value="<?=@date("H:i")?>" style="width: 50px"><input id="done" type="submit" value="Reschedule Call"></form></div>');
+        jQuery('#date-picker').datepicker({
+                                     dateFormat : 'yy-mm-dd'
+                                     });
+        jQuery("#reschedule").dialog();
+        jQuery("#reschedule_form").submit(function(e) {
+                                          e.preventDefault();
+                                          window.location = "get_customer.php?reschedule_number=1&phone_number=<?=$_GET['phone_number']?>&from=list&date="+jQuery("#date-picker").val()+"&time="+jQuery("#time-picker").val();
+                                          //return("false");
+                                          //alert("Redirected");
+                                          //jQuery("#reschedule").close();
+                                          });
+    }
+
+    </script>
+    <?
     
     echo '<div class="thin_700px_box">';
     
@@ -410,9 +473,10 @@ function display_customer_edit($row) {
     echo '<tr><td colspan="2"><input type="submit" value="save changes"></td></tr>';
     echo '</form>';
     echo "</table>";
-    echo "</div>";            
+    echo "</div>";
 }
-
+?>
+<?
 $phone_number = clean_number($_GET[phone_number]);
 $result = mysqli_query($connection, "SELECT * FROM SmoothOperator.customers WHERE cleaned_number = '$phone_number'");
 if (mysqli_num_rows($result) > 0) {
@@ -460,7 +524,7 @@ if (mysqli_num_rows($result) > 0) {
         // TODO: FILL THIS OUT
         
     }
-} else {    
+} else {
     unset($row);
     $row['first_name'] = "";
     $row['last_name'] = "";
