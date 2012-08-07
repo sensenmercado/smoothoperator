@@ -158,21 +158,21 @@ div.thin_700px_box {border-radius: 10px}
 
 
 
-div.thin_700px_box {border-radius: 8px}
-div.box {border-radius: 8px}
-thin_700px_box {border-radius: 8px}
-box_med {border-radius: 8px}
-input.rounded {border-radius: 3px}
+div.thin_700px_box {border-radius: 8px;-moz-border-radius: 8px;}
+div.box {border-radius: 8px;-moz-border-radius: 8px;}
+thin_700px_box {border-radius: 8px;-moz-border-radius: 8px;}
+box_med {border-radius: 8px;-moz-border-radius: 8px;}
+input.rounded {border-radius: 3px;-moz-border-radius: 8px;}
 ul#nav a {border-radius: 10px}
 <?
 if (isset($rounded)) {
     foreach ($rounded as $item) {
-        ?><?=$item?>{border-radius: 8px}<?
+        ?><?=$item?>{border-radius: 8px;-moz-border-radius: 8px;}<?
     }
 }
 if (isset($_SESSION['messages'])) {
     ?>
-    div.messages{border-radius: 8px}
+    div.messages{border-radius: 8px;-moz-border-radius: 8px;}
     <?
 }
 ?>
