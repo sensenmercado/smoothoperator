@@ -223,7 +223,7 @@ if (isset($_GET['start_campaign'])) {
     jQuery("#progress").progressbar({value: 0});
     </script>
     <?
-    $number_sql_start = "REPLACE INTO SineDialer.number (campaignid, phonenumber, status, random_sort) VALUES ";
+    $number_sql_start = "INSERT IGNORE INTO SineDialer.number (campaignid, phonenumber, status, random_sort) VALUES ";
     $end_sql = "";
     $count = 0;
     while ($row = mysqli_fetch_assoc($result)) {
