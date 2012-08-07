@@ -61,7 +61,6 @@ if (isset($_GET['ajax'])) {
                     $row['busy'] = $row2['flags'];
                     $row['total'] = $row2['maxcalls'];
                 }
-                //print_pre($row2);
             }
             $row['status'] = $highest;
             if ($row['total'] > 0) {
