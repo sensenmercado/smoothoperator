@@ -6,6 +6,23 @@ session_start();
 <script src="js/jquery-1.4.2.min.js"></script>
 <?/*<script src="js/jquery.phono.0.3.js"></script>*/?>
 <script src="http://s.phono.com/releases/0.4/jquery.phono.js"></script>
+<style>
+body {
+background-image: linear-gradient(bottom, rgb(255,255,255) 0%, rgb(116,157,222) 100%);
+background-image: -o-linear-gradient(bottom, rgb(255,255,255) 0%, rgb(116,157,222) 100%);
+background-image: -moz-linear-gradient(bottom, rgb(255,255,255) 0%, rgb(116,157,222) 100%);
+background-image: -webkit-linear-gradient(bottom, rgb(255,255,255) 0%, rgb(116,157,222) 100%);
+background-image: -ms-linear-gradient(bottom, rgb(255,255,255) 0%, rgb(116,157,222) 100%);
+
+background-image: -webkit-gradient(
+                                   linear,
+                                   left bottom,
+                                   left top,
+                                   color-stop(0, rgb(255,255,255)),
+                                   color-stop(1, rgb(116,157,222))
+                                   );
+}
+</style>
 </head>
 <body bgcolor="#ccc">
 <center>
