@@ -153,6 +153,34 @@ $config_values = $_SESSION['config_values'];
 <script type='text/javascript' src='js/jquery-ui-1.7.3.custom.min.js'></script>
 <style>
 .ui-datepicker { width: 17em; padding: .2em .2em 0; z-index: 9999 !important; }
+div.thin_700px_box {border-radius: 10px}
+
+
+
+
+div.thin_700px_box {border-radius: 8px}
+div.box {border-radius: 8px}
+thin_700px_box {border-radius: 8px}
+box_med {border-radius: 8px}
+input.rounded {border-radius: 3px}
+ul#nav a {border-radius: 10px}
+<?
+if (isset($rounded)) {
+    foreach ($rounded as $item) {
+        ?><?=$item?>{border-radius: 8px}<?
+    }
+}
+if (isset($_SESSION['messages'])) {
+    ?>
+    div.messages{border-radius: 8px}
+    <?
+}
+?>
+
+
+
+
+
 </style>
 <script>
 jQuery.noConflict();
@@ -180,6 +208,8 @@ function hide_message(layer_ref){
         hza.style.display = 'none';
     }
 }
+
+/*
 NiftyLoad=function(){
     Nifty("div.thin_700px_box","large transparent");
     Nifty("div.box","large transparent");
@@ -201,6 +231,9 @@ NiftyLoad=function(){
     }
     ?>
 }
+
+*/
+
 function show_confirm(in_text, in_delete_text, confirm_url) {
     Dialog.confirm(in_text,
                    {className: "alphacube", width:400, okLabel: in_delete_text,
