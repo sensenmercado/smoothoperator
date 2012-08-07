@@ -378,7 +378,8 @@ function display_customer_edit($row) {
                              
                              }
                              });
-            
+            jQuery("#customer_form").submit();
+
             
         }
         
@@ -414,7 +415,7 @@ function display_customer_edit($row) {
                              }
                              }
                              });
-            
+            jQuery("#customer_form").submit();
         }
         </script>
         <?
@@ -460,7 +461,7 @@ function display_customer_edit($row) {
     $fields_to_hide[] = "job_id";
     $fields_to_hide[] = "new";
     $textarea_fields[] = "notes";
-    echo '<form action="get_customer.php?save=1" method="post">';
+    echo '<form id="customer_form" action="get_customer.php?save=1" method="post">';
     echo '<table class="sample">';
     foreach ($row as $field=>$value) {
         if (in_array($field, $fields_to_hide)) {
@@ -472,7 +473,7 @@ function display_customer_edit($row) {
             echo '<tr><th>'.clean_field_name($field).'</th><td><input type="text" name="'.$field.'" value="'.stripslashes($value).'"></td></tr>';
         }
     }
-    echo '<tr><td colspan="2"><input type="submit" value="save changes"></td></tr>';
+    echo '<tr><td colspan="2"><input type="hidden" value="save changes"></td></tr>';
     echo '</form>';
     echo "</table>";
     echo "</div>";
