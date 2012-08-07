@@ -1499,7 +1499,12 @@ body,
 
 
 
-
+a.new_button {
+    background: url("../images/buttong_bg.png");
+    width: 238px;
+    height: 157px;
+    display: block;
+}
 
 
 
