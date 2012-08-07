@@ -127,6 +127,8 @@ while (1) {
                             queue_member_status($member_name, $queue, $location, $membership, $calls_taken, $last_call, $status, $paused, $penalty);
                         } else if ($eventname == "Link") {
                             asterisk_link($chan_1, $chan_2, $clid_1, $clid_2);
+                        } else if ($eventname == "Bridge") {
+                            asterisk_link($chan_1, $chan_2, $clid_1, $clid_2);
                         } else if ($eventname == "Unlink") {
                             asterisk_unlink($chan_1, $chan_2, $clid_1, $clid_2);
                         } else if ($eventname == "Newstate") {
