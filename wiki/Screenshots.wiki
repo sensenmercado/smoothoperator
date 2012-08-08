@@ -11,4 +11,4 @@ http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/HomeScreen.png
 http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/menus.png
 
 ===Creating Scripts===
-http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/scripts.png
+http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/Scripts.png
