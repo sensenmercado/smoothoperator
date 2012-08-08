@@ -15,3 +15,6 @@ http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/Scripts.png
 
 ===Managing Jobs===
 http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/Jobs.png
+
+===Agent View===
+http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/CustomerPage.png
