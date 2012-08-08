@@ -4,11 +4,8 @@
 ===The Login Page===
 http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/login.png
 
-===The Modules Page===
-http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/modules.png
+===The Main Page===
+http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/HomeScreen.png
 
 ===Drag and Drop menu reorganisation===
 http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/menus.png
-
-===Areski Asterisk CDR Stats===
-http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/aresk.png
