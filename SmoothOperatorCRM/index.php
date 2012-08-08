@@ -1,5 +1,6 @@
 <?
 require "header.php";
+
 if ($_SESSION['user_level']<100) {
     ?>
     <div class="thin_700px_box">
