@@ -55,7 +55,7 @@ if (!isset($user_level) || $user_level < 1) {
         jQuery.noConflict();
         </script>
         <link rel="stylesheet" type="text/css" href="css/style.css">
-        <link rel="stylesheet" type="text/css" href="css/default_v2.css">
+        <link rel="stylesheet" type="text/css" href="css/default.css?ver=2">
         
         <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.7.3.custom.css">
         <?
@@ -140,7 +140,7 @@ $config_values = $_SESSION['config_values'];
 <title><?=stripslashes($config_values['site_name'])?></title>
 
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<link rel="stylesheet" type="text/css" href="css/default.css">
+<link rel="stylesheet" type="text/css" href="css/default.css?ver=2">
 <link rel="stylesheet" type="text/css" href="css/uploadify.css">
 <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.7.3.custom.css">
 
