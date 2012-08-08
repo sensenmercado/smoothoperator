@@ -9,3 +9,6 @@ http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/HomeScreen.png
 
 ===Drag and Drop menu reorganisation===
 http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/menus.png
+
+===Creating Scripts===
+http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/scripts.png
