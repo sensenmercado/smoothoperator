@@ -12,3 +12,6 @@ http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/menus.png
 
 ===Creating Scripts===
 http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/Scripts.png
+
+===Managing Jobs===
+http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/Scripts.png
