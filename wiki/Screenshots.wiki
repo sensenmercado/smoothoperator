@@ -18,3 +18,6 @@ http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/Jobs.png
 
 ===Agent View===
 http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/CustomerPage.png
+
+===Soft Phone===
+http://smoothoperator.googlecode.com/svn/wiki/WikiPageName.attach/SoftPhone.png
