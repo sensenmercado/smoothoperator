@@ -241,6 +241,7 @@ if (!function_exists('so_check_databases')) {
             (18,'Manage Lists','en',10,'manage_lists.php',5,0,1,-1,'database.png'),
             (19,'Add Job','en',10,'jobs.php?add=1',0,0,1,4,'database_add.png'),
             (20,'Add Customer','en',1,'add_number.php',0,0,1,3,'database_add.png'),
+            (22,'Rescheduled calls','en',1,'rescheduled.php',0,0,1,3,'clock.png'),
             (21,'Add Script','en',1,'scripts.php?add=1',0,0,1,8,'database_add.png'),
             (23,'Dialer','en',10,'dialer.php',0,0,1,-1,'phone.png')";
             $result = mysqli_query($link, $sql);
@@ -325,7 +326,8 @@ if (!function_exists('so_check_databases')) {
             $sql = "CREATE TABLE `reschedule` (
             `phone_number` varchar(255) NOT NULL,
             `reschedule_datetime` datetime NOT NULL,
-            `user` int(11) NOT NULL
+            `user` INT(11) NOT NULL,
+            `done` int(11) NOT NULL DEFAULT '0'
             ) ENGINE=InnoDB";
             $result = mysqli_query($link, $sql);
         }

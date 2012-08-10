@@ -43,6 +43,8 @@ if (mysqli_num_rows($result) > 0) {
         echo '<td>'.$row['lastapp'].'</td>';
         if (strpos($row['userfield'],"-") !== false ) {
             $row['userfield'] = substr($row['userfield'],0,strpos($row['userfield'],"-"));
+            $row['userfield'] = '<a href="rescheduled.php?call_number='.$row['userfield'].'">'.$row['userfield'].'</a>';
+
         }
         echo '<td>'.$row['userfield'].'</td>';
         echo '</tr>';
