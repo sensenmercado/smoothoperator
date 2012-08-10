@@ -182,6 +182,7 @@ function display_script($customer) {
     if (mysqli_num_rows($result_entries) > 0) {
         while ($row_entries = mysqli_fetch_assoc($result_entries)) {
             $row_entries['statement'] = str_replace("{first_name}","<b>".$customer['first_name']."</b>",$row_entries['statement']);
+            $row_entries['statement'] = str_replace("{last_name}","<b>".$customer['last_name']."</b>",$row_entries['statement']);
             $row_entries['statement'] = str_replace("{agent}","<b>".$_SESSION['name']."</b>",$row_entries['statement']);
             
             $x++;
