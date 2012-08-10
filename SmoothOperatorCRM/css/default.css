@@ -31,6 +31,13 @@ div.messages {
     width: 800px;
     padding: 10px;
 }
+div.thin_90perc_box {
+    background: #cdf;
+    color: #000;
+    margin-top: 10px;
+    width: 90%;
+    padding: 5px;
+}
 div.thin_700px_box {
     background: #cdf;
     color: #000;

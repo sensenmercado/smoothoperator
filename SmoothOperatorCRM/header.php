@@ -162,6 +162,7 @@ div.thin_700px_box {border-radius: 10px}
 
 
 div.thin_700px_box {border-radius: 8px;-moz-border-radius: 8px;}
+div.thin_90perc_box {border-radius: 8px;-moz-border-radius: 8px;}
 div.box {border-radius: 8px;-moz-border-radius: 8px;}
 thin_700px_box {border-radius: 8px;-moz-border-radius: 8px;}
 box_med {border-radius: 8px;-moz-border-radius: 8px;}
