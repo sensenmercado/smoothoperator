@@ -20,7 +20,7 @@ if ($_SESSION['user_level']<100) {
     <a href="jobs.php" class="new_button"><img src="images/crystal/apps/reminders.png" width="96px" height="96px"><br />Jobs</a>
     <br />
     <a href="scripts.php" class="new_button"><img src="images/crystal/apps/package_editors.png" width="96px" height="96px"><br />Scripts</a>
-    <a href="users.php" class="new_button"><img src="images/crystal/apps/Login%20Manager.png" width="96px" height="96px"><br />User Accounts</a>
+    <a href="users.php" class="new_button"><img src="images/crystal/apps/kdmconfig.png" width="96px" height="96px"><br />User Accounts</a>
     <a href="config.php" class="new_button"><img src="images/crystal/apps/advancedsettings.png" width="96px" height="96px"><br />Settings</a>
     <br />
     <a href="list_customers.php" class="new_button"><img src="images/crystal/apps/kaddressbook.png" width="96px" height="96px"><br />Numbers</a>
