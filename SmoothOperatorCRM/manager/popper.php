@@ -20,7 +20,7 @@ require "../config/db_config.php";
 
 $MYSQL_BACKEND = false;
 $FILE_BACKEND = false;
-$DEBUG_MANAGER = false;
+$DEBUG_MANAGER = true;
 $DEBUG_UNKNOWN = true;
 require "manager_events.php";
 
@@ -215,11 +215,23 @@ while (1) {
                         unset ($hold_time);
                         unset ($original_position);
                         unset ($channel_type);
+                        unset ($channel_state);
+                        unset ($channel_state_desc);
+                        unset ($connected_line_num);
+                        unset ($connected_line_name);                        
                     } else { /* This is not a blank line but we are currently in an event */
                         if (substr($line, 0, 9) == "Privilege") {
                             $privilege = substr($line,0,10);
                         } else if (substr($line, 0, 12) == "ChannelType:") {
                             $channel_type = substr($line, 12);
+                        } else if (substr($line, 0, 13) == "ChannelState:") {
+                            $channel_state = substr($line, 17);
+                        } else if (substr($line, 0, 17) == "ChannelStateDesc:") {
+                            $channel_state_desc = substr($line, 17);
+                        } else if (substr($line, 0, 17) == "ConnectedLineNum:") {
+                            $connected_line_num = substr($line, 17);
+                        } else if (substr($line, 0, 18) == "ConnectedLineName:") {
+                            $connected_line_name = substr($line, 18);
                         } else if (substr($line, 0, 17) == "OriginalPosition:") {
                             $original_position = substr($line, 18);
                         } else if (substr($line, 0, 9) == "HoldTime:") {
