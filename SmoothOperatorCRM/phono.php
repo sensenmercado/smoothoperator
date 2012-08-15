@@ -8,6 +8,12 @@ session_start();
 <script src="http://s.phono.com/releases/0.4/jquery.phono.js"></script>
 <style>
 body {
+padding: 0px;
+margin:0px;
+}
+#content {
+margin: 0px;
+padding: 10px;
 background-image: linear-gradient(bottom, rgb(255,255,255) 0%, rgb(116,157,222) 100%);
 background-image: -o-linear-gradient(bottom, rgb(255,255,255) 0%, rgb(116,157,222) 100%);
 background-image: -moz-linear-gradient(bottom, rgb(255,255,255) 0%, rgb(116,157,222) 100%);
@@ -24,7 +30,7 @@ background-image: -webkit-gradient(
 }
 </style>
 </head>
-<body bgcolor="#ccc">
+<body bgcolor="#fff"><div id="content" style="100%">
 <center>
 <span id="heading" style="font-family: arial">
 Soft Phone
@@ -149,5 +155,6 @@ $(document).ready(function(){
                                    });
                   })
 </script>
+</div>
 </body>
 </html>
