@@ -130,6 +130,13 @@ function display_script($customer) {
         jQuery("#"+divName).append(nl2br(statement)+" <br><input type='text' name='field"+counter+"'><br />");
     }
     
+    /* Add priority */
+    
+    function add_priority(divName){
+        counter++;
+        jQuery("#"+divName).append(" <br>Lead Priority: <select name='field"+counter+"'><option value='0'>Normal</option><option value='0'>High</option><option value='0'>Critical</option></select><br />");
+    }
+    
     /* Statement followed by yes/no */
     
     function add_statement_followed_by_yesno(statement, divName){
@@ -230,6 +237,11 @@ function display_script($customer) {
                 case 3:
                     ?>
                     <script>add_statement_followed_by_nothing(<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput2');</script>
+                    <?
+                    break;
+                case 4:
+                    ?>
+                    <script>add_priority('dynamicInput2');</script>
                     <?
                     break;
                 case -1:
