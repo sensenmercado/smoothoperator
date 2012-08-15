@@ -1,5 +1,6 @@
 <?
 function agent_disconnected ($agent_number) {
+    require "../functions/sanitize.php";
 	/* An agent has been disconnected */
 	global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
 	echo "Agent Disconnected: $agent_number\n";
@@ -19,6 +20,8 @@ function agent_disconnected ($agent_number) {
 }
 function agent_connected ($agent_number, $queue_name, $callerid) {
 	/* An agent has been connected */
+    require "../functions/sanitize.php";
+
 	global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
 	echo "== Agent Connected: $agent_number ==\n";
 	if ($FILE_BACKEND) {
@@ -38,6 +41,8 @@ function agent_connected ($agent_number, $queue_name, $callerid) {
 
 }
 function queue_member_status($member_name, $queue, $location, $membership, $calls_taken, $last_call, $status, $paused, $penalty) {
+    require "../functions/sanitize.php";
+
 	global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
     /* DEVICE STATES */
     $device_states[1] = "Unknown";
@@ -79,6 +84,7 @@ function queue_member_status($member_name, $queue, $location, $membership, $call
 	}
 }
 function queue_member_paused($member_name, $paused, $queue) {
+    require "../functions/sanitize.php";
 	global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
 	echo "QUEUE MEMBER PAUSED: $member_name, $paused, $queue\n";
 	if ($MYSQL_BACKEND) {
