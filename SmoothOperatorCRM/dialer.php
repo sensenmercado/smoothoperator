@@ -208,7 +208,7 @@ if (isset($_GET['start_campaign'])) {
     
     
     
-    
+     
     /* The question here is do we actually want to send all numbers or just numbers based on a criteria */
     $result = mysqli_query($connection, "SELECT distinct cleaned_number, id FROM customers WHERE do_not_call = 0 and list_id = ".sanitize($_GET['list_id']));
     
