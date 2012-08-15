@@ -411,7 +411,14 @@ if ($this_page != "login.php") {
     <?
     echo '<div style="display: inline-block;color: #999"  id="agent_div">Agent Number: <b>'.$row_agents['agent_num']."</b> Pin: <b>".$row_agents['pin'].'</b></div> <div style="display: inline-block;color: #999"  id="date_div">'.@Date("H:i:s").' ('.$_SESSION['calls'].' calls)</div> <span style="display: inline-block;color: #999"  id="job_details">Job: ';
     include "check_job.php";
-    echo '</span>';
+    echo '</span>&nbsp;';
+    ?>
+    <div id="pop_call_div" style="display:none"><center>
+    Phone Number to pop: <br /><br /><input type="text" id="number_to_pop" style="width: 70%;" name="number_to_pop"><br />
+    <input type="button" onclick="window.location='get_customer.php?pop=1&phone_number='+jQuery('#number_to_pop').val()" value="Pop">
+    </div>
+    <span style="color:#00f"><a href="#" onclick="jQuery('#pop_call_div').dialog({modal: true});">Pop Up Call</a></span>
+    <?
     echo '&nbsp;<span id="status_bar" style="display: inline-block;color: #f00;font-weight: bold;"></span>';
     ?>
     </div>
