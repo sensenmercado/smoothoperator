@@ -214,9 +214,12 @@ while (1) {
                         unset ($dest_unique_id);
                         unset ($hold_time);
                         unset ($original_position);
+                        unset ($channel_type);
                     } else { /* This is not a blank line but we are currently in an event */
                         if (substr($line, 0, 9) == "Privilege") {
                             $privilege = substr($line,0,10);
+                        } else if (substr($line, 0, 12) == "ChannelType:") {
+                            $channel_type = substr($line, 12);
                         } else if (substr($line, 0, 17) == "OriginalPosition:") {
                             $original_position = substr($line, 18);
                         } else if (substr($line, 0, 9) == "HoldTime:") {
