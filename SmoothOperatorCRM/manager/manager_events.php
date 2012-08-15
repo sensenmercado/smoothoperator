@@ -10,7 +10,11 @@ function agent_disconnected ($agent_number) {
 	}
 	if ($MYSQL_BACKEND) {
 		$sql = "DELETE FROM agent_call_status WHERE agent = ".sanitize($agent_number);
-		$result = mysqli_query($connection, $sql) or die(mysql_error());
+        mysqli_query($connection, $sql);
+        if (mysqli_error($connection)) {
+            require "../config/db_config.php";
+            mysqli_query($connection, $sql);
+        }
 	}
 }
 function agent_connected ($agent_number, $queue_name, $callerid) {
@@ -25,7 +29,11 @@ function agent_connected ($agent_number, $queue_name, $callerid) {
 	if ($MYSQL_BACKEND) {
 		$sql = "REPLACE INTO agent_call_status (agent, queue, callerid) VALUES (";
 		$sql.= sanitize($agent_number).", ".sanitize($queue_name).", ".sanitize($callerid).")";
-		$result = mysqli_query($connection, $sql) or die(mysql_error());
+        mysqli_query($connection, $sql);
+        if (mysqli_error($connection)) {
+            require "../config/db_config.php";
+            mysqli_query($connection, $sql);
+        }
 	}
 
 }
@@ -52,7 +60,11 @@ function queue_member_status($member_name, $queue, $location, $membership, $call
 			$sql = "REPLACE INTO queue_member_status (member,queue,location,membership,calls_taken,status,paused,penalty) VALUES (";
 			$sql.= sanitize($member_name).", ".sanitize($queue).", ".sanitize($location).", ".sanitize($membership).", ".sanitize($calls_taken).", ".sanitize($status).", ".sanitize($paused).", ".sanitize($penalty).")";
 		}
-		$result = mysqli_query($connection, $sql) or die(mysql_error());;
+        mysqli_query($connection, $sql);
+        if (mysqli_error($connection)) {
+            require "../config/db_config.php";
+            mysqli_query($connection, $sql);
+        }
 	}
 }
 function queue_member_paused($member_name, $paused, $queue) {
@@ -61,7 +73,11 @@ function queue_member_paused($member_name, $paused, $queue) {
 	if ($MYSQL_BACKEND) {
 		$sql = "UPDATE queue_member_status set paused = ".sanitize($paused)." WHERE queue = ".sanitize($queue)." AND member = ".sanitize($member_name);
 		echo "SQL: ".$sql."\n";
-		$result = @mysqli_query($connection, $sql, $connection) or die(mysql_error());
+        mysqli_query($connection, $sql);
+        if (mysqli_error($connection)) {
+            require "../config/db_config.php";
+            mysqli_query($connection, $sql);
+        }
 	}
 }
 function peer_status ($peer_name, $peer_status, $cause, $time, $cause_txt) {
@@ -91,11 +107,19 @@ function asterisk_link($chan_1, $chan_2, $clid_1, $clid_2) {
     if (substr($chan_1,0,5) == "Agent") {
         $sql = "INSERT INTO SmoothOperator.phone_calls (callerid, extension) VALUES ('".$clid_2."','".substr($chan_1,6)."')";
         echo "Running $sql";
-        mysqli_query($connection, $sql) or die(mysqli_error($connection));
+        mysqli_query($connection, $sql);
+        if (mysqli_error($connection)) {
+            require "../config/db_config.php";
+            mysqli_query($connection, $sql);
+        }
     } else if (substr($chan_2,0,5) == "Agent") {
         $sql = "INSERT INTO SmoothOperator.phone_calls (callerid, extension) VALUES ('".$clid_1."','".substr($chan_2,6)."')";
         echo "Running $sql";
-        mysqli_query($connection, $sql) or die(mysqli_error($connection));
+        mysqli_query($connection, $sql);
+        if (mysqli_error($connection)) {
+            require "../config/db_config.php";
+            mysqli_query($connection, $sql);
+        }
     }
 }
 function asterisk_unlink($chan_1, $chan_2, $clid_1, $clid_2) {
