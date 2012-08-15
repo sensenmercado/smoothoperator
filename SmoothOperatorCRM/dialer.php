@@ -210,7 +210,7 @@ if (isset($_GET['start_campaign'])) {
     
     
     /* The question here is do we actually want to send all numbers or just numbers based on a criteria */
-    $result = mysqli_query($connection, "SELECT distinct cleaned_number, id FROM customers WHERE list_id = ".sanitize($_GET['list_id']));
+    $result = mysqli_query($connection, "SELECT distinct cleaned_number, id FROM customers WHERE do_not_call = 0 and list_id = ".sanitize($_GET['list_id']));
     
     
     $link = mysql_connect($config_values['smoothtorque_db_host'], $config_values['smoothtorque_db_user'], $config_values['smoothtorque_db_pass']) or die(mysql_error());
