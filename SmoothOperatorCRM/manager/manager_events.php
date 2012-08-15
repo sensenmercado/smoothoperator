@@ -39,6 +39,16 @@ function agent_connected ($agent_number, $queue_name, $callerid) {
 }
 function queue_member_status($member_name, $queue, $location, $membership, $calls_taken, $last_call, $status, $paused, $penalty) {
 	global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
+    /* DEVICE STATES */
+    $device_states[1] = "Unknown";
+    $device_states[3] = "Not In Use";
+    $device_states[6] = "In Use";
+    $device_states[7] = "Busy";
+    $device_states[0] = "Invalid";
+    $device_states[2] = "Unavailable";
+    $device_states[5] = "Ringing";
+    $device_states[8] = "Ring In Use";
+    $device_states[4] = "On Hold";
 	echo "=====================================\n";
 	echo "Queue Member Status\n";
 	echo "=====================================\n";
@@ -49,6 +59,7 @@ function queue_member_status($member_name, $queue, $location, $membership, $call
 	echo "Calls Taken: $calls_taken\n";
 	echo "Last Call: $last_call\n";
 	echo "Status: $status\n";
+	echo "Text Status: ".$device_states[$status]."\n";
 	echo "Paused: $paused\n";
 	echo "Penalty: $penalty\n";
 	echo "=====================================\n";			
