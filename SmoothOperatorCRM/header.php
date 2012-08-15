@@ -59,7 +59,7 @@ if (!isset($user_level) || $user_level < 1) {
         
         <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.7.3.custom.css">
         <script>
-        top.location.href = "index.php" ;
+        top.location.href = "login.php" ;
         </script>
         <?
         //redirect("login.php");
