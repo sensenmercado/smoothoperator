@@ -259,7 +259,7 @@ if (isset($_GET['start_campaign'])) {
         $result = mysql_query("select time_zones.start, time_zones.end, prefix from SineDialer.time_zones, timezone_prefixes where timezone_prefixes.timezone = time_zones.id");
         
         while ($row = mysql_fetch_assoc($result)) {
-            $sql = "UPDATE SineDialer.number set start_time = '".$row['start']."', end_time = '".$row['end']."', status='new' WHERE phonenumber like '".$row['prefix']."%' and status = 'new_nodial'";
+            $sql = "UPDATE SineDialer.number set start_time = '".$row['start']."', end_time = '".$row['end']."', status='new' WHERE phonenumber like '".$row['prefix']."%' and status = 'new'";
             $result2 = mysql_query($sql) or die(mysql_error());
             $i++;
             if ($i % 30) {
