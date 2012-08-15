@@ -40,7 +40,21 @@
  * text - the text of the choice (i.e. 'apple' or 'pear')
  *
  */
-
+if (isset($_GET['update_order'])) {
+    require "header.php";
+    $result = mysqli_query($connection, "SELECT * FROM script_entries where script_id = ".sanitize($_GET['update_order'])." order by `order` asc");
+    $count = 1;
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo "Question: $count (was ".$row['order'].")<br />";
+        //print_pre($row);
+        $result_x = mysqli_query($connection, "UPDATE script_entries set `order` = ".$count." WHERE script_id = ".sanitize($_GET['update_order'])." AND `order` = ".$row['order']) or die(mysqli_error($connection));
+        //$sql = "UPDATE script_entries set order = ".$count." WHERE script_id = ".sanitize($_GET['update_order'])." AND order = ".$row['order'];
+        //echo $sql;
+        $count++;
+    }
+    require "footer.php";
+    exit(0);
+}
 if (isset($_GET['delete_sure'])) {
     require "header.php";
     ?><div class="thin_700px_box"><?
@@ -440,7 +454,7 @@ if (isset($_GET['edit'])) {
         <a href="#" onClick="display_adder();"><img src="images/add.png">&nbsp;Add Section</a>
         <br />
         <br />
-        <input type="button" value="Close Script" onclick="window.location='scripts.php';">
+        <input type="button" value="Save Script" onclick="window.location='scripts.php?update_order=<?=$_GET['edit']?>';">
         <br />
         <br />
         
