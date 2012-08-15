@@ -38,7 +38,7 @@ Soft Phone
 <br />
 <input id="call" type="button" disabled="true" value="Loading..." /><br />
 <input id="disconnect" type="button" disabled = "true" value="Disconnect caller" /><br />
-<input id="hangup" type="button" disabled="true" value="Logout" /><br />
+<input id="hangup" type="button" disabled="true" value="Pause" /><br />
 <br />
 <span id="status" style="font-family: arial"><img src="images/small_progress.gif"></span>
 
@@ -146,7 +146,7 @@ $(document).ready(function(){
                                                                        });
                                                     },
                                                     onHangup: function() {
-                                                    $("#call").attr("disabled", false).val("Login");
+                                                    $("#call").attr("disabled", false).val("Unpause");
                                                     $("#hangup").attr("disabled", true);
                                                     $("#disconnect").attr("disabled", true);
                                                     $("#status").html("Logged Out.  Please click the button above to log back in");
