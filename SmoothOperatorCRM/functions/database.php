@@ -992,6 +992,8 @@ if (!function_exists('create_missing_tables') ) {
             `state` varchar(250) default NULL,
             `maxcps` int(11) default '1',
             `maxchans` int(11) default '100',
+            `do_not_call` int(1) default '0',
+            `do_not_call_reason` text default NULL,
             `adminlists` varchar(2555) default NULL,
             `didlogin` varchar(255) default NULL,
             `interface_type` VARCHAR(255) default 'default',
