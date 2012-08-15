@@ -97,18 +97,23 @@ if (isset($_POST['username'])) {
 
 
 ?>
-<div style="#position: relative; #top: -50%;background: #cdf url('images/login-bg.jpg');height: 206px;width: 380px;margin-top: 90px;padding:0px;"><center>
-<table height="100%" style="padding-top:60px;">
+<div style="position: relative; #top: -50%;background: #cdf url('images/login_bg.png');height: 200px;width: 476px;margin: 0px;padding:0px;"><center>
+<table height="100%" style="padding-top:0px;">
 <tr>
+<td>
+<img src="images/crystal/apps/gpg.png" width="128" height="128">	
+</td>
 <td valign="center">
+<br />
 <form action="<?=$this_page?>" method="post">
-<b>Username:</b>
-<input class="rounded" type="text" name ="username">
+<b style="font-size: 20px">Username:</b>
+<input class="rounded"  style="font-size: 20px; width: 180px" type="text" name ="username">
 <br /><br />
-<b>Password:</b>
-<input class="rounded" type="password" name="password">
+<b style="font-size: 20px">Password:</b>
+<input class="rounded"  style="font-size: 20px; width: 180px" type="password" name="password">
 <br /><br />
-<input type="submit" value="login" style="width: 200px">
+<input type="submit" value="Log In" style="font-size: 40px;width: 300px; height: 40px;">
+<br /><br />
 </form>
 </td>
 </tr>
