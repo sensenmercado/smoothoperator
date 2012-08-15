@@ -217,6 +217,24 @@ if (isset($_GET['edit'])) {
             
         }
         
+        function add_priority(divName){
+            counter++;
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16 height='16' align='right'></a><select><option value='0'>Normal</option><option value='1'>High</option><option value='2'>Critical</option></select></div>";
+            document.getElementById(divName).appendChild(newdiv);
+        }
+        
+        function save_priority(){
+            new Ajax.Request('scripts.php?add_section=1',{parameters: {script_id: <?=$_GET['edit']?>, type: 4, statement: "", order: counter}, onSuccess: function(transport){
+                             if (transport.responseText) {
+                             var response = transport.responseText;
+                             entries_to_ids[counter] = parseInt(response);
+                             }
+                             }
+                             });
+            
+        }
+        
         function delete_entry_from_database(item) {
             //alert("Deleting item "+item+" from script <?=$_GET['edit']?> (id "+entries_to_ids[parseInt(item)]+")");
             new Ajax.Request('scripts.php?delete_section='+entries_to_ids[parseInt(item)]);
@@ -372,6 +390,7 @@ if (isset($_GET['edit'])) {
              *        1 - statement followed by a yes/no field
              *        2 - statement followed by a combo box field
              *        3 - statement followed by nothing
+             *        4 - priority
              */
             switch (jQuery("#input_type option:selected").val()) {
                 case '-1':
@@ -414,7 +433,7 @@ if (isset($_GET['edit'])) {
                                    );
                     break;
                 case '3':
-                    Dialog.confirm('Statement: <textarea id="statement_text" rows="10"></textarea>', {className:'alphacube', width:400, 
+                    Dialog.confirm('Statement: <textarea id="statement_text" rows="10"></textarea>', {className:'alphacube', width:400,
                                    okLabel: 'Add Section', cancelLabel: 'cancel',
                                    onOk:function(win){
                                    save_statement_followed_by_nothing(nl2br(jQuery('#statement_text').val()), 'dynamicInput');
@@ -424,6 +443,10 @@ if (isset($_GET['edit'])) {
                                    }
                                    );
                     break;
+                case '4':
+                    /* Priority */
+                    save_priority('dynamicInput');
+                    add_priority('dynamicInput');
                 default:
                     break;
                     
@@ -449,6 +472,7 @@ if (isset($_GET['edit'])) {
         <option value="1">statement followed by a yes/no field</option>
         <option value="2">statement followed by a combo box field</option>
         <option value="3">statement followed by nothing</option>
+        <option value="4">Record Priority Drop Down</option>
         <option value="-1">end of section/page</option>
         </select>
         
@@ -514,6 +538,11 @@ if (isset($_GET['edit'])) {
                         <script>add_statement_followed_by_nothing(<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput');</script>
                         <?
                         break;
+                    case 4:
+                        ?>
+                        <script>add_priority('dynamicInput');</script>
+                        <?
+                        break;
                     case -1:
                         ?>
                         <script>add_end_of_section('dynamicInput');</script>
@@ -549,7 +578,9 @@ if (isset($_GET['edit'])) {
         Bla        
         <div style="clear:both"></div>
         </div>
-        
+        <br />
+        <input type="button" value="Save Script" onclick="window.location='scripts.php?update_order=<?=$_GET['edit']?>';">
+
         <script>
         jQuery( "#name" ).eip( "scripts.php?save_field=1" );
         jQuery( "#description" ).eip( "scripts.php?save_field=1" );
