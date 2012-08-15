@@ -97,7 +97,7 @@ if (isset($_POST['username'])) {
 
 
 ?>
-<div style="#position: relative; #top: -50%;background: #cdf url('images/login-bg.jpg');height: 206px;width: 380px;margin-top: 90px;padding:0px;">
+<div style="#position: relative; #top: -50%;background: #cdf url('images/login-bg.jpg');height: 206px;width: 380px;margin-top: 90px;padding:0px;"><center>
 <table height="100%" style="padding-top:60px;">
 <tr>
 <td valign="center">
