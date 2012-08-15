@@ -344,6 +344,37 @@ if (!function_exists('so_check_databases')) {
         }
         
         
+        
+        /* Create the agent_call_status table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "agent_call_status")) {
+            $messages[] =  "agent_call_status table is missing...created";
+            $sql = "CREATE TABLE `agent_call_status` (
+            `agent` varchar(255) NOT NULL DEFAULT '',
+            `queue` varchar(255) DEFAULT NULL,
+            `callerid` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`agent`)
+            ) ENGINE=MyISAM DEFAULT CHARSET=latin1";
+            $result = mysqli_query($link, $sql);
+        }
+        
+        /* Create the queue_member_status table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "queue_member_status")) {
+            $messages[] =  "queue_member_status table is missing...created";
+            $sql = "CREATE TABLE `queue_member_status` (
+            `member` varchar(255) DEFAULT NULL,
+            `queue` varchar(255) DEFAULT NULL,
+            `location` varchar(255) DEFAULT NULL,
+            `membership` varchar(255) DEFAULT NULL,
+            `calls_taken` int(11) DEFAULT NULL,
+            `status` varchar(255) DEFAULT NULL,
+            `paused` int(11) DEFAULT NULL,
+            `penalty` int(11) DEFAULT NULL,
+            UNIQUE KEY `queue_member` (`member`,`queue`)
+            ) ENGINE=MyISAM DEFAULT CHARSET=latin1";
+            $result = mysqli_query($link, $sql);
+        }
+        
+        
         /* Create the queue_log table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "queue_log")) {
             $messages[] =  "queue_log table is missing...created";
