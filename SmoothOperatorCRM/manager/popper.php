@@ -18,9 +18,9 @@ echo "Starting up with hostname: $argv[1] username: $argv[2] password: $argv[3]\
  */
 require "../config/db_config.php";
 
-$MYSQL_BACKEND = false;
+$MYSQL_BACKEND = true;
 $FILE_BACKEND = false;
-$DEBUG_MANAGER = true;
+$DEBUG_MANAGER = false;
 $DEBUG_UNKNOWN = true;
 require "manager_events.php";
 
