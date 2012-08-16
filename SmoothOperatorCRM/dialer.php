@@ -257,15 +257,19 @@ if (isset($_GET['start_campaign'])) {
     if (1) {
         /* Get all of the timezone prefixes and times */
         $result = mysql_query("select time_zones.start, time_zones.end, prefix from SineDialer.time_zones, SineDialer.timezone_prefixes where timezone_prefixes.timezone = time_zones.id") or die(mysql_error());
-        
+        $total = mysql_num_rows($result);
         while ($row = mysql_fetch_assoc($result)) {
+            $count_total++;
             $sql = "UPDATE SineDialer.number set start_time = '".$row['start']."', end_time = '".$row['end']."', status='new' WHERE phonenumber like '".$row['prefix']."%' and status = 'new'";
             $result2 = mysql_query($sql) or die(mysql_error());
             $i++;
             if ($i % 30) {
+                $perc = round($i/$total*100);
                 ?>
                 <script>
                 jQuery("#start_status").text("Done updating timezone prefix <?=$row['prefix']?>");
+                jQuery( "#progress" ).progressbar( "option", "value", <?=$perc?> );
+
                 </script>
                 <?
                 flush();
