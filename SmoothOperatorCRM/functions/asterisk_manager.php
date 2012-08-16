@@ -89,7 +89,7 @@ if (!function_exists('asterisk_agent_change_status')) {
             
             fputs($socket, "Action: QueuePause\r\n");
             fputs($socket, "Interface: "."Agent/".$_SESSION['extension']."\r\n");
-            fputs($socket, "Paused: $pause\r\n");
+            fputs($socket, "Paused: $pause\r\n\r\n");
             do
             {
                 $line = fgets($socket, 4096);
