@@ -85,6 +85,7 @@ if (isset($_GET['save_members'])) {
             $agent_num = $row['extension'];
             $username = $row['username'];
             /* Add the new members to the queue */
+            $sqls[] = "Delete FROM SineDialer.queue_member_table WHERE interface = ".sanitize("Agent/".$agent_num);
             $sqls[] = "INSERT INTO SineDialer.queue_member_table (queue_name, membername, interface) VALUES ('so_crm_".sanitize($_GET['save_members'],false)."', ".sanitize($username).",".sanitize("Agent/".$agent_num).")";
             
             
