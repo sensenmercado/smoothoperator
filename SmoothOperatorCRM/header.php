@@ -115,6 +115,9 @@ for($i = 0; $i < sizeof($submenu_links_array[1]);$i++) {
 if ($_SESSION['user_level'] > 99 && $this_page == "cdr.php") {
     $allowed = true;
 }
+if ($_SESSION['user_level'] > 99 && $this_page == "realtime.php") {
+    $allowed = true;
+}
 unset($undefined_links_array);
 
 /* Get a list of pages that this user has access to but have no menu item */
