@@ -61,7 +61,7 @@ $(document).ready(function(){
                                       $("#call").attr("disabled", false).val("Login");
                                       },
                                       phone: {
-                                      wideband: true,
+                                      wideband: false,
                                       headset: true,
                                       
                                       onIncomingCall: function(event) {
