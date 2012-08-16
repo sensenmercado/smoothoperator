@@ -1,12 +1,12 @@
 <?
-if (!function_exists('asterisk_make_call')) {
+if (!function_exists('agent_dial')) {
     function agent_dial($number) {
         global $config_values;
         return asterisk_make_call($config_values['manager_host'],
                            $config_values['manager_user'],
                            $config_values['manager_pass'],
                            "Agent/".$_SESSION['extension'],
-                           "internal",
+                           "outbound",
                            $number,
                            "5551234",
                            "ClickToCall");
