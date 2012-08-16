@@ -106,10 +106,10 @@ if (isset($_POST['username'])) {
 <td valign="center">
 <br />
 <form action="<?=$this_page?>" method="post">
-<b style="font-size: 20px">Username:</b>
+<span style="font-size: 20px">Username:
 <input class="rounded"  style="font-size: 20px; width: 180px" type="text" name ="username">
 <br /><br />
-<b style="font-size: 20px">Password:</b>
+Password:</span>
 <input class="rounded"  style="font-size: 20px; width: 180px" type="password" name="password">
 <br /><br />
 <input type="submit" value="Log In" style="font-size: 40px;width: 300px; height: 40px;">
