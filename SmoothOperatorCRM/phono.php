@@ -16,8 +16,13 @@ if (isset($_GET['pause'])) {
     if ($_GET['pause'] != "true") {
         $_GET['pause'] = "false";
     }
-    print_r(asterisk_agent_change_status($_GET['pause']));
-    echo "done";
+    $result = asterisk_agent_change_status($_GET['pause']);
+//    echo "done";
+    if ($_GET['pause'] == "true") {
+        echo "Status: Agent Paused";
+    } else {
+        echo "Status: Receiving Calls";
+    }
     exit(0);
 }
 ?>
@@ -183,9 +188,11 @@ if (isset($_GET['debug'])) {
     <script>
     jQuery.noConflict();
     </script>
-    <div id="testing">
+    <div id="testing" style="text-align: center">
+Status: Receiving Calls
     </div>
-    <a href="#" onclick="jQuery('#testing').load('phono.php?pause=true')">Bla</a>
+    <a href="#" onclick="jQuery('#testing').load('phono.php?pause=true');">Pause</a>
+    <a href="#" onclick="jQuery('#testing').load('phono.php?pause=false');">Unpuse</a>
     <?
 }
 ?>
