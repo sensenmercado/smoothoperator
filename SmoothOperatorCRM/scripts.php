@@ -433,7 +433,7 @@ if (isset($_GET['edit'])) {
                                    );
                     break;
                 case '3':
-                    Dialog.confirm('Statement: <textarea id="statement_text" rows="10"></textarea>', {className:'alphacube', width:400,
+                    Dialog.confirm('Statement: <textarea id="statement_text" rows="10"></textarea><br />You can add things like {first_name}, {last_name} or {agent}', {className:'alphacube', width:400,
                                    okLabel: 'Add Section', cancelLabel: 'cancel',
                                    onOk:function(win){
                                    save_statement_followed_by_nothing(nl2br(jQuery('#statement_text').val()), 'dynamicInput');
