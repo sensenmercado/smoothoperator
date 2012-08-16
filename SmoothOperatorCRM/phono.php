@@ -1,5 +1,14 @@
 <?
 session_start();
+if (strlen($_SESSION['config_values']['phono_key']) <1) {
+    ?>
+    <script>
+    top.location.href = "login.php" ;
+    </script>
+    <?
+    require "footer.php";
+    exit(0);
+}
 ?>
 <html>
 <head>
