@@ -112,7 +112,7 @@ if (isset($_POST['username'])) {
 Password:</span>
 <input class="rounded"  style="font-size: 20px; width: 180px" type="password" name="password">
 <br /><br />
-<input type="submit" value="Log In" style="font-size: 40px;width: 300px; height: 40px;">
+<input type="submit" value="Log In" style="font-size: 20px;width: 300px; height: 40px;">
 <br /><br />
 </form>
 </td>
