@@ -39,13 +39,13 @@ if (isset($_GET['ajax'])) {
         while ($row = mysqli_fetch_assoc($result)) {
             switch ($row['status']) {
                 case 1:
-                    $status = "Waiting for call";
+                    $status = '<img src="images/clock.png">&nbsp;'."Waiting for call";
                     break;
                 case 3:
-                    $status = "On a call";
+                    $status = '<img src="images/phone.png">&nbsp;'."On a call";
                     break;
                 case 5:
-                    $status = "Offline";
+                    $status = '<img src="images/cross.png">&nbsp;'."Offline";
                     break;
                 default:
                     $status = "Unknown (".$row['status'].")";
