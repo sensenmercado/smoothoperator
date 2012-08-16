@@ -33,6 +33,19 @@ if (isset($_GET['ajax'])) {
      [paused] => 0
      [penalty] => 0
      )
+     
+     Device States:
+     
+     0: AST_DEVICE_UNKNOWN      Device is valid but channel didn't know state
+     1: AST_DEVICE_NOT_INUSE 	Device is not used
+     2: AST_DEVICE_INUSE        Device is in use
+     3: AST_DEVICE_BUSY         Device is busy
+     4: AST_DEVICE_INVALID      Device is invalid
+     5: AST_DEVICE_UNAVAILABLE 	Device is unavailable
+     6: AST_DEVICE_RINGING      Device is ringing
+     7: AST_DEVICE_RINGINUSE 	Device is ringing *and* in use
+     8: AST_DEVICE_ONHOLD       Device is on hold
+     
      */
     $result = mysqli_query($connection, "SELECT * FROM queue_member_status group by location");
     if (mysqli_num_rows($result) > 0) {
@@ -41,9 +54,13 @@ if (isset($_GET['ajax'])) {
                 case 1:
                     $status = '<img src="images/clock.png">&nbsp;'."Waiting for call";
                     break;
+                case 2:
                 case 3:
+                case 6:
+                case 7:
                     $status = '<img src="images/phone.png">&nbsp;'."On a call";
                     break;
+                case 4:
                 case 5:
                     $status = '<img src="images/cross.png">&nbsp;'."Offline";
                     break;
