@@ -9,6 +9,17 @@ if (strlen($_SESSION['config_values']['phono_key']) <1) {
     require "footer.php";
     exit(0);
 }
+$config_values = $_SESSION['config_values'];
+require "functions/asterisk_manager.php";
+if (isset($_GET['pause'])) {
+    echo "<pre>";
+    if ($_GET['pause'] != "true") {
+        $_GET['pause'] = "false";
+    }
+    print_r(asterisk_agent_change_status($_GET['pause']));
+    echo "done";
+    exit(0);
+}
 ?>
 <html>
 <head>
@@ -165,5 +176,18 @@ $(document).ready(function(){
                   })
 </script>
 </div>
+<?
+if (isset($_GET['debug'])) {
+    ?>
+    <script type='text/javascript' src='js/jquery-1.3.2.min.js'></script>
+    <script>
+    jQuery.noConflict();
+    </script>
+    <div id="testing">
+    </div>
+    <a href="#" onclick="jQuery('#testing').load('phono.php?pause=true')">Bla</a>
+    <?
+}
+?>
 </body>
 </html>
