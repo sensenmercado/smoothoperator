@@ -280,12 +280,14 @@ if ($this_page == "login.php") {
 ?>
 <center>
 <?if ($this_page != "login.php") {?>
+    <?
+    if (!isset($_GET['nomenu'])) {
+        ?>
     <div id="header">
     <center>
     <a href="index.php"><b><?=stripslashes($config_values['site_name'])?></b></a>
     </center>
     </div>
-    
     <div id="navigation">
     <ul>
     <?
@@ -308,6 +310,9 @@ if ($this_page == "login.php") {
     
     </ul>
     </div>
+        <?
+    }
+    ?>
     <script type="text/javascript">
     function draw_date() {
         var currentTime = new Date();
@@ -334,7 +339,17 @@ if ($this_page == "login.php") {
                          if (transport.responseText) {
                          var response = transport.responseText;
                          //alert("Success! \n\n" + response);
-                         window.location = "get_customer.php?pop=1&phone_number="+response;
+                         <?
+                         if ($_SESSION['popup_blocker'] == "1") {
+                         ?>
+                         window.open("get_customer.php?nomenu=1&pop=1&phone_number="+response);
+                         <?
+                         } else {
+                         ?>
+                         window.location = "get_customer.php?pop=1&phone_number="+response;                         
+                         <?
+                         }
+                         ?>
                          }
                          }
                          });
@@ -444,7 +459,22 @@ if ($this_page != "login.php") {
     ?>
     <div id="pop_call_div" style="display:none"><center>
     Phone Number to pop: <br /><br /><input type="text" id="number_to_pop" style="width: 70%;" name="number_to_pop"><br />
-    <input type="button" onclick="window.location='get_customer.php?pop=1&phone_number='+jQuery('#number_to_pop').val()" value="Pop">
+    
+    
+    
+    <?
+    if ($_SESSION['popup_blocker'] == "1") {
+        ?>
+        <input type="button" onclick="window.open('get_customer.php?pop=1&nomenu=1&phone_number='+jQuery('#number_to_pop').val());window.location=index.php;" value="Pop">
+        <?
+    } else {
+        ?>
+        <input type="button" onclick="window.location='get_customer.php?pop=1&phone_number='+jQuery('#number_to_pop').val()" value="Pop">
+        <?
+    }
+    ?>
+
+    
     </div>
     <div id="hangup" title="Hungup" style="display:none"><center><br />Call Ended...</div>
     <script>

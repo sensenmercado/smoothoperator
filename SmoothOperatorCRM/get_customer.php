@@ -70,7 +70,11 @@ if (isset($_GET['save'])) {
         
         $sql = $sql1."cleaned_number) ".$sql2.sanitize($clean).")";
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-        redirect("list_customers.php");
+        if (isset($_GET['nomenu'])) {
+            echo '<script>window.close();</script>';
+        } else {
+            redirect("list_customers.php");
+        }
     } else {
         /* This is an update of an existing entry */
         $sql = "UPDATE customers SET ";
@@ -94,7 +98,12 @@ if (isset($_GET['save'])) {
         $sql = substr($sql,0,strlen($sql)-1);
         $sql.= " WHERE id = ".sanitize($_POST['id']);
         $result = mysqli_query($connection, $sql);
-        redirect("list_customers.php");
+        if (isset($_GET['nomenu'])) {
+            echo '<script>window.close();</script>';
+        } else {
+            redirect("list_customers.php");
+        }
+
     }
     require "footer.php";
     exit(0);
@@ -474,7 +483,12 @@ function display_customer_edit($row) {
     $fields_to_hide[] = "job_id";
     $fields_to_hide[] = "new";
     $textarea_fields[] = "notes";
-    echo '<form id="customer_form" action="get_customer.php?save=1" method="post">';
+    if (isset($_GET['nomenu'])) {
+        echo '<form id="customer_form" action="get_customer.php?save=1&nomenu=1" method="post">';
+    } else {
+        echo '<form id="customer_form" action="get_customer.php?save=1" method="post">';
+    }
+    
     echo '<table class="sample">';
     foreach ($row as $field=>$value) {
         if (in_array($field, $fields_to_hide)) {
@@ -493,6 +507,15 @@ function display_customer_edit($row) {
 }
 ?>
 <?
+if (isset($_GET['nomenu'])) {
+    ?>
+    <script>
+    if (window.opener && !window.opener.closed) {
+        window.opener.location.href = "index.php";
+    }
+    </script>
+    <?
+}
 $phone_number = clean_number($_GET[phone_number]);
 $result = mysqli_query($connection, "SELECT * FROM SmoothOperator.customers WHERE cleaned_number = '$phone_number'");
 if (mysqli_num_rows($result) > 0) {
