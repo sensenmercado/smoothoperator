@@ -52,7 +52,7 @@ if (isset($_GET['update_order'])) {
         //echo $sql;
         $count++;
     }
-    redirect("scripts.php");
+    //redirect("scripts.php");
     require "footer.php";
     exit(0);
 }
