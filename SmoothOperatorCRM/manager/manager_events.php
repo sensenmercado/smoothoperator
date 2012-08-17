@@ -149,6 +149,23 @@ function asterisk_unlink($chan_1, $chan_2, $clid_1, $clid_2) {
 	echo "CallerID 1: $clid_1\n";
 	echo "CallerID 2: $clid_2\n";
 	echo "=====================================\n";
+    if (substr($chan_1,0,5) == "Agent") {
+        $sql = "INSERT INTO SmoothOperator.hangups (extension) VALUES ('".substr($chan_1,6)."')";
+        echo "Running $sql";
+        mysqli_query($connection, $sql);
+        if (mysqli_error($connection)) {
+            require "../config/db_config.php";
+            mysqli_query($connection, $sql);
+        }
+    } else if (substr($chan_2,0,5) == "Agent") {
+        $sql = "INSERT INTO SmoothOperator.hangups (extension) VALUES ('".substr($chan_2,6)."')";
+        echo "Running $sql";
+        mysqli_query($connection, $sql);
+        if (mysqli_error($connection)) {
+            require "../config/db_config.php";
+            mysqli_query($connection, $sql);
+        }
+    }
 }
 function new_state($peer_name, $state, $callerid, $callerid_name, $unique_id) {
 	global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
