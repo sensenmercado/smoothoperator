@@ -316,6 +316,7 @@ if (!function_exists('so_check_databases')) {
             `customer_id` int(11) unsigned NOT NULL,
             `script_id` int(11) DEFAULT NULL,
             `question_number` int(11) DEFAULT NULL,
+            `question_datetime` timestamp NULL default NULL on update CURRENT_TIMESTAMP,
             `answer` text
             ) ENGINE=InnoDB";
             $result = mysqli_query($link, $sql);
