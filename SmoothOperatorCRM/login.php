@@ -49,7 +49,7 @@ if (isset($_POST['username'])) {
     draw_progress("Please wait, logging you in...");
     $username = sanitize($_POST['username']);
     $password = sanitize(sha1($_POST['password']));
-    $result = mysqli_query($connection, "SELECT first_name, last_name, security_level, extension, id FROM users WHERE username = $username AND password = $password");
+    $result = mysqli_query($connection, "SELECT * FROM users WHERE username = $username AND password = $password");
     if (mysqli_num_rows($result) < 1) {
         $messages[] = "Incorrect Username/Password";
         $_SESSION['messages'] = $messages;
