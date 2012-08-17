@@ -42,14 +42,14 @@
  */
 if (isset($_GET['update_order'])) {
     require "header.php";
-    $result = mysqli_query($connection, "SELECT * FROM script_entries where script_id = ".sanitize($_GET['update_order'])." order by `order` asc");
+    $result = mysqli_query($connection, "SELECT * FROM script_entries where script_id = ".sanitize($_GET['update_order'])." order by `id` asc");
     $count = 1;
     while ($row = mysqli_fetch_assoc($result)) {
         //echo "Question: $count (was ".$row['order'].")<br />";
         //print_pre($row);
         $result_x = mysqli_query($connection, "UPDATE script_entries set `order` = ".$count." WHERE id = ".$row['id']) or die(mysqli_error($connection));
         //$sql = "UPDATE script_entries set order = ".$count." WHERE script_id = ".sanitize($_GET['update_order'])." AND order = ".$row['order'];
-        echo $sql;
+        //echo $sql;
         $count++;
     }
     //redirect("scripts.php");
