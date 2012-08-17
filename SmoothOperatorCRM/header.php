@@ -451,8 +451,8 @@ if ($this_page != "login.php") {
     var hangup_dialog = jQuery('#hangup').dialog({
                                                  modal: true,
                                                  autoOpen: false,
-                                                 show: 'fold',
-                                                 hide: 'fold',
+                                                 show: 'slide',
+                                                 hide: 'clip',
                                                  open: function(event, ui) {
                                                  setTimeout(function(){
                                                             jQuery('#hangup').dialog('close');
