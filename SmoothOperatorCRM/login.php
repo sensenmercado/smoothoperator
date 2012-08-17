@@ -73,6 +73,7 @@ if (isset($_POST['username'])) {
     $_SESSION['user_id'] = $row['id'];
     $_SESSION['user_level'] = $security_level;
     $_SESSION['extension'] = $row['extension'];
+    $_SESSION['popup_blocker'] = $row['popup_blocker'];
     $_SESSION['calls'] = 0;
     $_SESSION['messages'] = $messages;
     $_SESSION['revision'] = REVISION;
