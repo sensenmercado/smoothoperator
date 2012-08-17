@@ -180,7 +180,6 @@ $(document).ready(function(){
                                    });
                   })
 </script>
-</div>
 <?
 if (isset($_GET['debug'])) {
     ?>
@@ -188,13 +187,20 @@ if (isset($_GET['debug'])) {
     <script>
     jQuery.noConflict();
     </script>
+    <br />
+    <br />
+Status:
+    <br />    <br />
+
     <div id="testing" style="text-align: center">
-Status: Receiving Calls
+Receiving Calls
     </div>
-    <a href="#" onclick="jQuery('#testing').load('phono.php?pause=true');">Pause</a>
-    <a href="#" onclick="jQuery('#testing').load('phono.php?pause=false');">Unpuse</a>
+    <br />
+    <a href="#" id="pause" onclick="jQuery('#testing').load('phono.php?pause=true');jQuery('#pause').hide();jQuery('#unpause').show();">&nbsp;<img src="images/control_pause_blue.png">Pause</a><br />
+    <a href="#" id="unpause" onclick="jQuery('#testing').load('phono.php?pause=false');jQuery('#pause').hide();jQuery('#unpause').show();" style="display: none">Unpause</a>
     <?
 }
 ?>
+</div>
 </body>
 </html>

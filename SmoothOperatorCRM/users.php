@@ -192,6 +192,24 @@ if (isset($_GET['new'])) {
                 
             } else if (in_array($field, $fields_to_hide)) {
                 echo '<input type="hidden" name="'.$field.'" value="'.$value.'">';
+            } else if ($field == "popup_blocker") {
+                echo '<tr><td>'.clean_field_name($field).'</td>';
+                echo '<td><select name="'.$field.'">';
+                //                .$value.
+                switch ($value) {
+                    case "0":
+                        $blocked = " ";
+                        $unblocked = " selected ";
+                        break;
+                    default:
+                        $blocked = " selected ";
+                        $unblocked = "  ";
+                        break;
+                        
+                }
+                echo '<option value="1" '.$blocked.'>Popup Blocker Disabled</option>';
+                echo '<option value="0" '.$unblocked.'>Popup Blocker Enabled</option>';
+                echo '</select></td></tr>';
             } else if (in_array($field, $textarea_fields)) {
                 echo '<tr><td colspan="2">'.clean_field_name($field).'</td></tr>';
                 echo '<tr><td colspan="2"><textarea cols="60" rows="10" name="'.$field.'"></textarea></td></tr>';
@@ -269,6 +287,24 @@ if (isset($_GET['edit'])) {
             } else if (in_array($field, $textarea_fields)) {
                 echo '<tr><td colspan="2">'.clean_field_name($field).'</td></tr>';
                 echo '<tr><td colspan="2"><textarea cols="60" rows="10" name="'.$field.'">'.$value.'</textarea></td></tr>';
+            } else if ($field == "popup_blocker") {
+                echo '<tr><td>'.clean_field_name($field).'</td>';
+                echo '<td><select name="'.$field.'">';
+//                .$value.
+                switch ($value) {
+                        case "0":
+                        $blocked = " ";
+                        $unblocked = " selected ";
+                        break;
+                        default:
+                        $blocked = " selected ";
+                        $unblocked = "  ";
+                        break;
+                        
+                }
+                echo '<option value="1" '.$blocked.'>Popup Blocker Disabled</option>';
+                echo '<option value="0" '.$unblocked.'>Popup Blocker Enabled</option>';
+                echo '</select></td></tr>';
             } else if ($field == "extension") {
                 //echo '<tr><td>Agent Number</td><td><input type="text" name="'.$field.'" value="'.$value.'"></td></tr>';
                 
@@ -327,6 +363,7 @@ if (isset($_GET['edit'])) {
 <th>Name</th>
 <th>SIP Account</th>
 <th>Security Level</th>
+<th>Popup Blocker</th>
 <th>Delete</th>
 </tr>
 <?
@@ -338,7 +375,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo "<td>$row[first_name] $row[last_name]</td>";
     echo "<td>$row[extension]</td>";
     echo "<td>";
-    switch ($row[security_level]) {
+    switch ($row['security_level']) {
         case 100:
             echo "Super User";
             break;
@@ -354,10 +391,25 @@ while ($row = mysqli_fetch_assoc($result)) {
             
     }
     echo "</td>";
+
+    
+    echo "<td>";
+    switch ($row['popup_blocker']) {
+        case 0:
+            echo "Popup Blocker Enabled";
+            break;
+        case 1:
+            echo "Popup Blocker Disabled";
+            break;
+    }
+    echo "</td>";
+
+    
+    
+    
     
     echo '<td>';
     ?><a href="#" onclick="show_confirm('Are you really sure you want to delete <b><?=$row[username]?></b>?', 'Delete', 'users.php?delete_sure=<?=$row[id]?>');return false;"><?
-    //echo '<a href="users.php?delete='.$row[id].'">';
     echo '<img src="images/delete.png"></td>';
     echo '</tr>';
 }
