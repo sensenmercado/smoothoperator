@@ -157,6 +157,18 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
         
+        
+        /* Create the hangups table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "hangups")) {
+            $messages[] =  "Hangups table is missing...created";
+            $sql = "CREATE TABLE `hangups` (
+            `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
+            `extension` VARCHAR(255) default NULL,
+            PRIMARY KEY  (`id`)
+            ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
+        }
+        
         /* Create the scripts table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "scripts")) {
             $messages[] =  "Scripts table is missing...created";
