@@ -336,10 +336,34 @@ if ($this_page == "login.php") {
                          //alert("Success! \n\n" + response);
                          window.location = "get_customer.php?pop=1&phone_number="+response;
                          }
-                         },
-                         onFailure: function(){ alert('Something went wrong...') }
+                         }
                          });
         
+        new Ajax.Request('check_hangups.php?extension=<?=$_SESSION['extension']?>',
+                         {
+                         method:'get',
+                         onSuccess: function(transport){
+                         if (transport.responseText) {
+                         hangup_dialog.dialog('open');
+                         }
+                         }
+                         });
+        
+        
+        
+        
+        /*
+         $('#dialog').html('some message');
+         $('#dialog').dialog({
+         autoOpen: true,
+         show: "blind",
+         hide: "explode",
+         modal: true,
+         open: function(event, ui) {
+         $('#dialog').delay(3000).dialog('close');
+         }
+         });
+         */
         new Ajax.Request('check_job.php?user_id=<?=$_SESSION['user_id']?>',
                          {
                          method:'get',
@@ -350,8 +374,7 @@ if ($this_page == "login.php") {
                          //alert("Success! \n\n" + response);
                          //window.location = "get_customer.php?pop=1&phone_number="+response;
                          }
-                         },
-                         onFailure: function(){ alert('Something went wrong...') }
+                         }
                          });
         
         
@@ -423,6 +446,22 @@ if ($this_page != "login.php") {
     Phone Number to pop: <br /><br /><input type="text" id="number_to_pop" style="width: 70%;" name="number_to_pop"><br />
     <input type="button" onclick="window.location='get_customer.php?pop=1&phone_number='+jQuery('#number_to_pop').val()" value="Pop">
     </div>
+    <div id="hangup" title="Hungup" style="display:none"><center><br />Call Ended...</div>
+    <script>
+    var hangup_dialog = jQuery('#hangup').dialog({
+                                                 modal: true,
+                                                 autoOpen: false,
+                                                 show: 'fold',
+                                                 hide: 'fold',
+                                                 open: function(event, ui) {
+                                                 setTimeout(function(){
+                                                            jQuery('#hangup').dialog('close');
+                                                            }, 1500);
+                                                 }
+                                                 });
+    
+    </script>
+
     <span style="color:#00f"><a href="#" onclick="jQuery('#pop_call_div').dialog({modal: true});">Pop Up Call</a></span>
     <?
     echo '&nbsp;<span id="status_bar" style="display: inline-block;color: #f00;font-weight: bold;"></span>';
