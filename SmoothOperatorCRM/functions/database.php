@@ -128,16 +128,16 @@ if (!function_exists('so_check_databases')) {
             `report_date` date NOT NULL,
             `report_time` time NOT NULL DEFAULT '00:00:00',
             `campaign_id` int(11) NOT NULL DEFAULT '0',
-            `new` int(11) DEFAULT NULL,
-            `answered` int(11) DEFAULT NULL,
-            `busy` int(11) DEFAULT NULL,
-            `congested` int(11) DEFAULT NULL,
-            `amd` int(11) DEFAULT NULL,
-            `unknown` int(11) DEFAULT NULL,
-            `pressed1` int(11) DEFAULT NULL,
-            `hungup` int(11) DEFAULT NULL,
-            `timeout` int(11) DEFAULT NULL,
-            PRIMARY KEY (`report_date`,`report_hour`,`campaign_id`)
+            `new` int(11) NOT NULL DEFAULT '0',
+            `answered` int(11) DEFAULT '0',
+            `busy` int(11) NOT NULL DEFAULT '0',
+            `congested` int(11) NOT NULL DEFAULT '0',
+            `amd` int(11) NOT NULL DEFAULT '0',
+            `unknown` int(11) NOT NULL DEFAULT '0',
+            `pressed1` int(11) NOT NULL DEFAULT '0',
+            `hungup` int(11) NOT NULL DEFAULT '0',
+            `timeout` int(11) NOT NULL DEFAULT '0',
+            PRIMARY KEY (`report_date`,`report_time`,`campaign_id`)
             ) ENGINE=InnoDB";
             $result = mysqli_query($link, $sql);
         }
