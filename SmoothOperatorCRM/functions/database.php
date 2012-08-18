@@ -126,7 +126,7 @@ if (!function_exists('so_check_databases')) {
             $messages[] =  "campaign_stats table is missing...created";
             $sql = "CREATE TABLE `campaign_stats` (
             `report_date` date NOT NULL,
-            `report_hour` time NOT NULL DEFAULT '00:00:00',
+            `report_time` time NOT NULL DEFAULT '00:00:00',
             `campaign_id` int(11) NOT NULL DEFAULT '0',
             `new` int(11) DEFAULT NULL,
             `answered` int(11) DEFAULT NULL,
