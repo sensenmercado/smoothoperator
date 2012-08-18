@@ -121,6 +121,31 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
         
+        /* Create the campaign_stats table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "campaign_stats")) {
+            $messages[] =  "campaign_stats table is missing...created";
+            $sql = "CREATE TABLE `campaign_stats` (
+            `report_date` date NOT NULL,
+            `report_hour` time NOT NULL DEFAULT '00:00:00',
+            `campaign_id` int(11) NOT NULL DEFAULT '0',
+            `new` int(11) DEFAULT NULL,
+            `answered` int(11) DEFAULT NULL,
+            `busy` int(11) DEFAULT NULL,
+            `congested` int(11) DEFAULT NULL,
+            `amd` int(11) DEFAULT NULL,
+            `unknown` int(11) DEFAULT NULL,
+            `pressed1` int(11) DEFAULT NULL,
+            `hungup` int(11) DEFAULT NULL,
+            `timeout` int(11) DEFAULT NULL,
+            PRIMARY KEY (`report_date`,`report_hour`,`campaign_id`)
+            ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
+        }
+        
+        
+        
+        
+        
         /* Create the customer_dispositions table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "customer_dispositions")) {
             $messages[] =  "Customer Dispositions table is missing...created";
