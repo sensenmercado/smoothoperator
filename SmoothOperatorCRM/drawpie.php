@@ -15,12 +15,12 @@ google.setOnLoadCallback(drawChart);
 function drawChart() {
     var data = google.visualization.arrayToDataTable
     ([
-     ['Date', 'Timeout', 'Answered', 'Busy', 'Congested', 'Answer Machine', 'Unknown', 'Pressed 1', 'Hungup', 'New'],
+     ['Date', 'Timeout', 'Answered', 'Busy', 'Congested', 'Answer Machine', 'Unknown', 'New'],
      <?
      $result = mysqli_query($connection, "SELECT (concat(report_date,' ',report_time)) as date, new, answered, busy, congested, amd, unknown, pressed1, hungup, timeout FROM campaign_stats WHERE campaign_id = 100003") or die(mysqli_error($connection));
      $text = "";
      while ($row = mysqli_fetch_assoc($result)) {
-        $text .= "['".$row['date']."',  ".$row['timeout'].",".$row['answered'].",".$row['busy'].",".$row['congested'].",".$row['amd'].",".$row['unknown'].",".$row['pressed1'].",".$row['hungup'].",".$row['new']."],";
+        $text .= "['".$row['date']."',  ".$row['timeout'].",".($row['answered']+$row['pressed1']+$row['hungup']).",".$row['busy'].",".$row['congested'].",".$row['amd'].",".$row['unknown'].",".$row['new']."],";
      }
      echo substr($text,0,-1);
      ?>
@@ -28,6 +28,8 @@ function drawChart() {
     
     var options = {
     title: 'Number Status',
+    areaOpacity: 1,
+    colors: ['#444444','#88ff88','#0000ff','#ff0000','#ffff00','#888888','#eeffee'],
     isStacked: true,
     hAxis: {title: 'Year',  titleTextStyle: {color: 'red'}}
     };
