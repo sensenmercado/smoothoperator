@@ -15,12 +15,12 @@ google.setOnLoadCallback(drawChart);
 function drawChart() {
     var data = google.visualization.arrayToDataTable
     ([
-     ['Date', 'New', 'Answered', 'Busy', 'Congested', 'Answer Machine', 'Unknown', 'Pressed 1', 'Hungup', 'Timeout'],
+     ['Date', 'Timeout', 'Answered', 'Busy', 'Congested', 'Answer Machine', 'Unknown', 'Pressed 1', 'Hungup', 'New'],
      <?
      $result = mysqli_query($connection, "SELECT (concat(report_date,' ',report_time)) as date, new, answered, busy, congested, amd, unknown, pressed1, hungup, timeout FROM campaign_stats WHERE campaign_id = 100003") or die(mysqli_error($connection));
      $text = "";
      while ($row = mysqli_fetch_assoc($result)) {
-        $text .= "['".$row['date']."',  ".$row['new'].",".$row['answered'].",".$row['busy'].",".$row['congested'].",".$row['amd'].",".$row['unknown'].",".$row['pressed1'].",".$row['hungup'].",".$row['timeout']."],";
+        $text .= "['".$row['date']."',  ".$row['timeout'].",".$row['answered'].",".$row['busy'].",".$row['congested'].",".$row['amd'].",".$row['unknown'].",".$row['pressed1'].",".$row['hungup'].",".$row['new']."],";
      }
      echo substr($text,0,-1);
      ?>
