@@ -3,8 +3,10 @@
 /* This script is designed to be run from cron once every ten minutes to      */
 /* update the status of campaign number allocations.                          */
 
-require "../config/db_config.php";
-require "../functions/sanitize.php";
+$current_directory = dirname(__FILE__);
+
+require $current_directory."/../config/db_config.php";
+require $current_directory."/../functions/sanitize.php";
 $result = mysqli_query($connection, "SELECT parameter, value FROM SmoothOperator.config");
 while ($row = mysqli_fetch_assoc($result)) {
     $config_values[$row['parameter']] = $row['value'];
