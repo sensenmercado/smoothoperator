@@ -543,7 +543,7 @@ if (isset($_GET['nomenu'])) {
     <?
 }
 $phone_number = clean_number($_GET[phone_number]);
-$result = mysqli_query($connection, "SELECT * FROM SmoothOperator.customers WHERE cleaned_number = '$phone_number'");
+$result = mysqli_query($connection, "SELECT * FROM SmoothOperator.customers WHERE cleaned_number = '$phone_number' order by id desc limit 1");
 if (mysqli_num_rows($result) > 0) {
     if (1||mysqli_num_rows($result) == 1) {
         // Single Row Found
