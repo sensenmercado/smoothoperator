@@ -7,6 +7,14 @@ if (isset($_GET['reschedule_number'])) {
     require "footer.php";
     exit(0);
 }
+if (isset($_GET['appointment'])) {
+    require "header.php";
+    $sql = "INSERT INTO appointments (phone_number, reschedule_datetime, user) VALUES (".sanitize($_GET['phone_number']).",".sanitize($_GET['date']." ".$_GET['time']).", ".$_SESSION['user_id'].")";
+    $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+    redirect("get_customer.php?from=".$_GET['from']."&phone_number=".$_GET['phone_number'],3,"Setting appointment for ".$_GET['time']." on ".$_GET['date']);
+    require "footer.php";
+    exit(0);
+}
 if (isset($_GET['save_script'])) {
     require "config/db_config.php";
     require "functions/sanitize.php";
@@ -103,7 +111,7 @@ if (isset($_GET['save'])) {
         } else {
             redirect("list_customers.php");
         }
-
+        
     }
     require "footer.php";
     exit(0);
@@ -365,7 +373,7 @@ function display_customer_edit($row) {
     global $connection;
     //print_pre($row);
     ?>
-
+    
     <?
     if ($row['new'] == 1) {
         ?>
@@ -401,7 +409,7 @@ function display_customer_edit($row) {
                              }
                              });
             jQuery("#customer_form").submit();
-
+            
             
         }
         
@@ -451,13 +459,13 @@ function display_customer_edit($row) {
         
         <?
         /*foreach ($_GET as $field=>$value) {
-            ?>alert('<?=$field."=".$value?>');<?
-        }*/
+         ?>alert('<?=$field."=".$value?>');<?
+         }*/
         ?>
-        jQuery("#content").append('<div id="reschedule" style="display: none"><center><form id="reschedule_form">Date: <input id="date-picker" name="date-picker"><br />Time: <input type="text" id="time-picker" name="time-picker" value="<?=@date("H:i")?>" style="width: 50px"><input id="done" type="submit" value="Reschedule Call"></form></div>');
+        jQuery("#content").append('<div id="reschedule" style="display: none" title="Reschedule Call"><center><form id="reschedule_form">Date: <input id="date-picker" name="date-picker"><br />Time: <input type="text" id="time-picker" name="time-picker" value="<?=@date("H:i")?>" style="width: 50px"><input id="done" type="submit" value="Reschedule Call"></form></div>');
         jQuery('#date-picker').datepicker({
-                                     dateFormat : 'yy-mm-dd'
-                                     });
+                                          dateFormat : 'yy-mm-dd'
+                                          });
         jQuery("#reschedule").dialog();
         jQuery("#reschedule_form").submit(function(e) {
                                           e.preventDefault();
@@ -467,7 +475,24 @@ function display_customer_edit($row) {
                                           //jQuery("#reschedule").close();
                                           });
     }
-
+    function appointment(){
+        
+        <?
+        /*foreach ($_GET as $field=>$value) {
+         ?>alert('<?=$field."=".$value?>');<?
+         }*/
+        ?>
+        jQuery("#content").append('<div id="appointment" style="display: none" title="Create Appointment"><center><form id="appointment_form">Date: <input id="date-picker" name="date-picker"><br />Time: <input type="text" id="time-picker" name="time-picker" value="<?=@date("H:i")?>" style="width: 50px"><input id="done" type="submit" value="Create Appointment"></form></div>');
+        jQuery('#date-picker').datepicker({
+                                          dateFormat : 'yy-mm-dd'
+                                          });
+        jQuery("#appointment").dialog();
+        jQuery("#appointment_form").submit(function(e) {
+                                           e.preventDefault();
+                                           window.location = "get_customer.php?appointment=1&phone_number=<?=$_GET['phone_number']?>&from=list&date="+jQuery("#date-picker").val()+"&time="+jQuery("#time-picker").val();
+                                           });
+    }
+    
     </script>
     <?
     
@@ -503,6 +528,7 @@ function display_customer_edit($row) {
     echo '<tr><td colspan="2"><input type="hidden" value="save changes"></td></tr>';
     echo '</form>';
     echo "</table>";
+    echo '<center><a href="javascript:void(0)" onclick="appointment();">Create an appointment</a>';
     echo "</div>";
 }
 ?>
@@ -543,7 +569,6 @@ if (mysqli_num_rows($result) > 0) {
         display_script($row);
         display_dispositions();
         display_customer_edit($row);
-        
         /* Display interractions */
         
         if (isset($_GET['interractions'])) {
@@ -594,7 +619,6 @@ if (mysqli_num_rows($result) > 0) {
     display_script($row);
     display_dispositions();
     display_customer_edit($row);
-    
 }
 
 require "footer.php";
