@@ -371,6 +371,19 @@ if (!function_exists('so_check_databases')) {
         }
         
         
+        /* Create the appointments table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "appointments")) {
+            $messages[] =  "appointments table is missing...created";
+            $sql = "CREATE TABLE `appointments` (
+            `phone_number` varchar(255) NOT NULL,
+            `reschedule_datetime` datetime NOT NULL,
+            `user` INT(11) NOT NULL,
+            `done` int(11) NOT NULL DEFAULT '0'
+            ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
+        }
+        
+        
         /* Create the module_files table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "module_files")) {
             $messages[] =  "Module_files table is missing...created";
