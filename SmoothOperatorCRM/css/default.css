@@ -1504,6 +1504,23 @@ body,
 
 
 
+a.new_button_home {
+    background: url("../images/buttongr_bg.png");
+    width: 208px;
+    height: 127px;
+    display: inline-block;
+    padding: 15px;
+    font-family: “Myriad Pro”, Arial, Helvetica, Tahoma, sans-serif;
+    font-size: 20px;
+    line-height: 40px;
+    color: #555;
+    margin: 20px;
+}
+
+a.new_button_home:hover{
+    background: url("../images/buttoni_bg.png");
+    color: #00f;
+}
 
 
 a.new_button {
@@ -1523,6 +1540,16 @@ a.new_button:hover{
     background: url("../images/buttoni_bg.png");
     color: #00f;
 }
+
+
+
+
+
+
+
+
+
+
 
 #menu-floater	{float:left; height:50%; margin-bottom:-300px;}
 #menu-content	{clear:both; height:600px; position:relative;}
