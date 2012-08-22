@@ -212,6 +212,7 @@ if (isset($_GET['start_campaign'])) {
     /* The question here is do we actually want to send all numbers or just numbers based on a criteria */
     $result = mysqli_query($connection, "SELECT distinct cleaned_number, id FROM customers WHERE do_not_call = 0 and list_id = ".sanitize($_GET['list_id']));
     
+    mysqli_query($connection, "REPLACE INTO campaigns (campaign_id, list_id, job_id, started_by) VALUES (".sanitize($_GET['start_campaign']).", ".sanitize($_GET['list_id']).",".sanitize(($_GET['start_campaign']-100000)).",".sanitize($_SESSION['user_id']).")");
     
     $link = mysql_connect($config_values['smoothtorque_db_host'], $config_values['smoothtorque_db_user'], $config_values['smoothtorque_db_pass']) or die(mysql_error());
     $result_x = mysql_query("DELETE FROM SineDialer.number WHERE status = 'new' and campaignid = ".sanitize($_GET['start_campaign']));
@@ -240,7 +241,7 @@ if (isset($_GET['start_campaign'])) {
         $i++;
         $perc = round($i/$total*100);
         //$perc = 30;
-        if ($i % 30) {
+        if ($i % 300) {
             ?>
             <script>
             jQuery("#start_status").text("Moving <?=$row['cleaned_number']?> to dialer");
@@ -263,7 +264,7 @@ if (isset($_GET['start_campaign'])) {
             $sql = "UPDATE SineDialer.number set start_time = '".$row['start']."', end_time = '".$row['end']."' WHERE phonenumber like '".$row['prefix']."%' and status = 'new'";
             $result2 = mysql_query($sql) or die(mysql_error());
             $i++;
-            if ($i % 30) {
+            if ($i % 300) {
                 $perc = round($i/$total*100);
                 ?>
                 <script>
