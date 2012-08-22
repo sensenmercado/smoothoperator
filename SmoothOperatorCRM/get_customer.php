@@ -9,7 +9,7 @@ if (isset($_GET['reschedule_number'])) {
 }
 if (isset($_GET['appointment'])) {
     require "header.php";
-    $sql = "INSERT INTO appointments (phone_number, reschedule_datetime, user) VALUES (".sanitize($_GET['phone_number']).",".sanitize($_GET['date']." ".$_GET['time']).", ".$_SESSION['user_id'].")";
+    $sql = "INSERT INTO appointments (customer_id, reschedule_datetime, user) VALUES (".sanitize($_GET['customer_id']).",".sanitize($_GET['date']." ".$_GET['time']).", ".$_SESSION['user_id'].")";
     $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     redirect("get_customer.php?from=".$_GET['from']."&phone_number=".$_GET['phone_number'],3,"Setting appointment for ".$_GET['time']." on ".$_GET['date']);
     require "footer.php";
@@ -489,7 +489,7 @@ function display_customer_edit($row) {
         jQuery("#appointment").dialog();
         jQuery("#appointment_form").submit(function(e) {
                                            e.preventDefault();
-                                           window.location = "get_customer.php?appointment=1&phone_number=<?=$_GET['phone_number']?>&from=list&date="+jQuery("#date-picker").val()+"&time="+jQuery("#time-picker").val();
+                                           window.location = "get_customer.php?appointment=1&phone_number=<?=$_GET['phone_number']?>&customer_id=<?=$row['id']?>&from=list&date="+jQuery("#date-picker").val()+"&time="+jQuery("#time-picker").val();
                                            });
     }
     
@@ -542,8 +542,32 @@ if (isset($_GET['nomenu'])) {
     </script>
     <?
 }
-$phone_number = clean_number($_GET[phone_number]);
-$result = mysqli_query($connection, "SELECT * FROM SmoothOperator.customers WHERE cleaned_number = '$phone_number' order by id desc limit 1");
+
+/* ========================== */
+/* Load a phone number record */
+/* ========================== */
+$phone_number = clean_number($_GET['phone_number']);
+
+/* Get the details of the campaigns that relate to the job the agent is in */
+$sql = "SELECT list_id FROM SmoothOperator.campaigns WHERE job_id = ".sanitize($_SESSION['job_id']);
+$result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+if (mysqli_num_rows($result) > 0) {
+    /* We have found details - extract the list ID they're working on */
+    $row = mysqli_fetch_assoc($result);
+    $list_id = $row['list_id'];
+    $get_number_sql = "SELECT * FROM SmoothOperator.customers WHERE cleaned_number = '$phone_number' and list_id = $list_id order by id desc limit 1";
+    $result = mysqli_query($connection, $get_number_sql);
+    if (mysqli_num_rows($result) == 0) {
+        /* If there is no number in that list, try doing a generic search */
+        $get_number_sql = "SELECT * FROM SmoothOperator.customers WHERE cleaned_number = '$phone_number' order by id desc limit 1";
+        $result = mysqli_query($connection, $get_number_sql);
+    }
+} else {
+    // This user is either not in a job or the job they are in has not run a campaign
+    $get_number_sql = "SELECT * FROM SmoothOperator.customers WHERE cleaned_number = '$phone_number' order by id desc limit 1";
+    $result = mysqli_query($connection, $get_number_sql);
+}
+
 if (mysqli_num_rows($result) > 0) {
     if (1||mysqli_num_rows($result) == 1) {
         // Single Row Found
