@@ -11,9 +11,11 @@ $sql = "SELECT * FROM job_members, jobs WHERE job_members.job_id = jobs.id and j
 $result = mysqli_query($connection, $sql);
 if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
+    $_SESSION['job_id'] = $row['job_id'];
     echo $row['name'];
 } else {
     echo "No Job";
+    $_SESSION['job_id'] = -1;
 }
 
 ?>
