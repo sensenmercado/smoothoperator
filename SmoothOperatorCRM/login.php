@@ -46,7 +46,7 @@ if (!defined('REVISION')) {
 /* If someone has started logging in start checking out the system */
 if (isset($_POST['username'])) {
     /* First start by checking/creating the necessary databases        */
-    draw_progress("Please wait, logging you in...");
+    //draw_progress("Please wait, logging you in...");
     $username = sanitize($_POST['username']);
     $password = sanitize(sha1($_POST['password']));
     $result = mysqli_query($connection, "SELECT * FROM users WHERE username = $username AND password = $password");
@@ -78,8 +78,8 @@ if (isset($_POST['username'])) {
     $_SESSION['messages'] = $messages;
     $_SESSION['revision'] = REVISION;
     $result = mysqli_query($connection, "SELECT parameter, value FROM config");
-    while ($row = mysqli_fetch_assoc($result)) {
-        $config_values[$row['parameter']] = $row['value'];
+    while ($row2 = mysqli_fetch_assoc($result)) {
+        $config_values[$row2['parameter']] = $row2['value'];
     }
     
     $_SESSION['config_values'] = $config_values;
@@ -90,8 +90,11 @@ if (isset($_POST['username'])) {
     $_SESSION['agent_num'] = $row_agents['agent_num'];
     $_SESSION['agent_pass'] = $row_agents['pin'];
     
-    
-    redirect("outer_header.php", 0);
+    if ($row['use_softphone'] == 1) {
+        redirect("outer_header.php", 0);
+    } else {
+        redirect("index.php", 0);
+    }
     require "footer.php";
     exit(0);
 }
