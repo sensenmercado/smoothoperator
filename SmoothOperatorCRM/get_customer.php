@@ -18,6 +18,7 @@ if (isset($_GET['appointment'])) {
 if (isset($_GET['save_script'])) {
     require "config/db_config.php";
     require "functions/sanitize.php";
+    session_start();
     /*    $sql = "INSERT INTO customers (`phone`, `cleaned_number`) VALUES (".sanitize($_POST['phonenumber']).",".sanitize(clean_number($_POST['phonenumber'])).")";
      $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
      $new_id = mysqli_insert_id($connection);
@@ -27,7 +28,7 @@ if (isset($_GET['save_script'])) {
         if (strlen($field) > 5 && substr($field, 0, 5) == "field") {
             $fieldnum = substr($field,5);
             echo $fieldnum.":".$value."\n";
-            $sql = "REPLACE INTO script_results (customer_id, script_id, question_number, answer) VALUES (".sanitize($_GET['customer_id']).",".sanitize($_GET['script_id']).",".sanitize($fieldnum).",".sanitize($value).")";
+            $sql = "REPLACE INTO script_results (customer_id, script_id, question_number, answer, job_id, user_id) VALUES (".sanitize($_GET['customer_id']).",".sanitize($_GET['script_id']).",".sanitize($fieldnum).",".sanitize($value).",".sanitize($_SESSION['job_id']).",".$_SESSION['user_id'].")";
             mysqli_query($connection, $sql) or die(mysqli_error($connection));
         }
     }
