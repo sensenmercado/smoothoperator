@@ -397,9 +397,10 @@ if (isset($_GET['edit'])) {
 <th>Username</th>
 <th>Password</th>
 <th>Name</th>
-<th>SIP Account</th>
-<th>Security Level</th>
+<th>Account</th>
+<th>Security</th>
 <th>Popup Blocker</th>
+<th>Softphone</th>
 <th>Delete</th>
 </tr>
 <?
@@ -440,6 +441,16 @@ while ($row = mysqli_fetch_assoc($result)) {
     }
     echo "</td>";
 
+    echo "<td>";
+    switch ($row['use_softphone']) {
+        case 0:
+            echo '<img src="images/cross.png">';
+            break;
+        case 1:
+            echo '<img src="images/tick.png">';
+            break;
+    }
+    echo "</td>";
     
     
     
