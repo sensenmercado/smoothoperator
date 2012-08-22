@@ -44,9 +44,11 @@ if (isset($_GET['save_record'])) {
     exit(0);
 }
 if (isset($_GET['save_disposition'])) {
+    session_start();
     require "config/db_config.php";
     require "functions/sanitize.php";
-    $sql = "INSERT INTO customer_dispositions (contact_date_time, disposition, user_id, extension, customer_id) VALUES (NOW(), ".sanitize($_POST['disposition']).", ".sanitize($_POST['user_name']).", ".sanitize($_POST['extension']).", ".sanitize($_POST['id']).")";
+    $sql = "INSERT INTO SmoothOperator.customer_dispositions (contact_date_time, disposition, user_id, extension, customer_id, job_id) VALUES (NOW(), ".sanitize($_POST['disposition']).", ".sanitize($_POST['user_name']).", ".sanitize($_POST['extension']).", ".sanitize($_POST['id']).", ".sanitize($_SESSION['job_id']).")";
+    //    echo $sql;
     //$result = mysqli_query($connection, $sql);
     
     //$sql = "INSERT INTO customers (`phone`) VALUES (".sanitize($_POST['phonenumber']).")";
@@ -395,11 +397,11 @@ function display_customer_edit($row) {
                                               }
                                               });
                              
-                             
                              new Ajax.Request('get_customer.php?save_disposition=1',{parameters: {id: window.newID, disposition: disposition, user_name: "<?=$_SESSION['user_name']?>", extension: "<?=$_SESSION['extension']?>"}, onSuccess: function(transport){
                                               if (transport.responseText) {
                                               var response = transport.responseText;
                                               //entries_to_ids[counter] = parseInt(response);
+                                              //alert(response);
                                               window.location="get_customer.php?phone_number=<?=$_GET['phone_number']?>&disposition_set=1";
                                               }
                                               }
@@ -425,27 +427,35 @@ function display_customer_edit($row) {
         <script>
         
         function save_disposition(disposition){
-            
             new Ajax.Request('get_customer.php?save_disposition=1',{parameters: {id: <?=$row['id']?>, disposition: disposition, user_name: "<?=$_SESSION['user_name']?>", extension: "<?=$_SESSION['extension']?>"}, onSuccess: function(transport){
                              if (transport.responseText) {
+                             //alert("x");
                              var response = transport.responseText;
                              //entries_to_ids[counter] = parseInt(response);
                              jQuery('#status_bar').text("Saved Disposition");
                              jQuery('#status_bar').fadeIn(1000);
-                             jQuery('#status_bar').fadeOut(5000);
+                             jQuery('#status_bar').fadeOut(1000);
                              //alert(response);
                              }
+                             new Ajax.Request('get_customer.php?save_script=1&customer_id='+<?=$row['id']?>+'&'+jQuery("#script_form").serialize(),{
+                                              onSuccess: function(transport){
+                                              if (transport.responseText) {
+                                              var response = transport.responseText;
+                                              jQuery('#dynamicInput3').fadeOut(1000);
+                                              //alert(response);
+                                              }
+                                              //alert("x");
+                                              jQuery("#customer_form").submit();
+                                              
+                                              }
+                                              
+                                              });
+                             
+                             
                              }
                              });
-            new Ajax.Request('get_customer.php?save_script=1&customer_id='+<?=$row['id']?>+'&'+jQuery("#script_form").serialize(),{onSuccess: function(transport){
-                             if (transport.responseText) {
-                             var response = transport.responseText;
-                             jQuery('#dynamicInput3').fadeOut(3000);
-                             //alert(response);
-                             }
-                             }
-                             });
-            jQuery("#customer_form").submit();
+            //sleep(3)
+            //
         }
         </script>
         <?
