@@ -370,12 +370,26 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
         
+        /* Create the campaigns table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "campaigns")) {
+            $messages[] =  "campaigns table is missing...created";
+            $sql = "CREATE TABLE `campaigns` (
+            `campaign_id` int(11) NOT NULL,
+            `list_id` int(11) NOT NULL,
+            `job_id` int(11) NOT NULL,
+            `started_by` int(11) NOT NULL,
+            PRIMARY KEY  (`campaign_id`)
+            ) ENGINE=InnoDB";
+            
+            $result = mysqli_query($link, $sql);
+        }
+        
         
         /* Create the appointments table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "appointments")) {
             $messages[] =  "appointments table is missing...created";
             $sql = "CREATE TABLE `appointments` (
-            `phone_number` varchar(255) NOT NULL,
+            `customer_id` INT(11) NOT NULL,
             `reschedule_datetime` datetime NOT NULL,
             `user` INT(11) NOT NULL,
             `done` int(11) NOT NULL DEFAULT '0'
