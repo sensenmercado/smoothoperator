@@ -522,6 +522,7 @@ if (!function_exists('so_check_databases')) {
             `extension` varchar(255) default NULL,
             `security_level` varchar(255) NOT NULL default '0',
             `popup_blocker` int(1) NOT NULL default '1',
+            `use_softphone` int(1) NOT NULL default '1',
             PRIMARY KEY  (`id`)
             ) ENGINE=InnoDB";
             $result = mysqli_query($link, $sql);
