@@ -124,6 +124,9 @@ if ($_SESSION['user_level'] > 99 && $this_page == "drawpie.php") {
 if ($_SESSION['user_level'] > 99 && $this_page == "dispositions.php") {
     $allowed = true;
 }
+if ($_SESSION['user_level'] > 99 && $this_page == "script_results.php") {
+    $allowed = true;
+}
 unset($undefined_links_array);
 
 /* Get a list of pages that this user has access to but have no menu item */
