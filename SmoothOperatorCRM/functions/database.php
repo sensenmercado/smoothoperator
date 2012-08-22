@@ -142,10 +142,6 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
         
-        
-        
-        
-        
         /* Create the customer_dispositions table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "customer_dispositions")) {
             $messages[] =  "Customer Dispositions table is missing...created";
@@ -154,6 +150,7 @@ if (!function_exists('so_check_databases')) {
             `contact_date_time` datetime default NULL,
             `disposition` int(11) default NULL,
             `user_id` int(11) default NULL,
+            `job_id` int(11) default NULL,
             `extension` int(11) default NULL
             ) ENGINE=InnoDB";
             $result = mysqli_query($link, $sql);
