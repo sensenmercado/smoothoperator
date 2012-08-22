@@ -210,6 +210,24 @@ if (isset($_GET['new'])) {
                 echo '<option value="1" '.$blocked.'>Popup Blocker Disabled</option>';
                 echo '<option value="0" '.$unblocked.'>Popup Blocker Enabled</option>';
                 echo '</select></td></tr>';
+            } else if ($field == "use_softphone") {
+                echo '<tr><td>'.clean_field_name($field).'</td>';
+                echo '<td><select name="'.$field.'">';
+                //                .$value.
+                switch ($value) {
+                    case "0":
+                        $blocked = " ";
+                        $unblocked = " selected ";
+                        break;
+                    default:
+                        $blocked = " selected ";
+                        $unblocked = "  ";
+                        break;
+                        
+                }
+                echo '<option value="1" '.$blocked.'>Use Softphone</option>';
+                echo '<option value="0" '.$unblocked.'>Don\'t Use Softphone</option>';
+                echo '</select></td></tr>';
             } else if (in_array($field, $textarea_fields)) {
                 echo '<tr><td colspan="2">'.clean_field_name($field).'</td></tr>';
                 echo '<tr><td colspan="2"><textarea cols="60" rows="10" name="'.$field.'"></textarea></td></tr>';
@@ -290,13 +308,13 @@ if (isset($_GET['edit'])) {
             } else if ($field == "popup_blocker") {
                 echo '<tr><td>'.clean_field_name($field).'</td>';
                 echo '<td><select name="'.$field.'">';
-//                .$value.
+                //                .$value.
                 switch ($value) {
-                        case "0":
+                    case "0":
                         $blocked = " ";
                         $unblocked = " selected ";
                         break;
-                        default:
+                    default:
                         $blocked = " selected ";
                         $unblocked = "  ";
                         break;
@@ -304,6 +322,24 @@ if (isset($_GET['edit'])) {
                 }
                 echo '<option value="1" '.$blocked.'>Popup Blocker Disabled</option>';
                 echo '<option value="0" '.$unblocked.'>Popup Blocker Enabled</option>';
+                echo '</select></td></tr>';
+            } else if ($field == "use_softphone") {
+                echo '<tr><td>'.clean_field_name($field).'</td>';
+                echo '<td><select name="'.$field.'">';
+                //                .$value.
+                switch ($value) {
+                    case "0":
+                        $blocked = " ";
+                        $unblocked = " selected ";
+                        break;
+                    default:
+                        $blocked = " selected ";
+                        $unblocked = "  ";
+                        break;
+                        
+                }
+                echo '<option value="1" '.$blocked.'>Use Softphone</option>';
+                echo '<option value="0" '.$unblocked.'>Don\'t Use Softphone</option>';
                 echo '</select></td></tr>';
             } else if ($field == "extension") {
                 //echo '<tr><td>Agent Number</td><td><input type="text" name="'.$field.'" value="'.$value.'"></td></tr>';
