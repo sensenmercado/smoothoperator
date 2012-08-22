@@ -47,7 +47,7 @@ if (isset($_GET['save_disposition'])) {
     session_start();
     require "config/db_config.php";
     require "functions/sanitize.php";
-    $sql = "INSERT INTO SmoothOperator.customer_dispositions (contact_date_time, disposition, user_id, extension, customer_id, job_id) VALUES (NOW(), ".sanitize($_POST['disposition']).", ".sanitize($_POST['user_name']).", ".sanitize($_POST['extension']).", ".sanitize($_POST['id']).", ".sanitize($_SESSION['job_id']).")";
+    $sql = "INSERT INTO SmoothOperator.customer_dispositions (contact_date_time, disposition, user_id, extension, customer_id, job_id) VALUES (NOW(), ".sanitize($_POST['disposition']).", ".sanitize($_POST['user_id']).", ".sanitize($_POST['extension']).", ".sanitize($_POST['id']).", ".sanitize($_SESSION['job_id']).")";
     //    echo $sql;
     //$result = mysqli_query($connection, $sql);
     
@@ -397,7 +397,7 @@ function display_customer_edit($row) {
                                               }
                                               });
                              
-                             new Ajax.Request('get_customer.php?save_disposition=1',{parameters: {id: window.newID, disposition: disposition, user_name: "<?=$_SESSION['user_name']?>", extension: "<?=$_SESSION['extension']?>"}, onSuccess: function(transport){
+                             new Ajax.Request('get_customer.php?save_disposition=1',{parameters: {id: window.newID, disposition: disposition, user_id: "<?=$_SESSION['user_id']?>", extension: "<?=$_SESSION['extension']?>"}, onSuccess: function(transport){
                                               if (transport.responseText) {
                                               var response = transport.responseText;
                                               //entries_to_ids[counter] = parseInt(response);
@@ -427,7 +427,7 @@ function display_customer_edit($row) {
         <script>
         
         function save_disposition(disposition){
-            new Ajax.Request('get_customer.php?save_disposition=1',{parameters: {id: <?=$row['id']?>, disposition: disposition, user_name: "<?=$_SESSION['user_name']?>", extension: "<?=$_SESSION['extension']?>"}, onSuccess: function(transport){
+            new Ajax.Request('get_customer.php?save_disposition=1',{parameters: {id: <?=$row['id']?>, disposition: disposition, user_id: "<?=$_SESSION['user_id']?>", extension: "<?=$_SESSION['extension']?>"}, onSuccess: function(transport){
                              if (transport.responseText) {
                              //alert("x");
                              var response = transport.responseText;
