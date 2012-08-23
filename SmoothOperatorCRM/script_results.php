@@ -115,7 +115,7 @@ if (!isset($_GET['search'])) {
                     $number = $row['cleaned_number'];
                     echo '<tr>';
                     echo '<td>'.$row['question_datetime'].'</td>';
-                    echo '<td><a href="script_results.php?show_lead=1&job='.$_POST['job'].'&search=1&from_date='.$_POST['from_date'].'&to_date='.$_POST['to_date'].'&customer_id='.$row['customer_id'].'"><img src="images/magnifier.png">&nbsp;'.$row['cleaned_number'].'</a></td>';
+                    echo '<td><a href="script_results.php?show_lead=1&job='.$_POST['job'].'&search=1&from_date='.$_POST['from_date'].'&to_date='.$_POST['to_date'].'&customer_id='.$row['customer_id'].'"><img src="images/magnifier.png">&nbsp;'.format_phone_number($row['cleaned_number']).'</a></td>';
                     echo '<td>'.$row['username'].'</td>';
                     echo '<td>'.$row['first_name']." ".$row['last_name'].'</td>';
                     echo '</tr>';
