@@ -1,5 +1,10 @@
 <?
-require "header.php";
+if (!isset($_GET['download'])) {
+    require "header.php";
+} else {
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+}
 if (!isset($_GET['search'])) {
     ?>
     <script>
@@ -72,7 +77,27 @@ if (!isset($_GET['search'])) {
     if (mysqli_num_rows($result) == 0) {
         echo "There are no script results!";
     } else {
-        if (isset($_GET['show_lead'])) {
+        if (isset($_GET['download'])) {
+            header("Content-type: application/csv");
+            header("Content-Disposition: attachment; filename=Dispositions_Job_".$_POST['job']."_".$_POST['from_date']."-".$_POST['to_date'].".csv");
+            header("Pragma: no-cache");
+            header("Expires: 0");
+            $header_printed = false;
+            while ($row = mysqli_fetch_assoc($result)) {
+                if ($header_printed == false) {
+                    $header_printed = true;
+                    foreach ($row as $field=>$value) {
+                        echo $field.",";
+                    }
+                    echo "Unused\n";
+                }
+                $row['disposition'] = $disps[$row['disposition']];
+                foreach ($row as $field=>$value) {
+                    echo sanitize($value, false).",";
+                }
+                echo "''\n";
+            }
+        } else if (isset($_GET['show_lead'])) {
             ?>
             <div class="thin_90perc_box">
             <table class="sample2" width="100%">
