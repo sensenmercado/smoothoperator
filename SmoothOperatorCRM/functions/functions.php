@@ -52,6 +52,11 @@ if (!function_exists('sec2hms') ) {
 
   }
 }
+if (!function_exists('format_phone_number')) {
+    function format_phone_number ($phone) {
+        return preg_replace('~(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})$~', '($1) $2-$3', $phone);
+    }
+}
 if (!function_exists('extractXML') ) {
     function extractXML($xml) {
 
