@@ -91,7 +91,7 @@ if (!isset($_GET['search'])) {
                 //print_pre($row);
                 echo '<tr>';
                 echo '<td>'.$row['question_datetime'].'</td>';
-                echo '<td>'.$row['cleaned_number'].'</td>';
+                echo '<td>'.format_phone_number($row['cleaned_number']).'</td>';
                 echo '<td>'.$row['statement'].'</td>';
                 echo '<td>'.$row['answer'].'</td>';
                 echo '<td>'.$row['username'].'</td>';
