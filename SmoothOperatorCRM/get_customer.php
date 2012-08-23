@@ -29,6 +29,7 @@ if (isset($_GET['save_script'])) {
             $fieldnum = substr($field,5);
             echo $fieldnum.":".$value."\n";
             $sql = "REPLACE INTO script_results (customer_id, script_id, question_number, answer, job_id, user_id) VALUES (".sanitize($_GET['customer_id']).",".sanitize($_GET['script_id']).",".sanitize($fieldnum).",".sanitize($value).",".sanitize($_SESSION['job_id']).",".$_SESSION['user_id'].")";
+            echo $sql;
             mysqli_query($connection, $sql) or die(mysqli_error($connection));
         }
     }
@@ -126,7 +127,7 @@ if (!isset($_GET['phone_number'])) {
 if (!is_numeric($_GET['phone_number'])) {
     $_GET['phone_number'] = preg_replace('/[^0-9]/',"",$_GET['phone_number']);
 }
-function display_script($customer) {
+function display_script($customer, $question_number) {
     global $connection;
     ?>
     <script>
@@ -147,7 +148,7 @@ function display_script($customer) {
     
     function add_statement_followed_by_text_field(statement, divName){
         counter++;
-        jQuery("#"+divName).append(nl2br(statement)+" <br><input type='text' name='field"+counter+"'><br />");
+        jQuery("#"+divName).append(nl2br(statement)+" <br><input type='text' name='field"+counter+"'>");
     }
     
     /* Add priority */
@@ -186,7 +187,7 @@ function display_script($customer) {
     
     function add_statement_followed_by_nothing(statement, divName){
         counter++;
-        jQuery("#"+divName).append(nl2br(statement)+"<br />");
+        jQuery("#"+divName).append(nl2br(statement)+"");
     }
     function nl2br(dataStr) {
         return dataStr.replace(/(\r\n|\r|\n)/g, "<br />");
@@ -204,9 +205,11 @@ function display_script($customer) {
     $result_script = mysqli_query($connection, $sql);
     $row_script = mysqli_fetch_assoc($result_script);
     $script_id = $row_script['id'];
-    $result_entries = mysqli_query($connection, "SELECT * FROM script_entries WHERE script_id = ".$script_id);
+    $result_entries = mysqli_query($connection, "SELECT * FROM script_entries WHERE script_id = ".$script_id." AND `order` = ".$question_number) or die(mysqli_error($connection));
     $x = 0;
-    if (mysqli_num_rows($result_entries) > 0) {
+    if (mysqli_num_rows($result_entries) == 0) {
+        
+    } else {
         while ($row_entries = mysqli_fetch_assoc($result_entries)) {
             $row_entries['statement'] = str_replace("{first_name}","<b>".$customer['first_name']."</b>",$row_entries['statement']);
             $row_entries['statement'] = str_replace("{last_name}","<b>".$customer['last_name']."</b>",$row_entries['statement']);
@@ -272,6 +275,37 @@ function display_script($customer) {
             }
             
         }
+    }
+    /* Clean the query string so that we remove any previous references to question_number */
+    foreach ($_GET as $field=>$value) {
+        if ($field != "question_number") {
+            $query_string.=$field."=".$value."&";
+        }
+    }
+    $query_string1 = $query_string."question_number=".($question_number+1);
+    $query_string0 = $query_string."question_number=".($question_number-1);
+    
+    
+    
+    
+    if ($question_number > 1) {
+        ?>
+        <script>
+        
+        jQuery("#dynamicInput2").append('<br /><a class="button_link" href="#" onclick="new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(1000);window.location=\'get_customer.php?<?=$query_string0?>\';}}});"><img src="images/resultset_previous.png">Previous Question</a>&nbsp;');
+        
+        jQuery("#dynamicInput2").append('<a class="button_link" href="get_customer.php?<?=$query_string1?>">Next Question&nbsp;<img src="images/resultset_next.png"></a>');
+        
+        </script>
+        <?
+    } else {
+        ?>
+        <script>
+        
+        jQuery("#dynamicInput2").append('<br /><a class="button_link" href="get_customer.php?<?=$query_string1?>">Next Question&nbsp;<img src="images/resultset_next.png"></a>');
+        
+        </script>
+        <?
     }
     
     ?>
@@ -601,7 +635,12 @@ if (mysqli_num_rows($result) > 0) {
             $result = mysqli_query($connection, "INSERT INTO interractions (contact_date_time, notes, customer_id) VALUES (NOW(), 'Opened by ".$_SESSION['user_name']." on extension: ".$_SESSION['extension']."', ".$row['id'].")");
             
         }
-        display_script($row);
+        if (isset($_GET['question_number'])) {
+            $question_number = 0+$_GET['question_number'];
+        } else {
+            $question_number = 1;
+        }
+        display_script($row, $question_number);
         display_dispositions();
         display_customer_edit($row);
         /* Display interractions */
@@ -651,7 +690,12 @@ if (mysqli_num_rows($result) > 0) {
     }
     //print_pre($_SESSION);
     //print_r($row);exit(0);
-    display_script($row);
+    if (isset($_GET['question_number'])) {
+        $question_number = 0+$_GET['question_number'];
+    } else {
+        $question_number = 1;
+    }
+    display_script($row, $question_number);
     display_dispositions();
     display_customer_edit($row);
 }
