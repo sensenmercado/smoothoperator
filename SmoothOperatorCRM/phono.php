@@ -102,6 +102,7 @@ $(document).ready(function(){
                                       //alert("My SIP address is sip:" + this.sessionId);
                                       //$("#status").text(this.sessionId);
                                       $("#status").html("Click the button below to log in");
+                                      $("#testing").text("Waiting for login");
                                       $("#call").attr("disabled", false).val("Login");
                                       },
                                       phone: {
@@ -185,7 +186,8 @@ jQuery.noConflict();
 Status:</p>
 
 <div id="testing" style="text-align: center;font-family: arial;color: #f00">
-Waiting for login
+Waiting for login<br />
+<br /><a href="#" onclick="location.reload();">Reload Softphone</a>
 </div>
 <br />
 </div>
