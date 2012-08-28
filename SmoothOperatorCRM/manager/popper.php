@@ -170,7 +170,7 @@ while (1) {
                             echo "Seconds: $seconds\n";
                             echo "UniqueID: $uniqueid\n";
                             echo "=================\n";
-                            
+                            status($channel, $calleridnum, $calleridname, $channelstate, $channelstatedesc);
                         } else if ($eventname == "Leave") {
                         } else if ($eventname == "Hangup") {
                             /*
