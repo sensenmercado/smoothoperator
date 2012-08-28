@@ -50,6 +50,9 @@ if (isset($_GET['ajax'])) {
     $result = mysqli_query($connection, "SELECT * FROM queue_member_status group by location");
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
+            if ($row['paused'] == 1) {
+                $row['status'] = 10;
+            }
             switch ($row['status']) {
                 case 1:
                     $status = '<img src="images/clock.png">&nbsp;'."Waiting for call";
@@ -63,6 +66,9 @@ if (isset($_GET['ajax'])) {
                 case 4:
                 case 5:
                     $status = '<img src="images/cross.png">&nbsp;'."Offline";
+                    break;
+                case 10:
+                    $status = '<img src="images/control_pause_blue.png">&nbsp;'."Paused";
                     break;
                 default:
                     $status = "Unknown (".$row['status'].")";
