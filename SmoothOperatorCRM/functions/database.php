@@ -358,6 +358,26 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
         
+        
+        /* Create the channels table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "channels")) {
+            $messages[] =  "Channels table is missing...created";
+            $sql = "CREATE TABLE `channels` (
+            `uniqueid` varchar(255) NOT NULL DEFAULT '',
+            `app_data` varchar(255) DEFAULT NULL,
+            `cid_name` varchar(255) DEFAULT NULL,
+            `cid_num` varchar(255) DEFAULT NULL,
+            `duration` varchar(255) DEFAULT NULL,
+            `accountcode` varchar(255) DEFAULT NULL,
+            `bridged_channel` varchar(255) DEFAULT NULL,
+            `bridged_uniqueid` varchar(255) DEFAULT NULL,
+            `event_list` varchar(255) DEFAULT NULL,
+            `list_items` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`uniqueid`)
+            ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
+        }
+        
         /* Create the reschedule table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "reschedule")) {
             $messages[] =  "reschedule table is missing...created";
