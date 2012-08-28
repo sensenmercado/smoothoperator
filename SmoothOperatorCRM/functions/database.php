@@ -364,7 +364,6 @@ if (!function_exists('so_check_databases')) {
             $messages[] =  "Channels table is missing...created";
             $sql = "CREATE TABLE `channels` (
             `uniqueid` varchar(255) NOT NULL DEFAULT '',
-            `app_data` varchar(255) DEFAULT NULL,
             `cid_name` varchar(255) DEFAULT NULL,
             `cid_num` varchar(255) DEFAULT NULL,
             `duration` varchar(255) DEFAULT NULL,
@@ -373,6 +372,7 @@ if (!function_exists('so_check_databases')) {
             `bridged_uniqueid` varchar(255) DEFAULT NULL,
             `channel_state` int(11) DEFAULT NULL,
             `channel_state_desc` varchar(255) DEFAULT NULL,
+            `channel` varchar(255) DEFAULT NULL,
             PRIMARY KEY (`uniqueid`)
             ) ENGINE=InnoDB";
             $result = mysqli_query($link, $sql);
