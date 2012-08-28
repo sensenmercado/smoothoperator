@@ -38,7 +38,7 @@ while (1) {
     $x = 0;
     while (!feof($socket)) {
         $x++;
-        fputs($socket, "Action: Ping\r\n\r\n");
+        fputs($socket, "Action: CoreShowChannels\r\n\r\n");
         sleep(1);
         unset ($resp);
         unset($wrets);
@@ -140,11 +140,26 @@ while (1) {
                         } else if ($eventname == "Join") {
                         } else if ($eventname == "Leave") {
                         } else if ($eventname == "Hangup") {
+                        } else if ($eventname == "CoreShowChannelsComplete") {
+                        } else if ($eventname == "CoreShowChannel") {
+                            echo "====================\n";
+                            echo "Unique ID: ".$uniqueid."\n";
+                            echo "App Data: ".$application_data."\n";
+                            echo "CID Num: ".$calleridnum."\n";
+                            echo "CID Name: ".$calleridname."\n";
+                            echo "Duration: ".$duration."\n";
+                            echo "AcctCode: ".$accountcode."\n";
+                            echo "Bridged Channel: ".$bridgedchannel."\n";
+                            echo "Bridged Unique ID: ".$bridgeduniqueid."\n";
+                            echo "Event List: ".$eventlist."\n";
+                            echo "List Items: ".$listitems."\n";
+                            echo "======================================\n";
+
+                            core_show_channels($uniqueid,$application_data,$calleridnum,$calleridname,$duration,$accountcode,$bridgedchannel,$bridgeduniqueid,$eventlist,$listitems);                            
                         } else if ($eventname == "Shutdown") {
                             // Server is shutting down - force a reconnect
                             fclose($socket);
-                        }
-                        else if ($eventname == "QueueMemberPaused") {
+                        } else if ($eventname == "QueueMemberPaused") {
                             queue_member_paused($member_name, $paused, $queue);
                         } else if ($eventname == "QueueMemberAdded") {
                             queue_member_status($member_name, $queue, $location, $membership, $calls_taken, $last_call, $status, $paused, $penalty);                        
@@ -218,12 +233,43 @@ while (1) {
                         unset ($channel_state);
                         unset ($channel_state_desc);
                         unset ($connected_line_num);
-                        unset ($connected_line_name);                        
+                        unset ($connected_line_name);
+                        
+                        unset ($uniqueid);
+                        unset ($application_data);
+                        unset ($calleridnum);
+                        unset ($calleridname);
+                        unset ($duration);
+                        unset ($accountcode);
+                        unset ($bridgedchannel);
+                        unset ($bridgeduniqueid);
+                        unset ($eventlist);
+                        unset ($listitems);
                     } else { /* This is not a blank line but we are currently in an event */
                         if (substr($line, 0, 9) == "Privilege") {
                             $privilege = substr($line,0,10);
+                        } else if (substr($line, 0, 9) == "UniqueID:") {
+                            $uniqueid = substr($line, 10);
+                        } else if (substr($line, 0, 16) == "ApplicationData:") {
+                            $application_data = substr($line, 17);
+                        } else if (substr($line, 0, 12) == "CallerIDnum:") {
+                            $calleridnum = substr($line, 13);
+                        } else if (substr($line, 0, 10) == "EventList:") {
+                            $eventlist = substr($line, 11);
+                        } else if (substr($line, 0, 10) == "ListItems:") {
+                            $listitems = substr($line, 11);
+                        } else if (substr($line, 0, 13) == "CallerIDname:") {
+                            $calleridname = substr($line, 14);
+                        } else if (substr($line, 0, 9) == "Duration:") {
+                            $duration = substr($line, 10);
+                        } else if (substr($line, 0, 12) == "AccountCode:") {
+                            $accountcode = substr($line, 13);
+                        } else if (substr($line, 0, 15) == "BridgedChannel:") {
+                            $bridgedchannel = substr($line, 16);
+                        } else if (substr($line, 0, 16) == "BridgedUniqueID:") {
+                            $bridgeduniqueid = substr($line, 17);
                         } else if (substr($line, 0, 12) == "ChannelType:") {
-                            $channel_type = substr($line, 12);
+                            $channel_type = substr($line, 13);
                         } else if (substr($line, 0, 13) == "ChannelState:") {
                             $channel_state = substr($line, 17);
                         } else if (substr($line, 0, 17) == "ChannelStateDesc:") {

@@ -21,7 +21,7 @@ function agent_disconnected ($agent_number) {
 function agent_connected ($agent_number, $queue_name, $callerid) {
 	/* An agent has been connected */
     require "../functions/sanitize.php";
-
+    
 	global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
 	echo "== Agent Connected: $agent_number ==\n";
 	if ($FILE_BACKEND) {
@@ -38,11 +38,11 @@ function agent_connected ($agent_number, $queue_name, $callerid) {
             mysqli_query($connection, $sql);
         }
 	}
-
+    
 }
 function queue_member_status($member_name, $queue, $location, $membership, $calls_taken, $last_call, $status, $paused, $penalty) {
     require "../functions/sanitize.php";
-
+    
 	global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
     /* DEVICE STATES */
     $device_states[1] = "Unknown";
@@ -67,11 +67,11 @@ function queue_member_status($member_name, $queue, $location, $membership, $call
 	echo "Text Status: ".$device_states[$status]."\n";
 	echo "Paused: $paused\n";
 	echo "Penalty: $penalty\n";
-	echo "=====================================\n";			
+	echo "=====================================\n";
 	if ($MYSQL_BACKEND) {
 		if ($status == 0) {
 			$sql = "DELETE FROM queue_member_status WHERE member = ".sanitize($member_name);
-//			$sql.= sanitize($member_name).", ".sanitize($queue).", ".sanitize($location).", ".sanitize($membership).", ".sanitize($calls_taken).", ".sanitize($status).", ".sanitize($paused).", ".sanitize($penalty).")";
+            //			$sql.= sanitize($member_name).", ".sanitize($queue).", ".sanitize($location).", ".sanitize($membership).", ".sanitize($calls_taken).", ".sanitize($status).", ".sanitize($paused).", ".sanitize($penalty).")";
 		} else {
 			$sql = "REPLACE INTO queue_member_status (member,queue,location,membership,calls_taken,status,paused,penalty) VALUES (";
 			$sql.= sanitize($member_name).", ".sanitize($queue).", ".sanitize($location).", ".sanitize($membership).", ".sanitize($calls_taken).", ".sanitize($status).", ".sanitize($paused).", ".sanitize($penalty).")";
@@ -111,6 +111,22 @@ function peer_status ($peer_name, $peer_status, $cause, $time, $cause_txt) {
 		echo "=====================================\n";
 	}
 }
+
+function core_show_channels($uniqueid,$application_data,$calleridnum,$calleridname,$duration,$accountcode,$bridgedchannel,$bridgeduniqueid,$eventlist,$listitems) {
+    if (strlen($uniqueid) > 0) {
+        global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
+        require "../functions/sanitize.php";
+        $sql = "REPLACE INTO SmoothOperator.channels (uniqueid,app_data,cid_name,cid_num,duration,accountcode,bridged_channel,bridged_uniqueid,event_list,list_items) VALUES (".sanitize($uniqueid).",".sanitize($application_data).",".sanitize($calleridnum).",".sanitize($calleridname).",".sanitize($duration).",".sanitize($accountcode).",".sanitize($bridgedchannel).",".sanitize($bridgeduniqueid).",".sanitize($eventlist).",".sanitize($listitems).")";
+        //echo "Running $sql";
+        mysqli_query($connection, $sql);
+        if (mysqli_error($connection)) {
+            require "../config/db_config.php";
+            mysqli_query($connection, $sql);
+        }
+        
+    }
+}
+
 function asterisk_link($chan_1, $chan_2, $clid_1, $clid_2) {
 	global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
 	echo "=====================================\n";
