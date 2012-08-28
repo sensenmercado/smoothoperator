@@ -1,6 +1,7 @@
 <?
 session_start();
 if (strlen($_SESSION['config_values']['phono_key']) <1) {
+    // TODO: This won't work on a new install
     ?>
     <script>
     top.location.href = "login.php" ;
@@ -12,16 +13,16 @@ if (strlen($_SESSION['config_values']['phono_key']) <1) {
 $config_values = $_SESSION['config_values'];
 require "functions/asterisk_manager.php";
 if (isset($_GET['pause'])) {
-    echo "<pre>";
+    //echo "<pre>";
     if ($_GET['pause'] != "true") {
         $_GET['pause'] = "false";
     }
     $result = asterisk_agent_change_status($_GET['pause']);
-//    echo "done";
+    //    echo "done";
     if ($_GET['pause'] == "true") {
-        echo "Status: Agent Paused";
+        echo "Agent Paused";
     } else {
-        echo "Status: Receiving Calls";
+        echo "Receiving Calls";
     }
     exit(0);
 }
@@ -59,15 +60,33 @@ background-image: -webkit-gradient(
 <center>
 <span id="heading" style="font-family: arial">
 Soft Phone
-</span><br />
-<br />
-<input id="call" type="button" disabled="true" value="Loading..." /><br />
-<input id="disconnect" type="button" disabled = "true" value="Disconnect caller" /><br />
-<input id="hangup" type="button" disabled="true" value="Pause" /><br />
-<br />
+</span><br /><br >
 <span id="status" style="font-family: arial"><img src="images/small_progress.gif"></span>
-
+<br /><br />
 <script>
+function login(call) {
+    <?
+    $agent_num = $_SESSION['agent_num'];
+    $agent_pass = $_SESSION['agent_pass'];
+    
+    for ($i = 0;$i<strlen($agent_num);$i++) {
+        echo 'call.digit("'.substr($agent_num,$i,1).'");';
+    }
+    echo 'call.digit("#");';
+    for ($i = 0;$i<strlen($agent_pass);$i++) {
+        echo 'call.digit("'.substr($agent_pass,$i,1).'");';
+    }
+    echo 'call.digit("#");';
+    ?>
+    $("#status").html("Logged in.");
+    var objx = call;
+    $("#hangup").click(function() {
+                       call.hangup();
+                       });
+    $("#disconnect").click(function() {
+                           call.digit("*");
+                           });
+}
 $(document).ready(function(){
                   var audioType = 'auto';
                   if (navigator.javaEnabled()) {
@@ -82,7 +101,7 @@ $(document).ready(function(){
                                       onReady: function() {
                                       //alert("My SIP address is sip:" + this.sessionId);
                                       //$("#status").text(this.sessionId);
-                                      $("#status").text("Click the button above to log in");
+                                      $("#status").html("Click the button below to log in");
                                       $("#call").attr("disabled", false).val("Login");
                                       },
                                       phone: {
@@ -109,98 +128,66 @@ $(document).ready(function(){
                   
                   
                   
-
                   
                   
-                 /* $("#hangup").click(function() {
-                                     
-                                     
-                                     var out = '';
-                                     for (var i in phono.phone) {
-                                     out += i + ": " + phono.phone[i] + "\n";
-                                     }
-                                     var pre = document.createElement('pre');
-                                     pre.innerHTML = out;
-                                     document.body.appendChild(pre);
-                                     
-                                     
-                                     
-                                   //phono.hangup();
-                                   });*/
+                  
+                  /* $("#hangup").click(function() {
+                   
+                   
+                   var out = '';
+                   for (var i in phono.phone) {
+                   out += i + ": " + phono.phone[i] + "\n";
+                   }
+                   var pre = document.createElement('pre');
+                   pre.innerHTML = out;
+                   document.body.appendChild(pre);
+                   
+                   
+                   
+                   //phono.hangup();
+                   });*/
                   $("#call").click(function() {
                                    $("#call").attr("disabled", true);
-                                   $("#disconnect").attr("disabled", false);                                   
+                                   $("#disconnect").attr("disabled", false);
                                    $("#hangup").attr("disabled", false);
+                                   $("#testing").text("Receiving Calls");
+                                   $("#pause_buttons").show();
                                    phono.phone.dial("sip:500@<?=$_SESSION['config_values']['manager_host']?>", {
                                                     onRing: function() {
                                                     $("#status").html("Ringing");
                                                     },
                                                     onAnswer: function() {
-                                                    <?
-                                                    $agent_num = $_SESSION['agent_num'];
-                                                    $agent_pass = $_SESSION['agent_pass'];
-                                                    
-                                                    for ($i = 0;$i<strlen($agent_num);$i++) {
-                                                    echo 'this.digit("'.substr($agent_num,$i,1).'");';
-                                                    }
-                                                    echo 'this.digit("#");';
-                                                    for ($i = 0;$i<strlen($agent_pass);$i++) {
-                                                    echo 'this.digit("'.substr($agent_pass,$i,1).'");';
-                                                    }
-                                                    echo 'this.digit("#");';
-                                                    ?>
-                                                    $("#status").html("Logged in.");
-
-                                                    //alert(event.call.id);
-                                                    //$("#status").html(event.call.id);
-                                                    /*
-                                                    var out = '';
-                                                    for (var i in this) {
-                                                    out += i + ": " + this[i] + "\n";
-                                                    }
-                                                    var pre = document.createElement('pre');
-                                                    pre.innerHTML = out;
-                                                    document.body.appendChild(pre);
-                                                    */
-                                                    var objx = this;
-                                                    $("#hangup").click(function() {
-                                                                       objx.hangup();
-                                                                       });
-                                                    $("#disconnect").click(function() {
-                                                                       objx.digit("*");
-                                                                       });
+                                                    setTimeout(login(this),1000);
                                                     },
                                                     onHangup: function() {
-                                                    $("#call").attr("disabled", false).val("Unpause");
+                                                    $("#call").attr("disabled", false).val("Login");
                                                     $("#hangup").attr("disabled", true);
                                                     $("#disconnect").attr("disabled", true);
-                                                    $("#status").html("Logged Out.  Please click the button above to log back in");
+                                                    $("#testing").text("Waiting for Login");
+                                                    $("#pause_buttons").hide();
+                                                    $("#status").html("Logged Out.  Please click the button below to log back in");
                                                     }
                                                     });
                                    });
                   })
 </script>
-<?
-if (isset($_GET['debug'])) {
-    ?>
-    <script type='text/javascript' src='js/jquery-1.3.2.min.js'></script>
-    <script>
-    jQuery.noConflict();
-    </script>
-    <br />
-    <br />
-Status:
-    <br />    <br />
+<input id="call" type="button" disabled="true" value="Loading..." /><br />
+<div id="pause_buttons" style="display: none;font-family: arial">
+<button type="button" id="pause" value="Pause" onclick="jQuery('#testing').load('phono.php?pause=true');jQuery('#pause').hide();jQuery('#unpause').show();" style="text-decoration: none;height: 32px;vertical-align: middle; padding: 8px"><img src="images/control_pause_blue.png" align="bottom" width="16" height="16"/>&nbsp;Pause</button>
+<button type="button" value="Resume" id="unpause" onclick="jQuery('#testing').load('phono.php?pause=false');jQuery('#pause').show();jQuery('#unpause').hide();" style="display: none;text-decoration: none;height: 32px;vertical-align: middle; padding: 8px"><img src="images/control_play_blue.png" width="16" height="16" align="bottom" />&nbsp;Unpause</button>
+</div>
+<input id="disconnect" type="button" disabled = "true" value="Disconnect caller" /><br />
+<input id="hangup" type="button" disabled="true" value="Logout" /><br />
+<script type='text/javascript' src='js/jquery-1.3.2.min.js'></script>
+<script>
+jQuery.noConflict();
+</script><p style="font-family: arial">
+Status:</p>
 
-    <div id="testing" style="text-align: center">
-Receiving Calls
-    </div>
-    <br />
-    <a href="#" id="pause" onclick="jQuery('#testing').load('phono.php?pause=true');jQuery('#pause').hide();jQuery('#unpause').show();">&nbsp;<img src="images/control_pause_blue.png">Pause</a><br />
-    <a href="#" id="unpause" onclick="jQuery('#testing').load('phono.php?pause=false');jQuery('#pause').hide();jQuery('#unpause').show();" style="display: none">Unpause</a>
-    <?
-}
-?>
+<div id="testing" style="text-align: center;font-family: arial;color: #f00">
+Waiting for login
+</div>
+<br />
 </div>
 </body>
 </html>

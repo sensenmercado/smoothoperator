@@ -24,6 +24,7 @@ if (isset($_GET['save_script'])) {
      $new_id = mysqli_insert_id($connection);
      echo $new_id;
      */
+    print_r($_GET);
     foreach ($_GET as $field=>$value) {
         if (strlen($field) > 5 && substr($field, 0, 5) == "field") {
             $fieldnum = substr($field,5);
@@ -135,58 +136,54 @@ function display_script($customer, $question_number) {
     
     var entries_to_ids=new Array();
     var counter = 0;
-    function addInput(divName){
-        counter++;
+    function addInput(value,new_id,divName){
         jQuery("#"+divName).append("Entry <br><input type='text' name='myInputs[]'>");
     }
-    function add_end_of_section(divName){
-        counter++;
+    function add_end_of_section(value,new_id,divName){
         jQuery("#"+divName).append("<hr />");
     }
     
     /* Statement followed by text field */
     
-    function add_statement_followed_by_text_field(statement, divName){
-        counter++;
-        jQuery("#"+divName).append(nl2br(statement)+" <br><input type='text' name='field"+counter+"'>");
+    function add_statement_followed_by_text_field(value,new_id,statement, divName){
+        jQuery("#"+divName).append(nl2br(statement)+" <br><input type='text' name='field"+new_id+"' value='"+value+"'>");
     }
     
     /* Add priority */
     
-    function add_priority(divName){
-        counter++;
-        jQuery("#"+divName).append(" <br>Lead Priority: <select name='field"+counter+"'><option value='0'>Normal</option><option value='0'>High</option><option value='0'>Critical</option></select><br />");
+    function add_priority(value,new_id,divName){
+        jQuery("#"+divName).append(" <br>Lead Priority: <select name='field"+new_id+"'><option value='0'>Normal</option><option value='0'>High</option><option value='0'>Critical</option></select><br />");
     }
     
     /* Statement followed by yes/no */
     
-    function add_statement_followed_by_yesno(statement, divName){
-        counter++;
-        jQuery("#"+divName).append(nl2br(statement)+" <br><select name='field"+counter+"'><option value='YES'>Yes</option><option value='NO'>No</option></select><br />");
+    function add_statement_followed_by_yesno(value,new_id,statement, divName){
+        if (value == "yes") {
+            jQuery("#"+divName).append(nl2br(statement)+" <br><select name='field"+new_id+"'><option value='YES' selected>Yes</option><option value='NO'>No</option></select><br />");
+            
+        } else {
+            jQuery("#"+divName).append(nl2br(statement)+" <br><select name='field"+new_id+"'><option value='YES'>Yes</option><option value='NO' selected>No</option></select><br />");
+        }
     }
     
-    function add_statement_followed_by_combobox(statement, comboboxes, divName){
-        counter++;
-        var ih = nl2br(statement)+" <br><select name='field"+counter+"'>";
-        comboboxes.each(function(){
-                        ih += "<option value='"+jQuery(this).val()+"'>"+jQuery(this).val()+"</option>";
-                        });
-        ih += "</select>";
-        jQuery("#"+divName).append(ih+"<br />");
-    }
-    
-    function add_statement_followed_by_combobox_from_db(statement, comboboxes, divName){
-        counter++;
-        var ih = nl2br(statement)+" <br><select name='field"+counter+"'>";
-        comboboxes.forEach(function(item){ih += "<option value='"+item+"'>"+item+"</option>";});
+    function add_statement_followed_by_combobox_from_db(value,new_id,statement, comboboxes, divName){
+        var ih = nl2br(statement)+" <br><select name='field"+new_id+"'>";
+        comboboxes.forEach(
+                           function(item){
+                           if (item == value) {
+                           ih += "<option value='"+item+"' selected>"+item+"</option>";
+                           } else {
+                            ih += "<option value='"+item+"'>"+item+"</option>";
+                           }
+                           }
+                           );
         ih += "</select>";
         jQuery("#"+divName).append(ih+"<br />");
     }
     
     /* Statement followed by nothing */
     
-    function add_statement_followed_by_nothing(statement, divName){
-        counter++;
+    function add_statement_followed_by_nothing(value,new_id,statement, divName){
         jQuery("#"+divName).append(nl2br(statement)+"");
     }
     function nl2br(dataStr) {
@@ -205,8 +202,25 @@ function display_script($customer, $question_number) {
     $result_script = mysqli_query($connection, $sql);
     $row_script = mysqli_fetch_assoc($result_script);
     $script_id = $row_script['id'];
+    
+    $result_top_question = mysqli_query($connection, "SELECT * FROM script_entries WHERE script_id = ".$script_id." order by `order` desc limit 1") or die(mysqli_error($connection));
+
+    $row_result_top_question = mysqli_fetch_assoc($result_top_question);
+    $top_question_number = $row_result_top_question['order'];
+    
+    
     $result_entries = mysqli_query($connection, "SELECT * FROM script_entries WHERE script_id = ".$script_id." AND `order` = ".$question_number) or die(mysqli_error($connection));
     $x = 0;
+    
+    $result_previous = mysqli_query($connection, "SELECT * FROM script_results WHERE script_id = ".$script_id." and customer_id = ".$customer['id']." and question_number = ".$question_number) or die(mysqli_error($connection));
+    
+    if (@mysqli_num_rows($result_previous) == 0) {
+        $value = "''";
+    } else {
+        $row_previous = mysqli_fetch_assoc($result_previous);
+        $value = sanitize(str_replace("'","",stripslashes($row_previous['answer'])));
+    }
+    
     if (mysqli_num_rows($result_entries) == 0) {
         
     } else {
@@ -226,12 +240,12 @@ function display_script($customer, $question_number) {
             switch ($row_entries['type']) {
                 case 0:
                     ?>
-                    <script>add_statement_followed_by_text_field(<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput2');</script>
+                    <script>add_statement_followed_by_text_field(<?=$value?>,<?=$row_entries['order']?>,<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput2');</script>
                     <?
                     break;
                 case 1:
                     ?>
-                    <script>add_statement_followed_by_yesno(<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput2');</script>
+                    <script>add_statement_followed_by_yesno(<?=$value?>,<?=$row_entries['order']?>,<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput2');</script>
                     <?
                     break;
                 case 2:
@@ -253,23 +267,23 @@ function display_script($customer, $question_number) {
                         //echo "alert('No results from $sql');";
                     }
                     ?>
-                    add_statement_followed_by_combobox_from_db(<?=stripslashes(sanitize($row_entries['statement']))?>, combobox_entries, 'dynamicInput2');
+                    add_statement_followed_by_combobox_from_db(<?=$value?>,<?=$row_entries['order']?>,<?=stripslashes(sanitize($row_entries['statement']))?>, combobox_entries, 'dynamicInput2');
                     </script>
                     <?
                     break;
                 case 3:
                     ?>
-                    <script>add_statement_followed_by_nothing(<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput2');</script>
+                    <script>add_statement_followed_by_nothing(<?=$value?>,<?=$row_entries['order']?>,<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput2');</script>
                     <?
                     break;
                 case 4:
                     ?>
-                    <script>add_priority('dynamicInput2');</script>
+                    <script>add_priority(<?=$value?>,<?=$row_entries['order']?>,'dynamicInput2');</script>
                     <?
                     break;
                 case -1:
                     ?>
-                    <script>add_end_of_section('dynamicInput2');</script>
+                    <script>add_end_of_section(<?=$value?>,<?=$row_entries['order']?>,'dynamicInput2');</script>
                     <?
                     break;
             }
@@ -294,7 +308,20 @@ function display_script($customer, $question_number) {
         
         jQuery("#dynamicInput2").append('<br /><a class="button_link" href="#" onclick="new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(1000);window.location=\'get_customer.php?<?=$query_string0?>\';}}});"><img src="images/resultset_previous.png">Previous Question</a>&nbsp;');
         
-        jQuery("#dynamicInput2").append('<a class="button_link" href="get_customer.php?<?=$query_string1?>">Next Question&nbsp;<img src="images/resultset_next.png"></a>');
+        <?
+        if ($question_number < $top_question_number) {
+            ?>
+        
+        jQuery("#dynamicInput2").append('<a class="button_link" href="#" onclick="new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(1000);window.location=\'get_customer.php?<?=$query_string1?>\';}}});">Next Question&nbsp;<img src="images/resultset_next.png"></a>');
+          
+            <?
+        } else {
+            ?>
+            jQuery("#dynamicInput2").append('<a class="button_link" href="#" onclick="new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(5000);}}});">Finish&nbsp;<img src="images/control_stop_blue.png"></a>');
+
+            <?
+        }
+        ?>
         
         </script>
         <?
@@ -302,7 +329,19 @@ function display_script($customer, $question_number) {
         ?>
         <script>
         
-        jQuery("#dynamicInput2").append('<br /><a class="button_link" href="get_customer.php?<?=$query_string1?>">Next Question&nbsp;<img src="images/resultset_next.png"></a>');
+        <?
+        if ($question_number < $top_question_number) {
+            ?>
+        jQuery("#dynamicInput2").append('<a class="button_link" href="#" onclick="new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(1000);window.location=\'get_customer.php?<?=$query_string1?>\';}}});">Next Question&nbsp;<img src="images/resultset_next.png"></a>');
+            <?
+        } else {
+        ?>
+            jQuery("#dynamicInput2").append('<a class="button_link" href="#" onclick="new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(5000);}}});">Next Question&nbsp;<img src="images/control_stop_blue.png"></a>');
+            <?
+        }
+        ?>
+
+        
         
         </script>
         <?
