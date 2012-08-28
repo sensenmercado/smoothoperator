@@ -155,7 +155,7 @@ while (1) {
                             hangup($channel, $uniqueid);
                         } else if ($eventname == "CoreShowChannelsComplete") {
                         } else if ($eventname == "CoreShowChannel") {
-                            echo "====================\n";
+                            /*echo "====================\n";
                             echo "Unique ID: ".$uniqueid."\n";
                             echo "App Data: ".$application_data."\n";
                             echo "CID Num: ".$calleridnum."\n";
@@ -167,7 +167,7 @@ while (1) {
                             echo "Event List: ".$eventlist."\n";
                             echo "List Items: ".$listitems."\n";
                             echo "======================================\n";
-                            
+                            */
                             core_show_channels($uniqueid,$application_data,$calleridnum,$calleridname,$duration,$accountcode,$bridgedchannel,$bridgeduniqueid,$eventlist,$listitems);                            
                         } else if ($eventname == "Shutdown") {
                             // Server is shutting down - force a reconnect
