@@ -38,7 +38,7 @@ while (1) {
     $x = 0;
     while (!feof($socket)) {
         $x++;
-        fputs($socket, "Action: CoreShowChannels\r\n\r\n");
+        fputs($socket, "Action: Status\r\n\r\n");
         sleep(1);
         unset ($resp);
         unset($wrets);
@@ -138,6 +138,39 @@ while (1) {
                         } else if ($eventname == "Newchannel") {
                         } else if ($eventname == "Newcallerid") {
                         } else if ($eventname == "Join") {
+                        } else if ($eventname == "StatusComplete") {
+                        } else if ($eventname == "Status") {
+                            echo "STATUS\n";
+                            /*
+                             Event: Status
+                             Privilege: Call
+                             Channel: SIP/matt-000000ae
+                             CallerIDNum: matt
+                             CallerIDName: Matt
+                             ConnectedLineNum: <unknown>
+                             ConnectedLineName: <unknown>
+                             Accountcode: 
+                             ChannelState: 6
+                             ChannelStateDesc: Up
+                             Context: internal
+                             Extension: 600
+                             Priority: 2
+                             Seconds: 3
+                             Uniqueid: 1346190746.205
+                             */
+                            echo "=================\n";
+                            echo "Channel: $channel\n";
+                            echo "CallerIDNum: $calleridnum\n";
+                            echo "CallerIDName: $calleridname\n";
+                            echo "ChannelState: $channelstate\n";
+                            echo "ChannelStateDesc: $channelstatedesc\n";
+                            echo "Context: $context\n";
+                            echo "Extension: $extension\n";
+                            echo "Priority: $priority\n";
+                            echo "Seconds: $seconds\n";
+                            echo "UniqueID: $uniqueid\n";
+                            echo "=================\n";
+                            
                         } else if ($eventname == "Leave") {
                         } else if ($eventname == "Hangup") {
                             /*
@@ -258,11 +291,20 @@ while (1) {
                         unset ($bridgeduniqueid);
                         unset ($eventlist);
                         unset ($listitems);
+                        unset ($items);
+                        unset ($accountcode);
+                        unset ($seconds);
                     } else { /* This is not a blank line but we are currently in an event */
                         if (substr($line, 0, 9) == "Privilege") {
                             $privilege = substr($line,0,10);
                         } else if (substr($line, 0, 9) == "UniqueID:") {
                             $uniqueid = substr($line, 10);
+                        } else if (substr($line, 0, 6) == "Items:") {
+                            $items = substr($line, 7);
+                        } else if (substr($line, 0, 12) == "Accountcode:") {
+                            $accountcode = substr($line, 13);
+                        } else if (substr($line, 0, 8) == "Seconds:") {
+                            $seconds = substr($line, 9);
                         } else if (substr($line, 0, 16) == "ApplicationData:") {
                             $application_data = substr($line, 17);
                         } else if (substr($line, 0, 12) == "CallerIDnum:") {
