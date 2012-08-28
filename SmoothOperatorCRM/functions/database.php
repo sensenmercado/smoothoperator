@@ -371,8 +371,6 @@ if (!function_exists('so_check_databases')) {
             `accountcode` varchar(255) DEFAULT NULL,
             `bridged_channel` varchar(255) DEFAULT NULL,
             `bridged_uniqueid` varchar(255) DEFAULT NULL,
-            `event_list` varchar(255) DEFAULT NULL,
-            `list_items` varchar(255) DEFAULT NULL,
             `channel_state` int(11) DEFAULT NULL,
             `channel_state_desc` varchar(255) DEFAULT NULL,
             PRIMARY KEY (`uniqueid`)
