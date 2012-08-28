@@ -155,6 +155,19 @@ function asterisk_link($chan_1, $chan_2, $clid_1, $clid_2) {
         }
     }
 }
+
+function hangup($channel, $uniqueid) {
+    global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
+    require "../functions/sanitize.php";
+	$sql = "DELETE FROM SmoothOperator.channels WHERE uniqueid = ".sanitize($uniqueid);
+    mysqli_query($connection, $sql) or die (mysqli_error($connection));
+    if (mysqli_error($connection)) {
+        echo "Error running, running again...";
+        require "../config/db_config.php";
+        mysqli_query($connection, $sql);
+    }
+}
+
 function asterisk_unlink($chan_1, $chan_2, $clid_1, $clid_2) {
 	global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
 	echo "=====================================\n";

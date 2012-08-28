@@ -140,6 +140,19 @@ while (1) {
                         } else if ($eventname == "Join") {
                         } else if ($eventname == "Leave") {
                         } else if ($eventname == "Hangup") {
+                            /*
+                             Event: Hangup
+                             Privilege: call,all
+                             Channel: SIP/phono4-ext.voxeolabs.net-00000090
+                             Uniqueid: 1346187286.175
+                             CallerIDNum: 79786527-9c2c-4384-a1a4-f409cfe39a08
+                             CallerIDName: <unknown>
+                             ConnectedLineNum: <unknown>
+                             ConnectedLineName: <unknown>
+                             Cause: 0
+                             Cause-txt: Unknown
+                             */
+                            hangup($channel, $uniqueid);
                         } else if ($eventname == "CoreShowChannelsComplete") {
                         } else if ($eventname == "CoreShowChannel") {
                             echo "====================\n";
@@ -154,7 +167,7 @@ while (1) {
                             echo "Event List: ".$eventlist."\n";
                             echo "List Items: ".$listitems."\n";
                             echo "======================================\n";
-
+                            
                             core_show_channels($uniqueid,$application_data,$calleridnum,$calleridname,$duration,$accountcode,$bridgedchannel,$bridgeduniqueid,$eventlist,$listitems);                            
                         } else if ($eventname == "Shutdown") {
                             // Server is shutting down - force a reconnect
