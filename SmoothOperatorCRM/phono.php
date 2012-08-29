@@ -3,7 +3,7 @@ session_start();
 if (isset($_GET['get_channel'])) {
     require "config/db_config.php";
     require "functions/sanitize.php";
-    sleep(1);
+    sleep(3);
     $result = mysqli_query($connection, "SELECT data1 FROM queue_log WHERE event = 'AGENTLOGIN' AND agent = 'Agent/".$_SESSION['agent_num']."' order by id desc limit 1") or die(json_encode(mysqli_error($connection)));
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
