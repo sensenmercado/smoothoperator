@@ -1,5 +1,26 @@
 <?
 session_start();
+if (isset($_GET['transfer_to_conf_call'])) {
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+    require "functions/asterisk_manager.php";
+    $config_values = $_SESSION['config_values'];
+    $sql = "SELECT bridged_channel FROM channels WHERE channel = ".sanitize($_GET['transfer_to_conf_call'])." limit 1";
+    $result = mysqli_query($connection, $sql) or die(json_encode(mysqli_error($connection)));
+    if (mysqli_num_rows($result) == 1) {
+        $row = mysqli_fetch_assoc($result);
+        $channel2 = $row['bridged_channel'];
+        $channel1 = $_GET['transfer_to_conf_call'];
+        $context = "conference";
+        $extension = $_SESSION['agent_num'];
+        $priority = "1";
+        echo json_encode(transfer_to_extension($channel1, $channel2, $context, $extension, $priority));
+        //echo json_encode("Done");
+    } else {
+        echo json_encode("Can't find second channel");
+    }
+    exit(0);
+}
 if (isset($_GET['get_channel'])) {
     require "config/db_config.php";
     require "functions/sanitize.php";
@@ -192,12 +213,33 @@ $(document).ready(function(){
                                                     });
                                    });
                   })
+function transfer() {
+    alert("About to transfer");
+    $.ajax({
+           type: "GET",
+           context: document.body,
+           url: "phono.php?transfer_to_conf_call="+my_uniqueid,
+           dataType: "json",
+           error : function(jqXHR, textStatus, errorThrown) {
+           alert("Unable to get transfer: "+textStatus);
+           },
+           success : function(data) {
+           $("#testing").append(data);
+           }
+           });
+}
 </script>
 <input id="call" type="button" disabled="true" value="Loading..." /><br />
 <div id="pause_buttons" style="display: none;font-family: arial">
 <button type="button" id="pause" value="Pause" onclick="jQuery('#testing').load('phono.php?pause=true');jQuery('#pause').hide();jQuery('#unpause').show();" style="text-decoration: none;height: 32px;vertical-align: middle; padding: 8px"><img src="images/control_pause_blue.png" align="bottom" width="16" height="16"/>&nbsp;Pause</button>
 <button type="button" value="Resume" id="unpause" onclick="jQuery('#testing').load('phono.php?pause=false');jQuery('#pause').show();jQuery('#unpause').hide();" style="display: none;text-decoration: none;height: 32px;vertical-align: middle; padding: 8px"><img src="images/control_play_blue.png" width="16" height="16" align="bottom" />&nbsp;Resume</button>
-<button type="button" onclick="alert(my_uniqueid);">What is my channel</button>
+<?/*<button type="button" onclick="alert(my_uniqueid);">What is my channel</button>
+
+
+<button type="button" onclick="transfer();">Transfer to Conf</button>*/?>
+
+
+
 </div>
 <input id="disconnect" type="button" disabled = "true" value="Disconnect caller" /><br />
 <input id="hangup" type="button" disabled="true" value="Logout" /><br />
