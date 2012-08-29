@@ -1,5 +1,18 @@
 <?
 session_start();
+if (isset($_GET['get_channel'])) {
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+    sleep(1);
+    $result = mysqli_query($connection, "SELECT data1 FROM queue_log WHERE event = 'AGENTLOGIN' AND agent = 'Agent/".$_SESSION['agent_num']."' order by id desc limit 1") or die(json_encode(mysqli_error($connection)));
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        echo json_encode($row['data1']);
+    } else {
+        echo json_encode("0");
+    }
+    exit(0);
+}
 if (strlen($_SESSION['config_values']['phono_key']) <1) {
     // TODO: This won't work on a new install
     ?>
@@ -64,6 +77,10 @@ Soft Phone
 <span id="status" style="font-family: arial"><img src="images/small_progress.gif"></span>
 <br /><br />
 <script>
+var my_uniqueid;
+
+//get the file
+
 function login(call) {
     <?
     $agent_num = $_SESSION['agent_num'];
@@ -78,6 +95,25 @@ function login(call) {
     }
     echo 'call.digit("#");';
     ?>
+    $("#status_light").css("background-color","#ffa500");
+
+    //alert(1);
+    $.ajax({
+           type: "GET",
+           context: document.body,
+           url: "phono.php?get_channel=1",
+           dataType: "json",
+           error : function(data) {
+           alert("Unable to get channel: "+data);
+           },
+           success : function(data) {
+           my_uniqueid = data;
+           $("#status_light").css("background-color","#0f0");
+           //$("#testing").append(data);
+           }
+           });
+    
+
     $("#status").html("Logged in.");
     var objx = call;
     $("#hangup").click(function() {
@@ -86,6 +122,11 @@ function login(call) {
     $("#disconnect").click(function() {
                            call.digit("*");
                            });
+    
+    
+    
+    
+    
 }
 $(document).ready(function(){
                   var audioType = 'auto';
@@ -126,27 +167,6 @@ $(document).ready(function(){
                                       }
                                       });
                   
-                  
-                  
-                  
-                  
-                  
-                  
-                  /* $("#hangup").click(function() {
-                   
-                   
-                   var out = '';
-                   for (var i in phono.phone) {
-                   out += i + ": " + phono.phone[i] + "\n";
-                   }
-                   var pre = document.createElement('pre');
-                   pre.innerHTML = out;
-                   document.body.appendChild(pre);
-                   
-                   
-                   
-                   //phono.hangup();
-                   });*/
                   $("#call").click(function() {
                                    $("#call").attr("disabled", true);
                                    $("#disconnect").attr("disabled", false);
@@ -161,6 +181,7 @@ $(document).ready(function(){
                                                     setTimeout(login(this),1000);
                                                     },
                                                     onHangup: function() {
+                                                    $("#status_light").css("background-color","#f00");
                                                     $("#call").attr("disabled", false).val("Login");
                                                     $("#hangup").attr("disabled", true);
                                                     $("#disconnect").attr("disabled", true);
@@ -176,6 +197,7 @@ $(document).ready(function(){
 <div id="pause_buttons" style="display: none;font-family: arial">
 <button type="button" id="pause" value="Pause" onclick="jQuery('#testing').load('phono.php?pause=true');jQuery('#pause').hide();jQuery('#unpause').show();" style="text-decoration: none;height: 32px;vertical-align: middle; padding: 8px"><img src="images/control_pause_blue.png" align="bottom" width="16" height="16"/>&nbsp;Pause</button>
 <button type="button" value="Resume" id="unpause" onclick="jQuery('#testing').load('phono.php?pause=false');jQuery('#pause').show();jQuery('#unpause').hide();" style="display: none;text-decoration: none;height: 32px;vertical-align: middle; padding: 8px"><img src="images/control_play_blue.png" width="16" height="16" align="bottom" />&nbsp;Resume</button>
+<button type="button" onclick="alert(my_uniqueid);">What is my channel</button>
 </div>
 <input id="disconnect" type="button" disabled = "true" value="Disconnect caller" /><br />
 <input id="hangup" type="button" disabled="true" value="Logout" /><br />
@@ -191,5 +213,6 @@ Waiting for login<br />
 </div>
 <br />
 </div>
+<span id="status_light" style="display: block;width:10px;height:10px;background-color:#f00; position: absolute;bottom: 0px;right: 0px"></span>
 </body>
 </html>
