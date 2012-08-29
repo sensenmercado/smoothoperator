@@ -112,11 +112,25 @@ function peer_status ($peer_name, $peer_status, $cause, $time, $cause_txt) {
 	}
 }
 
+function status($channel, $calleridnum, $calleridname, $channelstate, $channelstatedesc, $uniqueid, $seconds) {
+    if (strlen($uniqueid) > 0) {
+        global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
+        require "../functions/sanitize.php";
+        $sql = "REPLACE INTO SmoothOperator.channels (uniqueid,cid_name,cid_num,duration,channel_state, channel_state_desc, channel) VALUES (".sanitize($uniqueid).",".sanitize($calleridnum).",".sanitize($calleridname).",".sanitize($seconds).",".sanitize($channelstate).",".sanitize($channelstatedesc).",".sanitize($channel).")";
+        //echo "Running $sql";
+        mysqli_query($connection, $sql) or die(mysqli_error($connection));
+        if (mysqli_error($connection)) {
+            require "../config/db_config.php";
+            mysqli_query($connection, $sql);
+        }
+        
+    }
+}
 function core_show_channels($uniqueid,$application_data,$calleridnum,$calleridname,$duration,$accountcode,$bridgedchannel,$bridgeduniqueid,$eventlist,$listitems) {
     if (strlen($uniqueid) > 0) {
         global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
         require "../functions/sanitize.php";
-        $sql = "REPLACE INTO SmoothOperator.channels (uniqueid,app_data,cid_name,cid_num,duration,accountcode,bridged_channel,bridged_uniqueid,event_list,list_items) VALUES (".sanitize($uniqueid).",".sanitize($application_data).",".sanitize($calleridnum).",".sanitize($calleridname).",".sanitize($duration).",".sanitize($accountcode).",".sanitize($bridgedchannel).",".sanitize($bridgeduniqueid).",".sanitize($eventlist).",".sanitize($listitems).")";
+        $sql = "UPDATE SmoothOperator.channels set accountcode=".sanitize($accountcode).",bridged_channel=".sanitize($bridgedchannel).",bridged_uniqueid=".sanitize($bridgeduniqueid)." where uniqueid = ".sanitize($uniqueid);
         //echo "Running $sql";
         mysqli_query($connection, $sql);
         if (mysqli_error($connection)) {
@@ -198,7 +212,7 @@ function asterisk_unlink($chan_1, $chan_2, $clid_1, $clid_2) {
 }
 function new_state($peer_name, $state, $callerid, $callerid_name, $unique_id) {
 	global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
-	echo "=====================================\n";
+	/*echo "=====================================\n";
 	echo "New Call State\n";
 	echo "=====================================\n";
 	echo "Peer: $peer_name\n";
@@ -206,6 +220,6 @@ function new_state($peer_name, $state, $callerid, $callerid_name, $unique_id) {
 	echo "CallerID Number: $callerid\n";
 	echo "CallerID Name: $callerid_name\n";
 	echo "UniqueID: $unique_id\n";
-	echo "=====================================\n";
+	echo "=====================================\n";*/
 }
 ?>

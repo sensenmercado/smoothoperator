@@ -31,14 +31,23 @@ while (1) {
     fputs($socket, "Action: Login\r\n");
     fputs($socket, "UserName: $manager_username\r\n");
     fputs($socket, "Secret: $manager_password\r\n\r\n");
-    echo "|   Connected to Asterisk Manager   |\n";
+    echo chr(27)."[H".chr(27)."[2J";
+    
     echo "+===================================+\n";
+    echo "|   \033[1m\033[33mPHP Asterisk Manager Interface\033[0m\033[22m  |\n";
+    echo "|   \033[1m\033[33m Written by Matt Riddell 2012\033[0m\033[22m   |\n";
+    echo "+===================================+\n";
+    echo "|   \033[1m\033[32mConnected to Asterisk Manager\033[0m\033[22m   |\n";
+    echo "+===================================+\n";
+    echo "\n";
     
     // Continue while it is still connected
     $x = 0;
     while (!feof($socket)) {
         $x++;
         fputs($socket, "Action: Status\r\n\r\n");
+        fputs($socket, "Action: CoreShowChannels\r\n\r\n");
+        //echo ".";
         sleep(1);
         unset ($resp);
         unset($wrets);
@@ -51,6 +60,7 @@ while (1) {
         while (!(strlen($wrets) >= 4 && substr($wrets, strlen($wrets)-4) == "\r\n\r\n") ){
             if (!($wrets .= fread($socket, 8192))) {
                 // Socket error - reconnect
+                echo "-";
                 while (!($socket = fsockopen($manager_hostname, $manager_port, $errno, $errstr, $connection_timeout))) {
                     sleep(3);
                     echo "Sleeping waiting for reconnect\n";
@@ -140,7 +150,7 @@ while (1) {
                         } else if ($eventname == "Join") {
                         } else if ($eventname == "StatusComplete") {
                         } else if ($eventname == "Status") {
-                            echo "STATUS\n";
+                            //echo "STATUS\n";
                             /*
                              Event: Status
                              Privilege: Call
@@ -158,19 +168,19 @@ while (1) {
                              Seconds: 3
                              Uniqueid: 1346190746.205
                              */
-                            echo "=================\n";
+                            /*echo "=================\n";
                             echo "Channel: $channel\n";
                             echo "CallerIDNum: $calleridnum\n";
                             echo "CallerIDName: $calleridname\n";
-                            echo "ChannelState: $channelstate\n";
-                            echo "ChannelStateDesc: $channelstatedesc\n";
+                            echo "ChannelState: $channel_state\n";
+                            echo "ChannelStateDesc: $channel_state_desc\n";
                             echo "Context: $context\n";
                             echo "Extension: $extension\n";
                             echo "Priority: $priority\n";
                             echo "Seconds: $seconds\n";
                             echo "UniqueID: $uniqueid\n";
-                            echo "=================\n";
-                            status($channel, $calleridnum, $calleridname, $channelstate, $channelstatedesc);
+                            echo "=================\n";*/
+                            status($channel, $calleridnum, $calleridname, $channel_state, $channel_state_desc, $uniqueid, $seconds);
                         } else if ($eventname == "Leave") {
                         } else if ($eventname == "Hangup") {
                             /*
@@ -199,8 +209,7 @@ while (1) {
                             echo "Bridged Unique ID: ".$bridgeduniqueid."\n";
                             echo "Event List: ".$eventlist."\n";
                             echo "List Items: ".$listitems."\n";
-                            echo "======================================\n";
-                            */
+                            echo "======================================\n";*/
                             core_show_channels($uniqueid,$application_data,$calleridnum,$calleridname,$duration,$accountcode,$bridgedchannel,$bridgeduniqueid,$eventlist,$listitems);                            
                         } else if ($eventname == "Shutdown") {
                             // Server is shutting down - force a reconnect
@@ -294,9 +303,15 @@ while (1) {
                         unset ($items);
                         unset ($accountcode);
                         unset ($seconds);
+                        unset ($address);
+                        unset ($exten);
                     } else { /* This is not a blank line but we are currently in an event */
                         if (substr($line, 0, 9) == "Privilege") {
                             $privilege = substr($line,0,10);
+                        } else if (substr($line, 0, 6) == "Exten:") {
+                            $exten = substr($line, 7);
+                        } else if (substr($line, 0, 8) == "Address:") {
+                            $address = substr($line, 9);
                         } else if (substr($line, 0, 9) == "UniqueID:") {
                             $uniqueid = substr($line, 10);
                         } else if (substr($line, 0, 6) == "Items:") {
@@ -326,9 +341,9 @@ while (1) {
                         } else if (substr($line, 0, 12) == "ChannelType:") {
                             $channel_type = substr($line, 13);
                         } else if (substr($line, 0, 13) == "ChannelState:") {
-                            $channel_state = substr($line, 17);
+                            $channel_state = substr($line, 14);
                         } else if (substr($line, 0, 17) == "ChannelStateDesc:") {
-                            $channel_state_desc = substr($line, 17);
+                            $channel_state_desc = substr($line, 18);
                         } else if (substr($line, 0, 17) == "ConnectedLineNum:") {
                             $connected_line_num = substr($line, 17);
                         } else if (substr($line, 0, 18) == "ConnectedLineName:") {
