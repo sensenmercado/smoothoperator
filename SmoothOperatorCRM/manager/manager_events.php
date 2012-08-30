@@ -118,7 +118,7 @@ function status($channel, $calleridnum, $calleridname, $channelstate, $channelst
         require "../functions/sanitize.php";
         $sql = "REPLACE INTO SmoothOperator.channels (uniqueid,cid_name,cid_num,duration,channel_state, channel_state_desc, channel) VALUES (".sanitize($uniqueid).",".sanitize($calleridnum).",".sanitize($calleridname).",".sanitize($seconds).",".sanitize($channelstate).",".sanitize($channelstatedesc).",".sanitize($channel).")";
         //echo "Running $sql";
-        mysqli_query($connection, $sql) or die(mysqli_error($connection));
+        mysqli_query($connection, $sql);
         if (mysqli_error($connection)) {
             require "../config/db_config.php";
             mysqli_query($connection, $sql);
@@ -174,7 +174,7 @@ function hangup($channel, $uniqueid) {
     global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
     require "../functions/sanitize.php";
 	$sql = "DELETE FROM SmoothOperator.channels WHERE uniqueid = ".sanitize($uniqueid);
-    mysqli_query($connection, $sql) or die (mysqli_error($connection));
+    mysqli_query($connection, $sql);
     if (mysqli_error($connection)) {
         echo "Error running, running again...";
         require "../config/db_config.php";
