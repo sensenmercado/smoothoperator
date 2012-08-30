@@ -133,7 +133,7 @@ function core_show_channels($uniqueid,$application_data,$calleridnum,$calleridna
         $sql = "UPDATE SmoothOperator.channels set accountcode=".sanitize($accountcode).",bridged_channel=".sanitize($bridgedchannel).",bridged_uniqueid=".sanitize($bridgeduniqueid)." where uniqueid = ".sanitize($uniqueid);
         //echo "Running $sql";
         mysqli_query($connection, $sql);
-        if (mysqli_error($connection)) {
+        if (@mysqli_error($connection)||!$connection) {
             require "../config/db_config.php";
             mysqli_query($connection, $sql);
         }
