@@ -141,10 +141,10 @@ function core_show_channels($uniqueid,$application_data,$calleridnum,$calleridna
     }
 }
 
-function asterisk_link($chan_1, $chan_2, $clid_1, $clid_2) {
+function asterisk_link($chan_1, $chan_2, $clid_1, $clid_2, $type = "Unknown") {
 	global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
 	echo "=====================================\n";
-	echo "Channel Link\n";
+	echo "Channel Link from $type\n";
 	echo "=====================================\n";
 	echo "Chan 1: $chan_1\n";
 	echo "Chan 2: $chan_2\n";
