@@ -152,6 +152,12 @@ while (1) {
                         } else if ($eventname == "Join") {
                         } else if ($eventname == "StatusComplete") {
                         } else if ($eventname == "Status") {
+                            if (!isset($calleridname)) {
+                                $calleridname = "";
+                            }
+                            if (!isset($calleridnum)) {
+                                $calleridnum = "";
+                            }
                             //echo "STATUS\n";
                             /*
                              Event: Status
