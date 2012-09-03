@@ -124,6 +124,9 @@ while (1) {
                     if (strlen($line) == 0) {
                         $event = false;
                         if ($eventname == "PeerStatus") {
+                            if (!isset($cause_txt)) {
+                                $cause_txt = "";
+                            }
                             peer_status($peer_name, $peer_status, $cause, $time, $cause_txt);
                         } else if ($eventname == "UserEvent") {
                             /* If we get a user event we need to make this available to the */
