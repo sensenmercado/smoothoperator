@@ -141,7 +141,7 @@ function core_show_channels($uniqueid,$application_data,$calleridnum,$calleridna
     }
 }
 
-function asterisk_link($chan_1, $chan_2, $clid_1, $clid_2, $type = "Unknown", $bridgetype = "";) {
+function asterisk_link($chan_1, $chan_2, $clid_1, $clid_2, $type = "Unknown", $bridgetype = "") {
 	global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
 	echo "=====================================\n";
 	echo "Channel Link from $type via $bridgetype\n";
