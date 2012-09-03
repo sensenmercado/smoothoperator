@@ -390,6 +390,21 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
         
+        /* Create the parked_calls table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "parked_calls")) {
+            $messages[] =  "parked_calls table is missing...created";
+            $sql = "CREATE TABLE `parked_calls` (
+            `room` int(11) unsigned NOT NULL,
+            `channel` varchar(255) DEFAULT NULL,
+            `agent` varchar(255) DEFAULT NULL,
+            `parked_at` datetime DEFAULT NULL,
+            PRIMARY KEY (`room`)
+            ) ENGINE=InnodB";
+            $result = mysqli_query($link, $sql);
+        }
+        
+        
+        
         /* Create the campaigns table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "campaigns")) {
             $messages[] =  "campaigns table is missing...created";
