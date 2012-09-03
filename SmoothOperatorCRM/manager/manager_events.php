@@ -207,7 +207,7 @@ function asterisk_unlink($chan_1, $chan_2, $clid_1, $clid_2) {
 	echo "=====================================\n";
     if (substr($chan_1,0,5) == "Agent") {
         $sql = "INSERT INTO SmoothOperator.hangups (extension) VALUES ('".substr($chan_1,6)."')";
-        echo "Running $sql";
+        //echo "Running $sql";
         mysqli_query($connection, $sql);
         if (mysqli_error($connection)) {
             require "../config/db_config.php";
