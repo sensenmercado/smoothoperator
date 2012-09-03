@@ -24,6 +24,8 @@ $DEBUG_MANAGER = false;
 $DEBUG_UNKNOWN = true;
 require "manager_events.php";
 
+mysqli_query($connection, "DELETE FROM SmoothOperator.channels");
+
 while (1) {
     $event = false;
     // Connect to the Asterisk Manager and log in
