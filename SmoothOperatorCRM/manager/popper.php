@@ -146,6 +146,18 @@ while (1) {
                         } else if ($eventname == "Newstate") {
                             $exploded = explode("-", $channel);
                             $peer_name = trim($exploded[0]);
+                            if (!isset($state)) {
+                                $state = "";
+                            }
+                            if (!isset($callerid)) {
+                                $callerid = "";
+                            }
+                            if (!isset($callerid_name)) {
+                                $callerid_name = "";
+                            }
+                            if (!isset($unique_id)) {
+                                $unique_id = "";
+                            }
                             new_state($peer_name, $state, $callerid, $callerid_name, $unique_id);
                         } else if ($eventname == "Newchannel") {
                         } else if ($eventname == "Newcallerid") {
@@ -241,7 +253,10 @@ while (1) {
                         } else if ($eventname == "Newexten") {
                         } else if ($eventname == "Registry") {
                         } else if ($eventname == "QueueCallerAbandon") {                            
-                        } else if ($eventname == "FullyBooted") {                            
+                        } else if ($eventname == "FullyBooted") {
+                        } else if ($eventname == "MusicOnHold") {
+                        } else if ($eventname == "AgentLogin") {
+                        } else if ($eventname == "AgentLogoff") {
                         } else {
                             if ($DEBUG_UNKNOWN) {
                                 echo "Unknown event: $eventname\n";
@@ -324,11 +339,17 @@ while (1) {
                         unset ($exten);
                         unset ($bridged_uniqueid);
                         unset ($account);
+                        unset ($class);
+                        unset ($agent);
                     } else { /* This is not a blank line but we are currently in an event */
                         if (substr($line, 0, 9) == "Privilege") {
                             $privilege = substr($line,0,10);
                         } else if (substr($line, 0, 16) == "BridgedUniqueid:") {
                             $bridged_uniqueid = substr($line, 17);
+                        } else if (substr($line, 0, 6) == "Class:") {
+                            $class = substr($line, 7);
+                        } else if (substr($line, 0, 6) == "Agent:") {
+                            $agent = substr($line, 7);
                         } else if (substr($line, 0, 8) == "Account:") {
                             $account = substr($line, 9);
                         } else if (substr($line, 0, 6) == "Exten:") {
