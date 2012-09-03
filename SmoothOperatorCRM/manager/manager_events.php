@@ -151,6 +151,12 @@ function asterisk_link($chan_1, $chan_2, $clid_1, $clid_2, $type = "Unknown") {
 	echo "CallerID 1: $clid_1\n";
 	echo "CallerID 2: $clid_2\n";
 	echo "=====================================\n";
+    if (substr($chan_1,0,5) == "Local") {
+        return;
+    }
+    if (substr($chan_2,0,5) == "Local") {
+        return;
+    }
     if (substr($chan_1,0,5) == "Agent") {
         $sql = "INSERT INTO SmoothOperator.phone_calls (callerid, extension) VALUES ('".$clid_2."','".substr($chan_1,6)."')";
         echo "Running $sql";
