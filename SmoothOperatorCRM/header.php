@@ -411,7 +411,7 @@ if ($this_page == "login.php") {
         
     }
     setInterval(draw_date, 1000);
-    setInterval(check_calls, 200);
+    setInterval(check_calls, 500);
     </script>
     <?}
 if ($this_page == "login.php") {?>
