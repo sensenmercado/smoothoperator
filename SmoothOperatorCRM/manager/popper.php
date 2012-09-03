@@ -258,6 +258,7 @@ while (1) {
                         } else if ($eventname == "Agentlogin") {
                         } else if ($eventname == "Agentlogoff") {
                         } else if ($eventname == "NewAccountCode") {
+                        } else if ($eventname == "NewCallerid") {
                         } else {
                             if ($DEBUG_UNKNOWN) {
                                 echo "Unknown event: $eventname\n";
@@ -350,7 +351,7 @@ while (1) {
                             $privilege = substr($line,0,10);
                         } else if (substr($line, 0, 10) == "Logintime:") {
                             $login_time = substr($line, 11);
-                        } else if (substr($line, 0, 12) == "BridgeState:") {
+                        } else if (substr($line, 0, 12) == "Bridgestate:") {
                             $bridge_state = substr($line, 13);
                         } else if (substr($line, 0, 16) == "BridgedUniqueid:") {
                             $bridged_uniqueid = substr($line, 17);
