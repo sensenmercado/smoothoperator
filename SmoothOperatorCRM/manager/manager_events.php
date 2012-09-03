@@ -174,7 +174,7 @@ function asterisk_link($chan_1, $chan_2, $clid_1, $clid_2, $type = "Unknown", $b
         }
     } else if (substr($chan_2,0,5) == "Agent") {
         $sql = "INSERT INTO SmoothOperator.phone_calls (callerid, extension) VALUES ('".$clid_1."','".substr($chan_2,6)."')";
-        echo "Running $sql";
+        //echo "Running $sql";
         mysqli_query($connection, $sql);
         if (mysqli_error($connection)) {
             require "../config/db_config.php";
