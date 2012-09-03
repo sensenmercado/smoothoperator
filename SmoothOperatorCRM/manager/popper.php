@@ -255,8 +255,8 @@ while (1) {
                         } else if ($eventname == "QueueCallerAbandon") {                            
                         } else if ($eventname == "FullyBooted") {
                         } else if ($eventname == "MusicOnHold") {
-                        } else if ($eventname == "AgentLogin") {
-                        } else if ($eventname == "AgentLogoff") {
+                        } else if ($eventname == "Agentlogin") {
+                        } else if ($eventname == "Agentlogoff") {
                         } else {
                             if ($DEBUG_UNKNOWN) {
                                 echo "Unknown event: $eventname\n";
