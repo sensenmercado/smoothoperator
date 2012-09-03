@@ -257,6 +257,7 @@ while (1) {
                         } else if ($eventname == "MusicOnHold") {
                         } else if ($eventname == "Agentlogin") {
                         } else if ($eventname == "Agentlogoff") {
+                        } else if ($eventname == "NewAccountCode") {
                         } else {
                             if ($DEBUG_UNKNOWN) {
                                 echo "Unknown event: $eventname\n";
@@ -341,11 +342,17 @@ while (1) {
                         unset ($account);
                         unset ($class);
                         unset ($agent);
+                        unset ($old_account_code);
+                        unset ($bridge_state);
                     } else { /* This is not a blank line but we are currently in an event */
                         if (substr($line, 0, 9) == "Privilege") {
                             $privilege = substr($line,0,10);
+                        } else if (substr($line, 0, 12) == "BridgeState:") {
+                            $bridge_state = substr($line, 13);
                         } else if (substr($line, 0, 16) == "BridgedUniqueid:") {
                             $bridged_uniqueid = substr($line, 17);
+                        } else if (substr($line, 0, 15) == "OldAccountCode:") {
+                            $old_account_code = substr($line, 16);
                         } else if (substr($line, 0, 6) == "Class:") {
                             $class = substr($line, 7);
                         } else if (substr($line, 0, 6) == "Agent:") {
