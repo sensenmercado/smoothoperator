@@ -54,7 +54,7 @@ function queue_member_status($member_name, $queue, $location, $membership, $call
     $device_states[5] = "Ringing";
     $device_states[8] = "Ring In Use";
     $device_states[4] = "On Hold";
-	echo "=====================================\n";
+	/*echo "=====================================\n";
 	echo "Queue Member Status\n";
 	echo "=====================================\n";
 	echo "Member: $member_name\n";
@@ -67,7 +67,7 @@ function queue_member_status($member_name, $queue, $location, $membership, $call
 	echo "Text Status: ".$device_states[$status]."\n";
 	echo "Paused: $paused\n";
 	echo "Penalty: $penalty\n";
-	echo "=====================================\n";
+	echo "=====================================\n";*/
 	if ($MYSQL_BACKEND) {
 		if ($status == 0) {
 			$sql = "DELETE FROM queue_member_status WHERE member = ".sanitize($member_name);
