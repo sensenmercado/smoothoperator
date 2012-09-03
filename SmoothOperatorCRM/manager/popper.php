@@ -158,6 +158,15 @@ while (1) {
                             if (!isset($calleridnum)) {
                                 $calleridnum = "";
                             }
+                            if (!isset($channel_state)) {
+                                $channel_state = "";
+                            }
+                            if (!isset($channel_state_desc)) {
+                                $channel_state_desc = "";
+                            }
+                            if (!isset($seconds)) {
+                                $seconds = "";
+                            }
                             //echo "STATUS\n";
                             /*
                              Event: Status
