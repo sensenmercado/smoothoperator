@@ -323,6 +323,31 @@ if ($this_page == "login.php") {
     }
     ?>
     <script type="text/javascript">
+    function check_calls() {
+        new Ajax.Request('check_calls.php?extension=<?=$_SESSION['extension']?>',
+                         {
+                         method:'get',
+                         onSuccess: function(transport){
+                         if (transport.responseText) {
+                         var response = transport.responseText;
+                         //alert("Success! \n\n" + response);
+                         <?
+                         if ($_SESSION['popup_blocker'] == "1") {
+                         ?>
+                         window.open("get_customer.php?nomenu=1&pop=1&phone_number="+response);
+                         <?
+                         } else {
+                         ?>
+                         window.location = "get_customer.php?pop=1&phone_number="+response;
+                         <?
+                         }
+                         ?>
+                         }
+                         }
+                         });
+        
+        
+    }
     function draw_date() {
         var currentTime = new Date();
         var hours = currentTime.getHours();
@@ -340,28 +365,6 @@ if ($this_page == "login.php") {
         //eval("document.all.date_div.innerHTML = ' (<?=$_SESSION['calls']?> calls)'");
         
         
-        
-        new Ajax.Request('check_calls.php?extension=<?=$_SESSION['extension']?>',
-                         {
-                         method:'get',
-                         onSuccess: function(transport){
-                         if (transport.responseText) {
-                         var response = transport.responseText;
-                         //alert("Success! \n\n" + response);
-                         <?
-                         if ($_SESSION['popup_blocker'] == "1") {
-                         ?>
-                         window.open("get_customer.php?nomenu=1&pop=1&phone_number="+response);
-                         <?
-                         } else {
-                         ?>
-                         window.location = "get_customer.php?pop=1&phone_number="+response;                         
-                         <?
-                         }
-                         ?>
-                         }
-                         }
-                         });
         
         new Ajax.Request('check_hangups.php?extension=<?=$_SESSION['extension']?>',
                          {
@@ -408,6 +411,7 @@ if ($this_page == "login.php") {
         
     }
     setInterval(draw_date, 1000);
+    setInterval(check_calls, 200);
     </script>
     <?}
 if ($this_page == "login.php") {?>
