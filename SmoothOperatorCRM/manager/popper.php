@@ -138,7 +138,7 @@ while (1) {
                         } else if ($eventname == "Link") {
                             asterisk_link($chan_1, $chan_2, $clid_1, $clid_2, "Link");
                         } else if ($eventname == "Bridge") {
-                            asterisk_link($chan_1, $chan_2, $clid_1, $clid_2, "Bridge");
+                            asterisk_link($chan_1, $chan_2, $clid_1, $clid_2, "Bridge", $bridgetype);
                         } else if ($eventname == "Unlink") {
                             asterisk_unlink($chan_1, $chan_2, $clid_1, $clid_2);
                         } else if ($eventname == "Newstate") {
@@ -289,7 +289,7 @@ while (1) {
                         unset ($channel_state_desc);
                         unset ($connected_line_num);
                         unset ($connected_line_name);
-                        
+                        unset ($bridgetype);
                         unset ($uniqueid);
                         unset ($application_data);
                         unset ($calleridnum);
@@ -310,6 +310,8 @@ while (1) {
                             $privilege = substr($line,0,10);
                         } else if (substr($line, 0, 6) == "Exten:") {
                             $exten = substr($line, 7);
+                        } else if (substr($line, 0, 11) == "Bridgetype:") {
+                            $bridgetype = substr($line, 12);
                         } else if (substr($line, 0, 8) == "Address:") {
                             $address = substr($line, 9);
                         } else if (substr($line, 0, 9) == "UniqueID:") {
