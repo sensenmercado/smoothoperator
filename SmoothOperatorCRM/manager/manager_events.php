@@ -159,10 +159,10 @@ function asterisk_link($chan_1, $chan_2, $clid_1, $clid_2, $type = "Unknown", $b
         echo "Leg 2 was local, returning\n";
         return;
     }
-    if (trim($bridgetype) == "core") {
+    /*if (trim($bridgetype) == "core") {
         echo "Bridge Type was core, returning\n";
         return;
-    }
+    }*/
     echo "Local not detected - continuing\n";
     if (substr($chan_1,0,5) == "Agent") {
         $sql = "INSERT INTO SmoothOperator.phone_calls (callerid, extension) VALUES ('".$clid_2."','".substr($chan_1,6)."')";
