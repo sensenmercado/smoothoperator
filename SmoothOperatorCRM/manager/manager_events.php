@@ -126,7 +126,7 @@ function status($channel, $calleridnum, $calleridname, $channelstate, $channelst
         
     }
 }
-function core_show_channels($uniqueid,$application_data,$calleridnum,$calleridname,$duration,$accountcode,$bridgedchannel,$bridgeduniqueid,$eventlist,$listitems) {
+function core_show_channels($uniqueid,$application_data,$calleridnum,$calleridname,$duration,$accountcode,$bridgedchannel,$bridgeduniqueid) {
     if (strlen($uniqueid) > 0) {
         global $FILE_BACKEND, $MYSQL_BACKEND, $connection;
         require "../functions/sanitize.php";

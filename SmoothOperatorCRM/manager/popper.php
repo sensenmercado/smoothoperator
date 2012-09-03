@@ -27,7 +27,7 @@ require "manager_events.php";
 while (1) {
     $event = false;
     // Connect to the Asterisk Manager and log in
-    $socket = fsockopen($manager_hostname, $manager_port, $errno, $errstr, $connection_timeout) or die ("Unable to connect to Asterisk Manager at $manager_hostname");
+    $socket = fsockopen($manager_hostname, $manager_port, $errno, $errstr, $connection_timeout);
     fputs($socket, "Action: Login\r\n");
     fputs($socket, "UserName: $manager_username\r\n");
     fputs($socket, "Secret: $manager_password\r\n\r\n");
@@ -210,7 +210,7 @@ while (1) {
                             echo "Event List: ".$eventlist."\n";
                             echo "List Items: ".$listitems."\n";
                             echo "======================================\n";*/
-                            core_show_channels($uniqueid,$application_data,$calleridnum,$calleridname,$duration,$accountcode,$bridgedchannel,$bridgeduniqueid,$eventlist,$listitems);                            
+                            core_show_channels($uniqueid,$application_data,$calleridnum,$calleridname,$duration,$accountcode,$bridgedchannel,$bridgeduniqueid);                            
                         } else if ($eventname == "Shutdown") {
                             // Server is shutting down - force a reconnect
                             fclose($socket);
