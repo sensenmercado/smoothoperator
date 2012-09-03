@@ -344,9 +344,12 @@ while (1) {
                         unset ($agent);
                         unset ($old_account_code);
                         unset ($bridge_state);
+                        unset ($login_time);
                     } else { /* This is not a blank line but we are currently in an event */
                         if (substr($line, 0, 9) == "Privilege") {
                             $privilege = substr($line,0,10);
+                        } else if (substr($line, 0, 10) == "Logintime:") {
+                            $login_time = substr($line, 11);
                         } else if (substr($line, 0, 12) == "BridgeState:") {
                             $bridge_state = substr($line, 13);
                         } else if (substr($line, 0, 16) == "BridgedUniqueid:") {
