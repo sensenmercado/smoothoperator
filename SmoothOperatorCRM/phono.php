@@ -1,5 +1,79 @@
 <?
 session_start();
+if (isset($_GET['pickup'])) {
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+    require "functions/asterisk_manager.php";
+    $config_values = $_SESSION['config_values'];
+    $sql = "SELECT channel FROM parked_calls WHERE room = ".sanitize($_GET['pickup']);
+    $result = mysqli_query($connection, $sql) or die(json_encode(mysqli_error($connection)));
+    $row = mysqli_fetch_assoc($result);
+    bridge($row['channel'],$_GET['me']);
+    exit(0);
+}
+
+if (isset($_GET['at_xfer'])) {
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+    require "functions/asterisk_manager.php";
+    $sql = "SELECT bridged_channel FROM channels WHERE channel = ".sanitize($_GET['at_xfer'])." limit 1";
+    //echo json_encode($sql);
+    //exit(0);
+    $result = mysqli_query($connection, $sql) or die(json_encode(mysqli_error($connection)));
+    if (mysqli_num_rows($result) == 1) {
+        $row = mysqli_fetch_assoc($result);
+        $channel = $row['bridged_channel'];
+    }
+    $config_values = $_SESSION['config_values'];
+    $context = "outbound_crm";
+    $exten = '4072674434';
+    $context = "conference";
+    $exten = "777";
+    $priority = "1";
+    $result = at_xfer($channel, $context, $exten, $priority);
+    echo json_encode($result);
+    exit(0);
+}
+
+
+if (isset($_GET['park_call'])) {
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+    require "functions/asterisk_manager.php";
+    $config_values = $_SESSION['config_values'];
+    $channel1 = $_GET['channel1'];
+    $channel2 = $_GET['channel2'];
+    sleep(10);
+//    $sql = "SELECT bridged_channel FROM channels WHERE channel = ".sanitize($_GET['channel1'])." limit 1";
+//    $result = mysqli_query($connection, $sql) or die(json_encode(mysqli_error($connection)));
+/*    if (mysqli_num_rows($result) == 1) {
+        $row = mysqli_fetch_assoc($result);
+        $channel1 = $row['bridged_channel'];
+    }*/
+    $result = mysqli_query($connection, "SELECT * FROM parked_calls order by room desc limit 1");
+    if (mysqli_num_rows($result) == 0) {
+        $slot = 7000;
+    } else {
+        $row = mysqli_fetch_assoc($result);
+        $slot = $row['room']+1;
+    }
+    $result = mysqli_query($connection, "INSERT INTO parked_calls (room, channel, agent, parked_at) VALUES (".$slot.",".sanitize($channel1).",".sanitize($_SESSION['agent_num']).",NOW())");
+    // 4 hours
+    $timeout = 1000 * 60 * 60 * 4;
+    park_call($channel1, $channel2, $slot, $timeout);
+    echo json_encode($slot);
+    exit(0);
+}
+if (isset($_GET['check_parked'])) {
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+    $result = mysqli_query($connection, "SELECT * FROM parked_calls WHERE agent = ".sanitize($_SESSION['agent_num']));
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        echo json_encode($row);
+    }
+    exit(0);
+}
 if (isset($_GET['transfer_to_conf_call'])) {
     require "config/db_config.php";
     require "functions/sanitize.php";
@@ -14,7 +88,10 @@ if (isset($_GET['transfer_to_conf_call'])) {
         $context = "conference";
         $extension = $_SESSION['agent_num'];
         $priority = "1";
-        echo json_encode(transfer_to_extension($channel1, $channel2, $context, $extension, $priority));
+        transfer_to_extension($channel1, $channel2, $context, $extension, $priority);
+//        transfer_single_to_extension($channel1, $context, $extension, $priority);
+//        transfer_single_to_extension($channel2, $context, $extension, $priority);
+        echo json_encode($row['bridged_channel']);
         //echo json_encode("Done");
     } else {
         echo json_encode("Can't find second channel");
@@ -99,8 +176,64 @@ Soft Phone
 <br /><br />
 <script>
 var my_uniqueid;
+var phono;
+var bridged_channel;
 
 //get the file
+function get_parked_calls() {
+    $.ajax({
+           type: "GET",
+           context: document.body,
+           url: "phono.php?check_parked=1",
+           dataType: "json",
+           error : function(data) {
+           alert("Unable to get channel: "+data);
+           },
+           success : function(data) {
+           //my_uniqueid = data;
+           //$("#status_light").css("background-color","#0f0");
+           //$("#testing").append(data);
+           alert(data);
+           }
+           });
+    
+}
+function callParked(parked_id) {
+    // Make link to retrieve/transfer call
+    $("#status_light").css("background-color","#f00");
+    // Make a new call to the transfer number
+    //phono.phone.dial("sip:600@<?=$_SESSION['config_values']['manager_host']?>");
+    $("#parked_calls").html('<a href="#" onclick="$(\'#testing\').load(\'phono.php?pickup='+parked_id+'&me='+my_uniqueid+'\');">'+parked_id+'</a>');
+    /*
+    // Get our new channel id
+    $.ajax({
+           type: "GET",
+           context: document.body,
+           url: "phono.php?get_channel=1",
+           dataType: "json",
+           error : function(data) {
+           alert("Unable to get channel: "+data);
+           },
+           success : function(data) {
+           my_uniqueid = data;
+           $("#status_light").css("background-color","#0f0");
+           $("#testing").append(data);
+           $("#parked_calls").html('<a href="#" onclick="$(\'#testing\').load(\'phono.php?pickup='+parked_id+'&me='+my_uniqueid+'\');">'+parked_id+'</a>');
+           }
+           });
+    */
+    
+}
+function park() {
+    
+     
+    alert("Parking...");
+    transfer();
+     
+    //$("#testing").load(");
+//    alert("parked");
+    
+}
 
 function login(call) {
     <?
@@ -117,7 +250,7 @@ function login(call) {
     echo 'call.digit("#");';
     ?>
     $("#status_light").css("background-color","#ffa500");
-
+    
     //alert(1);
     $.ajax({
            type: "GET",
@@ -134,7 +267,7 @@ function login(call) {
            }
            });
     
-
+    
     $("#status").html("Logged in.");
     var objx = call;
     $("#hangup").click(function() {
@@ -155,7 +288,7 @@ $(document).ready(function(){
                   audioType = 'java';
                   }
                   
-                  var phono = $.phono({
+                  phono = $.phono({
                                       apiKey: "<?=$_SESSION['config_values']['phono_key']?>",
                                       audio: {
                                       type:audioType,
@@ -224,7 +357,25 @@ function transfer() {
            alert("Unable to get transfer: "+textStatus);
            },
            success : function(data) {
-           $("#testing").append(data);
+           bridged_channel = data;
+           alert("My Chan: "+my_uniqueid+" Bridged Chan: "+bridged_channel);
+           $.get("phono.php?park_call=1&channel2="+my_uniqueid+"&channel1="+bridged_channel, callParked);
+           
+           }
+           });
+}
+function at_xfer() {
+    //alert("About to transfer");
+    $.ajax({
+           type: "GET",
+           context: document.body,
+           url: "phono.php?at_xfer="+my_uniqueid,
+           dataType: "json",
+           error : function(jqXHR, textStatus, errorThrown) {
+           alert("Unable to get transfer: "+textStatus);
+           },
+           success : function(data) {
+           alert(data);
            }
            });
 }
@@ -235,11 +386,11 @@ function transfer() {
 <button type="button" value="Resume" id="unpause" onclick="jQuery('#testing').load('phono.php?pause=false');jQuery('#pause').show();jQuery('#unpause').hide();" style="display: none;text-decoration: none;height: 32px;vertical-align: middle; padding: 8px"><img src="images/control_play_blue.png" width="16" height="16" align="bottom" />&nbsp;Resume</button>
 <?/*<button type="button" onclick="alert(my_uniqueid);">What is my channel</button>
 
-
-<button type="button" onclick="transfer();">Transfer to Conf</button>*/?>
-
-
-
+<button type="button" onclick="transfer();$('#disconnect_conf').show()">Transfer to Conf</button>
+<button id="disconnect_conf">Disconnect Conference Call</button>
+<button id="park" onclick="park();">Park Call</button>
+   */?>
+<button id="transfer" onclick="at_xfer();">Transfer Call</button>
 </div>
 <input id="disconnect" type="button" disabled = "true" value="Disconnect caller" /><br />
 <input id="hangup" type="button" disabled="true" value="Logout" /><br />
@@ -253,6 +404,9 @@ Status:</p>
 Waiting for login<br />
 <br /><a href="#" onclick="location.reload();">Reload Softphone</a>
 </div>
+<br />
+<?/*<div id="parked_calls_header" style="font-family: arial">Parked Calls:</div>
+<div id="parked_calls"></div>*/?>
 <br />
 </div>
 <span id="status_light" style="display: block;width:10px;height:10px;background-color:#f00; position: absolute;bottom: 0px;right: 0px"></span>
