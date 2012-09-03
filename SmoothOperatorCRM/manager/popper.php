@@ -322,9 +322,15 @@ while (1) {
                         unset ($seconds);
                         unset ($address);
                         unset ($exten);
+                        unset ($bridged_uniqueid);
+                        unset ($account);
                     } else { /* This is not a blank line but we are currently in an event */
                         if (substr($line, 0, 9) == "Privilege") {
                             $privilege = substr($line,0,10);
+                        } else if (substr($line, 0, 16) == "BridgedUniqueid:") {
+                            $bridged_uniqueid = substr($line, 17);
+                        } else if (substr($line, 0, 8) == "Account:") {
+                            $account = substr($line, 9);
                         } else if (substr($line, 0, 6) == "Exten:") {
                             $exten = substr($line, 7);
                         } else if (substr($line, 0, 11) == "Bridgetype:") {
