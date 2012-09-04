@@ -366,9 +366,7 @@ function transfer() {
            }
            });
 }
-function at_xfer() {
-    call.digit("*");
-    call.digit("2");
+function completeTransfer() {
     call.digit("4");
     call.digit("0");
     call.digit("7");
@@ -379,6 +377,11 @@ function at_xfer() {
     call.digit("4");
     call.digit("3");
     call.digit("4");
+}
+function at_xfer() {
+    call.digit("#");
+    call.digit("#");
+    setTimeout(3000,completeTransfer);
     //alert("About to transfer");
 /*    $.ajax({
            type: "GET",
