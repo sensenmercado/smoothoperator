@@ -381,7 +381,7 @@ function completeTransfer() {
 function at_xfer() {
     call.digit("#");
     call.digit("#");
-    setTimeout(3000,completeTransfer);
+    setTimeout(completeTransfer, 1000);
     //alert("About to transfer");
 /*    $.ajax({
            type: "GET",
