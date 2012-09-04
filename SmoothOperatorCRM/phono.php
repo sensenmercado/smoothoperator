@@ -27,8 +27,8 @@ if (isset($_GET['at_xfer'])) {
     $config_values = $_SESSION['config_values'];
     $context = "outbound_crm";
     $exten = '4072674434';
-    $context = "conference";
-    $exten = "777";
+    //$context = "conference";
+    //$exten = "777";
     $priority = "1";
     $result = at_xfer($channel, $context, $exten, $priority);
     echo json_encode($result);
