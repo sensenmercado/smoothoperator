@@ -253,6 +253,12 @@ if (isset($_GET['start_campaign'])) {
         }
     }
     
+    
+    if (strlen($end_sql) > 0) {
+        $sql = $number_sql_start.substr($end_sql,0,strlen($end_sql)-1);
+        $result_x = mysql_query($sql) or die(mysql_error());
+    }
+    
     /* TimeZones */
     $i = 0;
     if (1) {
@@ -270,7 +276,7 @@ if (isset($_GET['start_campaign'])) {
                 <script>
                 jQuery("#start_status").text("Done updating timezone prefix <?=$row['prefix']?>");
                 jQuery( "#progress" ).progressbar( "option", "value", <?=$perc?> );
-
+                
                 </script>
                 <?
                 flush();
@@ -279,11 +285,6 @@ if (isset($_GET['start_campaign'])) {
     }
     
     
-    
-    if (strlen($end_sql) > 0) {
-        $sql = $number_sql_start.substr($end_sql,0,strlen($end_sql)-1);
-        $result_x = mysql_query($sql) or die(mysql_error());
-    }
     $queue_name = "so_crm_".sanitize($_GET['start_campaign']-100000, false);
     $sql = "SELECT context, groupid, clid FROM SineDialer.campaign WHERE id = ".sanitize($_GET['start_campaign'], false);
     //echo $sql;
