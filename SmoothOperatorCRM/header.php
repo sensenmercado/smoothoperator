@@ -324,27 +324,6 @@ if ($this_page == "login.php") {
     ?>
     <script type="text/javascript">
     function check_calls() {
-        new Ajax.Request('check_calls.php?extension=<?=$_SESSION['extension']?>',
-                         {
-                         method:'get',
-                         onSuccess: function(transport){
-                         if (transport.responseText) {
-                         var response = transport.responseText;
-                         //alert("Success! \n\n" + response);
-                         <?
-                         if ($_SESSION['popup_blocker'] == "1") {
-                         ?>
-                         window.open("get_customer.php?nomenu=1&pop=1&phone_number="+response);
-                         <?
-                         } else {
-                         ?>
-                         window.location = "get_customer.php?pop=1&phone_number="+response;
-                         <?
-                         }
-                         ?>
-                         }
-                         }
-                         });
         
         
     }
@@ -376,6 +355,27 @@ if ($this_page == "login.php") {
                          }
                          });
         
+        new Ajax.Request('check_calls.php?extension=<?=$_SESSION['extension']?>',
+                         {
+                         method:'get',
+                         onSuccess: function(transport){
+                         if (transport.responseText) {
+                         var response = transport.responseText;
+                         //alert("Success! \n\n" + response);
+                         <?
+                         if ($_SESSION['popup_blocker'] == "1") {
+                         ?>
+                         window.open("get_customer.php?nomenu=1&pop=1&phone_number="+response);
+                         <?
+                         } else {
+                         ?>
+                         window.location = "get_customer.php?pop=1&phone_number="+response;
+                         <?
+                         }
+                         ?>
+                         }
+                         }
+                         });
         
         
         
