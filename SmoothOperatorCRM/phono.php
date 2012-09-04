@@ -375,7 +375,7 @@ function at_xfer() {
            alert("Unable to get transfer: "+textStatus);
            },
            success : function(data) {
-           alert(data);
+           //alert(data);
            }
            });
 }
