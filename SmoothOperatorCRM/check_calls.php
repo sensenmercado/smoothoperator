@@ -16,28 +16,33 @@ if (mysqli_num_rows($result) < 1) {
 }
 $chan = $row['data1'];
 //sleep(5);
-$result = mysqli_query($connection, "SELECT bridged_channel FROM channels WHERE channel = ".sanitize($chan));
-if (mysqli_num_rows($result) == 0) {
-    $display_pop = false;
-} else {
-    $row = mysqli_fetch_assoc($result);
-    if (strlen(trim($row['bridged_channel'])) > 1) {
-        $display_pop = true;
-        $bridged = $row['bridged_channel'];
-    } else {
+$repeat = false;
+while ($repeat) {
+    $result = mysqli_query($connection, "SELECT bridged_channel FROM channels WHERE channel = ".sanitize($chan));
+    if (mysqli_num_rows($result) == 0) {
         $display_pop = false;
+    } else {
+        $row = mysqli_fetch_assoc($result);
+        if (strlen(trim($row['bridged_channel'])) > 1) {
+            $display_pop = true;
+            $bridged = $row['bridged_channel'];
+        } else {
+            $display_pop = false;
+        }
+    }
+    
+    $sql = "SELECT * FROM phone_calls WHERE extension = ".sanitize($_GET['extension']);
+    $result = mysqli_query($connection, $sql);
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        if ($display_pop) {
+            echo str_replace("+1","",$row['callerid']);
+            //echo $bridged;
+            mysqli_query($connection, "DELETE FROM phone_calls where id = ".$row['id']);
+        } else {
+            $repeat = true;
+            usleep(200000);
+        }
     }
 }
-
-$sql = "SELECT * FROM phone_calls WHERE extension = ".sanitize($_GET['extension']);
-$result = mysqli_query($connection, $sql);
-if ($result && mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_assoc($result);
-    if ($display_pop) {
-        echo str_replace("+1","",$row['callerid']);
-        //echo $bridged;
-        mysqli_query($connection, "DELETE FROM phone_calls where id = ".$row['id']);
-    }
-}
-
 ?>
