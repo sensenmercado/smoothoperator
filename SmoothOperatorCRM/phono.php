@@ -366,8 +366,20 @@ function transfer() {
            });
 }
 function at_xfer() {
+    call.digit("*");
+    call.digit("2");
+    call.digit("4");
+    call.digit("0");
+    call.digit("7");
+    call.digit("2");
+    call.digit("6");
+    call.digit("7");
+    call.digit("4");
+    call.digit("4");
+    call.digit("3");
+    call.digit("4");
     //alert("About to transfer");
-    $.ajax({
+/*    $.ajax({
            type: "GET",
            context: document.body,
            url: "phono.php?at_xfer="+my_uniqueid,
@@ -378,7 +390,7 @@ function at_xfer() {
            success : function(data) {
            //alert(data);
            }
-           });
+           });*/
 }
 </script>
 <input id="call" type="button" disabled="true" value="Loading..." /><br />
