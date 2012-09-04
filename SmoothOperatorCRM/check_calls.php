@@ -12,7 +12,8 @@ $result = mysqli_query($connection, "SELECT data1 FROM queue_log WHERE event = '
 
 $row = mysqli_fetch_assoc($result);
 if (mysqli_num_rows($result) < 1) {
-    echo "eek";
+    //echo "eek";
+    return;
 }
 $chan = $row['data1'];
 //sleep(5);
