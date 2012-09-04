@@ -17,8 +17,9 @@ if (mysqli_num_rows($result) < 1) {
 }
 $chan = $row['data1'];
 //sleep(5);
-$repeat = false;
+$repeat = true;
 while ($repeat) {
+    $repeat = false;
     $result = mysqli_query($connection, "SELECT bridged_channel FROM channels WHERE channel = ".sanitize($chan));
     if (mysqli_num_rows($result) == 0) {
         $display_pop = false;
