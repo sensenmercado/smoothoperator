@@ -30,6 +30,7 @@ if (isset($_GET['at_xfer'])) {
     //$context = "conference";
     //$exten = "777";
     $priority = "1";
+    $channel = $_GET['at_xfer'];
     $result = at_xfer($channel, $context, $exten, $priority);
     echo json_encode($result);
     exit(0);
