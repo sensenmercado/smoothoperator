@@ -179,7 +179,7 @@ Soft Phone
 var my_uniqueid;
 var phono;
 var bridged_channel;
-
+var call;
 //get the file
 function get_parked_calls() {
     $.ajax({
@@ -236,7 +236,8 @@ function park() {
     
 }
 
-function login(call) {
+function login(callx) {
+    call = callx;
     <?
     $agent_num = $_SESSION['agent_num'];
     $agent_pass = $_SESSION['agent_pass'];
@@ -306,7 +307,7 @@ $(document).ready(function(){
                                       headset: true,
                                       
                                       onIncomingCall: function(event) {
-                                      var call = event.call;
+                                        call = event.call;
                                       console.log("Auto-answering call with ID " + call.id);
                                       // Answer the call
                                       call.answer();
