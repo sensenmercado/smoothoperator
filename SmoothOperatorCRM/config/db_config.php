@@ -5,7 +5,7 @@
     $db_pass = "";
     $db_name = "SmoothOperator";
 
-    $connection = mysqli_connect($db_host,$db_user,$db_pass);
+    $connection = mysqli_connect("p:".$db_host,$db_user,$db_pass);
     mysqli_select_db($connection, $db_name);
 
 ?>
