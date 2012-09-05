@@ -243,11 +243,11 @@ function login(callx) {
     $agent_pass = $_SESSION['agent_pass'];
     
     for ($i = 0;$i<strlen($agent_num);$i++) {
-        echo 'call.digit("'.substr($agent_num,$i,1).'");';
+        echo 'call.digit("'.substr($agent_num,$i,1).'");'."\n";
     }
     echo 'call.digit("#");';
     for ($i = 0;$i<strlen($agent_pass);$i++) {
-        echo 'call.digit("'.substr($agent_pass,$i,1).'");';
+        echo 'call.digit("'.substr($agent_pass,$i,1).'");'."\n";
     }
     echo 'call.digit("#");';
     ?>
@@ -275,10 +275,11 @@ function login(callx) {
     $("#hangup").click(function() {
                        call.hangup();
                        });
+    /*
     $("#disconnect").click(function() {
                            call.digit("*");
                            });
-    
+     */
     
     
     
@@ -409,7 +410,7 @@ function at_xfer() {
    */?>
 <button id="transfer" onclick="at_xfer();">Transfer Call</button>
 </div>
-<input id="disconnect" type="button" disabled = "true" value="Disconnect caller" /><br />
+<input id="disconnect" type="button" disabled = "true" value="Disconnect caller" onclick = "call.digit('*');" /><br />
 <input id="hangup" type="button" disabled="true" value="Logout" /><br />
 <script type='text/javascript' src='js/jquery-1.3.2.min.js'></script>
 <script>
