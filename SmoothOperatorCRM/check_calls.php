@@ -11,19 +11,22 @@ require "functions/sanitize.php";
 $result = mysqli_query($connection, "SELECT data1 FROM queue_log WHERE event = 'AGENTLOGIN' AND agent = 'Agent/".$_SESSION['agent_num']."' order by id desc limit 1") or die(mysqli_error($connection));
 
 //exit(0);
-$row = mysqli_fetch_assoc($result);
 if (mysqli_num_rows($result) < 1) {
     //echo "eek";
     exit(0);
+} else {
+    $row = mysqli_fetch_assoc($result);
 }
-
 $chan = $row['data1'];
 //sleep(5);
 $repeat = true;
+$count = 0;
 while ($repeat) {
+    $count++;
     $repeat = false;
     $sql = "SELECT bridged_channel FROM channels WHERE channel = ".sanitize($chan);
     $result = mysqli_query($connection, $sql);
+    $display_pop = false;
     if (mysqli_num_rows($result) == 0) {
         $display_pop = false;
     } else {
@@ -35,6 +38,7 @@ while ($repeat) {
             $display_pop = false;
         }
     }
+
     $sql = "SELECT * FROM phone_calls WHERE extension = ".sanitize($_GET['extension']);
     $result = mysqli_query($connection, $sql);
     if ($result && mysqli_num_rows($result) > 0) {
@@ -47,6 +51,9 @@ while ($repeat) {
             $repeat = true;
             usleep(200000);
         }
+    }
+    if ($count > 5) {
+        exit(0);
     }
 }
 ?>
