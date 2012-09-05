@@ -1,6 +1,6 @@
 <?
 require "header.php";
-$result = mysqli_query($connection, "SELECT * FROM SmoothOperator.cdr order by calldate desc") or die(mysqli_error($connection));
+$result = mysqli_query($connection, "SELECT * FROM SmoothOperator.cdr order by calldate desc limit 100") or die(mysqli_error($connection));
 if (mysqli_num_rows($result) > 0) {
     ?>
     <div class="thin_90perc_box">
@@ -14,6 +14,7 @@ if (mysqli_num_rows($result) > 0) {
     <th>Disposition</th>
     <th>Last App</th>
     <th>Phone Number</th>
+    <th>Recording</th>
     </tr>
     <?
     while ($row = mysqli_fetch_assoc($result)) {
@@ -47,6 +48,11 @@ if (mysqli_num_rows($result) > 0) {
 
         }
         echo '<td>'.$row['userfield'].'</td>';
+        if (file_exists('files/'.$row['uniqueid'].'.wav')) {
+            echo '<td><a href="files/'.$row['uniqueid'].'.wav">'.$row['uniqueid'].'</a></td>';
+        } else {
+            echo '<td>'.$row['uniqueid'].'</td>';
+        }
         echo '</tr>';
     }
     ?>
