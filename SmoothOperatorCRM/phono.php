@@ -368,7 +368,15 @@ function transfer() {
            });
 }
 function completeTransfer() {
-    call.digit("4");
+    
+    var str;
+    str = $("#transfer_number").val();
+    for (var i = 0, len = str.length; i < len; i++) {
+        call.digit(str[i]);
+    }
+    return;
+    
+/*    call.digit("4");
     call.digit("0");
     call.digit("7");
     call.digit("2");
@@ -377,7 +385,7 @@ function completeTransfer() {
     call.digit("4");
     call.digit("4");
     call.digit("3");
-    call.digit("4");
+    call.digit("4");*/
 }
 function at_xfer() {
     call.digit("#");
@@ -408,6 +416,7 @@ function at_xfer() {
 <button id="disconnect_conf">Disconnect Conference Call</button>
 <button id="park" onclick="park();">Park Call</button>
    */?>
+Transfer Number: <input type="text" id="transfer_number">
 <button id="transfer" onclick="at_xfer();">Transfer Call</button>
 </div>
 <input id="disconnect" type="button" disabled = "true" value="Disconnect caller" onclick = "call.digit('*');" /><br />
