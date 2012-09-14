@@ -121,7 +121,7 @@ if (!isset($_GET['search'])) {
                 echo '<tr>';
                 echo '<td>'.$row['contact_date_time'].'</td>';
                 echo '<td>'.$row['cleaned_number'].'</td>';
-                echo '<td>'.$disps[$row['disposition']].'</td>';
+                echo '<td>'.ucwords(strtolower($disps[$row['disposition']])).'</td>';
                 echo '<td>'.$row['username'].'</td>';
                 echo '<td>'.$row['first_name']." ".$row['last_name'].'</td>';
                 echo '</tr>';

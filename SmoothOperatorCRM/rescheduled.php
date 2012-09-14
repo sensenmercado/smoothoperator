@@ -38,7 +38,7 @@ if (mysqli_num_rows($result) == 0) {
     while ($row = mysqli_fetch_assoc($result)) {
         echo '<tr>';
 //        print_pre($row);
-        echo '<td>'.$row['reschedule_datetime'].'</td>';
+        echo '<td>'.@date("l jS \of F Y h:i:s A",strtotime($row['reschedule_datetime'])).'</td>';
         echo '<td><a href="rescheduled.php?call_number='.$row['phone_number'].'">'.$row['phone_number'].'</a></td>';
         echo '<td>'.$row['done'].'</td>';
         echo '</tr>';
