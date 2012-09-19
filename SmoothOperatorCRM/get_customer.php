@@ -158,7 +158,7 @@ function display_script($customer, $question_number) {
     /* Statement followed by yes/no */
     
     function add_statement_followed_by_yesno(value,new_id,statement, divName){
-        if (value == "yes") {
+        if (value == "YES") {
             jQuery("#"+divName).append(nl2br(statement)+" <br><select name='field"+new_id+"'><option value='YES' selected>Yes</option><option value='NO'>No</option></select><br />");
             
         } else {
@@ -317,7 +317,7 @@ function display_script($customer, $question_number) {
             <?
         } else {
             ?>
-            jQuery("#dynamicInput2").append('<a class="button_link" href="#" onclick="new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(5000);}}});">Finish&nbsp;<img src="images/control_stop_blue.png"></a>');
+            jQuery("#dynamicInput2").append('<a class="button_link" href="#" onclick="new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize());">Finish&nbsp;<img src="images/control_stop_blue.png"></a>');
 
             <?
         }

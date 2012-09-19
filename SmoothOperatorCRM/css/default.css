@@ -1563,7 +1563,7 @@ a.new_button:hover{
 
 
 
-
+.noTitleStuff .ui-dialog-titlebar {height: 10px;font-size: 8px}
 
 #menu-floater	{float:left; height:50%; margin-bottom:-300px;}
 #menu-content	{clear:both; height:600px; position:relative;}
