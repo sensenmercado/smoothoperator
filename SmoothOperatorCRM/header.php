@@ -517,9 +517,9 @@ if ($this_page != "login.php") {
     </script>
 
     <span style="color:#00f"><a href="#" onclick="jQuery('#pop_call_div').dialog({modal: true});">Pop Up Call</a></span>
-    <span style="color:#00f"><a href="#" onclick="appointment_dialog.dialog('open')">Appointment</a></span>
+<?/*    <span style="color:#00f"><a href="#" onclick="appointment_dialog.dialog('open')">Appointment</a></span>
     <span style="color:#00f"><a href="#" onclick="if (appointment_dialog.dialog('isOpen')===true) {alert('open');} else {alert('closed')}">Appointment</a></span>
-    <?
+    <?*/
     echo '&nbsp;<span id="status_bar" style="display: inline-block;color: #f00;font-weight: bold;"></span>';
     ?>
     </div>
