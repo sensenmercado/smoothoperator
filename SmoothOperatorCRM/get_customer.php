@@ -414,7 +414,7 @@ function display_dispositions() {
                     
                     box_start(135);
                     echo "<center>";
-                    echo $rowx['text'];
+                    echo ucfirst(strtolower($rowx['text']));
                     box_end();
                     echo '</a>';
                     
