@@ -489,6 +489,10 @@ if ($this_page != "login.php") {
 
     
     </div>
+    <div id="appointment" style="display:none" title="Pending Appointment"><center>
+    </div>
+    <div id="appointment2" style="display:none" title="Pending Appointment"><center>
+    </div>
     <div id="hangup" title="Hungup" style="display:none"><center><br />Call Ended...</div>
     <script>
     var hangup_dialog = jQuery('#hangup').dialog({
@@ -502,10 +506,19 @@ if ($this_page != "login.php") {
                                                             }, 1500);
                                                  }
                                                  });
-    
+    var appointment_dialog = jQuery('#appointment').dialog({
+                                                           autoOpen: false,
+                                                           minHeight: 20,
+                                                           height: 20,
+                                                           dialogClass: 'noTitleStuff',
+                                                           resizable: false,
+                                                           position: ['left','top']
+                                                           });
     </script>
 
     <span style="color:#00f"><a href="#" onclick="jQuery('#pop_call_div').dialog({modal: true});">Pop Up Call</a></span>
+    <span style="color:#00f"><a href="#" onclick="appointment_dialog.dialog('open')">Appointment</a></span>
+    <span style="color:#00f"><a href="#" onclick="if (appointment_dialog.dialog('isOpen')===true) {alert('open');} else {alert('closed')}">Appointment</a></span>
     <?
     echo '&nbsp;<span id="status_bar" style="display: inline-block;color: #f00;font-weight: bold;"></span>';
     ?>
