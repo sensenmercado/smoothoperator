@@ -306,18 +306,19 @@ function display_script($customer, $question_number) {
         ?>
         <script>
         
-        jQuery("#dynamicInput2").append('<br /><a class="button_link" href="#" onclick="new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(1000);window.location=\'get_customer.php?<?=$query_string0?>\';}}});"><img src="images/resultset_previous.png">Previous Question</a>&nbsp;');
-        
+
+        jQuery("#dynamicInput2").append('<br /><a class="button_link" href="#" onclick="save_customer_details();new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(1000);window.location=\'get_customer.php?<?=$query_string0?>\';}}});"><img src="images/resultset_previous.png">Previous Question</a>&nbsp;');
+
         <?
         if ($question_number < $top_question_number) {
             ?>
         
-        jQuery("#dynamicInput2").append('<a class="button_link" href="#" onclick="new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(1000);window.location=\'get_customer.php?<?=$query_string1?>\';}}});">Next Question&nbsp;<img src="images/resultset_next.png"></a>');
+        jQuery("#dynamicInput2").append('<a class="button_link" href="#" onclick="save_customer_details();new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(1000);window.location=\'get_customer.php?<?=$query_string1?>\';}}});">Previous Question&nbsp;<img src="images/resultset_next.png"></a>');
           
             <?
         } else {
             ?>
-            jQuery("#dynamicInput2").append('<a class="button_link" href="#" onclick="new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize());">Finish&nbsp;<img src="images/control_stop_blue.png"></a>');
+            jQuery("#dynamicInput2").append('<a class="button_link" href="#" onclick="save_customer_details();new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize());">Finish&nbsp;<img src="images/control_stop_blue.png"></a>');
 
             <?
         }
@@ -371,36 +372,36 @@ function display_dispositions() {
                 
             } else {
                 $x = 0;
-                echo "<table id=\"dispositions\">";
+                //echo "<table id=\"dispositions\">";
                 $closed = false;
                 
                 // Add disposition for rescheduling a call
-                echo "<tr>";
+                //echo "<tr>";
                 $x++;
-                echo "<td>";
+                //echo "<td>";
                 
-                echo '<a href="javascript:void(0)" onclick="reschedule();">';
+                echo '<button class="button_reschedule" onclick="reschedule();">';
                 
-                box_start(145);
-                echo "<center>";
-                ?>
+                //box_start(145);
+                //echo "<center>";
+                /*?>
                 <img src = "images/clock.png" alt="Reschedule Call">
-                <?
+                <?*/
                 echo "Reschedule Call";
-                box_end();
-                echo '</a>';
-                echo "</td>";
+                //box_end();
+                echo '</button>';
+                //echo "</td>";
                 
                 
                 
                 
                 while ($rowx = mysqli_fetch_assoc($result_dispositions)) {
                     if ($x == 0) {
-                        echo "<tr>";
+                        //echo "<tr>";
                         $closed = false;
                     }
                     $x++;
-                    echo "<td>";
+                    //echo "<td>";
                     
                     /* When you click a dispostion you need to do the following:
                      
@@ -410,21 +411,24 @@ function display_dispositions() {
                      
                      */
                     
-                    echo '<a href="#" onclick="save_disposition(\''.$rowx['id'].'\');jQuery(\'#dispositions\').fadeOut(500);jQuery(\'#status_bar\').text(\'Disposition set to '.$rowx['text'].'\');jQuery(\'#status_bar\').fadeIn(2000);jQuery(\'#status_bar\').fadeOut(5000);    ">';
+                    echo '<button class="buttonx" onclick="save_disposition(\''.$rowx['id'].'\');jQuery(\'#dispositions\').fadeOut(500);jQuery(\'#status_bar\').text(\'Disposition set to '.$rowx['text'].'\');jQuery(\'#status_bar\').fadeIn(2000);jQuery(\'#status_bar\').fadeOut(5000);">';
                     
-                    box_start(135);
-                    echo "<center>";
+                    //box_start(135);
+                    //echo "<center>";
+                    /*?>
+                    <img src = "images/database.png" >
+                    <?*/
                     echo ucfirst(strtolower($rowx['text']));
-                    box_end();
-                    echo '</a>';
+                    //box_end();
+                    echo '</button>';
                     
                     
                     
                     
-                    echo "</td>";
+                    //echo "</td>";
                     if ($x > 5) {
                         $x = 0;
-                        echo "</tr>";
+                        //echo "</tr>";
                         $closed = true;
                     }
                     //echo '</div></div>';
@@ -432,9 +436,9 @@ function display_dispositions() {
                 
                 
                 if (!$closed) {
-                    echo "</tr>";
+                    //echo "</tr>";
                 }
-                echo "</table>";
+                //echo "</table>";
             }
             
         } else {
@@ -449,11 +453,23 @@ function display_customer_edit($row) {
     global $connection;
     //print_pre($row);
     ?>
+    <script>
+    function save_customer_details() {
+        jQuery.post("get_customer.php?save=1&nomenu=1", jQuery("#customer_form").serialize());
+    }
+
+    </script>
     
     <?
     if ($row['new'] == 1) {
         ?>
         <script>
+        
+        
+        
+        
+        
+        
         window.newID = 0;
         function save_disposition(disposition){
             new Ajax.Request('get_customer.php?save_record=1',{parameters: {phonenumber: <?=$_GET['phone_number']?>}, onSuccess: function(transport){
@@ -612,7 +628,7 @@ function display_customer_edit($row) {
     echo '<tr><td colspan="2"><input type="hidden" value="save changes"></td></tr>';
     echo '</form>';
     echo "</table>";
-    echo '<center><a href="javascript:void(0)" onclick="appointment();">Create an appointment</a>';
+    echo '<center><a href="javascript:void(0)" onclick="save_customer_details();appointment();">Create an appointment</a>';
     echo "</div>";
 }
 ?>
