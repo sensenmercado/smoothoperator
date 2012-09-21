@@ -1558,9 +1558,26 @@ a.new_button:hover{
 
 
 
-
-
-
+.buttonx {
+    padding: 10px;
+    background-color: #eef;
+    border: 1px solid #444;
+    margin: 5px;
+    font-size: 1.1em;
+}
+.buttonx:hover {
+    background-color: #cff;
+}
+.button_reschedule {
+    padding: 10px;
+    background-color: #fcc;
+    border: 1px solid #444;
+    margin: 5px;
+    font-size: 1.1em;
+}
+.button_reschedule:hover {
+    background-color: #cff;
+}
 
 
 .noTitleStuff .ui-dialog-titlebar {height: 10px;font-size: 8px}
