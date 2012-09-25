@@ -316,12 +316,7 @@ function display_script($customer, $question_number) {
         jQuery("#dynamicInput2").append('<a class="button_link" href="#" onclick="save_customer_details();new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(1000);window.location=\'get_customer.php?<?=$query_string1?>\';}}});">Next Question&nbsp;<img src="images/resultset_next.png"></a>');
           
             <?
-        } else {
-            ?>
-            jQuery("#dynamicInput2").append('<a class="button_link" href="#" onclick="save_customer_details();new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize());">Finish&nbsp;<img src="images/control_stop_blue.png"></a>');
-
-            <?
-        }
+        } 
         ?>
         
         </script>
