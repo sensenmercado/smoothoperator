@@ -1,6 +1,6 @@
 <?
 require "header.php";
-$result = mysqli_query($connection, "SELECT * FROM SmoothOperator.cdr order by calldate desc limit 100000") or die(mysqli_error($connection));
+$result = mysqli_query($connection, "SELECT * FROM SmoothOperator.cdr order by billsec desc limit 100000") or die(mysqli_error($connection));
 if (mysqli_num_rows($result) > 0) {
     ?>
     <div class="thin_90perc_box">
