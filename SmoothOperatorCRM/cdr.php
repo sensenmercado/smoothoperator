@@ -1,6 +1,6 @@
 <?
 require "header.php";
-$result = mysqli_query($connection, "SELECT * FROM SmoothOperator.cdr order by calldate desc limit 100") or die(mysqli_error($connection));
+$result = mysqli_query($connection, "SELECT * FROM SmoothOperator.cdr order by calldate desc limit 1000") or die(mysqli_error($connection));
 if (mysqli_num_rows($result) > 0) {
     ?>
     <div class="thin_90perc_box">
@@ -15,7 +15,7 @@ if (mysqli_num_rows($result) > 0) {
     <th>Last App</th>
     <th>Phone Number</th>
     <th>Recording</th>
-    </tr>
+    </tr> 
     <?
     while ($row = mysqli_fetch_assoc($result)) {
 //        print_pre($row);
