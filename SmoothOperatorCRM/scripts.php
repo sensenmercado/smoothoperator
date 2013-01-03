@@ -29,6 +29,9 @@
  *        1 - statement followed by a yes/no field
  *        2 - statement followed by a combo box field
  *        3 - statement followed by nothing
+ *        4 - priority
+ *        5 - statement followed by a state
+ *        6 - statement followed by a US region
  * statement - the text to display
  * order - the position of the entry in the script as a whole
  *
@@ -275,7 +278,6 @@ if (isset($_GET['edit'])) {
             document.getElementById(divName).appendChild(newdiv);
         }
         
-        
         /* Statement followed by yes/no */
         
         function save_statement_followed_by_yesno(statement, divName){
@@ -378,6 +380,43 @@ if (isset($_GET['edit'])) {
             document.getElementById(divName).appendChild(newdiv);
         }
         
+        /* Statement followed by state */
+        
+        function save_statement_followed_by_state(statement, divName){
+            new Ajax.Request('scripts.php?add_section=1',{parameters: {script_id: <?=$_GET['edit']?>, type: 5, statement: statement, order: counter}, onSuccess: function(transport){
+                             if (transport.responseText) {
+                             var response = transport.responseText;
+                             entries_to_ids[counter] = parseInt(response);
+                             }
+                             }
+                             });
+        }
+        
+        function add_statement_followed_by_state(statement, divName){
+            counter++;
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16' height='16' align='right'></a>"+nl2br(statement)+" <br><select name='field"+counter+"'><option value='' selected='selected'>Select a State</option> <option value='AL'>Alabama</option> <option value='AK'>Alaska</option> <option value='AZ'>Arizona</option> <option value='AR'>Arkansas</option> <option value='CA'>California</option> <option value='CO'>Colorado</option> <option value='CT'>Connecticut</option> <option value='DE'>Delaware</option> <option value='DC'>District Of Columbia</option> <option value='FL'>Florida</option> <option value='GA'>Georgia</option> <option value='HI'>Hawaii</option> <option value='ID'>Idaho</option> <option value='IL'>Illinois</option> <option value='IN'>Indiana</option> <option value='IA'>Iowa</option> <option value='KS'>Kansas</option> <option value='KY'>Kentucky</option> <option value='LA'>Louisiana</option> <option value='ME'>Maine</option> <option value='MD'>Maryland</option> <option value='MA'>Massachusetts</option> <option value='MI'>Michigan</option> <option value='MN'>Minnesota</option> <option value='MS'>Mississippi</option> <option value='MO'>Missouri</option> <option value='MT'>Montana</option> <option value='NE'>Nebraska</option> <option value='NV'>Nevada</option> <option value='NH'>New Hampshire</option> <option value='NJ'>New Jersey</option> <option value='NM'>New Mexico</option> <option value='NY'>New York</option> <option value='NC'>North Carolina</option> <option value='ND'>North Dakota</option> <option value='OH'>Ohio</option> <option value='OK'>Oklahoma</option> <option value='OR'>Oregon</option> <option value='PA'>Pennsylvania</option> <option value='RI'>Rhode Island</option> <option value='SC'>South Carolina</option> <option value='SD'>South Dakota</option> <option value='TN'>Tennessee</option> <option value='TX'>Texas</option> <option value='UT'>Utah</option> <option value='VT'>Vermont</option> <option value='VA'>Virginia</option> <option value='WA'>Washington</option> <option value='WV'>West Virginia</option> <option value='WI'>Wisconsin</option> <option value='WY'>Wyoming</option></select></div>";
+            document.getElementById(divName).appendChild(newdiv);
+        }
+        
+        /* Statement followed by region */
+        
+        function save_statement_followed_by_region(statement, divName){
+            new Ajax.Request('scripts.php?add_section=1',{parameters: {script_id: <?=$_GET['edit']?>, type: 6, statement: statement, order: counter}, onSuccess: function(transport){
+                             if (transport.responseText) {
+                             var response = transport.responseText;
+                             entries_to_ids[counter] = parseInt(response);
+                             }
+                             }
+                             });
+        }
+        
+        function add_statement_followed_by_region(statement, divName){
+            counter++;
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = "<div class='script_input_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16' height='16' align='right'></a>"+nl2br(statement)+" <br><select name='field"+counter+"'><option value='' selected='selected'>Select a Region</option><option value='northeast'>Northeast</option><option value='southeast'>Southeast</option><option value='midwest'>Midwest</option><option value='northwest'>Northwest</option><option value='southwest'>Southwest</option><option value='west'>West</option></select></div>";
+            document.getElementById(divName).appendChild(newdiv);
+        }
         
         
         function nl2br(dataStr) {
@@ -391,6 +430,8 @@ if (isset($_GET['edit'])) {
              *        2 - statement followed by a combo box field
              *        3 - statement followed by nothing
              *        4 - priority
+             *        5 - statement followed by a state
+             *        6 - statement followed by a US region
              */
             switch (jQuery("#input_type option:selected").val()) {
                 case '-1':
@@ -447,6 +488,28 @@ if (isset($_GET['edit'])) {
                     /* Priority */
                     save_priority('dynamicInput');
                     add_priority('dynamicInput');
+                case '5':
+                    Dialog.confirm('Statement: <textarea id="statement_text" rows="10"></textarea>', {className:'alphacube', width:400,
+                                   okLabel: 'Add Section', cancelLabel: 'cancel',
+                                   onOk:function(win){
+                                   save_statement_followed_by_state(nl2br(jQuery('#statement_text').val()), 'dynamicInput');
+                                   add_statement_followed_by_state(jQuery('#statement_text').val(), 'dynamicInput');
+                                   return true;
+                                   }
+                                   }
+                                   );
+                    break;
+                case '6':
+                    Dialog.confirm('Statement: <textarea id="statement_text" rows="10"></textarea>', {className:'alphacube', width:400,
+                                   okLabel: 'Add Section', cancelLabel: 'cancel',
+                                   onOk:function(win){
+                                   save_statement_followed_by_region(nl2br(jQuery('#statement_text').val()), 'dynamicInput');
+                                   add_statement_followed_by_region(jQuery('#statement_text').val(), 'dynamicInput');
+                                   return true;
+                                   }
+                                   }
+                                   );
+                    break;
                 default:
                     break;
                     
@@ -472,6 +535,8 @@ if (isset($_GET['edit'])) {
         <option value="1">statement followed by a yes/no field</option>
         <option value="2">statement followed by a combo box field</option>
         <option value="3">statement followed by nothing</option>
+        <option value="5">statement followed by US state</option>
+        <option value="6">statement followed by US region</option>
         <option value="4">Record Priority Drop Down</option>
         <option value="-1">end of section/page</option>
         </select>
@@ -541,6 +606,16 @@ if (isset($_GET['edit'])) {
                     case 4:
                         ?>
                         <script>add_priority('dynamicInput');</script>
+                        <?
+                        break;
+                    case 5:
+                        ?>
+                        <script>add_statement_followed_by_state(<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput');</script>
+                        <?
+                        break;
+                    case 6:
+                        ?>
+                        <script>add_statement_followed_by_region(<?=stripslashes(sanitize($row_entries['statement']))?>, 'dynamicInput');</script>
                         <?
                         break;
                     case -1:

@@ -186,6 +186,44 @@ function display_script($customer, $question_number) {
     function add_statement_followed_by_nothing(value,new_id,statement, divName){
         jQuery("#"+divName).append(nl2br(statement)+"");
     }
+    
+    /* Statement followed by state */
+    
+    
+    function add_statement_followed_by_state(value,new_id,statement, combobox_values, combobox_texts, divName){
+        var ih = nl2br(statement)+" <br><select name='field"+new_id+"'>";
+        //alert("x");
+        for (i = 0;i< combobox_values.length;i++) {
+            if (combobox_values[i] == value) {
+                ih += "<option value='"+combobox_values[i]+"' selected>"+combobox_texts[i]+"</option>";
+            } else {
+                ih += "<option value='"+combobox_values[i]+"'>"+combobox_texts[i]+"</option>";
+            }
+        }
+        ih += "</select>";
+        
+        jQuery("#"+divName).append(ih+"<br />");
+    }
+    
+    /* Statement followed by region */
+    
+    function add_statement_followed_by_region(value,new_id,statement, combobox_values, combobox_texts, divName){
+        var ih = nl2br(statement)+" <br><select name='field"+new_id+"'>";
+        //alert("x");
+        for (i = 0;i< combobox_values.length;i++) {
+            if (combobox_values[i] == value) {
+                ih += "<option value='"+combobox_values[i]+"' selected>"+combobox_texts[i]+"</option>";
+            } else {
+                ih += "<option value='"+combobox_values[i]+"'>"+combobox_texts[i]+"</option>";
+            }
+        }
+        ih += "</select>";
+        
+        jQuery("#"+divName).append(ih+"<br />");
+    }
+    
+
+    
     function nl2br(dataStr) {
         return dataStr.replace(/(\r\n|\r|\n)/g, "<br />");
     }
@@ -280,6 +318,99 @@ function display_script($customer, $question_number) {
                     ?>
                     <script>add_priority(<?=$value?>,<?=$row_entries['order']?>,'dynamicInput2');</script>
                     <?
+                    break;
+                case 5:
+                    ?>
+                    <script>
+                    var combobox_values=new Array();
+                    var combobox_texts=new Array();
+                    <?
+                    $states['AL'] = 'Alabama';
+                    $states['AK'] = 'Alaska';
+                    $states['AZ'] = 'Arizona';
+                    $states['AR'] = 'Arkansas';
+                    $states['CA'] = 'California';
+                    $states['CO'] = 'Colorado';
+                    $states['CT'] = 'Connecticut';
+                    $states['DE'] = 'Delaware';
+                    $states['DC'] = 'District Of Columbia';
+                    $states['FL'] = 'Florida';
+                    $states['GA'] = 'Georgia';
+                    $states['HI'] = 'Hawaii';
+                    $states['ID'] = 'Idaho';
+                    $states['IL'] = 'Illinois';
+                    $states['IN'] = 'Indiana';
+                    $states['IA'] = 'Iowa';
+                    $states['KS'] = 'Kansas';
+                    $states['KY'] = 'Kentucky';
+                    $states['LA'] = 'Louisiana';
+                    $states['ME'] = 'Maine';
+                    $states['MD'] = 'Maryland';
+                    $states['MA'] = 'Massachusetts';
+                    $states['MI'] = 'Michigan';
+                    $states['MN'] = 'Minnesota';
+                    $states['MS'] = 'Mississippi';
+                    $states['MO'] = 'Missouri';
+                    $states['MT'] = 'Montana';
+                    $states['NE'] = 'Nebraska';
+                    $states['NV'] = 'Nevada';
+                    $states['NH'] = 'New Hampshire';
+                    $states['NJ'] = 'New Jersey';
+                    $states['NM'] = 'New Mexico';
+                    $states['NY'] = 'New York';
+                    $states['NC'] = 'North Carolina';
+                    $states['ND'] = 'North Dakota';
+                    $states['OH'] = 'Ohio';
+                    $states['OK'] = 'Oklahoma';
+                    $states['OR'] = 'Oregon';
+                    $states['PA'] = 'Pennsylvania';
+                    $states['RI'] = 'Rhode Island';
+                    $states['SC'] = 'South Carolina';
+                    $states['SD'] = 'South Dakota';
+                    $states['TN'] = 'Tennessee';
+                    $states['TX'] = 'Texas';
+                    $states['UT'] = 'Utah';
+                    $states['VT'] = 'Vermont';
+                    $states['VA'] = 'Virginia';
+                    $states['WA'] = 'Washington';
+                    $states['WV'] = 'West Virginia';
+                    $states['WI'] = 'Wisconsin';
+                    $states['WY'] = 'Wyoming';
+                    $count = 0;
+                    foreach ($states as $key=>$val) {
+                        echo 'combobox_values['.$count.'] = "'.$key.'";';
+                        echo 'combobox_texts['.$count.'] = "'.$val.'";';
+                        $count++;
+                    }
+                    ?>
+                    add_statement_followed_by_state(<?=$value?>,<?=$row_entries['order']?>,<?=stripslashes(sanitize($row_entries['statement']))?>, combobox_values, combobox_texts, 'dynamicInput2');
+                    </script>
+                    <?
+                    break;
+                case 6:
+                    ?>
+                    <script>
+                    var combobox_values=new Array();
+                    var combobox_texts=new Array();
+                    <?
+                    $regions['northeast'] = "Northeast";
+                    $regions['southeast'] = "Southeast";
+                    $regions['midwest'] = "Midwest";
+                    $regions['northwest'] = "Northwest";
+                    $regions['southwest'] = "Southwest";
+                    $regions['west'] = "West";
+                    
+                    $count = 0;
+                    foreach ($regions as $key=>$val) {
+                        echo 'combobox_values['.$count.'] = "'.$key.'";';
+                        echo 'combobox_texts['.$count.'] = "'.$val.'";';
+                        $count++;
+                    }
+                    ?>
+                    add_statement_followed_by_region(<?=$value?>,<?=$row_entries['order']?>,<?=stripslashes(sanitize($row_entries['statement']))?>, combobox_values, combobox_texts, 'dynamicInput2');
+                    </script>
+                    <?
+                    break;
                     break;
                 case -1:
                     ?>
