@@ -121,6 +121,21 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
         
+        /* Create the remote_callcenter table if missing */
+        if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "remote_callcenter")) {
+            $messages[] =  "remote_callcenter table is missing...created";
+            $sql = "CREATE TABLE `remote_callcenter` (
+            `id` int(11) NOT NULL auto_increment,
+            `name` VARCHAR(255) default NULL,
+            `leads_per_day` INT(11) default NULL,
+            `leads_today` INT(11) default NULL,
+            `leads_all_time` INT(11) default NULL,
+            `phone_number` VARCHAR(255) default NULL,
+            PRIMARY KEY  (`id`)
+            ) ENGINE=InnoDB";
+            $result = mysqli_query($link, $sql);
+        }
+        
         /* Create the campaign_stats table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "campaign_stats")) {
             $messages[] =  "campaign_stats table is missing...created";
