@@ -197,7 +197,7 @@ function get_parked_calls() {
            //my_uniqueid = data;
            //$("#status_light").css("background-color","#0f0");
            //$("#testing").append(data);
-           alert(data);
+           //alert(data);
            }
            });
     
@@ -276,7 +276,7 @@ function login(callx) {
     $("#status").html("Logged in.");
     var objx = call;
     $("#hangup").click(function() {
-                       alert("hangup");
+                       //alert("hangup");
                        call.hangup();
                        });
     /*
@@ -338,7 +338,7 @@ $(document).ready(function(){
                                                     $("#status").html("Ringing");
                                                     },
                                                     onAnswer: function() {
-                                                           alert("hello");
+                                                           //alert("hello");
                                                     setTimeout(login(this),5000);
                                                     },
                                                     onHangup: function() {
