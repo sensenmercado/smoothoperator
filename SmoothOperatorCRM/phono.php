@@ -143,7 +143,7 @@ if (isset($_GET['pause'])) {
 <head>
 <script src="js/jquery-1.4.2.min.js"></script>
 <?/*<script src="js/jquery.phono.0.3.js"></script>*/?>
-<script src="http://s.phono.com/releases/0.4/jquery.phono.js"></script>
+<script src="http://s.phono.com/releases/0.6/jquery.phono.js"></script>
 <style>
 body {
 padding: 0px;
@@ -181,7 +181,9 @@ var phono;
 var bridged_channel;
 var call;
 //get the file
-
+$("#hangup").click(function() {
+                   alert("bla");
+                   });
 function get_parked_calls() {
     $.ajax({
            type: "GET",
@@ -238,7 +240,7 @@ function park() {
 }
 
 function login(callx) {
-    call = callx;
+    //call = callx;
     <?
     $agent_num = $_SESSION['agent_num'];
     $agent_pass = $_SESSION['agent_pass'];
@@ -274,6 +276,7 @@ function login(callx) {
     $("#status").html("Logged in.");
     var objx = call;
     $("#hangup").click(function() {
+                       alert("hangup");
                        call.hangup();
                        });
     /*
@@ -286,10 +289,10 @@ function login(callx) {
 }
 
 $(document).ready(function(){
-                  var audioType = 'auto';
-                  if (navigator.javaEnabled()) {
+                  var audioType = 'java';
+                  /*if (navigator.javaEnabled()) {
                   audioType = 'java';
-                  }
+                  }*/
                   
                   phono = $.phono({
                                   apiKey: "<?=$_SESSION['config_values']['phono_key']?>",
@@ -330,12 +333,13 @@ $(document).ready(function(){
                                    $("#hangup").attr("disabled", false);
                                    $("#testing").text("Receiving Calls");
                                    $("#pause_buttons").show();
-                                   phono.phone.dial("sip:500@<?=$_SESSION['config_values']['manager_host']?>", {
+                                   call = phono.phone.dial("sip:500@<?=$_SESSION['config_values']['manager_host']?>", {
                                                     onRing: function() {
                                                     $("#status").html("Ringing");
                                                     },
                                                     onAnswer: function() {
-                                                    setTimeout(login(this),1000);
+                                                           alert("hello");
+                                                    setTimeout(login(this),5000);
                                                     },
                                                     onHangup: function() {
                                                     $("#status_light").css("background-color","#f00");
@@ -426,7 +430,7 @@ Transfer Number: <input type="text" id="transfer_number">
 jQuery.noConflict();
 </script><p style="font-family: arial">
 Status:</p>
-
+<span id="blabla" onclick="call.digit('3');">Bla</span>
 <div id="testing" style="text-align: center;font-family: arial;color: #f00">
 Waiting for login<br />
 <br /><a href="#" onclick="location.reload();">Reload Softphone</a>
