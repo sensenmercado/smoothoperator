@@ -142,7 +142,8 @@ if (isset($_GET['pause'])) {
 <html>
 <head>
 <script src="js/jquery-1.4.2.min.js"></script>
-<script src="js/jquery.phono.0.6.js"></script>
+/*<script src="js/jquery.phono.0.3.js"></script>*/?>
+<script src="http://s.phono.com/releases/0.6/jquery.phono.js"></script>
 <style>
 body {
 padding: 0px;
@@ -297,7 +298,7 @@ $(document).ready(function(){
                                   apiKey: "<?=$_SESSION['config_values']['phono_key']?>",
                                   audio: {
                                   type:audioType,
-                                  jar:"http://s.phono.com/releases/0.4/plugins/audio/phono.audio.jar"},
+                                  jar:"http://s.phono.com/releases/0.6/plugins/audio/phono.audio.jar"},
                                   onReady: function() {
                                   //alert("My SIP address is sip:" + this.sessionId);
                                   //$("#status").text(this.sessionId);
