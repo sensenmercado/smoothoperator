@@ -78,12 +78,27 @@ if (!isset($_GET['search'])) {
         echo "There are no script results!";
     } else {
         if (isset($_GET['download'])) {
+            //echo "<pre>";
+            $row_new = array();
+            while ($row = mysqli_fetch_assoc($result)) {
+                //print_r($row);
+                $row['statement_'.$row['question_number']] = $row['statement'];
+                $row['answer_'.$row['question_number']] = $row['answer'];
+                unset($row['statement']);
+                unset($row['answer']);
+                foreach ($row as $field=>$value) {
+                    $row_new[$row['customer_id']][$field] = $value;
+                }
+                
+            }
+            //print_r($row_new);
+            //exit(0);
             header("Content-type: application/csv");
-            header("Content-Disposition: attachment; filename=Dispositions_Job_".$_POST['job']."_".$_POST['from_date']."-".$_POST['to_date'].".csv");
+            header("Content-Disposition: attachment; filename=Full_Dispositions_Job_".$_POST['job']."_".$_POST['from_date']."-".$_POST['to_date'].".csv");
             header("Pragma: no-cache");
             header("Expires: 0");
             $header_printed = false;
-            while ($row = mysqli_fetch_assoc($result)) {
+            foreach ($row_new as $row) {
                 if ($header_printed == false) {
                     $header_printed = true;
                     foreach ($row as $field=>$value) {
