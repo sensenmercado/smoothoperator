@@ -112,6 +112,7 @@ if (!isset($_GET['search'])) {
                 }
                 echo "''\n";
             }
+            exit(0);
         } else if (isset($_GET['show_lead'])) {
             ?>
             <div class="thin_90perc_box">
