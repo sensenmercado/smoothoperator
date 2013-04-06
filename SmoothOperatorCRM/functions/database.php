@@ -292,7 +292,8 @@ if (!function_exists('so_check_databases')) {
             (20,'Add Customer','en',1,'add_number.php',0,0,1,3,'database_add.png'),
             (22,'Rescheduled calls','en',1,'rescheduled.php',0,0,1,3,'clock.png'),
             (21,'Add Script','en',1,'scripts.php?add=1',0,0,1,8,'database_add.png'),
-            (23,'Dialer','en',10,'dialer.php',0,0,1,-1,'phone.png')";
+            (23,'Dialer','en',10,'dialer.php',0,0,1,-1,'phone.png'),
+            (24,'Disposition Report','en',100,'report_dispositions.php',0,0,0,-1,NULL)";
             $result = mysqli_query($link, $sql);
         }
         
