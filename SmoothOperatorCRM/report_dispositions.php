@@ -69,6 +69,8 @@ if (!isset($_POST['jobid'])) {
     require "footer.php";
     exit(0);
 }
+$result = mysqli_query($connection, "SELECT name FROM jobs WHERE id = ".sanitize($_POST['jobid']));
+$name = mysqli_result($result,0,0);
 switch ($_POST['range']) {
     case "today":
         $sql = "select count(*), text from customer_dispositions, job_dispositions where customer_dispositions.job_id = ".sanitize($_POST['jobid'])." and customer_dispositions.disposition = job_dispositions.id and date(contact_date_time) = curdate() group by disposition";
@@ -83,8 +85,6 @@ switch ($_POST['range']) {
         $title = 'Dispositions for '.ucwords($name).' All Time';
         break;
 }
-$result = mysqli_query($connection, "SELECT name FROM jobs WHERE id = ".sanitize($_POST['jobid']));
-$name = mysqli_result($result,0,0);
 ?>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
