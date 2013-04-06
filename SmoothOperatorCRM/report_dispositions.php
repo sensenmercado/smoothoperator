@@ -100,7 +100,7 @@ function drawChart() {
                                                      <?
                                                      $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
                                                      while ($row = mysqli_fetch_assoc($result)) {
-                                                     echo "['".ucwords($row['text'])."', ".$row['count(*)']."],\n";
+                                                     echo "['".ucwords($row['text'])." (".$row['count(*)'].")', ".$row['count(*)']."],\n";
                                                      }
                                                      ?>
                                                      
