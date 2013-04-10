@@ -74,6 +74,22 @@ if (!isset($_GET['search'])) {
     }
     $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
     //echo $sql;
+    $dont_display[] = "customer_id";
+    $dont_display[] = "script_id";
+    $dont_display[] = "question_number";
+    $dont_display[] = "last_updated";
+    $dont_display[] = "job_id";
+    $dont_display[] = "user_id";
+    $dont_display[] = "id";
+    $dont_display[] = "list_id";
+    $dont_display[] = "status";
+    $dont_display[] = "locked_by";
+    $dont_display[] = "datetime_locked";
+    $dont_display[] = "do_not_call";
+    $dont_display[] = "do_not_call_reason";
+    $dont_display[] = "username";
+    $dont_display[] = "type";
+    
     if (mysqli_num_rows($result) == 0) {
         echo "There are no script results!";
     } else {
@@ -90,6 +106,9 @@ if (!isset($_GET['search'])) {
                     $row_new[$row['customer_id']][$field] = $value;
                 }
                 
+            }
+            foreach ($dont_display as $field_to_remove) {
+                unset($row_new[$field_to_remove]);
             }
             //print_r($row_new);
             //exit(0);
