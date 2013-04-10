@@ -126,13 +126,13 @@ if (!isset($_GET['search'])) {
                 if ($header_printed == false) {
                     $header_printed = true;
                     foreach ($row as $field=>$value) {
-                        echo $field.",";
+                        echo str_replace(",","",$field).",";
                     }
                     echo "Unused\n";
                 }
                 $row['disposition'] = $disps[$row['disposition']];
                 foreach ($row as $field=>$value) {
-                    echo sanitize($value, false).",";
+                    echo sanitize(str_replace(",","",$value), false).",";
                 }
                 echo "''\n";
             }
