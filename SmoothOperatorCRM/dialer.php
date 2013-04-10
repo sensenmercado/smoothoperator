@@ -215,7 +215,7 @@ if (isset($_GET['start_campaign'])) {
     mysqli_query($connection, "REPLACE INTO campaigns (campaign_id, list_id, job_id, started_by) VALUES (".sanitize($_GET['start_campaign']).", ".sanitize($_GET['list_id']).",".sanitize(($_GET['start_campaign']-100000)).",".sanitize($_SESSION['user_id']).")");
     
     $link = mysql_connect($config_values['smoothtorque_db_host'], $config_values['smoothtorque_db_user'], $config_values['smoothtorque_db_pass']) or die(mysql_error());
-    $result_x = mysql_query("DELETE FROM SineDialer.number WHERE status = 'new' and campaignid = ".sanitize($_GET['start_campaign']));
+    //$result_x = mysql_query("DELETE FROM SineDialer.number WHERE status = 'new' and campaignid = ".sanitize($_GET['start_campaign']));
     
     $total = mysqli_num_rows($result);
     $i = 0;
