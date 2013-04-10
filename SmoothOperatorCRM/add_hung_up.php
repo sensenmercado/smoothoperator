@@ -59,7 +59,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $result_disposition = mysqli_query($connection, $sql) or die (mysqli_error($connection));
     $row_count = mysqli_fetch_assoc($result_disposition);
     $countx = $row_count['count(*)'];
-    if ($count == 0) {
+    if ($countx == 0) {
         $sql = "INSERT INTO `customer_dispositions` (`customer_id`, `contact_date_time`, `disposition`, `user_id`, `extension`, `job_id`) VALUES (".$row_customer['id'].", '".$row['calldate']."', ".$hung_up[$jobs[$phonenumber]].", 0, 0, ".$job.")";
         $sql2 = "UPDATE cdr set userfield2 = 'adjusted' WHERE uniqueid = '".$uniqueid."'";
         echo $sql."\n";
