@@ -11,6 +11,16 @@ if (!isset($_POST['range'])) {
     ?><center>
     <h3>Search for dispositions</h3>
         <form action = "report_agent_utilisation.php" method="post">
+        Agent: <select name="user_id">
+        <?
+        $result = mysqli_query($connection, "SELECT id, first_name, last_name FROM users");
+    while ($row = mysqli_fetch_assoc($result)) {
+        print_pre($row);
+        echo '<option value="'.$row['id'].'">'.$row['first_name'].' '.$row['last_name'].'</option>';
+    }
+    ?>
+    </select><br />
+
     Time Period:<select name="range" id="range">
     <option value="alltime">All Time</option>
     <option value="today">Today</option>
@@ -62,15 +72,15 @@ if (!isset($_POST['range'])) {
 }
 switch ($_POST['range']) {
     case "today":
-        $sql = "select count(*), hour(contact_date_time) from customer_dispositions where date(contact_date_time) = CURDATE() group by hour(contact_date_time)";
+        $sql = "select count(*), hour(contact_date_time) from customer_dispositions where user_id = ".sanitize($_POST['user_id'])." and date(contact_date_time) = CURDATE() group by hour(contact_date_time)";
         $title = 'Dispositions '.ucwords($name).' Today';
         break;
     case "date":
-        $sql = "select count(*), hour(contact_date_time) from customer_dispositions where date(contact_date_time) between ".sanitize($_POST['from_date'])." and ".sanitize($_POST['to_date'])." group by hour(contact_date_time)";
+        $sql = "select count(*), hour(contact_date_time) from customer_dispositions where user_id = ".sanitize($_POST['user_id'])." and date(contact_date_time) between ".sanitize($_POST['from_date'])." and ".sanitize($_POST['to_date'])." group by hour(contact_date_time)";
         $title = 'Dispositions '.ucwords($name).' Between '.$_POST['from_date'].' and '.$_POST['to_date'];
         break;
     default:
-        $sql = "select count(*), hour(contact_date_time) from customer_dispositions group by hour(contact_date_time)";
+        $sql = "select count(*), hour(contact_date_time) from customer_dispositions where user_id = ".sanitize($_POST['user_id'])." group by hour(contact_date_time)";
         $title = 'Dispositions '.ucwords($name).' All Time';
         break;
 }
