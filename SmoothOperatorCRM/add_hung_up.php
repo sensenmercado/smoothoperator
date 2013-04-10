@@ -42,7 +42,7 @@ while (1) {
     $hung_up[$job_id] = $best_match_id;
     
     // Now we have the matches (or closest) so we can start finding records
-    $sql = 'select userfield, uniqueid, billsec, calldate from cdr where userfield is not null and userfield != "" and userfield2 != "adjusted" and billsec < 50 and disposition = "ANSWERED" order by calldate desc';
+    $sql = 'select userfield, uniqueid, billsec, calldate from cdr where userfield is not null and userfield != "" and userfield2 != "adjusted" and billsec < 5 and disposition = "ANSWERED" order by calldate desc';
     $result = mysqli_query($connection, $sql);
     while ($row = mysqli_fetch_assoc($result)) {
         $split = explode("-",$row['userfield']);
