@@ -115,8 +115,8 @@ if (!isset($_GET['search'])) {
                 }
                 
             }
-            print_r($row_new);
-            exit(0);
+            //print_r($row_new);
+            //exit(0);
             header("Content-type: application/csv");
             header("Content-Disposition: attachment; filename=Full_Dispositions_Job_".$_POST['job']."_".$_POST['from_date']."-".$_POST['to_date'].".csv");
             header("Pragma: no-cache");
