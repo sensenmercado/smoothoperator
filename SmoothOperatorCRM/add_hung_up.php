@@ -14,7 +14,6 @@ require "config/db_config.php";
 
 $string_to_match = "hung up";
 $result = mysqli_query($connection,"SELECT * FROM job_dispositions order by job_id");
-echo "<pre>";
 $job_id = 0;
 $best_match_number = 0;
 $best_match = "";
@@ -23,7 +22,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     //print_r($row);
     if ($row['job_id'] != $job_id) {
         if ($job_id != 0) {
-            echo "<h3>Best Match for ID: $job_id is $best_match ($best_match_id) with a match of $best_match_number</h3><br />";
+            echo "<h3>Best Match for ID: $job_id is $best_match ($best_match_id) with a match of $best_match_number</h3>\n";
             $hung_up[$job_id] = $best_match_id;
         }
         $job_id = $row['job_id'];
@@ -37,9 +36,9 @@ while ($row = mysqli_fetch_assoc($result)) {
         $best_match = $row['text'];
         $best_match_id = $row['id'];
     }
-    echo "<b>".$row['text']."</b> ".$p."<br />";
+    echo "<b>".$row['text']."</b> ".$p."\n";
 }
-echo "<h3>Best Match for ID: $job_id is $best_match ($best_match_id) with a match of $best_match_number</h3><br />";
+echo "<h3>Best Match for ID: $job_id is $best_match ($best_match_id) with a match of $best_match_number</h3>\n";
 $hung_up[$job_id] = $best_match_id;
 
 // Now we have the matches (or closest) so we can start finding records
@@ -50,7 +49,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $phonenumber = $split[0];
     $job = $split[1]-100000;
     $uniqueid = $row['uniqueid'];
-    echo "Job: $job Phone Number: $phonenumber UniqueID: $uniqueid<br />";
+    echo "Job: $job Phone Number: $phonenumber UniqueID: $uniqueid\n";
     $jobs[$phonenumber] = $job;
     $sql = "select id from customers where cleaned_number = ".$phonenumber." order by last_updated desc limit 1";
     $result_customer = mysqli_query($connection, $sql) or die (mysqli_error($connection));
@@ -63,8 +62,8 @@ while ($row = mysqli_fetch_assoc($result)) {
     if ($count == 0) {
         $sql = "INSERT INTO `customer_dispositions` (`customer_id`, `contact_date_time`, `disposition`, `user_id`, `extension`, `job_id`) VALUES (".$row_customer['id'].", '".$row['calldate']."', ".$hung_up[$jobs[$phonenumber]].", 0, 0, ".$job.")";
         $sql2 = "UPDATE cdr set userfield2 = 'adjusted' WHERE uniqueid = '".$uniqueid."'";
-        echo $sql."<br />";
-        echo $sql2."<br />";
+        echo $sql."\n";
+        echo $sql2."\n";
         mysqli_query($connection, $sql);
         mysqli_query($connection, $sql2);
         //exit(0);
