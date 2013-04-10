@@ -103,14 +103,17 @@ if (!isset($_GET['search'])) {
                 unset($row['statement']);
                 unset($row['answer']);
                 foreach ($row as $field=>$value) {
-                    $row_new[$row['customer_id']][$field] = $value;
+                    $remove = false;
+                    foreach ($dont_display as $field_to_remove) {
+                        if ($field == $field_to_remove) {
+                            $remove = true;
+                        }
+                    }
+                    if (!$remove) {
+                        $row_new[$row['customer_id']][$field] = $value;
+                    }
                 }
                 
-            }
-            print_r($row_new);
-            foreach ($dont_display as $field_to_remove) {
-                echo "Removing $field_to_remove<br />";
-                unset($row_new[$field_to_remove]);
             }
             print_r($row_new);
             exit(0);
