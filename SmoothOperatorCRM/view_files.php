@@ -48,8 +48,13 @@ if ($result) {
                     <a href="receive.php?import_list=<?=$row['id']?>&type=txt">Import List From File</a>
                     <?
                     break;
+                case "csv":
+                    ?>
+                    <a href="receive.php?import_list=<?=$row['id']?>&type=csv">Import List From File</a>
+                    <?
+                    break;
                 default:
-                    echo "".$extension." (xls or txt required for import)";
+                    echo "".$extension." (xls, csv or txt required for import)";
                     break;
             }
             echo ''."</td><td>";
