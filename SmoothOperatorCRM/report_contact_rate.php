@@ -96,6 +96,12 @@ while ($row = mysqli_fetch_assoc($result)) {
     $answered += $row['answered'];
     $answered += $row['amd'];
     $answered += $row['pressed1'];
+    foreach ($row as $field=>$value) {
+        if ($field != "report_date" && $field != "report_time" && $field != "campaign_id"&& $field != "answered"&& $field != "pressed1"&& $field != "amd"&& $field != "pressed1") {
+            $string .= ucwords($field).": ".$value.", ";
+        }
+    }
+    $string = substr($string,0,strlen($string)-2);
 }
 //echo $answered."/".$total."<br />";
 
@@ -158,6 +164,32 @@ function drawChart() {
     title: '<?=$title?>'
     };
     var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+    
+    
+    
+    
+    // The select handler. Call the chart's getSelection() method
+    function selectHandler() {
+        var sel=chart.getSelection(); 
+//        alert("Rowselected:"+sel[0].row);
+        if (sel[0].row == 0) {
+            //alert("Contacted");
+        } else if (sel[0].row == 1) {
+            //alert("Disposition Not Contacted");
+        } else if (sel[0].row == 2) {
+            alert("<?=$string?>");
+        }
+
+    }
+    
+    // Listen for the 'select' event, and call my function selectHandler() when
+    // the user selects something on the chart.
+    google.visualization.events.addListener(chart, 'select', selectHandler);
+
+    
+    
+    
+    
     chart.draw(data, options);
 }
 </script>
