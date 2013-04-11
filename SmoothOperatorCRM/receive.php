@@ -29,7 +29,16 @@ if (isset($_GET['save_list'])) {
         $filename = $row['location'];
     }
     switch ($_GET['format']) {
-            case "txt":
+        case "txt":
+            $start = 0;
+            if (($handle = fopen($filename, "r")) !== FALSE) {
+                while (($line = fgetcsv($handle)) !== FALSE) {
+                    $arr[] = $line;
+                }
+                fclose($handle);
+            }
+            break;
+        case "csv":
             $start = 0;
             if (($handle = fopen($filename, "r")) !== FALSE) {
                 while (($line = fgetcsv($handle)) !== FALSE) {
@@ -225,6 +234,16 @@ if (isset($_GET['import_list'])) {
         }
         switch ($_GET['format']) {
             case "txt":
+                $start = 0;
+                $extra = 1;
+                if (($handle = fopen($filename, "r")) !== FALSE) {
+                    while (($line = fgetcsv($handle)) !== FALSE) {
+                        $arr[] = $line;
+                    }
+                    fclose($handle);
+                }
+                break;
+            case "csv":
                 $start = 0;
                 $extra = 1;
                 if (($handle = fopen($filename, "r")) !== FALSE) {
