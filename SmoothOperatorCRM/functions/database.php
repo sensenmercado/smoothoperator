@@ -116,10 +116,25 @@ if (!function_exists('so_check_databases')) {
             `id` int(11) NOT NULL auto_increment,
             `text` text default NULL,
             `job_id` int(11) default NULL,
+            `not_contacted` int(11) default 0,
             PRIMARY KEY  (`id`)
             ) ENGINE=InnoDB";
             $result = mysqli_query($link, $sql);
         }
+        
+        $fields = mysql_list_fields('SineDialer', 'job_dispositions');
+		$columns = mysql_num_fields($fields);
+		for ($i = 0; $i < $columns; $i++) {
+			$field_array[] = mysql_field_name($fields, $i);
+		}
+		
+		if (!in_array('not_contacted', $field_array))
+		{
+			$result = mysqli_query($link, 'ALTER TABLE job_dispositions ADD not_contacted int(10) default 0');
+			$sql = "INSERT INTO log (timestamp, username, activity) VALUES (NOW(), '$_POST[user]', 'Added job_dispositions not_contacted field')";
+			$result=mysqli_query($link, $sql, $link);
+		}
+        
         
         /* Create the remote_callcenter table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "remote_callcenter")) {
