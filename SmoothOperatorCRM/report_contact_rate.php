@@ -82,7 +82,7 @@ $result = mysqli_query($connection, $sql);
 $total = 0;
 $answered = 0;
 while ($row = mysqli_fetch_assoc($result)) {
-    print_pre($row);
+    //print_pre($row);
     $total += $row['new'];
     $total += $row['answered'];
     $total += $row['busy'];
@@ -145,7 +145,7 @@ function drawChart() {
                                                      //while ($row = mysqli_fetch_assoc($result)) {
                                                      echo "['Contacted', ".($answered-$not_answered_disp)."],\n";
                                                      echo "['Dispositioned Not Contacted', ".($not_answered_disp)."],\n";
-                                                     echo "['Not Contacted', ".($total-$answered)."],\n";
+                                                     echo "['Dialer Not Contacted', ".($total-$answered)."],\n";
                                                      //}
                                                      ?>
                                                      
