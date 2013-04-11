@@ -1,4 +1,12 @@
 <?
+if (isset($_GET['save_not_contacted'])) {
+    //    print_r($_POST);
+    require "config/db_config.php";
+    require "functions/sanitize.php";
+    $sql = "UPDATE job_dispositions SET not_contacted=".sanitize($_GET['state'])." WHERE id = ".sanitize($_GET['save_not_contacted']);
+    $result = mysqli_query($connection, $sql);
+    exit(0);
+}
 if (isset($_GET['delete'])) {
     require "header.php";
     $result = mysqli_query($connection, "DELETE FROM jobs WHERE id = ".sanitize($_GET['delete']));
@@ -45,7 +53,7 @@ if (isset($_GET['save_script'])) {
     require "functions/sanitize.php";
     $sql = "UPDATE jobs SET script_id=".sanitize($_POST['script'])." WHERE id = ".sanitize($_GET['save_script']);
     $result = mysqli_query($connection, $sql);
-    exit(0);    
+    exit(0);
 }    
 if (isset($_GET['save_members'])) {
     //    print_r($_POST);
@@ -272,6 +280,11 @@ if (isset($_GET['job_id'])) {
     </table>
     
     <script>
+    function ucwords (str) {
+        return (str + '').replace(/^([a-z])|\s+([a-z])/g, function ($1) {
+                                  return $1.toUpperCase();
+                                  });
+    }
     var counter = 0;
     var entries_to_ids=new Array();
     
@@ -317,10 +330,23 @@ if (isset($_GET['job_id'])) {
     function add_disposition(statement, divName){
         counter++;
         var newdiv = document.createElement('div');
-        newdiv.innerHTML = "<div class='disposition_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16' height='16' align='right'></a>"+statement+"</div>";
+        newdiv.innerHTML = "<div class='disposition_entry' id='entry"+counter+"'><a href='#' onclick='delete_entry("+counter+");'><img src='images/delete.png' alt='Delete' width='16' height='16' align='right'></a><b>"+ucwords(statement)+"</b>&nbsp;&nbsp;&nbsp;&nbsp; Not Contacted <input type='checkbox' name='nc_"+counter+"' id='nc_"+counter+"' value='1' onclick='change_checkbox(\""+counter+"\")'></div>";
         document.getElementById(divName).appendChild(newdiv);
     }
     
+    function change_checkbox(idx) {
+        var url;
+        if (jQuery("#nc_"+idx).attr('checked')) {
+            url = 'jobs.php?save_not_contacted='+entries_to_ids[parseInt(idx)]+'&state='+1;
+        } else {
+            url = 'jobs.php?save_not_contacted='+entries_to_ids[parseInt(idx)]+'&state='+0;
+        }
+        new Ajax.Request(url);
+    }
+    
+    function set_checkbox(idx, state) {
+        jQuery("#nc_"+idx).attr("checked", state);
+    }
     
     function add_new_disposition() {
         Dialog.confirm('Disposition Text: <input type="text" id="disposition_text">', {className:'alphacube', width:400, 
@@ -364,6 +390,19 @@ Dispositions: <a href="#" onclick="add_new_disposition();"><img src="images/add.
             add_disposition('<?=$row_entries['text']?>', 'dynamicInput');
             </script>
             <?
+            if ($row_entries['not_contacted'] == "1") {
+                ?>
+                <script language="javascript">
+                set_checkbox(<?=$x?>, true);
+                </script>
+                <?
+            } else {
+                ?>
+                <script language="javascript">
+                set_checkbox(<?=$x?>, false);
+                </script>
+                <?
+            }
         }
     }
     ?>
