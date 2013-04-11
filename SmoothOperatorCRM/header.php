@@ -345,7 +345,7 @@ if ($this_page == "login.php") {
         
         
         
-        new Ajax.Request('check_hangups.php?extension=<?=$_SESSION['extension']?>',
+        <?/*new Ajax.Request('check_hangups.php?extension=<?=$_SESSION['extension']?>',
                          {
                          method:'get',
                          onSuccess: function(transport){
@@ -353,7 +353,7 @@ if ($this_page == "login.php") {
                          hangup_dialog.dialog('open');
                          }
                          }
-                         });
+                         });*/?>
         
         new Ajax.Request('check_calls.php?extension=<?=$_SESSION['extension']?>',
                          {
