@@ -9,7 +9,7 @@ if (!isset($_POST['range'])) {
     echo "<br />";
     box_start(500);
     ?><center>
-    <h3>Search for dispositions</h3>
+    <h3>Search for utilisation</h3>
         <form action = "report_agent_utilisation.php" method="post">
         Agent: <select name="user_id">
         <?

@@ -14,7 +14,7 @@ if ($_SESSION['user_level']<100) {
 <?/*    <a href="drawpie.php" class="new_button"><img src="images/crystal/apps/blockdevice.png" width="96px" height="96px"><br />Number Statuses</a>*/?>
     <a href="report_dispositions.php" class="new_button"><img src="images/crystal/apps/Volume%20Manager.png" width="96px" height="96px"><br />Disposition Chart</a>
     <a href="report_agent_utilisation.php" class="new_button"><img src="images/crystal/apps/xclock.png" width="96px" height="96px"><br />Agent Dispositions</a><br />
-    
+    <a href="report_contact_rate.php" class="new_button"><img src="images/crystal/apps/irc_protocol.png" width="96px" height="96px"><br />Contact Rate</a>
     <a href="index.php" class="new_button_home"><img src="images/crystal/apps/kfm_home.png" width="96px" height="96px"><br />Home</a>
     <?
 }

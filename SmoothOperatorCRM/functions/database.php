@@ -309,7 +309,8 @@ if (!function_exists('so_check_databases')) {
             (21,'Add Script','en',1,'scripts.php?add=1',0,0,1,8,'database_add.png'),
             (23,'Dialer','en',10,'dialer.php',0,0,1,-1,'phone.png'),
             (24,'Disposition Report','en',10,'report_dispositions.php',0,0,0,-1,NULL),
-            (25,'Agent Utilisation Report','en',10,'report_agent_utilisation.php',0,0,0,-1,NULL)";
+            (25,'Agent Utilisation Report','en',10,'report_agent_utilisation.php',0,0,0,-1,NULL),
+            (26,'Contact Rate Report','en',10,'report_contact_rate.php',0,0,0,-1,NULL)";
             $result = mysqli_query($link, $sql);
         }
         
