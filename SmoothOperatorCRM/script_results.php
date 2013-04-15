@@ -92,7 +92,7 @@ if (!isset($_GET['search'])) {
         $_POST['dispositions[]'] = $_GET['dispositions[]'];
     }
     $dispositions = "";
-    foreach ($_POST['dispositions'] as $disposition) {
+    foreach ($_REQUEST['dispositions'] as $disposition) {
         $dispositions.=$disposition.",";
     }
     $dispositions = substr($dispositions,0,-1);
