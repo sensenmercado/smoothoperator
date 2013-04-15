@@ -106,7 +106,7 @@ if (!isset($_GET['search'])) {
         <a href="script_results.php?search=1&job=<?=$_POST['job']?>&from_date=<?=$_POST['from_date']?>&to_date=<?=$_POST['to_date']?>&download=1&<?=$disps?>">Download Full List</a><br /><br />
         <?
     }
-    if (isset($_GET['show_lead'])) {
+    if (0&&isset($_GET['show_lead'])) {
         $sql = "SELECT script_entries.statement, script_results.*, customers.*, users.username, users.id,  customers.id as customer_id, script_entries.type FROM script_entries, script_results, customers, users where date(question_datetime) between ".sanitize($_POST['from_date'])." and ".sanitize($_POST['to_date'])." and script_results.job_id = ".sanitize($_POST['job'])." and script_results.customer_id = customers.id and script_results.user_id = users.id and script_entries.script_id = script_results.script_id and script_entries.order = script_results.question_number and customers.id = ".sanitize($_GET['customer_id']);
     } else {
         $sql = "SELECT script_entries.statement, script_results.*, job_dispositions.text as disposition_text, customers.*, users.username, users.id,  customers.id as customer_id, script_entries.type FROM script_entries, script_results, customers, users, customer_dispositions, job_dispositions where date(question_datetime) between ".sanitize($_POST['from_date'])." and ".sanitize($_POST['to_date'])." and script_results.job_id = ".sanitize($_POST['job'])." and script_results.customer_id = customers.id and script_results.user_id = users.id and script_entries.script_id = script_results.script_id and script_entries.order = script_results.question_number and customer_dispositions.`customer_id`=customers.id and job_dispositions.id = disposition and job_dispositions.id in (".$dispositions.")";
