@@ -28,6 +28,7 @@ if (isset($_GET['save_list'])) {
         $row = mysqli_fetch_assoc($result);
         $filename = $row['location'];
     }
+    ini_set('auto_detect_line_endings',TRUE);
     switch ($_GET['format']) {
         case "txt":
             $start = 0;
