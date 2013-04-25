@@ -391,10 +391,25 @@ function completeTransfer() {
      call.digit("3");
      call.digit("4");*/
 }
+function complete_xfer() {
+    call.digit("#");
+    call.digit("1");
+}
+function abandon_xfer() {
+    call.digit("#");
+    call.digit("2");
+}
 function at_xfer() {
-    call.digit("#");
-    call.digit("#");
+    /*call.digit("#");
+    call.digit("0");
     setTimeout(completeTransfer, 1000);
+     
+    */
+    
+    
+    transfer();
+     
+     
     //alert("About to transfer");
     /*    $.ajax({
      type: "GET",
@@ -422,6 +437,8 @@ function at_xfer() {
    */?>
 Transfer Number: <input type="text" id="transfer_number">
 <button id="transfer" onclick="at_xfer();">Transfer Call</button>
+<button id="transfer2" onclick="complete_xfer();">Complete Transfer</button>
+<button id="transfer3" onclick="abandon_xfer();">Abandon Transfer</button>
 </div>
 <input id="disconnect" type="button" disabled = "true" value="Disconnect caller" onclick = "call.digit('*');" /><br />
 <input id="hangup" type="button" disabled="true" value="Logout" /><br />
