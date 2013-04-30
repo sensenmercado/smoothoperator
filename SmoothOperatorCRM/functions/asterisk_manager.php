@@ -92,7 +92,7 @@ if (!function_exists('transfer_to_extension')) {
             fputs($socket, "ExtraContext: $context\r\n");
             
             fputs($socket, "Exten: $extension\r\n");
-            fputs($socket, "ExtraExten: ".$extension."1\r\n");
+            fputs($socket, "ExtraExten: ".$extension."\r\n");
             
             fputs($socket, "Priority: $priority\r\n");
             fputs($socket, "ExtraPriority: $priority\r\n\r\n");
@@ -257,6 +257,82 @@ if (!function_exists('bridge')) {
         return $wrets;
     }
 }
+
+if (!function_exists('asterisk_redirect')) {
+    function asterisk_redirect($channel,$context,$extension) {
+        global $config_values;
+        $timeout = 7500;
+        $socket = fsockopen($config_values['manager_host'],"5038", $errno, $errstr, $timeout);
+        if (!$socket) {
+            echo 'Socket fail<br>';
+            echo $errorno . '<br>';
+            echo $errstr . '<br>';
+            echo $timeout . '<br>';
+        } else {
+            fputs($socket, "Action: Login\r\n");
+            fputs($socket, "UserName: ".$config_values['manager_user']."\r\n");
+            fputs($socket, "Secret: ".$config_values['manager_pass']."\r\n");
+            fputs($socket, "Events: off\r\n\r\n");
+            do {
+                $line = fgets($socket, 4096);
+                $wrets .= $line;
+                $info = stream_get_meta_data($socket);
+            } while ($line != "\r\n" && $info['timed_out'] == false );
+            
+            fputs($socket, "Action: Redirect\r\n");
+            fputs($socket, "Channel: $channel\r\n");
+            fputs($socket, "Context: $context\r\n");
+            fputs($socket, "Exten: $extension\r\n");
+            fputs($socket, "Priority: 1\r\n\r\n");
+            do {
+                $line = fgets($socket, 4096);
+                $wrets .= $line;
+                $info = stream_get_meta_data($socket);
+            } while ($line != "\r\n" && $info['timed_out'] == false );
+            fclose($socket);
+        }
+        return $wrets;
+    }
+}
+
+if (!function_exists('asterisk_multi_redirect')) {
+    function asterisk_multi_redirect($channel1,$channel2,$context,$extension) {
+        global $config_values;
+        $timeout = 7500;
+        $socket = fsockopen($config_values['manager_host'],"5038", $errno, $errstr, $timeout);
+        if (!$socket) {
+            echo 'Socket fail<br>';
+            echo $errorno . '<br>';
+            echo $errstr . '<br>';
+            echo $timeout . '<br>';
+        } else {
+            fputs($socket, "Action: Login\r\n");
+            fputs($socket, "UserName: ".$config_values['manager_user']."\r\n");
+            fputs($socket, "Secret: ".$config_values['manager_pass']."\r\n");
+            fputs($socket, "Events: off\r\n\r\n");
+            do {
+                $line = fgets($socket, 4096);
+                $wrets .= $line;
+                $info = stream_get_meta_data($socket);
+            } while ($line != "\r\n" && $info['timed_out'] == false );
+            
+            fputs($socket, "Action: Redirect\r\n");
+            fputs($socket, "Channel: $channel1\r\n");
+            fputs($socket, "ExtraChannel: $channel2\r\n");
+            fputs($socket, "Context: $context\r\n");
+            fputs($socket, "Exten: $extension\r\n");
+            fputs($socket, "Priority: 1\r\n\r\n");
+            do {
+                $line = fgets($socket, 4096);
+                $wrets .= $line;
+                $info = stream_get_meta_data($socket);
+            } while ($line != "\r\n" && $info['timed_out'] == false );
+            fclose($socket);
+        }
+        return $wrets;
+    }
+}
+
 
 
 /*
