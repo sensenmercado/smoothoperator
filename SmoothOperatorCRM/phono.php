@@ -145,12 +145,19 @@ if (isset($_GET['pause'])) {
 <head>
 <script src="js/jquery-1.4.2.min.js"></script>
 <script src="http://s.phono.com/releases/0.6/jquery.phono.js"></script>
+<link rel="stylesheet" type="text/css" href="css/default.css?ver=6">
+
 <style>
+
+
+
+
+
 body {
 padding: 0px;
 margin:0px;
 }
-#content {
+#content2 {
 margin: 0px;
 padding: 10px;
 background-image: linear-gradient(bottom, rgb(255,255,255) 0%, rgb(116,157,222) 100%);
@@ -169,7 +176,7 @@ background-image: -webkit-gradient(
 }
 </style>
 </head>
-<body bgcolor="#fff"><div id="content" style="100%">
+<body bgcolor="#fff"><div id="content2" style="100%">
 <center>
 <span id="heading" style="font-family: arial">
 Soft Phone
@@ -378,18 +385,18 @@ function return_to_queue() {
 }
 
 </script>
-<input id="call" type="button" disabled="true" value="Loading..." /><br />
+<input id="call" type="button" class="buttonx" disabled="true" value="Loading..." /><br />
 <div id="pause_buttons" style="display: none;font-family: arial">
-<button type="button" id="pause" value="Pause" onclick="jQuery('#testing').load('phono.php?pause=true');jQuery('#pause').hide();jQuery('#unpause').show();" style="text-decoration: none;height: 32px;vertical-align: middle; padding: 8px"><img src="images/control_pause_blue.png" align="bottom" width="16" height="16"/>&nbsp;Pause</button>
-<button type="button" value="Resume" id="unpause" onclick="jQuery('#testing').load('phono.php?pause=false');jQuery('#pause').show();jQuery('#unpause').hide();" style="display: none;text-decoration: none;height: 32px;vertical-align: middle; padding: 8px"><img src="images/control_play_blue.png" width="16" height="16" align="bottom" />&nbsp;Resume</button>
-Transfer Number: <input type="text" id="transfer_number">
-<button id="transfer" onclick="transfer();">Transfer Call</button>
-<button id="transfer2" onclick="transfer_both();">Complete Transfer</button>
-<button id="transfer3" onclick="transfer_single();">Abandon Transfer</button>
-<button id="transfer4" onclick="return_to_queue();">Return To Queue</button>
+<button class="buttonx"  type="button" id="pause" value="Pause" onclick="jQuery('#testing').load('phono.php?pause=true');jQuery('#pause').hide();jQuery('#unpause').show();" style="text-decoration: none;height: 32px;vertical-align: middle; padding: 8px"><img src="images/control_pause_blue.png" align="bottom" width="16" height="16"/>&nbsp;Pause</button><br />
+<button class="buttonx"  type="button" value="Resume" id="unpause" onclick="jQuery('#testing').load('phono.php?pause=false');jQuery('#pause').show();jQuery('#unpause').hide();" style="display: none;text-decoration: none;height: 32px;vertical-align: middle; padding: 8px"><img src="images/control_play_blue.png" width="16" height="16" align="bottom" />&nbsp;Resume</button>
+<br />Transfer Number: <br /><input type="text" id="transfer_number" style="width: 100px">
+<button class="buttonx"  id="transfer" onclick="transfer();">Transfer Call</button>
+<button class="buttonx"  id="transfer2" onclick="transfer_both();">Complete Transfer</button>
+<button class="button_reschedule"  id="transfer3" onclick="transfer_single();">Abandon Transfer</button>
+<button class="buttonx"  id="transfer4" onclick="return_to_queue();">Return To Queue</button>
 </div>
-<input id="disconnect" type="button" disabled = "true" value="Disconnect caller" onclick = "call.digit('*');" /><br />
-<input id="hangup" type="button" disabled="true" value="Logout" /><br />
+<input id="disconnect" type="button" class="buttonx" disabled = "true" value="Disconnect caller" onclick = "call.digit('*');" /><br />
+<button id="hangup" type="button" class="button_reschedule" disabled="true" value="Logout" >Logout</button><br />
 <script type='text/javascript' src='js/jquery-1.3.2.min.js'></script>
 <script>
 jQuery.noConflict();
