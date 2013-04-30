@@ -1618,6 +1618,29 @@ a.new_button:hover{
 	position:relative;
 	top:1px;
 }
+.buttonx:disabled {
+    
+    -moz-box-shadow:inset 0px 1px 0px 0px #999999;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #999999;
+	box-shadow:inset 0px 1px 0px 0px #999999;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #eeeeee), color-stop(1, #aaaaaa) );
+	background:-moz-linear-gradient( center top, #eeeeee 5%, #aaaaaa 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#aaaaaa');
+	background-color:#eeeeee;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #aaaaaa;
+	display:inline-block;
+	color:#ffffff;
+	font-family:arial;
+	font-size:12px;
+	font-weight:bold;
+	padding:10px 20px;
+	text-decoration:none;
+	text-shadow:2px 2px 2px #444444;
+    color: #cccccc;
+}
 
 
 .button_reschedule {
@@ -1654,6 +1677,29 @@ a.new_button:hover{
 	top:1px;
 }
 
+.button_reschedule:disabled {
+    
+    -moz-box-shadow:inset 0px 1px 0px 0px #999999;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #999999;
+	box-shadow:inset 0px 1px 0px 0px #999999;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #eeeeee), color-stop(1, #aaaaaa) );
+	background:-moz-linear-gradient( center top, #eeeeee 5%, #aaaaaa 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#aaaaaa');
+	background-color:#eeeeee;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #aaaaaa;
+	display:inline-block;
+	color:#ffffff;
+	font-family:arial;
+	font-size:12px;
+	font-weight:bold;
+	padding:10px 20px;
+	text-decoration:none;
+	text-shadow:2px 2px 2px #444444;
+    color: #cccccc;
+}
 
 
 .noTitleStuff .ui-dialog-titlebar {height: 10px;font-size: 8px}

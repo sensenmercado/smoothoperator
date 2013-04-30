@@ -1,4 +1,4 @@
-<frameset cols="*, 150" border="1">
+<frameset cols="*, 190" border="1">
 <frame name="CRM" id="CRM" src="index.php" >
 <?if (isset($_GET['debug'])) {
     ?>
