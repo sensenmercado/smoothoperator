@@ -173,7 +173,7 @@ function display_script($customer, $question_number) {
                            if (item == value) {
                            ih += "<option value='"+item+"' selected>"+item+"</option>";
                            } else {
-                            ih += "<option value='"+item+"'>"+item+"</option>";
+                           ih += "<option value='"+item+"'>"+item+"</option>";
                            }
                            }
                            );
@@ -222,7 +222,7 @@ function display_script($customer, $question_number) {
         jQuery("#"+divName).append(ih+"<br />");
     }
     
-
+    
     
     function nl2br(dataStr) {
         return dataStr.replace(/(\r\n|\r|\n)/g, "<br />");
@@ -242,7 +242,7 @@ function display_script($customer, $question_number) {
     $script_id = $row_script['id'];
     
     $result_top_question = mysqli_query($connection, "SELECT * FROM script_entries WHERE script_id = ".$script_id." order by `order` desc limit 1") or die(mysqli_error($connection));
-
+    
     $row_result_top_question = mysqli_fetch_assoc($result_top_question);
     $top_question_number = $row_result_top_question['order'];
     
@@ -250,13 +250,17 @@ function display_script($customer, $question_number) {
     $result_entries = mysqli_query($connection, "SELECT * FROM script_entries WHERE script_id = ".$script_id." AND `order` = ".$question_number) or die(mysqli_error($connection));
     $x = 0;
     
-    $result_previous = mysqli_query($connection, "SELECT * FROM script_results WHERE script_id = ".$script_id." and customer_id = ".$customer['id']." and question_number = ".$question_number) or die(mysqli_error($connection));
-    
-    if (@mysqli_num_rows($result_previous) == 0) {
-        $value = "''";
+    if (isset($customer['id'])) {
+        $result_previous = mysqli_query($connection, "SELECT * FROM script_results WHERE script_id = ".$script_id." and customer_id = ".$customer['id']." and question_number = ".$question_number) or die(mysqli_error($connection));
+        
+        if (@mysqli_num_rows($result_previous) == 0) {
+            $value = "''";
+        } else {
+            $row_previous = mysqli_fetch_assoc($result_previous);
+            $value = sanitize(str_replace("'","",stripslashes($row_previous['answer'])));
+        }
     } else {
-        $row_previous = mysqli_fetch_assoc($result_previous);
-        $value = sanitize(str_replace("'","",stripslashes($row_previous['answer'])));
+        $value = "''";
     }
     
     if (mysqli_num_rows($result_entries) == 0) {
@@ -437,17 +441,17 @@ function display_script($customer, $question_number) {
         ?>
         <script>
         
-
+        
         jQuery("#dynamicInput2").append('<br /><a class="button_link" href="#" onclick="save_customer_details();new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(1000);window.location=\'get_customer.php?<?=$query_string0?>\';}}});"><img src="images/resultset_previous.png">Previous Question</a>&nbsp;');
-
+        
         <?
         if ($question_number < $top_question_number) {
             ?>
-        
-        jQuery("#dynamicInput2").append('<a class="button_link" href="#" onclick="save_customer_details();new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(1000);window.location=\'get_customer.php?<?=$query_string1?>\';}}});">Next Question&nbsp;<img src="images/resultset_next.png"></a>');
-          
+            
+            jQuery("#dynamicInput2").append('<a class="button_link" href="#" onclick="save_customer_details();new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(1000);window.location=\'get_customer.php?<?=$query_string1?>\';}}});">Next Question&nbsp;<img src="images/resultset_next.png"></a>');
+            
             <?
-        } 
+        }
         ?>
         
         </script>
@@ -459,15 +463,15 @@ function display_script($customer, $question_number) {
         <?
         if ($question_number < $top_question_number) {
             ?>
-        jQuery("#dynamicInput2").append('<a class="button_link" href="#" onclick="new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(1000);window.location=\'get_customer.php?<?=$query_string1?>\';}}});">Next Question&nbsp;<img src="images/resultset_next.png"></a>');
+            jQuery("#dynamicInput2").append('<a class="button_link" href="#" onclick="new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(1000);window.location=\'get_customer.php?<?=$query_string1?>\';}}});">Next Question&nbsp;<img src="images/resultset_next.png"></a>');
             <?
         } else {
-        ?>
+            ?>
             jQuery("#dynamicInput2").append('<a class="button_link" href="#" onclick="new Ajax.Request(\'get_customer.php?save_script=1&customer_id=<?=$customer['id']?>&\'+jQuery(\'#script_form\').serialize(),{onSuccess: function(transport){if (transport.responseText) {jQuery(\'#dynamicInput3\').fadeOut(5000);}}});">Next Question&nbsp;<img src="images/control_stop_blue.png"></a>');
             <?
         }
         ?>
-
+        
         
         
         </script>
@@ -511,8 +515,8 @@ function display_dispositions() {
                 //box_start(145);
                 //echo "<center>";
                 /*?>
-                <img src = "images/clock.png" alt="Reschedule Call">
-                <?*/
+                 <img src = "images/clock.png" alt="Reschedule Call">
+                 <?*/
                 echo "Reschedule Call";
                 //box_end();
                 echo '</button>';
@@ -542,8 +546,8 @@ function display_dispositions() {
                     //box_start(135);
                     //echo "<center>";
                     /*?>
-                    <img src = "images/database.png" >
-                    <?*/
+                     <img src = "images/database.png" >
+                     <?*/
                     echo ucfirst(strtolower($rowx['text']));
                     //box_end();
                     echo '</button>';
@@ -583,7 +587,7 @@ function display_customer_edit($row) {
     function save_customer_details() {
         jQuery.post("get_customer.php?save=1&nomenu=1", jQuery("#customer_form").serialize());
     }
-
+    
     </script>
     
     <?
