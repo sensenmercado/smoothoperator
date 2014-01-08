@@ -39,6 +39,8 @@ echo '<form action="config.php?save=1" method="post"><table class="sample">';
 while ($row = mysqli_fetch_assoc($result)) {
     if ($row['parameter'] == 'smoothtorque_db_pass') {
         echo '<tr><th>'.$row['description'].'</th><td><input type="password" name="'.$row['parameter'].'" value="'.stripslashes($config_values[$row['parameter']]).'"></td></tr>';
+    } else if ($row['parameter'] == 'site_name') {
+        echo '<tr><th>Multi Tenant Names</th><td><a href="multi_tenant.php?edit=1"><img src="images/pencil.png"> Edit Multi Tenant Names</a></td></tr>';
     } else {
         echo '<tr><th>'.$row['description'].'</th><td><input type="text" name="'.$row['parameter'].'" value="'.stripslashes($config_values[$row['parameter']]).'"></td></tr>';
     }

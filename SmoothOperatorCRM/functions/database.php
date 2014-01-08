@@ -96,6 +96,19 @@ if (!function_exists('so_check_databases')) {
             $result = mysqli_query($link, $sql);
         }
         
+        /*======================================================================
+         Multi Tenant
+         ======================================================================*/
+		if (!mysqli_is_table($host,$user,$pass,"SmoothOperator","multitenant")){
+            $messages[] =  "MultiTenant table is missing...created";
+            $sql = "Create table `multitenant` (
+            `url` varchar(255),
+            `name` text)";
+            $result = mysqli_query($link, $sql);
+            $result = mysqli_query($link, "INSERT INTO multitenant (url, name) VALUES ('default', 'SmoothOperator CRM')");
+		}
+
+        
         /* Create the jobs table if missing */
         if (!mysqli_is_table($host, $user, $pass,"SmoothOperator", "jobs")) {
             $messages[] =  "Jobs table is missing...created";
@@ -310,7 +323,8 @@ if (!function_exists('so_check_databases')) {
             (23,'Dialer','en',10,'dialer.php',0,0,1,-1,'phone.png'),
             (24,'Disposition Report','en',10,'report_dispositions.php',0,0,0,-1,NULL),
             (25,'Agent Utilisation Report','en',10,'report_agent_utilisation.php',0,0,0,-1,NULL),
-            (26,'Contact Rate Report','en',10,'report_contact_rate.php',0,0,0,-1,NULL)";
+            (26,'Contact Rate Report','en',10,'report_contact_rate.php',0,0,0,-1,NULL),
+            (27,'Multi Tenant Settings','en',10,'multi_tenant.php',0,0,0,-1,NULL)";
             $result = mysqli_query($link, $sql);
         }
         
